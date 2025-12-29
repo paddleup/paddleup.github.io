@@ -8,7 +8,10 @@ const PreSeasonQualifiers: React.FC = () => {
     <div className="space-y-8">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-text-main mb-4">Pre-Season Qualifiers</h2>
-        <p className="text-text-muted max-w-2xl mx-auto">Before each season begins, we host two Open Qualifier events to fill the open roster spots.</p>
+        <p className="text-text-muted max-w-2xl mx-auto">
+          Before each season begins, we host two Open Qualifier events to fill the open roster
+          spots.
+        </p>
       </div>
 
       <Card className="max-w-4xl mx-auto p-8">
@@ -19,7 +22,7 @@ const PreSeasonQualifiers: React.FC = () => {
               Who Can Play
             </h3>
             <ul className="space-y-2">
-              {rules.qualification.who.map((item, i) => (
+              {rules.qualification.who.map((item: string, i: number) => (
                 <li key={i} className="flex items-start text-text-muted">
                   <span className="mr-2">•</span>
                   {item}
@@ -33,7 +36,7 @@ const PreSeasonQualifiers: React.FC = () => {
               Advancement
             </h3>
             <ul className="space-y-2">
-              {rules.qualification.advancement.map((item, i) => (
+              {rules.qualification.advancement.map((item: string, i: number) => (
                 <li key={i} className="flex items-start text-text-muted">
                   <span className="mr-2">•</span>
                   {item}

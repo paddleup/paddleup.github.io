@@ -1,4 +1,21 @@
-export const challengeEvents = [
+/**
+ * Event list for short-format challenge nights.
+ * This file exports a typed array so editors and the compiler can validate shapes.
+ */
+
+export interface ChallengeEvent {
+  id: string;
+  name: string;
+  startDateTime: Date;
+  endDateTime?: Date;
+  location?: string;
+  status?: 'open' | 'closed' | 'cancelled';
+  link?: string;
+  standings?: string[]; // optional stored final standings (player ids)
+  label?: string;
+}
+
+export const challengeEvents: ChallengeEvent[] = [
   // {
   //   id: '2025-12-14',
   //   name: 'The Challenge — 12/14',
@@ -7,10 +24,9 @@ export const challengeEvents = [
   //   status: 'open',
   //   link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117?resId=45176797',
   //   standings : [
-  //     "bekahalo", "tobialo", "playerfour", "annaleighwaters",
-  //     "playerfive", "playersix", "playerseven", "playereight",
-  //     "playernine", "playerten", "playereleven", "playertwelve",
-  //     "playerthirteen", "playerfourteen", "playerfifteen", "playersixteen"
+  //     "garretth", "bekahola", "ravic", "karanc",
+  //     "seanl", "sairamt", "rebeccah", "libbyl",
+  //     "khoan", "loganh", "samanthar", "tobiola",
   //   ],
   // },
   {
@@ -20,10 +36,19 @@ export const challengeEvents = [
     location: 'Paddle Up Pickleball Club',
     status: 'open',
     link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117?resId=45176797',
-    standings : [
-      "tobiola", "garretth", "ravic", "karanc",
-      "seanl", "sairamt", "rebeccah", "libbyl",
-      "khoan", "loganh", "bekahola", "samanthar",
+    standings: [
+      'tobiola',
+      'garretth',
+      'ravic',
+      'karanc',
+      'seanl',
+      'sairamt',
+      'rebeccah',
+      'libbyl',
+      'khoan',
+      'loganh',
+      'bekahola',
+      'samanthar',
     ],
   },
   {
@@ -32,7 +57,7 @@ export const challengeEvents = [
     startDateTime: new Date('2026-01-04T19:00:00'),
     location: 'Paddle Up Pickleball Club',
     status: 'open',
-    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/KIP6A7Q10117168?resId=45176798'
+    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/KIP6A7Q10117168?resId=45176798',
   },
   {
     id: '2026-01-11',
@@ -40,7 +65,7 @@ export const challengeEvents = [
     startDateTime: new Date('2026-01-11T19:00:00'),
     location: 'Paddle Up Pickleball Club',
     status: 'open',
-    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/SQNPCTF10117214?resId=45176799'
+    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/SQNPCTF10117214?resId=45176799',
   },
   {
     id: '2026-01-18',
@@ -48,7 +73,7 @@ export const challengeEvents = [
     startDateTime: new Date('2026-01-18T19:00:00'),
     location: 'Paddle Up Pickleball Club',
     status: 'open',
-    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/6N5ZAKX10117261?resId=45176801'
+    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/6N5ZAKX10117261?resId=45176801',
   },
   {
     id: '2026-01-25',
@@ -56,7 +81,7 @@ export const challengeEvents = [
     startDateTime: new Date('2026-01-25T19:00:00'),
     location: 'Paddle Up Pickleball Club',
     status: 'open',
-    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/LTANVTQ10117308?resId=45176802'
+    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/LTANVTQ10117308?resId=45176802',
   },
   {
     id: '2026-02-01',
@@ -64,8 +89,8 @@ export const challengeEvents = [
     startDateTime: new Date('2026-02-01T19:00:00'),
     location: 'Paddle Up Pickleball Club',
     status: 'open',
-    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/RNU98TK10117356?resId=45176803'
-  }
+    link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117/RNU98TK10117356?resId=45176803',
+  },
 ];
 
 export default challengeEvents;

@@ -83,59 +83,15 @@ export interface AllTimeStats {
   rank?: number;
 }
 
-/* Rules & format types (shared contract for Format page and children) */
+/* Rules & format types (sourced from data/rules.ts so the data file is the single source of truth) */
+import type {
+  Rules as DataRules,
+  LeagueRules as DataLeagueRules,
+  ChallengeRules as DataChallengeRules,
+  RulesBase as DataRulesBase,
+} from '../data/rules';
 
-export interface Price {
-  amount?: number;
-  unit?: string;
-  display: string;
-  note?: string;
-}
-
-export interface ShowSections {
-  seasonStructure?: boolean;
-  prizes?: boolean;
-  qualifiers?: boolean;
-}
-
-export interface RulesBase {
-  title: string;
-  summary?: string;
-  fee?: string;
-  price?: Price;
-  showSections?: ShowSections;
-  seasonStructure?: {
-    rosterSize?: number;
-    duration?: string;
-    when?: string;
-    safeZone?: string;
-    dropZone?: string;
-  };
-  register: {
-    url: string;
-    text: string;
-  };
-  schedule?: {
-    day?: string;
-    time?: string;
-  };
-  location?: {
-    name?: string;
-    url?: string;
-    city?: string;
-  };
-  participant?: {
-    type?: string;
-    note?: string;
-  };
-  seeding?: any;
-  general?: string[];
-  subs?: string[];
-  missedWeekNote?: string;
-}
-
-/* Derived types from concrete data to keep types aligned with actual exports */
-export type BaseRules = RulesBase;
-export type LeagueRules = typeof import('../data/rules').leagueRules;
-export type ChallengeRules = typeof import('../data/rules').challengeRules;
-export type Rules = LeagueRules | ChallengeRules;
+export type BaseRules = DataRulesBase;
+export type LeagueRules = DataLeagueRules;
+export type ChallengeRules = DataChallengeRules;
+export type Rules = DataRules;

@@ -12,7 +12,8 @@ interface PlayerState {
   wins: number;
   points: number;
   diff: number;
-  rank?: number;
+  position?: number;
+  globalRank?: number;
   nextCourt?: number | string;
   pointsDisplay?: string | null;
 }
@@ -34,7 +35,7 @@ const MatchCalculator: React.FC = () => {
     { id: 3, name: '', wins: 0, points: 0, diff: 0 },
     { id: 4, name: '', wins: 0, points: 0, diff: 0 },
   ]);
-  
+
   const [scores, setScores] = useState<ScoreState[]>([
     { t1: '', t2: '' },
     { t1: '', t2: '' },
@@ -50,12 +51,12 @@ const MatchCalculator: React.FC = () => {
   };
 
   const handlePlayerNameChange = (id: number, name: string) => {
-    const newPlayers = players.map(p => p.id === id ? { ...p, name } : p);
+    const newPlayers = players.map((p) => (p.id === id ? { ...p, name } : p));
     setPlayers(newPlayers);
   };
 
   const getName = (id: number) => {
-    const player = players.find(p => p.id === id);
+    const player = players.find((p) => p.id === id);
     return player?.name || `P${id}`;
   };
 
@@ -68,15 +69,15 @@ const MatchCalculator: React.FC = () => {
     setError(null);
 
     // Reset stats
-    let currentPlayers = players.map(p => ({ ...p, wins: 0, points: 0, diff: 0 }));
+    let currentPlayers = players.map((p) => ({ ...p, wins: 0, points: 0, diff: 0 }));
 
     // Helper to update stats
     const updateStats = (pId: number, scored: string, allowed: string) => {
-      const pIndex = currentPlayers.findIndex(p => p.id === pId);
+      const pIndex = currentPlayers.findIndex((p) => p.id === pId);
       if (pIndex === -1) return;
-      
+
       currentPlayers[pIndex].points += parseInt(scored || '0');
-      currentPlayers[pIndex].diff += (parseInt(scored || '0') - parseInt(allowed || '0'));
+      currentPlayers[pIndex].diff += parseInt(scored || '0') - parseInt(allowed || '0');
       if (parseInt(scored || '0') > parseInt(allowed || '0')) {
         currentPlayers[pIndex].wins += 1;
       }
@@ -107,21 +108,23 @@ const MatchCalculator: React.FC = () => {
       return b.points - a.points;
     });
 
-    // Assign Rank and Next Court
+    // Assign position (within-court), compute global rank, and determine Next Court
     const rankedResults = currentPlayers.map((p, index) => {
-      const rank = index + 1;
-      let nextCourt = getNextCourt(round, court, rank);
+      const position = index + 1; // within-court position (1..4)
+      let nextCourt = getNextCourt(round, court, position);
       let pointsDisplay = null;
-      
+      let globalRank: number | undefined = undefined;
+
       // Only calculate points for Round 3
       if (parseInt(round as string) === 3) {
         const cNum = parseInt(court as string);
-        const globalRank = (cNum - 1) * 4 + rank;
+        globalRank = (cNum - 1) * 4 + position;
         const points = getPointsForRank(globalRank);
         pointsDisplay = `${points} pts`;
       }
 
-      return { ...p, rank, nextCourt, pointsDisplay };
+      // Return both position (used by UI for per-court rank) and globalRank (used for points)
+      return { ...p, position, globalRank, nextCourt, pointsDisplay };
     });
 
     setResults(rankedResults);
@@ -142,13 +145,21 @@ const MatchCalculator: React.FC = () => {
     setSubmitStatus(null);
 
     const subject = `Court ${court} - Round ${round} Results`;
-    
+
     let message = `Court ${court} - Round ${round} Results\n\n`;
-    
-    results.forEach(p => {
-      message += `${p.rank}. ${p.name || `Player ${p.id}`}\n`;
-      message += `   Wins: ${p.wins}, Diff: ${p.diff > 0 ? '+' : ''}${p.diff}, Points: ${p.points}\n`;
-      message += `   Next: ${p.nextCourt === "DONE" ? "Completed" : p.nextCourt === "TBD" ? "See Admin" : `Court ${p.nextCourt}`}\n\n`;
+
+    results.forEach((p) => {
+      message += `${p.position}. ${p.name || `Player ${p.id}`}\n`;
+      message += `   Wins: ${p.wins}, Diff: ${p.diff > 0 ? '+' : ''}${p.diff}, Points: ${
+        p.points
+      }\n`;
+      message += `   Next: ${
+        p.nextCourt === 'DONE'
+          ? 'Completed'
+          : p.nextCourt === 'TBD'
+          ? 'See Admin'
+          : `Court ${p.nextCourt}`
+      }\n\n`;
     });
 
     // Generate JSON for challengeEvents.ts — store final rankings only
@@ -156,27 +167,27 @@ const MatchCalculator: React.FC = () => {
 
     // Helper to get real player ID from name
     const getRealId = (name: string) => {
-      const found = players.find(p => p.name === name);
+      const found = players.find((p) => p.name === name);
       return found ? `"${found.id}"` : `"${name}"`;
     };
 
     // Rankings for this court (ordered 1..4)
-    const rankings = results.map(p => getRealId(p.name));
+    const rankings = results.map((p) => getRealId(p.name));
     message += `// Court ${court}\nrankings: [\n  ${rankings.join(',\n  ')}\n]`;
 
     try {
-      const response = await fetch("https://formspree.io/f/xanrzonk", {
-        method: "POST",
+      const response = await fetch('https://formspree.io/f/xanrzonk', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           subject: subject,
           message: message,
           court: court,
           round: round,
-          timestamp: new Date().toISOString()
-        })
+          timestamp: new Date().toISOString(),
+        }),
       });
 
       if (response.ok) {
@@ -198,9 +209,12 @@ const MatchCalculator: React.FC = () => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-text-muted mb-1">Round</label>
-            <select 
-              value={round} 
-              onChange={(e) => { setRound(e.target.value); setError(null); }}
+            <select
+              value={round}
+              onChange={(e) => {
+                setRound(e.target.value);
+                setError(null);
+              }}
               className="w-full rounded-md bg-surface-highlight border-border text-text-main shadow-sm focus:border-primary focus:ring-primary border p-2"
             >
               <option value="">Select round...</option>
@@ -211,9 +225,12 @@ const MatchCalculator: React.FC = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-text-muted mb-1">Court</label>
-            <select 
-              value={court} 
-              onChange={(e) => { setCourt(e.target.value); setError(null); }}
+            <select
+              value={court}
+              onChange={(e) => {
+                setCourt(e.target.value);
+                setError(null);
+              }}
               className="w-full rounded-md bg-surface-highlight border-border text-text-main shadow-sm focus:border-primary focus:ring-primary border p-2"
             >
               <option value="">Select court...</option>
@@ -225,9 +242,7 @@ const MatchCalculator: React.FC = () => {
           </div>
         </div>
 
-        {error && (
-          <p className="text-sm text-error mt-2">{error}</p>
-        )}
+        {error && <p className="text-sm text-error mt-2">{error}</p>}
 
         {/* Player Names */}
         <div className="space-y-3">
@@ -247,7 +262,7 @@ const MatchCalculator: React.FC = () => {
         {/* Scores */}
         <div className="space-y-4 border-t border-border pt-4">
           <label className="block text-sm font-medium text-text-muted">Match Scores</label>
-          
+
           {/* Game 1 */}
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-text-muted w-12">Game 1</span>
@@ -329,10 +344,10 @@ const MatchCalculator: React.FC = () => {
             onClick={calculateResults}
             disabled={!round || !court}
             className={cn(
-              "flex-1 py-2 px-4 rounded-md font-medium shadow-sm",
-              (!round || !court)
-                ? "bg-surface-highlight text-text-muted border border-border cursor-not-allowed"
-                : "bg-primary text-text-main hover:bg-primary-hover"
+              'flex-1 py-2 px-4 rounded-md font-medium shadow-sm',
+              !round || !court
+                ? 'bg-surface-highlight text-text-muted border border-border cursor-not-allowed'
+                : 'bg-primary text-text-main hover:bg-primary-hover',
             )}
           >
             Calculate Results
@@ -354,7 +369,7 @@ const MatchCalculator: React.FC = () => {
               <ArrowRight className="h-5 w-5 text-warning" />
               Results & Next Court
             </h2>
-            
+
             {!submitStatus ? (
               <button
                 onClick={handleSubmit}
@@ -385,13 +400,17 @@ const MatchCalculator: React.FC = () => {
           </div>
           <div className="space-y-3">
             {results.map((p) => (
-              <div key={p.id} className="flex items-center justify-between bg-surface-highlight p-3 rounded-lg border border-border">
+              <div
+                key={p.id}
+                className="flex items-center justify-between bg-surface-highlight p-3 rounded-lg border border-border"
+              >
                 <div className="flex items-center gap-3">
-                  <RankBadge rank={p.rank!} size="sm" />
+                  <RankBadge rank={p.position!} size="sm" />
                   <div>
                     <p className="font-bold">{p.name || `Player ${p.id}`}</p>
                     <p className="text-xs text-text-muted">
-                      {p.wins} Wins • {p.diff > 0 ? '+' : ''}{p.diff} Diff
+                      {p.wins} Wins • {p.diff > 0 ? '+' : ''}
+                      {p.diff} Diff
                     </p>
                   </div>
                 </div>
@@ -404,14 +423,22 @@ const MatchCalculator: React.FC = () => {
                   ) : (
                     <>
                       <p className="text-xs text-text-muted uppercase">
-                        {parseInt(round as string) === 1 ? (
-                          [1, 2].includes(p.nextCourt as number) ? "Upper Bracket" : "Lower Bracket"
-                        ) : parseInt(round as string) === 2 ? (
-                          p.nextCourt === 1 ? "Championship Court" : "Go To"
-                        ) : "Go To"}
+                        {parseInt(round as string) === 1
+                          ? [1, 2].includes(p.nextCourt as number)
+                            ? 'Upper Bracket'
+                            : 'Lower Bracket'
+                          : parseInt(round as string) === 2
+                          ? p.nextCourt === 1
+                            ? 'Championship Court'
+                            : 'Go To'
+                          : 'Go To'}
                       </p>
                       <p className="text-lg font-bold text-primary">
-                        {p.nextCourt === "DONE" ? "Completed" : p.nextCourt === "TBD" ? "See Admin" : `Court ${p.nextCourt}`}
+                        {p.nextCourt === 'DONE'
+                          ? 'Completed'
+                          : p.nextCourt === 'TBD'
+                          ? 'See Admin'
+                          : `Court ${p.nextCourt}`}
                       </p>
                     </>
                   )}

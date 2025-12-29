@@ -7,7 +7,6 @@ import Card from '../components/ui/Card';
 import RankBadge from '../components/ui/RankBadge';
 import { Trophy, TrendingUp, Calendar, Activity, ArrowLeft } from 'lucide-react';
 
-
 const PlayerProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const player = players.find((p) => p.id === id);
@@ -16,7 +15,9 @@ const PlayerProfile: React.FC = () => {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold text-text-main mb-4">Player Not Found</h2>
-        <Link to="/players" className="text-primary hover:underline">Back to Players</Link>
+        <Link to="/players" className="text-primary hover:underline">
+          Back to Players
+        </Link>
       </div>
     );
   }
@@ -29,7 +30,7 @@ const PlayerProfile: React.FC = () => {
         id: ev.id,
         date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
         isCompleted: true,
-        standings: (ev as any).standings
+        standings: (ev as any).standings,
       } as any;
       const finals = calculateWeekFinalPositions(weekLike) || [];
       return { ev, finals };
@@ -44,17 +45,19 @@ const PlayerProfile: React.FC = () => {
       const cur = totals.get(pid) || { points: 0, events: 0, champWins: 0 };
       cur.points += pts;
       cur.events += 1;
-      if (f.globalRank === 1) cur.champWins += 1;
+      if (f.rank === 1) cur.champWins += 1;
       totals.set(pid, cur);
     });
   });
 
-  const aggregated = Array.from(totals.entries()).map(([playerId, v]) => ({
-    playerId,
-    points: v.points,
-    eventsPlayed: v.events,
-    champWins: v.champWins
-  })).sort((a, b) => b.points - a.points);
+  const aggregated = Array.from(totals.entries())
+    .map(([playerId, v]) => ({
+      playerId,
+      points: v.points,
+      eventsPlayed: v.events,
+      champWins: v.champWins,
+    }))
+    .sort((a, b) => b.points - a.points);
 
   // Determine rank for this player
   let overallRank: number | null = null;
@@ -74,15 +77,17 @@ const PlayerProfile: React.FC = () => {
       weeklyHistory.push({
         eventId: ev.id,
         date: ev.startDateTime ? ev.startDateTime.toLocaleDateString() : (ev.id as string),
-        rank: finalEntry.globalRank
+        rank: finalEntry.rank,
       });
     }
-
   });
 
   return (
     <div className="space-y-8 pb-12">
-      <Link to="/players" className="inline-flex items-center text-text-muted hover:text-primary transition-colors mb-4">
+      <Link
+        to="/players"
+        className="inline-flex items-center text-text-muted hover:text-primary transition-colors mb-4"
+      >
         <ArrowLeft className="h-4 w-4 mr-1" /> Back to Players
       </Link>
 
@@ -93,13 +98,19 @@ const PlayerProfile: React.FC = () => {
             <div className="aspect-square w-full relative bg-surface-highlight">
               {player.imageUrl ? (
                 <img
-                  src={player.imageUrl.startsWith('/') ? `${import.meta.env.BASE_URL}${player.imageUrl.slice(1)}` : player.imageUrl}
+                  src={
+                    player.imageUrl.startsWith('/')
+                      ? `${import.meta.env.BASE_URL}${player.imageUrl.slice(1)}`
+                      : player.imageUrl
+                  }
                   alt={player.name}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-6xl font-bold text-text-muted opacity-20">{player.name.charAt(0)}</span>
+                  <span className="text-6xl font-bold text-text-muted opacity-20">
+                    {player.name.charAt(0)}
+                  </span>
                 </div>
               )}
             </div>
@@ -151,19 +162,25 @@ const PlayerProfile: React.FC = () => {
             </h3>
             <div className="space-y-3">
               {weeklyHistory.length > 0 ? (
-                weeklyHistory.slice().reverse().map((week, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-3 bg-surface-highlight rounded-lg border border-border">
-                    <div>
-                      <p className="text-sm font-medium text-text-main">
-                        {challengeEvents.find(e => e.id === week.eventId)?.name || week.eventId}
-                      </p>
-                      <p className="text-xs text-text-muted">{week.date}</p>
+                weeklyHistory
+                  .slice()
+                  .reverse()
+                  .map((week, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between p-3 bg-surface-highlight rounded-lg border border-border"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-text-main">
+                          {challengeEvents.find((e) => e.id === week.eventId)?.name || week.eventId}
+                        </p>
+                        <p className="text-xs text-text-muted">{week.date}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-mono font-bold text-text-main">Rank #{week.rank}</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-mono font-bold text-text-main">Rank #{week.rank}</p>
-                    </div>
-                  </div>
-                ))
+                  ))
               ) : (
                 <p className="text-text-muted text-center py-4">No event placements available.</p>
               )}
@@ -182,10 +199,15 @@ const PlayerProfile: React.FC = () => {
                   .slice()
                   .reverse()
                   .map((week, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-2 border-b border-border last:border-0">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between p-2 border-b border-border last:border-0"
+                    >
                       <span className="text-sm text-text-muted">{week.date}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-text-main">Rank #{week.rank}</span>
+                        <span className="text-sm font-medium text-text-main">
+                          Rank #{week.rank}
+                        </span>
                         <RankBadge rank={week.rank} size="sm" />
                       </div>
                     </div>

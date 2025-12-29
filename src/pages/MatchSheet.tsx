@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { players as allPlayers } from '../data/players';
-import { generateSnakeDraw, getNextCourt } from '../lib/leagueUtils';
+import { generateSnakeDraw } from '../lib/leagueUtils';
 import Card from '../components/ui/Card';
 import CourtCard from '../components/match/CourtCard';
 import PageHeader from '../components/ui/PageHeader';
@@ -29,13 +29,21 @@ const MatchSheetPage: React.FC = () => {
   }, []);
 
   const location = useLocation();
-  const stateAssignments = (location.state as any)?.assignments as ReturnType<typeof generateSnakeDraw> | undefined;
-  const initialAssignments = useMemo(() => stateAssignments ?? generateSnakeDraw(rankedPlayers), [rankedPlayers, stateAssignments]);
+  const stateAssignments = (location.state as any)?.assignments as
+    | ReturnType<typeof generateSnakeDraw>
+    | undefined;
+  const initialAssignments = useMemo(
+    () => stateAssignments ?? generateSnakeDraw(rankedPlayers),
+    [rankedPlayers, stateAssignments],
+  );
 
   const [round, setRound] = useState<number>(1);
 
   // Derived: produce placeholder ranks/next courts. Scoring removed — standings-driven system uses stored final standings.
-  const computeNext = (): Record<number, { ranks: (number | string)[]; next: (number | string)[] }> => {
+  const computeNext = (): Record<
+    number,
+    { ranks: (number | string)[]; next: (number | string)[] }
+  > => {
     const result: Record<number, { ranks: (number | string)[]; next: (number | string)[] }> = {};
     initialAssignments.forEach((court) => {
       const ranks = new Array(court.players.length).fill('-');
@@ -72,7 +80,7 @@ const MatchSheetPage: React.FC = () => {
             </select>
           </div>
 
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => {}}
               className="px-3 py-2 rounded bg-surface-highlight text-sm hover:bg-surface-highlight/80"
@@ -103,7 +111,7 @@ const MatchSheetPage: React.FC = () => {
 
       {/* Render print sheet outside the inner container to avoid inherited layout/styles */}
       <div className="print-container">
-        <PrintMatchSheet rankedPlayers={rankedPlayers} initialAssignments={initialAssignments} />
+        <PrintMatchSheet initialAssignments={initialAssignments} />
       </div>
     </div>
   );

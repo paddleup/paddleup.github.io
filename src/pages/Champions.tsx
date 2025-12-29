@@ -13,14 +13,16 @@ import { Player } from '../types';
 const Champions: React.FC = () => {
   return (
     <div className="space-y-12">
-      <PageHeader 
-        title="Hall of Champions" 
+      <PageHeader
+        title="Hall of Champions"
         subtitle="Celebrating the elite performers of the Paddle Up Individual Championship League."
         center
       />
 
       {(() => {
-        const events = (challengeEvents || []).filter(ev => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0);
+        const events = (challengeEvents || []).filter(
+          (ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0,
+        );
         if (events.length === 0) {
           return (
             <Card className="text-center py-16 border-dashed">
@@ -42,14 +44,16 @@ const Champions: React.FC = () => {
                 id: ev.id,
                 date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
                 isCompleted: true,
-                standings: (ev as any).standings
+                standings: (ev as any).standings,
               } as any;
-              const finals = (calculateWeekFinalPositions(weekLike) || []).sort((a: any, b: any) => (a.globalRank || 0) - (b.globalRank || 0)).slice(0, 3);
+              const finals = (calculateWeekFinalPositions(weekLike) || [])
+                .sort((a: any, b: any) => (a.rank || 0) - (b.rank || 0))
+                .slice(0, 3);
 
               return (
                 <Card key={index} className="h-full flex flex-col">
                   <div className="flex items-center justify-between mb-6">
-                    <Link 
+                    <Link
                       to={`/standings?season=${encodeURIComponent(String(ev.id))}`}
                       className="bg-primary-light text-primary text-xs font-bold px-3 py-1 rounded-full hover:bg-primary-light/80 transition-colors"
                     >
@@ -63,24 +67,33 @@ const Champions: React.FC = () => {
 
                   <div className="space-y-6 flex-1">
                     {finals.map((entry: any, i: number) => {
-                      const player = players.find(p => p.id === entry.playerId) || { name: "Unknown", imageUrl: "" } as Player;
-                      const medalColor = i === 0 ? "text-warning" : i === 1 ? "text-text-muted" : "text-orange-500";
-                      const label = i === 0 ? "Champion" : i === 1 ? "Runner Up" : "Third Place";
+                      const player =
+                        players.find((p) => p.id === entry.playerId) ||
+                        ({ name: 'Unknown', imageUrl: '' } as Player);
+                      const medalColor =
+                        i === 0 ? 'text-warning' : i === 1 ? 'text-text-muted' : 'text-orange-500';
+                      const label = i === 0 ? 'Champion' : i === 1 ? 'Runner Up' : 'Third Place';
 
                       return (
-                        <Link key={entry.playerId} to={`/player/${entry.playerId}`} className="flex items-center gap-4 group">
+                        <Link
+                          key={entry.playerId}
+                          to={`/player/${entry.playerId}`}
+                          className="flex items-center gap-4 group"
+                        >
                           <div className="relative">
-                            <PlayerAvatar 
-                              imageUrl={player.imageUrl} 
-                              name={player.name} 
-                              size="lg" 
+                            <PlayerAvatar
+                              imageUrl={player.imageUrl}
+                              name={player.name}
+                              size="lg"
                               className={cn(
                                 i === 0 ? 'border-warning' : 'border-border',
-                                "group-hover:ring-2 ring-primary transition-all"
+                                'group-hover:ring-2 ring-primary transition-all',
                               )}
                               border={true}
                             />
-                            <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface shadow-sm flex items-center justify-center border border-border`}>
+                            <div
+                              className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface shadow-sm flex items-center justify-center border border-border`}
+                            >
                               {i === 0 ? (
                                 <Trophy className="h-3 w-3 text-warning" />
                               ) : (
@@ -89,9 +102,15 @@ const Champions: React.FC = () => {
                             </div>
                           </div>
                           <div>
-                            <p className={`text-xs font-bold uppercase tracking-wider ${medalColor}`}>{label}</p>
-                            <p className="font-bold text-text-main group-hover:text-primary transition-colors">{player.name}</p>
-                            <p className="text-xs text-text-muted">{entry.points || 0} pts</p>
+                            <p
+                              className={`text-xs font-bold uppercase tracking-wider ${medalColor}`}
+                            >
+                              {label}
+                            </p>
+                            <p className="font-bold text-text-main group-hover:text-primary transition-colors">
+                              {player.name}
+                            </p>
+                            <p className="text-xs text-text-muted">{entry.pointsEarned || 0} pts</p>
                           </div>
                         </Link>
                       );

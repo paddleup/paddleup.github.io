@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { rules } from '../data/rules';
-import {
-  Trophy,
-  Users,
-  ArrowDown,
-  ArrowUp,
-  CheckCircle,
-  AlertCircle,
-  MapPin,
-  Clock,
-  DollarSign,
-  ExternalLink,
-  User,
-  Send,
-  MessageSquare
-} from 'lucide-react';
+import { Users, CheckCircle, AlertCircle, MapPin, ExternalLink } from 'lucide-react';
 import WeeklyPoints from '../components/WeeklyPoints';
 import Card from '../components/ui/Card';
 import PageHeader from '../components/ui/PageHeader';
@@ -34,12 +20,14 @@ import { leagueRules, challengeRules } from '../data/rules';
 const Format: React.FC = () => {
   const [view, setView] = useState<'current' | 'future'>('current');
   const selected = view === 'current' ? challengeRules : leagueRules;
-  const price = view === 'current'
-    ? (challengeRules.price as { display: string; note?: string })
-    : { display: leagueRules.fee, note: leagueRules.seasonStructure?.duration };
-  const showSections = view === 'current'
-    ? (challengeRules.showSections ?? { seasonStructure: false, prizes: false, qualifiers: false })
-    : { seasonStructure: true, prizes: true, qualifiers: true };
+  const price =
+    view === 'current'
+      ? (challengeRules.price as { display: string; note?: string })
+      : { display: leagueRules.fee, note: leagueRules.seasonStructure?.duration };
+  const showSections =
+    view === 'current'
+      ? challengeRules.showSections ?? { seasonStructure: false, prizes: false, qualifiers: false }
+      : { seasonStructure: true, prizes: true, qualifiers: true };
 
   useEffect(() => {
     document.title = `${rules.title} — ${selected.title}`;
@@ -57,7 +45,7 @@ const Format: React.FC = () => {
         <ToggleGroup
           options={[
             { value: 'current', label: 'The Challenge (Current)' },
-            { value: 'future', label: 'Championship League (Future)' }
+            { value: 'future', label: 'Championship League (Future)' },
           ]}
           value={view}
           onChange={(v) => setView(v as 'current' | 'future')}
@@ -116,7 +104,7 @@ const Format: React.FC = () => {
             entries={[
               { title: '1st', items: ['50 Club Pts'], accent: true },
               { title: '2nd', items: ['30 Club Pts'] },
-              { title: '3rd', items: ['20 Club Pts'] }
+              { title: '3rd', items: ['20 Club Pts'] },
             ]}
           />
         </div>
@@ -142,7 +130,8 @@ const Format: React.FC = () => {
             <div className="bg-surface-highlight p-4 rounded-lg border border-border">
               <h4 className="font-bold text-sm text-text-main mb-2">Why Seeding Matters</h4>
               <p className="text-sm text-text-muted">
-                Higher seeds are placed in groups with lower-seeded opponents in Round 1, giving top players a statistical advantage to finish Top 2 and advance.
+                Higher seeds are placed in groups with lower-seeded opponents in Round 1, giving top
+                players a statistical advantage to finish Top 2 and advance.
               </p>
             </div>
           </Card>
@@ -187,7 +176,9 @@ const Format: React.FC = () => {
       {/* How to Join */}
       <div className="bg-primary-light rounded-2xl p-8 md:p-12 text-center border border-primary/50">
         <h2 className="text-3xl font-bold text-text-main mb-4">Ready to Compete?</h2>
-        <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">Registration is open for the upcoming season. Secure your spot now.</p>
+        <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
+          Registration is open for the upcoming season. Secure your spot now.
+        </p>
         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <a
             href={rules.register.url}
@@ -197,7 +188,9 @@ const Format: React.FC = () => {
             <ExternalLink className="h-5 w-5" />
           </a>
         </div>
-        <p className="text-sm text-text-muted mt-6">*Future seasons may require participation in qualifying nights to earn a roster spot.</p>
+        <p className="text-sm text-text-muted mt-6">
+          *Future seasons may require participation in qualifying nights to earn a roster spot.
+        </p>
       </div>
 
       {/* Rules & Policies Grid */}
@@ -209,12 +202,16 @@ const Format: React.FC = () => {
             <h2 className="text-xl font-bold text-text-main">Eligibility</h2>
           </div>
           <ul className="space-y-3">
-            {rules.general.map((rule, index) => (
-              <li key={index} className="flex items-start text-text-muted">
-                <span className="mr-2">•</span>
-                {rule}
-              </li>
-            ))}
+            {Array.isArray(rules.general) && rules.general.length > 0 ? (
+              rules.general.map((rule: string, index: number) => (
+                <li key={index} className="flex items-start text-text-muted">
+                  <span className="mr-2">•</span>
+                  {rule}
+                </li>
+              ))
+            ) : (
+              <li className="text-text-muted">No eligibility rules provided.</li>
+            )}
           </ul>
         </Card>
 
@@ -226,12 +223,16 @@ const Format: React.FC = () => {
               <h2 className="text-xl font-bold text-text-main">Substitute Policy</h2>
             </div>
             <ul className="space-y-3">
-              {rules.subs.map((rule, index) => (
-                <li key={index} className="flex items-start text-text-muted">
-                  <span className="mr-2">•</span>
-                  {rule}
-                </li>
-              ))}
+              {Array.isArray(rules.subs) && rules.subs.length > 0 ? (
+                rules.subs.map((rule: string, index: number) => (
+                  <li key={index} className="flex items-start text-text-muted">
+                    <span className="mr-2">•</span>
+                    {rule}
+                  </li>
+                ))
+              ) : (
+                <li className="text-text-muted">No substitute policy provided.</li>
+              )}
             </ul>
           </Card>
         )}

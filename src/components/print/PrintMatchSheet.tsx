@@ -1,5 +1,4 @@
 import React from 'react';
-import { rules } from '../../data/rules';
 import { Player } from '../../types';
 
 type CourtAssignment = {
@@ -9,7 +8,6 @@ type CourtAssignment = {
 };
 
 type Props = {
-  rankedPlayers: Player[];
   initialAssignments: CourtAssignment[];
 };
 
@@ -21,7 +19,7 @@ type Props = {
  * - Monospace numeric columns for legibility
  * - Hairline separators, minimal visual noise
  */
-const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments }) => {
+const PrintMatchSheet: React.FC<Props> = ({ initialAssignments }) => {
   const playerLabel = (p?: (Player & { seed: number }) | null, seed?: number) => {
     if (!p) return seed ? `Seed ${seed}` : '';
     return `${p.seed} ${p.name}`;
@@ -159,7 +157,9 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
       {initialAssignments.map((court) => (
         <section key={court.id} className="print-page" aria-label={`Print court ${court.name}`}>
           <div style={{ marginBottom: 4 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}
+            >
               <div>
                 <div className="court-header">{court.name}</div>
                 {/* <div className="court-sub">Seeds: {court.players.map(p => p.seed).join(', ')}</div> */}
@@ -175,14 +175,23 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
           <div style={{ marginBottom: 6, fontSize: '8.5pt' }} aria-hidden="true">
             <div style={{ fontWeight: 700, marginBottom: 4 }}>Instructions</div>
             <div>Write points for each game in G1–G3. Total = sum of G1 + G2 + G3.</div>
-            <div>Game order: G1 = Spots 1+2 vs 3+4; G2 = Spots 1+3 vs 2+4; G3 = Spots 1+4 vs 2+3.</div>
-            <div>Rounds 1–2: record place and follow the "Next Court" destination. Round 3: write Overall Rank (1st / 2nd / 3rd / 4th).</div>
-            <div>In case of a tie on Total, the player with the higher spot is used to break the tie.</div>
+            <div>
+              Game order: G1 = Spots 1+2 vs 3+4; G2 = Spots 1+3 vs 2+4; G3 = Spots 1+4 vs 2+3.
+            </div>
+            <div>
+              Rounds 1–2: record place and follow the "Next Court" destination. Round 3: write
+              Overall Rank (1st / 2nd / 3rd / 4th).
+            </div>
+            <div>
+              In case of a tie on Total, the player with the higher spot is used to break the tie.
+            </div>
           </div>
 
           {/* Example round (single, grayed) */}
           <div style={{ marginBottom: 8 }} aria-hidden="true">
-            <div style={{ fontWeight: 700, fontSize: '9pt', marginBottom: 4 }}>Example round (grayed)</div>
+            <div style={{ fontWeight: 700, fontSize: '9pt', marginBottom: 4 }}>
+              Example round (grayed)
+            </div>
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <table className="spot-table" style={{ opacity: 0.6, width: '60%' }}>
                 <colgroup>
@@ -210,7 +219,11 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                     <td className="mono">11</td>
                     <td className="mono">7</td>
                     <td className="mono">8</td>
-                    <td style={{ textAlign: 'center' }}><span className="total-box" style={{ borderColor: '#666' }}>26</span></td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="total-box" style={{ borderColor: '#666' }}>
+                        26
+                      </span>
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td style={{ textAlign: 'center' }}>2</td>
@@ -218,7 +231,11 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                     <td className="mono">11</td>
                     <td className="mono">11</td>
                     <td className="mono">11</td>
-                    <td style={{ textAlign: 'center' }}><span className="total-box" style={{ borderColor: '#666' }}>33</span></td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="total-box" style={{ borderColor: '#666' }}>
+                        33
+                      </span>
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td style={{ textAlign: 'center' }}>3</td>
@@ -226,7 +243,11 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                     <td className="mono">7</td>
                     <td className="mono">7</td>
                     <td className="mono">11</td>
-                    <td style={{ textAlign: 'center' }}><span className="total-box" style={{ borderColor: '#666' }}>25</span></td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="total-box" style={{ borderColor: '#666' }}>
+                        25
+                      </span>
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td style={{ textAlign: 'center' }}>4</td>
@@ -234,7 +255,11 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                     <td className="mono">7</td>
                     <td className="mono">11</td>
                     <td className="mono">8</td>
-                    <td style={{ textAlign: 'center' }}><span className="total-box" style={{ borderColor: '#666' }}>26</span></td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span className="total-box" style={{ borderColor: '#666' }}>
+                        26
+                      </span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -256,22 +281,30 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td>1st</td>
                     <td style={{ color: '#666' }}>Ben K.</td>
-                    <td className="next" style={{ color: '#666' }}>Court 1, Spot 1</td>
+                    <td className="next" style={{ color: '#666' }}>
+                      Court 1, Spot 1
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td>2nd</td>
                     <td style={{ color: '#666' }}>Alex J.</td>
-                    <td className="next" style={{ color: '#666' }}>Court 2, Spot 4</td>
+                    <td className="next" style={{ color: '#666' }}>
+                      Court 2, Spot 4
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td>3rd</td>
                     <td style={{ color: '#666' }}>Dana M.</td>
-                    <td className="next" style={{ color: '#666' }}>Court 3, Spot 1</td>
+                    <td className="next" style={{ color: '#666' }}>
+                      Court 3, Spot 1
+                    </td>
                   </tr>
                   <tr aria-hidden="true" style={{ color: '#666' }}>
                     <td>4th</td>
                     <td style={{ color: '#666' }}>Casey L.</td>
-                    <td className="next" style={{ color: '#666' }}>Court 4, Spot 4</td>
+                    <td className="next" style={{ color: '#666' }}>
+                      Court 4, Spot 4
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -304,7 +337,9 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                           <tr key={spotIdx}>
                             <td style={{ textAlign: 'center' }}>{spotIdx + 1}</td>
                             <td>{playerLabel(p, seed)}</td>
-                            <td className="mono" style={{ textAlign: 'center' }}><span className="fill" aria-hidden="true" /></td>
+                            <td className="mono" style={{ textAlign: 'center' }}>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
                           </tr>
                         );
                       })}
@@ -313,7 +348,10 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                 </div>
 
                 <div className="place-col">
-                  <table className="place-table" aria-label={`Places Court ${court.id} Round ${roundNum}`}>
+                  <table
+                    className="place-table"
+                    aria-label={`Places Court ${court.id} Round ${roundNum}`}
+                  >
                     <colgroup>
                       <col className="col-place" />
                       <col className="col-player" />
@@ -331,45 +369,77 @@ const PrintMatchSheet: React.FC<Props> = ({ rankedPlayers, initialAssignments })
                         <>
                           <tr>
                             <td>1st</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
-                            <td className="next">{nextCourtMap[court.id]?.[roundNum]?.[0] ?? <span className="fill" aria-hidden="true" />}</td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
+                            <td className="next">
+                              {nextCourtMap[court.id]?.[roundNum]?.[0] ?? (
+                                <span className="fill" aria-hidden="true" />
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <td>2nd</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
-                            <td className="next">{nextCourtMap[court.id]?.[roundNum]?.[1] ?? <span className="fill" aria-hidden="true" />}</td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
+                            <td className="next">
+                              {nextCourtMap[court.id]?.[roundNum]?.[1] ?? (
+                                <span className="fill" aria-hidden="true" />
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <td>3rd</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
-                            <td className="next">{nextCourtMap[court.id]?.[roundNum]?.[2] ?? <span className="fill" aria-hidden="true" />}</td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
+                            <td className="next">
+                              {nextCourtMap[court.id]?.[roundNum]?.[2] ?? (
+                                <span className="fill" aria-hidden="true" />
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <td>4th</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
-                            <td className="next">{nextCourtMap[court.id]?.[roundNum]?.[3] ?? <span className="fill" aria-hidden="true" />}</td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
+                            <td className="next">
+                              {nextCourtMap[court.id]?.[roundNum]?.[3] ?? (
+                                <span className="fill" aria-hidden="true" />
+                              )}
+                            </td>
                           </tr>
                         </>
                       ) : (
                         <>
                           <tr>
                             <td>1st</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
                             <td className="next">{ordinal((court.id - 1) * 4 + 1)}</td>
                           </tr>
                           <tr>
                             <td>2nd</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
                             <td className="next">{ordinal((court.id - 1) * 4 + 2)}</td>
                           </tr>
                           <tr>
                             <td>3rd</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
                             <td className="next">{ordinal((court.id - 1) * 4 + 3)}</td>
                           </tr>
                           <tr>
                             <td>4th</td>
-                            <td><span className="fill" aria-hidden="true" /></td>
+                            <td>
+                              <span className="fill" aria-hidden="true" />
+                            </td>
                             <td className="next">{ordinal((court.id - 1) * 4 + 4)}</td>
                           </tr>
                         </>

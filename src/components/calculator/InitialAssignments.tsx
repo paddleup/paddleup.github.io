@@ -40,12 +40,17 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
     const n = normalize(line);
     if (!n) return undefined;
     // exact start match first, then includes
-    return allPlayers.find(p => normalize(p.name).startsWith(n)) ||
-           allPlayers.find(p => normalize(p.name).includes(n));
+    return (
+      allPlayers.find((p) => normalize(p.name).startsWith(n)) ||
+      allPlayers.find((p) => normalize(p.name).includes(n))
+    );
   };
 
   const importFromPaste = () => {
-    const lines = pasteText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const lines = pasteText
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
     const matchedIds: string[] = [];
     const newTemps = [...tempPlayers];
 
@@ -59,8 +64,8 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
         let id = baseId;
         let counter = 1;
         while (
-          allPlayers.find(p => p.id === id) ||
-          newTemps.find(p => p.id === id) ||
+          allPlayers.find((p) => p.id === id) ||
+          newTemps.find((p) => p.id === id) ||
           matchedIds.includes(id)
         ) {
           id = `${baseId}-${counter++}`;
@@ -81,7 +86,9 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
   // Get all players with their current stats derived from challengeEvents
   const playerStats = useMemo(() => {
     // Aggregate points per player from challenge events that provide final standings
-    const events = challengeEvents.filter(ev => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0);
+    const events = challengeEvents.filter(
+      (ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0,
+    );
     const pointsByPlayer = new Map<string, number>();
 
     events.forEach((ev, idx) => {
@@ -89,7 +96,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
         id: idx,
         date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
         isCompleted: true,
-        standings: (ev as any).standings
+        standings: (ev as any).standings,
       } as any;
       const finals = calculateWeekFinalPositions(weekLike) || [];
       finals.forEach((f: any) => {
@@ -99,16 +106,18 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
       });
     });
 
-    return allPlayers.map(p => ({
-      ...p,
-      points: pointsByPlayer.get(p.id) || 0,
-      dupr: p.dupr || 0
-    })).sort((a, b) => {
-      // Sort by Points (Desc), then DUPR (Desc), then Name (Asc)
-      if (b.points !== a.points) return b.points - a.points;
-      if (b.dupr !== a.dupr) return (b.dupr || 0) - (a.dupr || 0);
-      return a.name.localeCompare(b.name);
-    });
+    return allPlayers
+      .map((p) => ({
+        ...p,
+        points: pointsByPlayer.get(p.id) || 0,
+        dupr: p.dupr || 0,
+      }))
+      .sort((a, b) => {
+        // Sort by Points (Desc), then DUPR (Desc), then Name (Asc)
+        if (b.points !== a.points) return b.points - a.points;
+        if (b.dupr !== a.dupr) return (b.dupr || 0) - (a.dupr || 0);
+        return a.name.localeCompare(b.name);
+      });
   }, []);
 
   const togglePlayer = (id: string) => {
@@ -126,13 +135,16 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
   const handleGenerate = () => {
     // Map selected IDs to player objects (include temp players)
     const selectedArray = Array.from(selectedPlayers);
-    const playersForDraw = selectedArray.map(id => {
-      const found = playerStats.find(p => p.id === id) || allPlayers.find(p => p.id === id) || tempPlayers.find(p => p.id === id);
+    const playersForDraw = selectedArray.map((id) => {
+      const found =
+        playerStats.find((p) => p.id === id) ||
+        allPlayers.find((p) => p.id === id) ||
+        tempPlayers.find((p) => p.id === id);
       if (found) {
         return {
           ...found,
           points: (found as any).points ?? 0,
-          dupr: (found as any).dupr ?? 0
+          dupr: (found as any).dupr ?? 0,
         } as any;
       }
       // fallback minimal player
@@ -152,7 +164,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <PageHeader 
+      <PageHeader
         title="Initial Assignments"
         subtitle="Select players to generate court assignments based on season rankings."
         center
@@ -165,9 +177,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
             >
               Match Calculator
             </button>
-            <button
-              className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-primary text-text-main shadow-sm"
-            >
+            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-primary text-text-main shadow-sm">
               Initial Assignments
             </button>
           </div>
@@ -182,10 +192,14 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
               <Users className="h-5 w-5 text-primary" />
               Select Players
             </h3>
-            <span className={cn(
-              "text-sm font-bold px-2 py-1 rounded-full",
-              selectedPlayers.size === 16 ? "bg-success/20 text-success" : "bg-surface-highlight text-text-muted"
-            )}>
+            <span
+              className={cn(
+                'text-sm font-bold px-2 py-1 rounded-full',
+                selectedPlayers.size === 16
+                  ? 'bg-success/20 text-success'
+                  : 'bg-surface-highlight text-text-muted',
+              )}
+            >
               {selectedPlayers.size}/16
             </span>
           </div>
@@ -212,7 +226,11 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
             </label>
             {usePaste && (
               <button
-                onClick={() => { setPasteText(''); setPasteUnmatched([]); setSelectedPlayers(new Set()); }}
+                onClick={() => {
+                  setPasteText('');
+                  setPasteUnmatched([]);
+                  setSelectedPlayers(new Set());
+                }}
                 className="ml-auto text-xs text-text-muted hover:text-text-main"
               >
                 Clear
@@ -256,18 +274,21 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
               )}
 
               <div className="pt-2">
-                {Array.from(selectedPlayers).map(id => {
-                  const p = playerStats.find(x => x.id === id) || allPlayers.find(x => x.id === id) || tempPlayers.find(x => x.id === id);
+                {Array.from(selectedPlayers).map((id) => {
+                  const p =
+                    playerStats.find((x) => x.id === id) ||
+                    allPlayers.find((x) => x.id === id) ||
+                    tempPlayers.find((x) => x.id === id);
                   return p ? (
-                    <div key={id} className="flex items-center justify-between p-2 rounded-md bg-surface-highlight border border-transparent">
+                    <div
+                      key={id}
+                      className="flex items-center justify-between p-2 rounded-md bg-surface-highlight border border-transparent"
+                    >
                       <div>
                         <p className="text-sm font-medium">{p.name}</p>
                         <p className="text-xs text-text-muted">{(p as any).points ?? 0} pts</p>
                       </div>
-                      <button
-                        onClick={() => togglePlayer(id)}
-                        className="text-xs text-rose-600"
-                      >
+                      <button onClick={() => togglePlayer(id)} className="text-xs text-rose-600">
                         Remove
                       </button>
                     </div>
@@ -278,14 +299,14 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
           ) : (
             <div className="flex-1 overflow-y-auto space-y-2 pr-2">
               {playerStats.map((p, index) => (
-                <div 
+                <div
                   key={p.id}
                   onClick={() => togglePlayer(p.id)}
                   className={cn(
-                    "flex items-center justify-between p-2 rounded-md cursor-pointer border transition-all",
-                    selectedPlayers.has(p.id) 
-                      ? "bg-primary/10 border-primary" 
-                      : "bg-surface-highlight border-transparent hover:border-border"
+                    'flex items-center justify-between p-2 rounded-md cursor-pointer border transition-all',
+                    selectedPlayers.has(p.id)
+                      ? 'bg-primary/10 border-primary'
+                      : 'bg-surface-highlight border-transparent hover:border-border',
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -297,9 +318,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                       <p className="text-xs text-text-muted">{p.points} pts</p>
                     </div>
                   </div>
-                  {selectedPlayers.has(p.id) && (
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                  )}
+                  {selectedPlayers.has(p.id) && <CheckCircle className="h-4 w-4 text-primary" />}
                 </div>
               ))}
             </div>
@@ -339,7 +358,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                     <h3 className="font-bold text-lg mb-4 pb-2 border-b border-border flex justify-between items-center">
                       {court.name}
                       <span className="text-xs font-normal text-text-muted bg-surface-highlight px-2 py-1 rounded">
-                        Seeds: {court.indices.map(i => i + 1).join(', ')}
+                        Seeds: {court.indices.map((i) => i + 1).join(', ')}
                       </span>
                     </h3>
                     <div className="space-y-3">
@@ -349,7 +368,9 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                             <span className="text-xs font-mono text-text-muted w-6">#{p.seed}</span>
                             <span className="font-medium">{p.name}</span>
                           </div>
-                          <span className="text-xs text-text-muted">{(p as unknown as PlayerWithStats).points} pts</span>
+                          <span className="text-xs text-text-muted">
+                            {(p as unknown as PlayerWithStats).points} pts
+                          </span>
                         </div>
                       ))}
                       {court.players.length === 0 && (
@@ -363,7 +384,6 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
               {/* Print container: render printable match sheets (uses print-only styles) */}
               <div className="print-container">
                 <PrintMatchSheet
-                  rankedPlayers={lastRankedPlayers}
                   initialAssignments={assignments ?? generateSnakeDraw(lastRankedPlayers)}
                 />
               </div>

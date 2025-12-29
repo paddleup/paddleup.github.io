@@ -13,15 +13,17 @@ type Props = {
   court: Court;
   ranks?: (number | string)[];
   nextCourts?: (number | string)[];
+  scores?: number[]; // optional per-player scores (unused in current UI)
+  onScoreChange?: (index: number, value: number) => void; // optional callback for score edits
 };
 
-const CourtCard: React.FC<Props> = ({ court, scores, onScoreChange, ranks = [], nextCourts = [] }) => {
+const CourtCard: React.FC<Props> = ({ court, ranks = [], nextCourts = [] }) => {
   return (
     <Card className="p-4">
       <h3 className="font-bold text-lg mb-3 pb-2 border-b border-border flex justify-between items-center">
         {court.name}
         <span className="text-xs font-normal text-text-muted bg-surface-highlight px-2 py-1 rounded">
-          Seeds: {court.indices.map(i => i + 1).join(', ')}
+          Seeds: {court.indices.map((i) => i + 1).join(', ')}
         </span>
       </h3>
 

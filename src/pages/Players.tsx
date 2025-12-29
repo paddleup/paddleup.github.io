@@ -2,16 +2,15 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { challengeEvents } from '../data/challengeEvents';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
-import { Trophy, TrendingUp } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
 import PageHeader from '../components/ui/PageHeader';
-import PlayerAvatar from '../components/ui/PlayerAvatar';
-import RankBadge from '../components/ui/RankBadge';
 import { Player } from '../types';
 import { players as playersData } from '../data/players';
 
 const monthKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-const monthLabel = (d: Date) => d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
+const monthLabel = (d: Date) =>
+  d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
 
 const Players: React.FC = () => {
   // Default to All Time view
@@ -33,8 +32,13 @@ const Players: React.FC = () => {
 
   // Aggregate player stats from challenge events (use only events with final standings)
   const playerStats = useMemo(() => {
-    const events = challengeEvents.filter((ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0);
-    const filtered = selection === 'all' ? events : events.filter((ev) => monthKey(ev.startDateTime) === selection);
+    const events = challengeEvents.filter(
+      (ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0,
+    );
+    const filtered =
+      selection === 'all'
+        ? events
+        : events.filter((ev) => monthKey(ev.startDateTime) === selection);
 
     const agg = new Map<string, { points: number; events: number; champWins: number }>();
 
@@ -43,7 +47,7 @@ const Players: React.FC = () => {
         id: idx,
         date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
         isCompleted: true,
-        standings: (ev as any).standings
+        standings: (ev as any).standings,
       } as any;
 
       const finals = calculateWeekFinalPositions(weekLike);
@@ -54,7 +58,7 @@ const Players: React.FC = () => {
         const cur = agg.get(id) || { points: 0, events: 0, champWins: 0 };
         cur.points += pts;
         cur.events += 1;
-        if (f.globalRank === 1) cur.champWins += 1;
+        if (f.rank === 1) cur.champWins += 1;
         agg.set(id, cur);
       });
     });
@@ -64,7 +68,7 @@ const Players: React.FC = () => {
       playerId,
       points: v.points,
       eventsPlayed: v.events,
-      champCourt: v.champWins
+      champCourt: v.champWins,
     }));
 
     rows.sort((a, b) => b.points - a.points);
@@ -84,10 +88,12 @@ const Players: React.FC = () => {
 
     // merge with players data for display
     return rows.map((r) => {
-      const p = playersData.find((pl) => pl.id === r.playerId) || ({ id: r.playerId, name: 'Unknown', imageUrl: '', dupr: undefined } as Player);
+      const p =
+        playersData.find((pl) => pl.id === r.playerId) ||
+        ({ id: r.playerId, name: 'Unknown', imageUrl: '', dupr: undefined } as Player);
       return {
         ...r,
-        ...p
+        ...p,
       };
     });
   }, [selection]);
@@ -96,7 +102,9 @@ const Players: React.FC = () => {
     <div className="space-y-8">
       <PageHeader
         title="Players"
-        subtitle={`${playerStats.length} players • ${selection === 'all' ? 'All Time' : 'Month view'}`}
+        subtitle={`${playerStats.length} players • ${
+          selection === 'all' ? 'All Time' : 'Month view'
+        }`}
       >
         <div className="flex items-center gap-4">
           <select
@@ -106,7 +114,9 @@ const Players: React.FC = () => {
           >
             <option value="all">All Time</option>
             {months.map((m) => (
-              <option key={m.key} value={m.key}>{m.label}</option>
+              <option key={m.key} value={m.key}>
+                {m.label}
+              </option>
             ))}
           </select>
         </div>
@@ -119,13 +129,19 @@ const Players: React.FC = () => {
               <div className="aspect-square w-full relative bg-surface-highlight overflow-hidden">
                 {player.imageUrl ? (
                   <img
-                    src={player.imageUrl.startsWith('/') ? `${import.meta.env.BASE_URL}${player.imageUrl.slice(1)}` : player.imageUrl}
+                    src={
+                      player.imageUrl.startsWith('/')
+                        ? `${import.meta.env.BASE_URL}${player.imageUrl.slice(1)}`
+                        : player.imageUrl
+                    }
                     alt={player.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-surface-highlight">
-                    <span className="text-4xl font-bold text-text-muted opacity-20">{player.name?.charAt(0)}</span>
+                    <span className="text-4xl font-bold text-text-muted opacity-20">
+                      {player.name?.charAt(0)}
+                    </span>
                   </div>
                 )}
 
@@ -143,23 +159,33 @@ const Players: React.FC = () => {
               </div>
 
               <div className="p-4 flex-1 flex flex-col">
-                <h2 className="text-lg font-bold text-text-main mb-1 group-hover:text-primary transition-colors text-center truncate">{player.name}</h2>
-                <p className="text-xs text-text-muted text-center mb-3">DUPR {player.dupr ?? 'N/A'}</p>
+                <h2 className="text-lg font-bold text-text-main mb-1 group-hover:text-primary transition-colors text-center truncate">
+                  {player.name}
+                </h2>
+                <p className="text-xs text-text-muted text-center mb-3">
+                  DUPR {player.dupr ?? 'N/A'}
+                </p>
 
                 <div className="mt-auto grid grid-cols-3 gap-2 pt-3 border-t border-border text-center">
                   <div>
-                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">Events</p>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Events
+                    </p>
                     <p className="font-bold text-sm text-text-main">{player.eventsPlayed}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">Champ Ct</p>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Champ Ct
+                    </p>
                     <div className="flex items-center justify-center gap-1">
                       <TrendingUp className="h-3 w-3 text-success" />
                       <p className="font-bold text-sm text-text-main">{player.champCourt}</p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">Rank</p>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Rank
+                    </p>
                     <p className="font-bold text-sm text-text-main">{player.rank ?? '-'}</p>
                   </div>
                 </div>
