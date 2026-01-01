@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, Send } from 'lucide-react';
+import Button from './ui/Button';
 
 const ContactForm: React.FC = () => {
   const [status, setStatus] = useState<'success' | 'error' | null>(null);
@@ -17,8 +18,8 @@ const ContactForm: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          subject: 'League Question (Format Page)'
-        })
+          subject: 'League Question (Format Page)',
+        }),
       });
 
       if (response.ok) {
@@ -40,9 +41,14 @@ const ContactForm: React.FC = () => {
         <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
         <h3 className="text-lg font-bold text-success mb-2">Message Sent!</h3>
         <p className="text-success">We'll get back to you shortly.</p>
-        <button onClick={() => setStatus(null)} className="mt-4 text-sm text-success hover:underline">
+        <Button
+          onClick={() => setStatus(null)}
+          variant="ghost"
+          size="sm"
+          className="mt-4 text-sm text-success hover:underline"
+        >
           Send another
-        </button>
+        </Button>
       </div>
     );
   }
@@ -73,14 +79,24 @@ const ContactForm: React.FC = () => {
           placeholder="How can we help?"
         />
       </div>
-      <button
+      <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary text-text-main py-2.5 rounded-lg font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+        variant="primary"
+        size="md"
+        className="w-full py-2.5 font-medium disabled:opacity-50 flex items-center justify-center gap-2"
       >
-        {isSubmitting ? 'Sending...' : <><Send className="h-4 w-4" /> Send Message</>}
-      </button>
-      {status === 'error' && <p className="text-error text-sm text-center">Something went wrong. Please try again.</p>}
+        {isSubmitting ? (
+          'Sending...'
+        ) : (
+          <>
+            <Send className="h-4 w-4" /> Send Message
+          </>
+        )}
+      </Button>
+      {status === 'error' && (
+        <p className="text-error text-sm text-center">Something went wrong. Please try again.</p>
+      )}
     </form>
   );
 };

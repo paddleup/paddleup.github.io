@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Trophy, Users, Calendar, Home, Calculator } from 'lucide-react';
+import Button from './ui/Button';
 import { cn } from '../lib/utils';
 
 interface LayoutProps {
@@ -60,12 +61,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <button
+              <Button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                variant="ghost"
+                size="sm"
                 className="inline-flex items-center justify-center p-2 rounded-md text-text-muted hover:text-text-main hover:bg-surface-highlight focus:outline-none"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

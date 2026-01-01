@@ -6,6 +6,7 @@ import { calculateWeekFinalPositions, generateSnakeDraw } from '../../lib/league
 import Card from '../ui/Card';
 import PageHeader from '../ui/PageHeader';
 import PrintMatchSheet from '../print/PrintMatchSheet';
+import Button from '../ui/Button';
 import { cn } from '../../lib/utils';
 import { Player } from '../../types';
 
@@ -171,15 +172,21 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
       >
         <div className="flex justify-center mt-4">
           <div className="bg-surface-highlight p-1 rounded-lg inline-flex">
-            <button
+            <Button
               onClick={onBack}
-              className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-text-muted hover:text-text-main"
+              variant="ghost"
+              size="md"
+              className="px-4 py-2 text-text-muted hover:text-text-main"
             >
               Match Calculator
-            </button>
-            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-primary text-text-main shadow-sm">
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              className="px-4 py-2 bg-primary text-text-main shadow-sm"
+            >
               Initial Assignments
-            </button>
+            </Button>
           </div>
         </div>
       </PageHeader>
@@ -225,16 +232,18 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
               <span>Paste names</span>
             </label>
             {usePaste && (
-              <button
+              <Button
                 onClick={() => {
                   setPasteText('');
                   setPasteUnmatched([]);
                   setSelectedPlayers(new Set());
                 }}
+                variant="ghost"
+                size="sm"
                 className="ml-auto text-xs text-text-muted hover:text-text-main"
               >
                 Clear
-              </button>
+              </Button>
             )}
           </div>
 
@@ -247,21 +256,20 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                 className="w-full h-40 p-2 rounded-md border border-border bg-surface-highlight text-sm resize-none"
               />
               <div className="flex gap-2">
-                <button
-                  onClick={importFromPaste}
-                  className="px-3 py-1 bg-primary text-text-main rounded-md text-sm font-medium"
-                >
+                <Button onClick={importFromPaste} variant="primary" size="sm" className="px-3 py-1">
                   Import
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     // show matched players in selection if any were found from last import
                     if (pasteText.trim()) importFromPaste();
                   }}
-                  className="px-3 py-1 bg-surface-highlight text-sm rounded-md border border-border"
+                  variant="secondary"
+                  size="sm"
+                  className="px-3 py-1"
                 >
                   Refresh
-                </button>
+                </Button>
                 <div className="text-xs text-text-muted ml-auto self-center">
                   Imported: {selectedPlayers.size}/16
                 </div>
@@ -288,9 +296,14 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                         <p className="text-sm font-medium">{p.name}</p>
                         <p className="text-xs text-text-muted">{(p as any).points ?? 0} pts</p>
                       </div>
-                      <button onClick={() => togglePlayer(id)} className="text-xs text-rose-600">
+                      <Button
+                        onClick={() => togglePlayer(id)}
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs text-rose-600"
+                      >
                         Remove
-                      </button>
+                      </Button>
                     </div>
                   ) : null;
                 })}
@@ -325,12 +338,14 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
           )}
 
           <div className="pt-4 mt-4 border-t border-border">
-            <button
+            <Button
               onClick={handleGenerate}
-              className="w-full bg-primary text-text-main py-2 rounded-md font-bold hover:bg-primary-hover transition-colors"
+              variant="primary"
+              size="md"
+              className="w-full py-2 font-bold"
             >
               Generate Assignments
-            </button>
+            </Button>
           </div>
         </Card>
 
@@ -344,12 +359,14 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
           ) : (
             <div>
               <div className="flex justify-end mb-4">
-                <button
+                <Button
                   onClick={() => window.print()}
-                  className="px-4 py-2 bg-primary text-text-main rounded-md font-bold hover:bg-primary-hover transition"
+                  variant="primary"
+                  size="md"
+                  className="px-4 py-2"
                 >
                   Open Print Preview
-                </button>
+                </Button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

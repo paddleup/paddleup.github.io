@@ -6,6 +6,7 @@ import Card from '../components/ui/Card';
 import CourtCard from '../components/match/CourtCard';
 import PageHeader from '../components/ui/PageHeader';
 import PrintMatchSheet from '../components/print/PrintMatchSheet';
+import Button from '../components/ui/Button';
 
 /**
  * MatchSheet page
@@ -81,19 +82,18 @@ const MatchSheetPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => {}}
-              className="px-3 py-2 rounded bg-surface-highlight text-sm hover:bg-surface-highlight/80"
-            >
+            <Button onClick={() => {}} variant="secondary" size="sm" className="px-3 py-2">
               Refresh
-            </button>
+            </Button>
 
-            <button
+            <Button
               onClick={() => window.print()}
-              className="px-4 py-2 rounded bg-primary text-text-main font-bold"
+              variant="primary"
+              size="md"
+              className="px-4 py-2"
             >
               Open Print Preview
-            </button>
+            </Button>
           </div>
         </Card>
 
