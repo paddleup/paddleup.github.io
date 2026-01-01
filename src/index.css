@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-highlight: var(--surface-highlight);
+  
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-text-accent: var(--text-accent);
+  
+  --color-border: var(--border);
+  
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
 
 /* Preserve CSS variables (Neptune theme) for runtime theming and to map Tailwind colors to CSS variables */
 :root {
@@ -29,7 +48,8 @@
 
 /* Base page styles using Tailwind-mapped color tokens (defined in tailwind.config.cjs) */
 body {
-  @apply bg-background text-text-main;
+  background-color: var(--background);
+  color: var(--text-main);
 }
 
 /* Heading fonts */
