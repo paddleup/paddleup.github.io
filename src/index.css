@@ -19,6 +19,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-bronze: var(--bronze);
 }
 
 /* Preserve CSS variables (Neptune theme) for runtime theming and to map Tailwind colors to CSS variables */
@@ -42,6 +43,7 @@
   --success: #4ADE80;     /* Green 400 */
   --warning: #FACC15;     /* Yellow 400 */
   --error: #F87171;       /* Red 400 */
+  --bronze: #F97316;      /* Orange 500 */
 
   font-family: 'Inter', sans-serif;
 }

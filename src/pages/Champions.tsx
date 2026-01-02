@@ -71,7 +71,7 @@ const Champions: React.FC = () => {
                         players.find((p) => p.id === entry.playerId) ||
                         ({ name: 'Unknown', imageUrl: '' } as Player);
                       const medalColor =
-                        i === 0 ? 'text-warning' : i === 1 ? 'text-text-muted' : 'text-orange-500';
+                        i === 0 ? 'text-warning' : i === 1 ? 'text-text-muted' : 'text-bronze';
                       const label = i === 0 ? 'Champion' : i === 1 ? 'Runner Up' : 'Third Place';
 
                       return (

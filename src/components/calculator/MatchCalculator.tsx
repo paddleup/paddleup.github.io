@@ -2,7 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { Combobox, Listbox, Tab } from '@headlessui/react';
-import { ChevronDown } from 'lucide-react';
+import {
+  ChevronDown,
+  Users,
+  Trophy,
+  ClipboardList,
+  LayoutGrid,
+  Activity,
+  Save,
+  CheckCircle2,
+  Copy,
+  Trash2,
+} from 'lucide-react';
 
 /**
  * Headless UI + Tailwind redesign of Match Calculator
@@ -226,7 +237,7 @@ const PlayerCombobox = React.memo(function PlayerCombobox({
     >
       <div className="relative mt-1">
         <Combobox.Input
-          className="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700 text-slate-100"
+          className="w-full px-3 py-2 rounded bg-surface border border-border text-text-main"
           value={inputValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const v = e.target.value;
@@ -273,7 +284,7 @@ const PlayerCombobox = React.memo(function PlayerCombobox({
               >
                 <div className="flex items-center justify-between">
                   <span className="truncate">{name}</span>
-                  <span className="text-xs text-slate-400">seed {seed}</span>
+                  <span className="text-xs text-text-muted">seed {seed}</span>
                 </div>
               </Combobox.Option>
             ))}
@@ -286,10 +297,23 @@ const PlayerCombobox = React.memo(function PlayerCombobox({
 PlayerCombobox.displayName = 'PlayerCombobox';
 
 export default function MatchCalculator(): React.ReactElement {
-  const [playersCount, setPlayersCount] = useState<number>(16);
+  // --- State Initialization with LocalStorage ---
+  const [playersCount, setPlayersCount] = useState<number>(() => {
+    const saved = localStorage.getItem('paddleup_calc_playersCount');
+    return saved ? parseInt(saved, 10) : 16;
+  });
+
   const courtCount = Math.min(4, Math.ceil(playersCount / 4));
 
   const [courts, setCourts] = useState<CourtState[]>(() => {
+    const saved = localStorage.getItem('paddleup_calc_courts');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse saved courts', e);
+      }
+    }
     const layout = getSeedLayout(playersCount, 1);
     return range(courtCount).map((ci) => {
       const seeds = layout[ci] || [];
@@ -309,15 +333,43 @@ export default function MatchCalculator(): React.ReactElement {
       };
     });
   });
-  const [round, setRound] = useState<number>(1);
+
+  const [round, setRound] = useState<number>(() => {
+    const saved = localStorage.getItem('paddleup_calc_round');
+    return saved ? parseInt(saved, 10) : 1;
+  });
+
   const [results, setResults] = useState<PlayerStats[] | null>(null);
   const [duplicateError, setDuplicateError] = useState<string | null>(null);
   const [, setSnapshots] = useState<Snapshot[]>([]);
+  const [activeView, setActiveView] = useState<number | 'rankings'>(0); // 0-based court index or 'rankings'
+  const [copyFeedback, setCopyFeedback] = useState(false);
+
+  // --- Persistence Effects ---
+  useEffect(() => {
+    localStorage.setItem('paddleup_calc_playersCount', playersCount.toString());
+  }, [playersCount]);
+
+  useEffect(() => {
+    localStorage.setItem('paddleup_calc_round', round.toString());
+  }, [round]);
+
+  useEffect(() => {
+    localStorage.setItem('paddleup_calc_courts', JSON.stringify(courts));
+  }, [courts]);
 
   useEffect(() => {
     computeStandings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courts, round]);
+
+  // --- Progress Calculation ---
+  const totalMatches = courts.length * 3;
+  const completedMatches = courts.reduce(
+    (acc, c) => acc + c.matches.filter((m) => m.a !== null && m.b !== null).length,
+    0,
+  );
+  const progressPercent = Math.round((completedMatches / totalMatches) * 100);
 
   function setPlayerName(courtIdx: number, slotIdx: number, name: string | null) {
     try {
@@ -543,241 +595,471 @@ export default function MatchCalculator(): React.ReactElement {
   }
 
   function resetAll() {
-    applySeedLayoutForRound(1);
+    if (!window.confirm('Are you sure you want to clear all data and start over?')) return;
+    localStorage.removeItem('paddleup_calc_courts');
+    localStorage.removeItem('paddleup_calc_round');
+    // We keep playersCount preference
+
+    const layout = getSeedLayout(playersCount, 1);
+    const localCourtCount = Math.min(4, Math.ceil(playersCount / 4));
+    const newCourts = range(localCourtCount).map((ci) => {
+      const seeds = layout[ci] || [];
+      const players = range(4).map((i) => {
+        const seed = seeds[i] || 10000 + ci * 4 + i;
+        return { name: '', seed, courtIndex: ci };
+      });
+      return {
+        players,
+        matches: [
+          { a: null, b: null },
+          { a: null, b: null },
+          { a: null, b: null },
+        ],
+        label: `Court ${ci + 1} - Round 1`,
+      };
+    });
+
+    setCourts(newCourts);
     setResults(null);
     setDuplicateError(null);
     setSnapshots([]);
     setRound(1);
   }
 
+  function copyRankingsToClipboard() {
+    if (!results) return;
+    const lines = results.map((r, idx) => {
+      const next = r.nextCourt ? `Court ${r.nextCourt} (Div ${r.division ?? 'A'})` : '-';
+      return `${idx + 1}. ${r.name} -> ${next}`;
+    });
+    const text = `Round ${round} Rankings:\n${lines.join('\n')}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopyFeedback(true);
+      setTimeout(() => setCopyFeedback(false), 2000);
+    });
+  }
+
   // loadDemo removed per UI requirements
 
   return (
-    <div className="min-h-[60vh] bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100 p-4 sm:p-6">
-      <div className="max-w-xl mx-auto">
+    <div className="min-h-[60vh] bg-background text-text-main p-4 sm:p-6">
+      <div className="mx-auto">
         <header className="mb-4 text-center">
           <h1 className="text-3xl sm:text-2xl font-extrabold tracking-tight">Match Calculator</h1>
-          <p className="text-sm text-slate-300 mt-1 max-w-prose mx-auto">
+          <p className="text-sm text-text-muted mt-1 max-w-prose mx-auto">
             Enter scores to compute round rankings and next courts.
           </p>
-          <div className="mt-3 h-0.5 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded" />
+          <div className="mt-3 h-0.5 bg-gradient-to-r from-primary via-text-accent to-success rounded" />
         </header>
 
-        <Card className="p-4 mb-4 shadow-lg rounded-lg bg-slate-800">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <label className="text-sm text-slate-300">Round</label>
-              <div className="relative inline-block">
-                <Listbox
-                  value={round}
-                  onChange={(v) => {
-                    setRound(v);
-                    applySeedLayoutForRound(v);
-                  }}
-                >
-                  <div className="relative">
-                    <Listbox.Button className="bg-slate-700 text-slate-100 px-3 py-1 rounded-md border border-slate-700 flex items-center gap-2">
-                      <span>Round {round}</span>
-                      <ChevronDown className="h-4 w-4 text-slate-300" />
-                    </Listbox.Button>
-                    <Listbox.Options className="absolute mt-1 w-full bg-surface border border-border rounded-md py-1 text-sm z-50 max-h-40 overflow-auto">
-                      {[1, 2, 3].map((r) => (
-                        <Listbox.Option
-                          key={r}
-                          value={r}
-                          className={({ active }) =>
-                            `px-3 py-1 cursor-pointer ${active ? 'bg-surface-highlight' : ''}`
-                          }
-                        >
-                          {`Round ${r}`}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </div>
-                </Listbox>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Button
-                onClick={() => {
-                  const newCount = playersCount === 16 ? 12 : 16;
-                  setPlayersCount(newCount);
-                  applySeedLayoutForRound(1, newCount);
-                  setRound(1);
-                }}
-                variant="ghost"
-                size="md"
-                className="px-4 py-2"
-              >
-                {playersCount === 16 ? 'Switch to 12 players' : 'Switch to 16 players'}
-              </Button>
-              <Button
-                onClick={resetAll}
-                variant="secondary"
-                size="md"
-                className="px-4 py-2 bg-rose-600 text-white hover:bg-rose-500 shadow-sm"
-              >
-                Reset
-              </Button>
-            </div>
-          </div>
-        </Card>
-
-        <div className="space-y-3">
-          <Tab.Group>
-            <Tab.List className="overflow-x-auto pb-2">
-              <div className="flex gap-2 px-2 py-1 items-stretch bg-slate-900/40 rounded-lg">
-                {courts.map((_, ci) => (
-                  <Tab
-                    key={ci}
-                    className={({ selected }) =>
-                      `whitespace-nowrap flex-shrink-0 inline-flex items-center gap-2 min-w-[7.5rem] px-3 py-2 md:px-4 md:py-2 rounded-lg text-sm font-medium transition-transform duration-150 ${
-                        selected
-                          ? 'bg-emerald-600 text-white shadow-md scale-105 ring-2 ring-emerald-300'
-                          : 'bg-slate-800 text-slate-200 hover:bg-slate-700/95'
-                      }`
-                    }
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+          {/* Sidebar Navigation (Desktop) & Top Nav (Mobile) */}
+          <div className="lg:col-span-1 space-y-4 sticky top-4 z-20">
+            {/* Round Selector */}
+            <Card className="p-2 bg-surface shadow-md">
+              <div className="flex p-1 bg-surface-alt rounded-lg">
+                {[1, 2, 3].map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => {
+                      setRound(r);
+                      applySeedLayoutForRound(r);
+                    }}
+                    className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+                      round === r
+                        ? 'bg-surface-highlight text-text-main shadow-sm'
+                        : 'text-text-muted hover:text-text-main'
+                    }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="truncate">Court {ci + 1}</span>
-                      <span className="inline-flex items-center justify-center bg-slate-700 text-xs text-slate-300 px-2 py-0.5 rounded">
-                        {results?.find((r) => r.courtIndex === ci)?.division ?? 'A'}
-                      </span>
-                    </div>
-                  </Tab>
+                    Round {r}
+                  </button>
                 ))}
               </div>
-            </Tab.List>
+            </Card>
 
-            <Tab.Panels>
-              {courts.map((court, ci) => (
-                <Tab.Panel key={ci}>
-                  <Card className="p-0 overflow-hidden">
-                    <div className="p-4 space-y-4">
-                      <div className="grid grid-cols-2 gap-3">
-                        {court.players.map((p, i) => (
-                          <div key={i}>
-                            <label className="text-xs text-slate-400">P{i + 1}</label>
+            {/* View Selector (Responsive) */}
+            <div className="lg:hidden overflow-x-auto pb-2">
+              <div className="flex gap-2 min-w-max">
+                {courts.map((_, ci) => (
+                  <button
+                    key={ci}
+                    onClick={() => setActiveView(ci)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      activeView === ci
+                        ? 'bg-primary text-white shadow-md'
+                        : 'bg-surface text-text-main border border-border hover:bg-surface-highlight'
+                    }`}
+                  >
+                    <span>Court {ci + 1}</span>
+                    <span
+                      className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                        activeView === ci
+                          ? 'bg-white/20 text-white'
+                          : 'bg-surface-highlight text-text-muted'
+                      }`}
+                    >
+                      {results?.find((r) => r.courtIndex === ci)?.division ?? 'A'}
+                    </span>
+                  </button>
+                ))}
+                <div className="w-px bg-border mx-1" />
+                <button
+                  onClick={() => setActiveView('rankings')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    activeView === 'rankings'
+                      ? 'bg-warning text-surface shadow-md'
+                      : 'bg-surface text-text-main border border-border hover:bg-surface-highlight'
+                  }`}
+                >
+                  Rankings
+                </button>
+              </div>
+            </div>
 
-                            <PlayerCombobox
-                              value={p.name}
-                              seed={p.seed}
-                              placeholder={`P${i + 1}`}
-                              onSelect={(val) => setPlayerName(ci, i, val)}
-                            />
+            {/* Desktop Sidebar List */}
+            <div className="hidden lg:flex flex-col gap-2">
+              {courts.map((_, ci) => (
+                <button
+                  key={ci}
+                  onClick={() => setActiveView(ci)}
+                  className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all text-left group ${
+                    activeView === ci
+                      ? 'bg-primary/10 text-primary border-l-4 border-primary shadow-sm'
+                      : 'bg-surface text-text-muted border-l-4 border-transparent hover:bg-surface-highlight hover:text-text-main'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <LayoutGrid className="h-4 w-4 opacity-70" />
+                    Court {ci + 1}
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-xs font-bold ${
+                      activeView === ci
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-surface-alt text-text-muted group-hover:bg-surface-alt/80'
+                    }`}
+                  >
+                    Div {results?.find((r) => r.courtIndex === ci)?.division ?? 'A'}
+                  </span>
+                </button>
+              ))}
+              <div className="h-px bg-border my-2" />
+              <button
+                onClick={() => setActiveView('rankings')}
+                className={`flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all text-left ${
+                  activeView === 'rankings'
+                    ? 'bg-warning/10 text-warning border-l-4 border-warning shadow-sm'
+                    : 'bg-surface text-text-muted border-l-4 border-transparent hover:bg-surface-highlight hover:text-text-main'
+                }`}
+              >
+                <Trophy className="h-4 w-4 opacity-70" />
+                Round Rankings
+              </button>
+            </div>
 
-                            <div className="text-xs text-slate-400 mt-1">seed {p.seed}</div>
-                          </div>
-                        ))}
+            {/* Progress & Controls */}
+            <div className="hidden lg:block pt-4 space-y-4">
+              {/* Progress Bar */}
+              <div className="bg-surface p-3 rounded-lg border border-border">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-text-muted font-medium">Round Progress</span>
+                  <span className="text-primary font-bold">{progressPercent}%</span>
+                </div>
+                <div className="h-2 bg-surface-alt rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary transition-all duration-500 ease-out"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-text-muted mt-1 text-center">
+                  {completedMatches} / {totalMatches} Matches
+                </div>
+              </div>
+
+              <div className="text-xs text-text-muted text-center">
+                {playersCount} Players • {courtCount} Courts
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Button
+                  onClick={() => {
+                    if (
+                      !window.confirm(
+                        'Switching player count will reset the current round. Continue?',
+                      )
+                    )
+                      return;
+                    const newCount = playersCount === 16 ? 12 : 16;
+                    setPlayersCount(newCount);
+                    applySeedLayoutForRound(1, newCount);
+                    setRound(1);
+                  }}
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start text-xs"
+                >
+                  Switch to {playersCount === 16 ? '12' : '16'} Players
+                </Button>
+                <Button
+                  onClick={resetAll}
+                  variant="ghost"
+                  size="sm"
+                  className="w-full justify-start text-xs text-error hover:bg-error/10 flex items-center gap-2"
+                >
+                  <Trash2 className="h-3 w-3" /> Reset All Data
+                </Button>
+              </div>
+
+              <div className="flex items-center justify-center gap-1 text-[10px] text-text-muted opacity-60">
+                <Save className="h-3 w-3" /> Auto-saving enabled
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="lg:col-span-3 space-y-4">
+            {activeView === 'rankings' ? (
+              <Card className="p-0 overflow-hidden animate-in fade-in duration-300 border-t-4 border-warning">
+                <div className="p-6 border-b border-border bg-surface-highlight/20 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-warning/10 rounded-lg">
+                      <Trophy className="h-6 w-6 text-warning" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-text-main">Round {round} Rankings</h2>
+                      <p className="text-sm text-text-muted">
+                        Overall standings and next round assignments
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={copyRankingsToClipboard}
+                      variant="secondary"
+                      size="sm"
+                      className="bg-surface border border-border flex items-center gap-1"
+                    >
+                      {copyFeedback ? (
+                        <CheckCircle2 className="h-4 w-4 text-success" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                      {copyFeedback ? 'Copied!' : 'Copy'}
+                    </Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-left text-xs text-text-muted border-b border-border bg-surface-alt/50">
+                        <th className="py-3 pl-6">Rank</th>
+                        <th className="py-3">Player</th>
+                        <th className="py-3">Next Assignment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results && results.length ? (
+                        results.map((r, idx) => {
+                          const next = r.nextCourt
+                            ? `Court ${r.nextCourt}, Spot ${r.courtPlace ?? '-'}, Div ${
+                                r.division ?? 'A'
+                              }`
+                            : '-';
+                          return (
+                            <tr
+                              key={r.seed}
+                              className="border-b border-border last:border-0 hover:bg-surface-highlight/50 transition-colors"
+                            >
+                              <td className="py-4 pl-6 text-text-main font-bold">{idx + 1}</td>
+                              <td className="py-4 text-text-main font-medium">{r.name}</td>
+                              <td className="py-4 text-text-muted text-sm">{next}</td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={3} className="py-12 text-center text-text-muted">
+                            Enter scores in court views to generate rankings
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            ) : (
+              courts.map((court, ci) => {
+                if (ci !== activeView) return null;
+                return (
+                  <Card
+                    key={ci}
+                    className="p-0 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300 border-t-4 border-primary"
+                  >
+                    <div className="p-6 border-b border-border bg-surface-highlight/20">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <LayoutGrid className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                          <h2 className="text-xl font-bold text-text-main">Court {ci + 1}</h2>
+                          <p className="text-sm text-text-muted">
+                            Division {results?.find((r) => r.courtIndex === ci)?.division ?? 'A'} •
+                            Round {round}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-6 space-y-8">
+                      {/* Player Input Section */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-sm font-bold text-primary uppercase tracking-wider">
+                          <Users className="h-4 w-4" /> Players
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {court.players.map((p, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center gap-3 bg-surface-alt/30 p-2 rounded-lg border border-transparent focus-within:border-primary/30 transition-colors"
+                            >
+                              <div className="w-8 text-xs text-text-muted font-mono font-bold">
+                                P{i + 1}
+                              </div>
+                              <div className="flex-1">
+                                <PlayerCombobox
+                                  value={p.name}
+                                  seed={p.seed}
+                                  placeholder={`Select Player ${i + 1}`}
+                                  onSelect={(val) => setPlayerName(ci, i, val)}
+                                />
+                              </div>
+                              <div className="text-right text-xs text-text-muted bg-surface px-2 py-1 rounded">
+                                Seed {p.seed}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div>
-                        <div className="text-sm font-medium text-slate-100 mb-2">Matches</div>
-                        <div className="space-y-2">
+                      {/* Matches Section */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-sm font-bold text-warning uppercase tracking-wider">
+                          <Activity className="h-4 w-4" /> Matches
+                        </div>
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
                           {court.matches.map((m, mi) => {
                             const p1 = court.players[0].name || 'P1';
                             const p2 = court.players[1].name || 'P2';
                             const p3 = court.players[2].name || 'P3';
                             const p4 = court.players[3].name || 'P4';
-                            const leftLabel =
-                              mi === 0
-                                ? `${p1}, ${p2}`
-                                : mi === 1
-                                ? `${p1}, ${p3}`
-                                : `${p1}, ${p4}`;
-                            const rightLabel =
-                              mi === 0
-                                ? `${p3}, ${p4}`
-                                : mi === 1
-                                ? `${p2}, ${p4}`
-                                : `${p2}, ${p3}`;
+
+                            // Match pairings logic
+                            const teamA_names =
+                              mi === 0 ? [p1, p2] : mi === 1 ? [p1, p3] : [p1, p4];
+                            const teamB_names =
+                              mi === 0 ? [p3, p4] : mi === 1 ? [p2, p4] : [p2, p3];
+
+                            const isComplete = m.a !== null && m.b !== null;
 
                             return (
-                              <div key={mi} className="flex items-start gap-3">
-                                <div className="w-16 flex-shrink-0 text-xs text-slate-400 pt-1">
-                                  Match {mi + 1}
+                              <div
+                                key={mi}
+                                className={`rounded-xl p-4 border transition-all duration-300 ${
+                                  isComplete
+                                    ? 'bg-success/5 border-success/30 shadow-sm'
+                                    : 'bg-surface-alt/50 border-border hover:border-warning/30'
+                                }`}
+                              >
+                                <div className="flex justify-center mb-3">
+                                  <div
+                                    className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 ${
+                                      isComplete
+                                        ? 'bg-success/20 text-success'
+                                        : 'bg-surface text-text-muted'
+                                    }`}
+                                  >
+                                    {isComplete && <CheckCircle2 className="h-3 w-3" />}
+                                    Match {mi + 1}
+                                  </div>
                                 </div>
-
-                                <div className="flex-1 min-w-0 flex items-center gap-2">
-                                  <div className="flex-1 min-w-0">
-                                    <Listbox value={m.a} onChange={(v) => setScore(ci, mi, 'a', v)}>
-                                      <div className="relative">
-                                        <Listbox.Button className="w-full text-left bg-slate-800 rounded border border-slate-700 px-3 py-2 flex items-center justify-between">
-                                          <span className="truncate text-sm">
-                                            {m.a == null ? leftLabel : String(m.a)}
-                                          </span>
-                                          <ChevronDown className="h-4 w-4 text-slate-400 ml-2" />
+                                <div className="flex flex-col gap-3">
+                                  {/* Team A */}
+                                  <div className="flex items-center justify-between">
+                                    <span
+                                      className="text-sm font-medium truncate pr-2 w-2/3"
+                                      title={teamA_names.join(' & ')}
+                                    >
+                                      {teamA_names.join(' & ')}
+                                    </span>
+                                    <div className="w-20">
+                                      <Listbox
+                                        value={m.a}
+                                        onChange={(v) => setScore(ci, mi, 'a', v)}
+                                      >
+                                        <Listbox.Button className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none">
+                                          {m.a ?? '-'}
                                         </Listbox.Button>
-                                        <Listbox.Options className="absolute left-0 right-0 mt-1 w-full bg-surface border border-border rounded-md py-1 z-50 max-h-52 overflow-auto text-sm">
-                                          <Listbox.Option
-                                            key={-1}
-                                            value={null}
-                                            className={({ active }) =>
-                                              `px-3 py-2 cursor-pointer ${
-                                                active ? 'bg-surface-highlight' : ''
-                                              }`
-                                            }
-                                          >
-                                            <span className="text-sm truncate">{leftLabel}</span>
-                                          </Listbox.Option>
+                                        <Listbox.Options className="absolute mt-1 w-20 bg-surface border border-border rounded shadow-lg max-h-40 overflow-auto z-50">
                                           {scoreOptions.map((s) => (
                                             <Listbox.Option
                                               key={s}
                                               value={s}
                                               className={({ active }) =>
-                                                `px-3 py-2 cursor-pointer ${
+                                                `px-2 py-1 text-center cursor-pointer ${
                                                   active ? 'bg-surface-highlight' : ''
                                                 }`
                                               }
                                             >
-                                              <span className="text-sm">{s}</span>
+                                              {s}
                                             </Listbox.Option>
                                           ))}
                                         </Listbox.Options>
-                                      </div>
-                                    </Listbox>
+                                      </Listbox>
+                                    </div>
                                   </div>
 
-                                  <div className="text-xs text-slate-400">vs</div>
+                                  {/* VS Divider */}
+                                  <div className="relative flex items-center py-1">
+                                    <div className="flex-grow border-t border-border"></div>
+                                    <span className="flex-shrink-0 mx-2 text-[10px] font-bold text-text-muted uppercase">
+                                      VS
+                                    </span>
+                                    <div className="flex-grow border-t border-border"></div>
+                                  </div>
 
-                                  <div className="flex-1 min-w-0">
-                                    <Listbox value={m.b} onChange={(v) => setScore(ci, mi, 'b', v)}>
-                                      <div className="relative">
-                                        <Listbox.Button className="w-full text-left bg-slate-800 rounded border border-slate-700 px-3 py-2 flex items-center justify-between">
-                                          <span className="truncate text-sm">
-                                            {m.b == null ? rightLabel : String(m.b)}
-                                          </span>
-                                          <ChevronDown className="h-4 w-4 text-slate-400 ml-2" />
+                                  {/* Team B */}
+                                  <div className="flex items-center justify-between">
+                                    <span
+                                      className="text-sm font-medium truncate pr-2 w-2/3"
+                                      title={teamB_names.join(' & ')}
+                                    >
+                                      {teamB_names.join(' & ')}
+                                    </span>
+                                    <div className="w-20">
+                                      <Listbox
+                                        value={m.b}
+                                        onChange={(v) => setScore(ci, mi, 'b', v)}
+                                      >
+                                        <Listbox.Button className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none">
+                                          {m.b ?? '-'}
                                         </Listbox.Button>
-                                        <Listbox.Options className="absolute left-0 right-0 mt-1 w-full bg-surface border border-border rounded-md py-1 z-50 max-h-52 overflow-auto text-sm">
-                                          <Listbox.Option
-                                            key={-1}
-                                            value={null}
-                                            className={({ active }) =>
-                                              `px-3 py-2 cursor-pointer ${
-                                                active ? 'bg-surface-highlight' : ''
-                                              }`
-                                            }
-                                          >
-                                            <span className="text-sm truncate">{rightLabel}</span>
-                                          </Listbox.Option>
+                                        <Listbox.Options className="absolute mt-1 w-20 bg-surface border border-border rounded shadow-lg max-h-40 overflow-auto z-50">
                                           {scoreOptions.map((s) => (
                                             <Listbox.Option
                                               key={s}
                                               value={s}
                                               className={({ active }) =>
-                                                `px-3 py-2 cursor-pointer ${
+                                                `px-2 py-1 text-center cursor-pointer ${
                                                   active ? 'bg-surface-highlight' : ''
                                                 }`
                                               }
                                             >
-                                              <span className="text-sm">{s}</span>
+                                              {s}
                                             </Listbox.Option>
                                           ))}
                                         </Listbox.Options>
-                                      </div>
-                                    </Listbox>
+                                      </Listbox>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -786,120 +1068,101 @@ export default function MatchCalculator(): React.ReactElement {
                         </div>
                       </div>
 
+                      {/* Court Results Table */}
                       <div>
-                        <div className="text-sm font-medium text-slate-100 mb-2">Court Results</div>
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="text-left text-xs text-slate-400">
-                              <th className="pb-1">Place</th>
-                              <th className="pb-1">Player</th>
-                              <th className="pb-1">Wins‑Losses</th>
-                              <th className="pb-1">Pts (F‑A)</th>
-                              <th className="pb-1">Point Diff.</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {results
-                              ? results
-                                  .filter((r) => r.courtIndex === ci)
-                                  .sort((a, b) => (a.courtPlace ?? 0) - (b.courtPlace ?? 0))
-                                  .map((r) => {
-                                    const wins = r.wins ?? 0;
-                                    const losses = Math.max(0, 3 - wins);
-                                    const diff = (r.diff ?? 0) >= 0 ? `+${r.diff}` : `${r.diff}`;
-                                    const pf = r.pointsFor ?? 0;
-                                    const pa = r.pointsAgainst ?? 0;
-                                    return (
-                                      <tr key={r.seed} className="border-t border-slate-700">
-                                        <td className="py-1 text-slate-100">
-                                          {r.courtPlace ? ordinal(r.courtPlace) : '-'}
-                                        </td>
-                                        <td className="py-1 text-slate-100">{r.name}</td>
-                                        <td className="py-1 text-slate-100">{`${wins}-${losses}`}</td>
-                                        <td className="py-1 text-slate-100">{`${pf}-${pa}`}</td>
-                                        <td className="py-1 text-slate-100">{diff}</td>
-                                      </tr>
-                                    );
-                                  })
-                              : range(4).map((idx) => (
-                                  <tr key={idx} className="border-t border-slate-700">
-                                    <td className="py-1 text-slate-100">{ordinal(idx + 1)}</td>
-                                    <td className="py-1 text-slate-100">Name</td>
-                                    <td className="py-1 text-slate-100">0-0</td>
-                                    <td className="py-1 text-slate-100">0-0</td>
-                                    <td className="py-1 text-slate-100">+0</td>
-                                  </tr>
-                                ))}
-                          </tbody>
-                        </table>
+                        <div className="flex items-center gap-2 text-sm font-bold text-success uppercase tracking-wider mb-3">
+                          <ClipboardList className="h-4 w-4" /> Court Standings
+                        </div>
+                        <div className="overflow-x-auto rounded-lg border border-border">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="text-left text-xs text-text-muted bg-surface-alt">
+                                <th className="p-3 font-bold">Place</th>
+                                <th className="p-3 font-bold">Player</th>
+                                <th className="p-3 font-bold">W-L</th>
+                                <th className="p-3 font-bold">Diff</th>
+                                <th className="p-3 font-bold">Pts</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {results
+                                ? results
+                                    .filter((r) => r.courtIndex === ci)
+                                    .sort((a, b) => (a.courtPlace ?? 0) - (b.courtPlace ?? 0))
+                                    .map((r) => {
+                                      const wins = r.wins ?? 0;
+                                      const losses = Math.max(0, 3 - wins);
+                                      const diff = (r.diff ?? 0) >= 0 ? `+${r.diff}` : `${r.diff}`;
+                                      return (
+                                        <tr
+                                          key={r.seed}
+                                          className="border-b border-border last:border-0 hover:bg-surface-highlight/20"
+                                        >
+                                          <td className="p-3 font-bold text-text-main">
+                                            {r.courtPlace ? ordinal(r.courtPlace) : '-'}
+                                          </td>
+                                          <td className="p-3 text-text-main font-medium truncate max-w-[150px]">
+                                            {r.name}
+                                          </td>
+                                          <td className="p-3 text-text-muted">{`${wins}-${losses}`}</td>
+                                          <td
+                                            className={`p-3 font-bold ${
+                                              (r.diff ?? 0) > 0
+                                                ? 'text-success'
+                                                : (r.diff ?? 0) < 0
+                                                ? 'text-error'
+                                                : 'text-text-muted'
+                                            }`}
+                                          >
+                                            {diff}
+                                          </td>
+                                          <td className="p-3 text-text-muted">{r.pointsFor}</td>
+                                        </tr>
+                                      );
+                                    })
+                                : range(4).map((idx) => (
+                                    <tr key={idx} className="border-b border-border last:border-0">
+                                      <td className="p-3 text-text-muted">-</td>
+                                      <td className="p-3 text-text-muted">Player {idx + 1}</td>
+                                      <td className="p-3 text-text-muted">-</td>
+                                      <td className="p-3 text-text-muted">-</td>
+                                      <td className="p-3 text-text-muted">-</td>
+                                    </tr>
+                                  ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </Card>
-                </Tab.Panel>
-              ))}
-            </Tab.Panels>
-          </Tab.Group>
-        </div>
+                );
+              })
+            )}
 
-        <div className="mt-2">
-          {duplicateError && <div className="text-xs text-rose-400 mb-2">{duplicateError}</div>}
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={computeStandings}
-              variant="secondary"
-              size="md"
-              className="px-4 py-2 bg-slate-700 text-white hover:bg-slate-600"
-            >
-              Recalculate
-            </Button>
-            <Button
-              onClick={advanceToNextRound}
-              variant="primary"
-              size="md"
-              className="px-4 py-2 bg-emerald-600 text-white shadow hover:bg-emerald-500"
-            >
-              Next Round
-            </Button>
-            <div className="text-sm text-slate-400">Scores 0–11 • Rankings auto-calculated</div>
+            {/* Global Actions (Sticky Bottom) */}
+            <div className="sticky bottom-4 z-10">
+              {duplicateError && (
+                <div className="bg-error/10 border border-error/20 text-error text-sm p-3 rounded-lg mb-3 text-center animate-in slide-in-from-bottom-2 shadow-lg backdrop-blur-md">
+                  {duplicateError}
+                </div>
+              )}
+              <div className="flex gap-4 p-4 bg-surface/80 backdrop-blur-md border border-border rounded-2xl shadow-xl">
+                <Button
+                  onClick={() => {
+                    computeStandings();
+                    advanceToNextRound();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  variant="primary"
+                  size="lg"
+                  className="w-full bg-success text-white hover:bg-success/90 shadow-lg shadow-success/20"
+                >
+                  Next Round
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <Card className="p-3 mt-3">
-          <div className="text-sm font-medium mb-2">Round {round} Rankings</div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs text-slate-400">
-                <th className="pb-2">Round Rank</th>
-                <th className="pb-2">Player</th>
-                <th className="pb-2">Next Assignment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results && results.length ? (
-                results.map((r, idx) => {
-                  const next = r.nextCourt
-                    ? `Court ${r.nextCourt}, Spot ${r.courtPlace ?? '-'}, Division ${
-                        r.division ?? 'A'
-                      }`
-                    : '-';
-                  return (
-                    <tr key={r.seed} className="border-t border-slate-700">
-                      <td className="py-1 text-slate-100">{idx + 1}.</td>
-                      <td className="py-1 text-slate-100">{r.name}</td>
-                      <td className="py-1 text-slate-100">{next}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={3} className="py-2 text-slate-400">
-                    Enter scores to generate rankings
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </Card>
       </div>
     </div>
   );

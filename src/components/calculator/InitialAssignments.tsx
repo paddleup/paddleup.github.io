@@ -276,7 +276,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
               </div>
 
               {pasteUnmatched.length > 0 && (
-                <div className="text-xs text-amber-600">
+                <div className="text-xs text-warning">
                   Unmatched names: {pasteUnmatched.join(', ')}
                 </div>
               )}
@@ -300,7 +300,7 @@ const InitialAssignments: React.FC<InitialAssignmentsProps> = ({ onBack }) => {
                         onClick={() => togglePlayer(id)}
                         variant="ghost"
                         size="sm"
-                        className="text-xs text-rose-600"
+                        className="text-xs text-error"
                       >
                         Remove
                       </Button>

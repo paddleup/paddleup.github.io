@@ -94,7 +94,7 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-surface border border-border">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-surface-highlight/50 rounded-full blur-3xl"></div>
 
         <div className="relative z-10 px-8 py-16 md:py-24 text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-highlight border border-border mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -108,7 +108,7 @@ const Home: React.FC = () => {
           <h1 className="text-5xl md:text-7xl font-bold text-text-main mb-6 tracking-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
             Paddle Up
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-text-accent">
               Advanced Challenge
             </span>
           </h1>
