@@ -2,60 +2,68 @@ import { Player } from '../types';
 
 export const players: Player[] = [
   {
-    id: "bekahola",
-    name: "Bekah Ola",
-    imageUrl: "/images/players/bekahola.jpg",
+    id: 'bekahola',
+    name: 'Bekah Ola',
+    imageUrl: '/images/players/bekahola.jpg',
     // dupr: 3.844
   },
   {
-    id: "tobiola",
-    name: "Tobi Ola",
-    imageUrl: "/images/players/tobiola.jpg",
+    id: 'tobiola',
+    name: 'Tobi Ola',
+    imageUrl: '/images/players/tobiola.jpg',
     // dupr: 4.153
   },
   {
-    id: "garretth",
-    name: "Garrett H.",
+    id: 'garretth',
+    name: 'Garrett H.',
   },
   {
-    id: "johnt",
-    name: "John T.",
+    id: 'johnt',
+    name: 'John T.',
   },
   {
-    id: "karanc",
-    name: "Karan C.",
+    id: 'karanc',
+    name: 'Karan C.',
   },
   {
-    id: "libbyl",
-    name: "Libby L.",
+    id: 'libbyl',
+    name: 'Libby L.',
   },
   {
-    id: "loganh",
-    name: "Logan H.",
+    id: 'loganh',
+    name: 'Logan H.',
   },
   {
-    id: "ravic",
-    name: "Ravi C.",
+    id: 'ravic',
+    name: 'Ravi C.',
   },
   {
-    id: "rebeccah",
-    name: "Rebecca H.",
+    id: 'rebeccah',
+    name: 'Rebecca H.',
   },
   {
-    id: "sairamt",
-    name: "Sai Ram Reddy T.",
+    id: 'sairamt',
+    name: 'Sai Ram Reddy T.',
   },
   {
-    id: "samanthar",
-    name: "Samantha R.",
+    id: 'samanthar',
+    name: 'Samantha R.',
   },
   {
-    id: "seanl",
-    name: "Sean L.",
+    id: 'seanl',
+    name: 'Sean L.',
   },
   {
-    id: "khoan",
-    name: "Khoa N.",
+    id: 'khoan',
+    name: 'Khoa N.',
+  },
+  {
+    id: 'mayuro',
+    name: 'Mayur O.',
+  },
+  {
+    id: 'samngo',
+    name: 'Sam Ngo',
   },
 ];
 
