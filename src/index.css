@@ -22,31 +22,56 @@
   --color-bronze: var(--bronze);
 }
 
-/* Preserve CSS variables (Neptune theme) for runtime theming and to map Tailwind colors to CSS variables */
+/* Preserve CSS variables for runtime theming and to map Tailwind colors to CSS variables */
 :root {
-  /* Neptune Theme */
-  --background: #0B1121; /* Deepest Navy */
-  --surface: #151E32;    /* Dark Blue-Grey */
-  --surface-alt: #1E293B; /* Slightly lighter */
-  --surface-highlight: #2A3650; /* Hover state */
+  /* Light Theme (Refined - Crisp & Vibrant) */
+  --background: #F8FAFC;  /* Slate 50 - Clean off-white base */
+  --surface: #FFFFFF;     /* White - Pure white cards */
+  --surface-alt: #F1F5F9; /* Slate 100 - Subtle contrast for headers/rows */
+  --surface-highlight: #E2E8F0; /* Slate 200 - Hover states */
 
-  --text-main: #F0F9FF;   /* Alice Blue */
-  --text-muted: #94A3B8;  /* Slate 400 */
-  --text-accent: #38BDF8; /* Sky 400 */
+  --text-main: #0F172A;   /* Slate 900 - High contrast text */
+  --text-muted: #64748B;  /* Slate 500 - Softer secondary text */
+  --text-accent: #6366F1; /* Indigo 500 - Vibrant accent for gradients */
 
-  --border: #2A3650;      /* Matching highlight */
+  --border: #E2E8F0;      /* Slate 200 - Subtle borders */
 
-  --primary: #0EA5E9;     /* Sky 500 */
-  --primary-hover: #0284C7; /* Sky 600 */
-  --primary-light: rgba(14, 165, 233, 0.2);
+  --primary: #0284C7;     /* Sky 600 - Slightly darker/richer blue for light mode */
+  --primary-hover: #0369A1; /* Sky 700 */
+  --primary-light: rgba(2, 132, 199, 0.1); /* Subtle primary tint */
 
-  --success: #4ADE80;     /* Green 400 */
-  --warning: #FACC15;     /* Yellow 400 */
-  --error: #F87171;       /* Red 400 */
-  --bronze: #F97316;      /* Orange 500 */
+  --success: #16A34A;     /* Green 600 - Readable on white */
+  --warning: #CA8A04;     /* Yellow 600 - Readable on white */
+  --error: #DC2626;       /* Red 600 - Readable on white */
+  --bronze: #EA580C;      /* Orange 600 */
 
   font-family: 'Inter', sans-serif;
 }
+
+/* @media (prefers-color-scheme: dark) { */
+  :root {
+    /* Dark Theme (Refined - Deep Space) */
+    --background: #020617; /* Slate 950 - Richer, deeper black/blue */
+    --surface: #0F172A;    /* Slate 900 - Dark cards */
+    --surface-alt: #1E293B; /* Slate 800 - Secondary areas */
+    --surface-highlight: #334155; /* Slate 700 - Hover states */
+
+    --text-main: #F8FAFC;   /* Slate 50 - Bright white text */
+    --text-muted: #94A3B8;  /* Slate 400 - Muted text */
+    --text-accent: #818CF8; /* Indigo 400 - Soft accent for gradients */
+
+    --border: #1E293B;      /* Slate 800 - Subtle borders */
+
+    --primary: #38BDF8;     /* Sky 400 - Bright, glowing blue */
+    --primary-hover: #7DD3FC; /* Sky 300 */
+    --primary-light: rgba(56, 189, 248, 0.15); /* Glowing tint */
+
+    --success: #4ADE80;     /* Green 400 - Vibrant on dark */
+    --warning: #FACC15;     /* Yellow 400 - Vibrant on dark */
+    --error: #F87171;       /* Red 400 - Vibrant on dark */
+    --bronze: #FB923C;      /* Orange 400 */
+  }
+/* } */
 
 /* Base page styles using Tailwind-mapped color tokens (defined in tailwind.config.cjs) */
 body {
