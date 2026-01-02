@@ -992,29 +992,27 @@ export default function MatchCalculator(): React.ReactElement {
                                       {teamA_names.join(' & ')}
                                     </span>
                                     <div className="w-20">
-                                      <Listbox
-                                        value={m.a}
-                                        onChange={(v) => setScore(ci, mi, 'a', v)}
-                                      >
-                                        <Listbox.Button className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none">
-                                          {m.a ?? '-'}
-                                        </Listbox.Button>
-                                        <Listbox.Options className="absolute mt-1 w-20 bg-surface border border-border rounded shadow-lg max-h-40 overflow-auto z-50">
-                                          {scoreOptions.map((s) => (
-                                            <Listbox.Option
-                                              key={s}
-                                              value={s}
-                                              className={({ active }) =>
-                                                `px-2 py-1 text-center cursor-pointer ${
-                                                  active ? 'bg-surface-highlight' : ''
-                                                }`
-                                              }
-                                            >
-                                              {s}
-                                            </Listbox.Option>
-                                          ))}
-                                        </Listbox.Options>
-                                      </Listbox>
+                                      <input
+                                        type="number"
+                                        min={0}
+                                        max={11}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none"
+                                        value={m.a ?? ''}
+                                        onChange={(e) => {
+                                          const v = e.target.value;
+                                          const n =
+                                            v === ''
+                                              ? null
+                                              : Math.max(0, Math.min(11, parseInt(v, 10) || 0));
+                                          setScore(ci, mi, 'a', n);
+                                        }}
+                                        onBlur={(e) => {
+                                          if (e.currentTarget.value === '')
+                                            setScore(ci, mi, 'a', null);
+                                        }}
+                                      />
                                     </div>
                                   </div>
 
@@ -1036,29 +1034,27 @@ export default function MatchCalculator(): React.ReactElement {
                                       {teamB_names.join(' & ')}
                                     </span>
                                     <div className="w-20">
-                                      <Listbox
-                                        value={m.b}
-                                        onChange={(v) => setScore(ci, mi, 'b', v)}
-                                      >
-                                        <Listbox.Button className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none">
-                                          {m.b ?? '-'}
-                                        </Listbox.Button>
-                                        <Listbox.Options className="absolute mt-1 w-20 bg-surface border border-border rounded shadow-lg max-h-40 overflow-auto z-50">
-                                          {scoreOptions.map((s) => (
-                                            <Listbox.Option
-                                              key={s}
-                                              value={s}
-                                              className={({ active }) =>
-                                                `px-2 py-1 text-center cursor-pointer ${
-                                                  active ? 'bg-surface-highlight' : ''
-                                                }`
-                                              }
-                                            >
-                                              {s}
-                                            </Listbox.Option>
-                                          ))}
-                                        </Listbox.Options>
-                                      </Listbox>
+                                      <input
+                                        type="number"
+                                        min={0}
+                                        max={11}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        className="w-full bg-surface border border-border rounded px-2 py-1.5 text-center text-sm font-bold focus:ring-2 ring-warning/50 outline-none"
+                                        value={m.b ?? ''}
+                                        onChange={(e) => {
+                                          const v = e.target.value;
+                                          const n =
+                                            v === ''
+                                              ? null
+                                              : Math.max(0, Math.min(11, parseInt(v, 10) || 0));
+                                          setScore(ci, mi, 'b', n);
+                                        }}
+                                        onBlur={(e) => {
+                                          if (e.currentTarget.value === '')
+                                            setScore(ci, mi, 'b', null);
+                                        }}
+                                      />
                                     </div>
                                   </div>
                                 </div>
