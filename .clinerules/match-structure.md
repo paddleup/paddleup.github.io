@@ -1,6 +1,6 @@
 # League Format & Mobile UI Specification
 
-This document replaces the **Calculator Page** entirely. It defines league logic, ranking rules, court placement, and a **mobile‑first UI structure**.
+This document replaces the **Calculator Page** entirely. It defines league logic, ranking rules, and court placement.
 
 ---
 
@@ -10,8 +10,8 @@ This document replaces the **Calculator Page** entirely. It defines league logic
 
 Seeds for Round 1 are determined by **one of the following**:
 
-* Random assignment, **or**
-* Total points accumulated from previous matches
+- Random assignment, **or**
+- Total points accumulated from previous matches
 
 ---
 
@@ -24,14 +24,14 @@ These rules determine:
 
 Ranking is resolved in this strict order:
 
-1. **Higher Division**
-   *Division A > B > C > D*
-2. **Court Placement Within Division**
-   *Example: 2nd on Court 1 (Div A) > 3rd on Court 2 (Div A)*
+1. **Higher Tier**
+   _Tier A > B > C > D_
+2. **Court Placement Within Tier**
+   _Example: 2nd on Court 1 (Tier A) > 3rd on Court 2 (Tier A)_
 3. **Game Wins**
-   *Example: 3 wins > 2 wins*
+   _Example: 3 wins > 2 wins_
 4. **Point Differential**
-   *Example: +5 > −3*
+   _Example: +5 > −3_
 5. **Previous Seed** (tiebreaker of last resort)
 
 ---
@@ -40,15 +40,15 @@ Ranking is resolved in this strict order:
 
 When advancing players to the next round:
 
-1. Players are **grouped by division**
-2. Within each division, a **snake draw** is applied across courts
+1. Players are **grouped by tier**
+2. Within each tier, a **snake draw** is applied across courts
 3. Seeds are always based on **results from the immediately previous round**
 
 This ensures:
 
-* Competitive balance
-* Fair distribution of stronger players
-* Minimal rematches
+- Competitive balance
+- Fair distribution of stronger players
+- Minimal rematches
 
 ---
 
@@ -56,54 +56,88 @@ This ensures:
 
 ### A. 16 Players
 
-#### Round 1 – 1 Division
+#### Round 1 – Tier A–D
 
-* Court 1 | Division A | Seeds: 1, 8, 9, 16
-* Court 2 | Division A | Seeds: 2, 7, 10, 15
-* Court 3 | Division A | Seeds: 3, 6, 11, 14
-* Court 4 | Division A | Seeds: 4, 5, 12, 13
-
----
-
-#### Round 2 – 2 Divisions
-
-* Court 1 | Division A | Seeds: 1, 4, 5, 8
-* Court 2 | Division A | Seeds: 2, 3, 6, 7
-* Court 3 | Division B | Seeds: 9, 12, 13, 16
-* Court 4 | Division B | Seeds: 10, 11, 14, 15
+- Court 1 | Tier A | Seeds: 1, 8, 9, 16
+- Court 2 | Tier B | Seeds: 2, 7, 10, 15
+- Court 3 | Tier C | Seeds: 3, 6, 11, 14
+- Court 4 | Tier D | Seeds: 4, 5, 12, 13
 
 ---
 
-#### Round 3 – 4 Divisions
+#### Round 2 – Tier A–B, Tier C–D
 
-* Court 1 | Division A | Seeds: 1, 2, 3, 4
-* Court 2 | Division B | Seeds: 5, 6, 7, 8
-* Court 3 | Division C | Seeds: 9, 10, 11, 12
-* Court 4 | Division D | Seeds: 13, 14, 15, 16
+- Court 1 | Tier A | Seeds: 1, 4, 5, 8
+- Court 2 | Tier A | Seeds: 2, 3, 6, 7
+- Court 3 | Tier B | Seeds: 9, 12, 13, 16
+- Court 4 | Tier B | Seeds: 10, 11, 14, 15
+
+---
+
+#### Round 3 – Tier A, Tier B, Tier C, Tier D
+
+- Court 1 | Tier A | Seeds: 1, 2, 3, 4
+- Court 2 | Tier B | Seeds: 5, 6, 7, 8
+- Court 3 | Tier C | Seeds: 9, 10, 11, 12
+- Court 4 | Tier D | Seeds: 13, 14, 15, 16
 
 ---
 
 ### B. 12 Players
 
-#### Round 1 – 1 Division
+#### Round 1 – Tier A–C
 
-* Court 1 | Division A | Seeds: 1, 6, 7, 12
-* Court 2 | Division A | Seeds: 2, 5, 8, 11
-* Court 3 | Division A | Seeds: 3, 4, 9, 10
-
----
-
-#### Round 2 – 1 Division
-
-*(Same structure as Round 1; reseeded based on results)*
+- Court 1 | Tier A | Seeds: 1, 6, 7, 12
+- Court 2 | Tier B | Seeds: 2, 5, 8, 11
+- Court 3 | Tier C | Seeds: 3, 4, 9, 10
 
 ---
 
-#### Round 3 – 3 Divisions
+#### Round 2 – Tier A–C
 
-* Court 1 | Division A | Seeds: 1, 2, 3, 4
-* Court 2 | Division B | Seeds: 5, 6, 7, 8
-* Court 3 | Division C | Seeds: 9, 10, 11, 12
+_(Same structure as Round 1; reseeded based on results)_
+
 ---
+
+#### Round 3 – Tier A, Tier B, Tier C
+
+- Court 1 | Tier A | Seeds: 1, 2, 3, 4
+- Court 2 | Tier B | Seeds: 5, 6, 7, 8
+- Court 3 | Tier C | Seeds: 9, 10, 11, 12
+
+---
+
+## Tier mapping by court count
+
+Below are the recommended tier groupings for each court count. This defines which tiers are active each round.
+
+- 2 Courts
+
+  - Round 1 — Tier A–B
+  - Round 2 — Tier A–B
+  - Round 3 — Tier A, Tier B
+
+- 3 Courts
+
+  - Round 1 — Tier A–C
+  - Round 2 — Tier A–C
+  - Round 3 — Tier A, Tier B, Tier C
+
+- 4 Courts
+
+  - Round 1 — Tier A–D
+  - Round 2 — Tier A–B, Tier C–D
+  - Round 3 — Tier A, Tier B, Tier C, Tier D
+
+- 5 Courts
+
+  - Round 1 — Tier A–E
+  - Round 2 — Tier A–B, Tier C–E
+  - Round 3 — Tier A, Tier B, Tier C, Tier D, Tier E
+
+- 6 Courts
+  - Round 1 — Tier A–F
+  - Round 2 — Tier A–C, Tier D–F
+  - Round 3 — Tier A, Tier B, Tier C, Tier D, Tier E, Tier F
 
 **This structure is the single source of truth for league logic and UI behavior.**
