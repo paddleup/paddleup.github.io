@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useCalculatorPersistence } from './usePersistentCalculator';
+import { defaultCourt, useCalculatorPersistence } from './usePersistentCalculator';
 import { useRealtimeMatch } from './useRealtimeMatch';
 
 
@@ -392,6 +392,9 @@ export function useMatchCalculator() {
 
   const resetAll = useCallback(() => {
     if (!window.confirm('Are you sure you want to clear all data and start over?')) return;
+    if (liveMatchId) {
+      writeRemote?.({ courts: Array.from({ length: courts.length }, () => defaultCourt), round: 1 });
+    }
 
     resetAllStorage();
     setDuplicateError(null);
