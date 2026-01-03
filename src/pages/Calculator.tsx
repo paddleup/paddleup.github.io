@@ -48,6 +48,7 @@ const ordinal = (n: number) => {
 };
 
 import PlayerCombobox from '../components/calculator/PlayerCombobox';
+import MovementIcon from '../components/calculator/MovementIcon';
 
 /* --------------------- Seed layout & tier helpers --------------------- */
 
@@ -57,7 +58,7 @@ import PlayerCombobox from '../components/calculator/PlayerCombobox';
  */
 
 import { useMatchCalculator } from '../hooks/useMatchCalculator';
-import { compareTiers, PlayerDetails, PlayersPerCourt } from '../hooks/useCalculator';
+import { compareTiers, PlayerDetails, PlayersPerCourt } from '../hooks/useMatchCalculator';
 
 /* ------------------------ Main component -------------------------- */
 
@@ -88,43 +89,18 @@ export default function Calculator(): React.ReactElement {
 
   /* ------------------------ Movement icon helper ------------------------ */
 
-  const movementIconFor = useCallback((isUp: boolean, isDown: boolean) => {
-    if (isUp) {
-      return (
-        <span className="inline-flex items-center">
-          <ArrowUp className="mx-1 h-4 w-4 text-success" />
-        </span>
-      );
-    }
-    
-    if (isDown) {
-      return (
-        <span className="inline-flex items-center">
-          <ArrowDown className="mx-1 h-4 w-4 text-error" />
-        </span>
-      );
-    }
-
-    // display dot/circle for no movement
-    return (
-      <span className="inline-flex items-center">
-        <span className="mx-2 h-2 w-2 bg-text-muted rounded-full" />
-      </span>
-    );
-  }, []);
-
   const movementIconForTier = useCallback(({tier, nextTier}: PlayerDetails) => {
     const isUp = compareTiers(tier, nextTier!) > 0;
     const isDown = compareTiers(tier, nextTier!) < 0;
 
-    return movementIconFor(isUp, isDown);
-  }, [movementIconFor]);
+    return <MovementIcon isUp={isUp} isDown={isDown} />;
+  }, []);
 
-    const movementIconForRank = useCallback(({seed, roundPlace}: PlayerDetails) => {
-      const isUp = seed > roundPlace!;
-      const isDown = seed < roundPlace!;
-      return movementIconFor(isUp, isDown);
-    }, [movementIconFor]);
+  const movementIconForRank = useCallback(({seed, roundPlace}: PlayerDetails) => {
+    const isUp = seed > roundPlace!;
+    const isDown = seed < roundPlace!;
+    return <MovementIcon isUp={isUp} isDown={isDown} />;
+  }, []);
 
   /* ------------------------ Render ------------------------ */
 
