@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Users,
   Trophy,
@@ -58,7 +58,8 @@ import MovementIcon from '../components/calculator/MovementIcon';
  */
 
 import { useMatchCalculator } from '../hooks/useMatchCalculator';
-import { compareTiers, PlayerDetails, PlayersPerCourt } from '../hooks/useMatchCalculator';
+import { compareTiers, PlayerDetails, PlayersPerCourt, Court } from '../hooks/useMatchCalculator';
+import { defaultCourt } from '../hooks/usePersistentCalculator';
 
 /* ------------------------ Main component -------------------------- */
 
@@ -71,8 +72,13 @@ export default function Calculator(): React.ReactElement {
     activeView,
     setActiveView,
     copyFeedback,
+    // realtime
+    connected,
+    pending,
+    liveMatchId,
 
     // actions
+    setCourts,
     setPlayerName,
     setScore,
     advanceToNextRound,
@@ -114,7 +120,24 @@ export default function Calculator(): React.ReactElement {
       <div className="min-h-[60vh] bg-background text-text-main p-4 sm:p-6">
         <div className="mx-auto">
           <header className="mb-4 text-center">
-            <h1 className="text-3xl sm:text-2xl font-extrabold tracking-tight">Match Calculator</h1>
+            <div className="flex items-center justify-center gap-3">
+              <h1 className="text-3xl sm:text-2xl font-extrabold tracking-tight">Match Calculator</h1>
+              <div className="text-xs flex items-center gap-2">
+                <span
+                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                    connected ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
+                  }`}
+                >
+                  {connected ? 'Live' : 'Offline'}
+                </span>
+                {liveMatchId ? (
+                  <span className="text-[11px] text-text-muted">Match: {liveMatchId}</span>
+                ) : (
+                  <span className="text-[11px] text-text-muted">Local mode</span>
+                )}
+              </div>
+            </div>
+
             <p className="text-sm text-text-muted mt-1 max-w-prose mx-auto">
               Enter scores to compute round rankings and next courts.
             </p>
@@ -239,6 +262,27 @@ export default function Calculator(): React.ReactElement {
                 </div>
 
                 <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="court-count" className="text-xs text-text-muted">
+                      Courts
+                    </label>
+                    <select
+                      id="court-count"
+                      className="text-sm bg-surface border border-border rounded px-2 py-1"
+                      value={String(courtDetails.length)}
+                      onChange={(e) => {
+                        const v = Math.max(2, Math.min(7, parseInt(e.target.value, 10) || 4));
+                        setCourts(Array.from({ length: v }, () => defaultCourt));
+                      }}
+                    >
+                      {[2, 3, 4, 5, 6, 7].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   <Button
                     onClick={resetAll}
                     variant="ghost"

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useLocalStorageState } from './useLocalStorage';
 import { Court } from './useMatchCalculator';
 
-const defaultCourt: Court = {
+export const defaultCourt: Court = {
   playerNames: ['', '', '', ''],
   matches: [{}, {}, {}],
 };

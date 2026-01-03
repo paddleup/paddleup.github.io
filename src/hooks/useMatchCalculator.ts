@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useCalculatorPersistence } from './usePersistentCalculator';
+import { useRealtimeMatch } from './useRealtimeMatch';
 
 
 // Always 4 players per court
@@ -269,7 +270,61 @@ type ActiveView = number | 'rankings';
 
 export function useMatchCalculator() {
   // Persistent player count + courts + round (persisted)
-  const { courts, setCourts, round, setRound, resetAllStorage } = useCalculatorPersistence();
+  const {
+    courts: localCourts,
+    setCourts: setLocalCourts,
+    round: localRound,
+    setRound: setLocalRound,
+    resetAllStorage,
+  } = useCalculatorPersistence();
+
+  // Optional realtime match integration (enabled via Vite env VITE_LIVE_MATCH_ID)
+  const liveMatchId = (import.meta.env.VITE_LIVE_MATCH_ID as string) ?? null;
+  const { data: remoteData, write: writeRemote } = useRealtimeMatch(liveMatchId);
+
+  // Optimistic overlay for UI updates while remote write is pending
+  const [optimisticCourts, setOptimisticCourts] = useState<Court[] | null>(null);
+
+  // Source-of-truth: optimistic -> remote -> local
+  const courts = optimisticCourts ?? remoteData?.courts ?? localCourts;
+  const round = (remoteData?.round as 1 | 2 | 3) ?? localRound;
+
+  // Unified setters: write to remote when live mode active, but always update local storage for offline
+  const setCourts = useCallback(
+    (updater: Court[] | ((prev: Court[]) => Court[])) => {
+      const next =
+        typeof updater === 'function' ? (updater as (p: Court[]) => Court[])(courts) : (updater as Court[]);
+
+      // Always update local storage immediately
+      // (debug log to help diagnose court count issues)
+      // eslint-disable-next-line no-console
+      console.log('[useMatchCalculator] setCourts -> next courts count:', Array.isArray(next) ? next.length : typeof next);
+      setLocalCourts(next);
+
+      // Always apply optimistic overlay so UI reflects the change immediately
+      setOptimisticCourts(next);
+
+      if (writeRemote && liveMatchId) {
+        void writeRemote({ courts: next }).catch(() => {
+          // on failure, clear optimistic overlay so remote/local reconcile
+          setOptimisticCourts(null);
+        });
+      }
+    },
+    [writeRemote, liveMatchId, courts, setLocalCourts, setOptimisticCourts],
+  );
+
+  const setRound = useCallback(
+    (r: 1 | 2 | 3) => {
+      if (writeRemote && liveMatchId) {
+        setLocalRound(r);
+        void writeRemote({ round: r });
+      } else {
+        setLocalRound(r);
+      }
+    },
+    [writeRemote, liveMatchId, setLocalRound],
+  );
 
   const [duplicateError, setDuplicateError] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<ActiveView>(0);
@@ -367,6 +422,10 @@ export function useMatchCalculator() {
     activeView,
     setActiveView,
     copyFeedback,
+    // realtime info (when enabled)
+    connected: !!remoteData,
+    pending: false,
+    liveMatchId,
 
     // actions
     setPlayerName,
