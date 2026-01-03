@@ -66,7 +66,6 @@ export default function Calculator(): React.ReactElement {
     courtDetails,
     round,
     setRound,
-    results,
     duplicateError,
     activeView,
     setActiveView,

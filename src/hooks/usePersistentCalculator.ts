@@ -1,14 +1,13 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useLocalStorageState } from './useLocalStorage';
-import { range } from '../lib/matchCalculatorLogic';
-import { Court, Match } from './useCalculator';
+import { Court } from './useMatchCalculator';
 
 const defaultCourt: Court = {
   playerNames: ['', '', '', ''],
   matches: [{}, {}, {}],
 };
 
-const defaultCourts: Court[] = range(4).map(() => ({ ...defaultCourt }));
+const defaultCourts: Court[] = [defaultCourt, defaultCourt, defaultCourt, defaultCourt];
 
 /**
  * useCalculatorPersistence
