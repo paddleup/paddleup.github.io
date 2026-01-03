@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Combobox } from '@headlessui/react';
+import players from '../../data/players';
 
 type Props = {
   value: string;
@@ -9,7 +10,7 @@ type Props = {
 };
 
 /* Keep a small demo roster local so the combobox remains snappy in demos */
-const demoRoster = Array.from({ length: 32 }).map((_, i) => `Player ${i + 1}`);
+const demoRoster: string[] = []; // players.map(player => player.name);
 
 const PlayerCombobox = React.memo(function PlayerCombobox({
   value,

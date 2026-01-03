@@ -140,7 +140,7 @@ export const compareTiers = (a: string, b: string): number => {
   // A < A-B < B === A-C < C === B-D, A-E, etc.
   const getAverageTierCharCode = (tier: string): number => {
     if (tier.includes('–')) {
-      (tier.charAt(0).charCodeAt(0) + tier.charAt(tier.length - 1).charCodeAt(0)) / 2;
+      return (tier.charCodeAt(0) + tier.charCodeAt(2)) / 2;
     }
 
     return tier.charCodeAt(0);

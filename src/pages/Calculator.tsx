@@ -31,10 +31,6 @@ import RankBadge from '../components/ui/RankBadge';
 
 /* -------------------------- Small helpers ------------------------- */
 
-const range = (n: number) => Array.from({ length: n }, (_, i) => i);
-
-const tierLetter = (idx: number) => String.fromCharCode('A'.charCodeAt(0) + idx);
-
 const ordinal = (n: number) => {
   if (!n || isNaN(n)) return String(n);
   const v = n % 100;
@@ -66,8 +62,6 @@ import { compareTiers, PlayerDetails, PlayersPerCourt } from '../hooks/useCalcul
 /* ------------------------ Main component -------------------------- */
 
 export default function Calculator(): React.ReactElement {
-  const api = useMatchCalculator();
-
   const {
     courtDetails,
     round,
@@ -90,46 +84,21 @@ export default function Calculator(): React.ReactElement {
     completedMatches,
     progressPercent,
     playerRankings,
-  } = api;
+  } = useMatchCalculator();
 
-  /* ------------------------ Helper: compute tier label ------------------------ */
-
-  function computeTierLabel(r?: any): string | undefined {
-    if (!r) return undefined;
-    if (
-      typeof r.predictedRange === 'string' &&
-      /Tier\s*[A-Z].*[-–—].*[A-Z]/i.test(r.predictedRange)
-    ) {
-      const pr = r.predictedRange
-        .replace(/^Tier\s*/i, '')
-        .replace('–', '-')
-        .replace('—', '-');
-      return `Tier ${pr}`;
-    }
-    if (r.prevRangeLabel && typeof r.prevRangeLabel === 'string') {
-      const pr = r.prevRangeLabel
-        .replace(/^Tier\s*/i, '')
-        .replace('–', '-')
-        .replace('—', '-');
-      if (pr.includes('-')) return `Tier ${pr}`;
-    }
-    return undefined;
-  }
 
   /* ------------------------ Movement icon helper ------------------------ */
 
-  const movementIconFor = useCallback(({ tier, nextTier }: PlayerDetails) => {
-    if (!nextTier) return null;
-
-    if (nextTier < tier) {
+  const movementIconFor = useCallback((isUp: boolean, isDown: boolean) => {
+    if (isUp) {
       return (
         <span className="inline-flex items-center">
           <ArrowUp className="mx-1 h-4 w-4 text-success" />
         </span>
       );
     }
-
-    if (nextTier > tier) {
+    
+    if (isDown) {
       return (
         <span className="inline-flex items-center">
           <ArrowDown className="mx-1 h-4 w-4 text-error" />
@@ -137,54 +106,26 @@ export default function Calculator(): React.ReactElement {
       );
     }
 
-    return null;
+    // display dot/circle for no movement
+    return (
+      <span className="inline-flex items-center">
+        <span className="mx-2 h-2 w-2 bg-text-muted rounded-full" />
+      </span>
+    );
   }, []);
 
-  /* ------------------------ Tier / court label helpers ------------------------ */
+  const movementIconForTier = useCallback(({tier, nextTier}: PlayerDetails) => {
+    const isUp = compareTiers(tier, nextTier!) > 0;
+    const isDown = compareTiers(tier, nextTier!) < 0;
 
-  function getTiersCountForRound(playerCount: number, r: number) {
-    const courtCountLocal = Math.min(4, Math.ceil(playerCount / 4));
-    if (r === 1) return courtCountLocal;
-    if (playerCount === 16) return r === 2 ? 2 : 4;
-    if (playerCount === 12) return r === 2 ? 1 : 3;
-    if (r === 2) return Math.min(2, Math.max(1, Math.floor(playerCount / 8)));
-    return Math.min(4, Math.max(1, Math.floor(playerCount / 4)));
-  }
+    return movementIconFor(isUp, isDown);
+  }, [movementIconFor]);
 
-  function getTierLabelForCourt(
-    playerCount: number,
-    r: number,
-    courtCountLocal: number,
-    ci: number,
-  ) {
-    const totalTiers = courtCountLocal;
-    if (totalTiers <= 0) return 'Tier A';
-    // Round 1: show the full tier range (e.g., "Tier A–D") on every court
-    if (r === 1) {
-      return `Tier ${tierLetter(0)}–${tierLetter(Math.max(0, totalTiers - 1))}`;
-    }
-    const groups = getTiersCountForRound(playerCount, r);
-    if (groups <= 1) {
-      return `Tier ${tierLetter(0)}${totalTiers > 1 ? `–${tierLetter(totalTiers - 1)}` : ''}`;
-    }
-
-    // Partition totalTiers into `groups` balanced left-to-right, find which piece contains `ci`.
-    const base = Math.floor(totalTiers / groups);
-    let remainder = totalTiers % groups;
-    let cursor = 0;
-    for (let g = 0; g < groups; g++) {
-      const size = base + (remainder > 0 ? 1 : 0);
-      remainder = Math.max(0, remainder - 1);
-      const start = cursor;
-      const end = Math.max(cursor, cursor + size - 1);
-      cursor = end + 1;
-      if (ci >= start && ci <= end) {
-        if (start === end) return `Tier ${tierLetter(start)}`;
-        return `Tier ${tierLetter(start)}–${tierLetter(end)}`;
-      }
-    }
-    return `Tier ${tierLetter(0)}`;
-  }
+    const movementIconForRank = useCallback(({seed, roundPlace}: PlayerDetails) => {
+      const isUp = seed > roundPlace!;
+      const isDown = seed < roundPlace!;
+      return movementIconFor(isUp, isDown);
+    }, [movementIconFor]);
 
   /* ------------------------ Render ------------------------ */
 
@@ -280,15 +221,11 @@ export default function Calculator(): React.ReactElement {
                       <LayoutGrid className="h-4 w-4 opacity-70" />
                       Court {ci + 1}
                     </span>
-                    <span
-                      className={`px-2 py-0.5 rounded text-xs font-bold ${
-                        activeView === ci
-                          ? 'bg-primary/20 text-primary'
-                          : 'bg-surface-alt text-text-muted group-hover:bg-surface-alt/80'
-                      }`}
-                    >
-                      {court.tier}
-                    </span>
+
+                      <TierPill
+                        tierId={court.tier}
+                        size="xs"
+                      />
                   </button>
                 ))}
                 <div className="h-px bg-border my-2" />
@@ -382,6 +319,7 @@ export default function Calculator(): React.ReactElement {
                           <th className="py-3 pl-6">{round === 3 ? 'Final Rank' : 'Rank'}</th>
                           <th className="py-3">Player</th>
                           {round === 3 && <th className="py-3">Pts</th>}
+                          {round !== 3 && <th className="py-3">Next court</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -394,13 +332,13 @@ export default function Calculator(): React.ReactElement {
                               <td className="py-4 pl-6 text-text-main font-bold">
                                 {round === 3 ? (
                                   <div className="flex items-center gap-3 whitespace-nowrap">
+                                    {movementIconForRank(player)}
                                     <RankBadge rank={idx + 1} size="md" />
-                                    <span className="text-text-main font-medium truncate mr-2">{`${ordinal(
-                                      idx + 1,
-                                    )}`}</span>
                                   </div>
-                                ) : (
-                                  ordinal(idx + 1)
+                                ) : (<> 
+                                  {movementIconForRank(player)}
+                                  {ordinal(idx + 1)}
+                                </>
                                 )}
                               </td>
                               <td className="py-4 text-text-main font-medium">{player.name}</td>
@@ -419,7 +357,7 @@ export default function Calculator(): React.ReactElement {
                                   <></>
                                 ) : (
                                   <div className="flex items-center gap-2 whitespace-nowrap">
-                                    {movementIconFor(player)}
+                                    {movementIconForTier(player)}
                                     <span className="px-2 py-0.5 rounded text-xs">
                                       <TierPill
                                         tierId={player.nextTier ?? player.tier}

@@ -7,6 +7,22 @@ interface RankBadgeProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const ordinal = (n: number) => {
+  if (!n || isNaN(n)) return String(n);
+  const v = n % 100;
+  if (v >= 11 && v <= 13) return `${n}th`;
+  switch (n % 10) {
+    case 1:
+      return `${n}st`;
+    case 2:
+      return `${n}nd`;
+    case 3:
+      return `${n}rd`;
+    default:
+      return `${n}th`;
+  }
+};
+
 const RankBadge: React.FC<RankBadgeProps> = ({ rank, className, size = 'md' }) => {
   const sizeClasses = {
     sm: 'w-6 h-6 text-xs',
@@ -30,7 +46,7 @@ const RankBadge: React.FC<RankBadgeProps> = ({ rank, className, size = 'md' }) =
         className,
       )}
     >
-      {rank}
+      {ordinal(rank)}
     </span>
   );
 };
