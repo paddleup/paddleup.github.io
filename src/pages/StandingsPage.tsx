@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { challengeEvents } from '../data/challengeEvents';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { Trophy } from 'lucide-react';
 import Card from '../components/ui/Card';
@@ -8,8 +7,8 @@ import PlayerAvatar from '../components/ui/PlayerAvatar';
 import PageHeader from '../components/ui/PageHeader';
 import RankBadge from '../components/ui/RankBadge';
 import { Player } from '../types';
-import { players } from '../data/players';
 import { cn } from '../lib/utils';
+import { useEvents, usePlayers } from '../hooks/firestoreHooks';
 
 type LeaderboardRow = {
   playerId: string;
@@ -23,13 +22,15 @@ const monthKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).pad
 const monthLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
 
-const Standings: React.FC = () => {
+const StandingsPage: React.FC = () => {
   const [selection, setSelection] = useState<'all' | string>('all'); // 'all' or monthKey like "2025-12"
+  const { data: players } = usePlayers();
+  const { data: events } = useEvents();
 
-  // Build month options from challengeEvents that contain startDateTime
+  // Build month options from events? that contain startDateTime
   const months = useMemo(() => {
     const set = new Map<string, Date>();
-    challengeEvents.forEach((ev) => {
+    events?.forEach((ev) => {
       if (ev.startDateTime instanceof Date && !isNaN(ev.startDateTime.getTime())) {
         const key = monthKey(ev.startDateTime);
         if (!set.has(key)) set.set(key, ev.startDateTime);
@@ -44,18 +45,18 @@ const Standings: React.FC = () => {
   // Compute leaderboard rows from selected events
   const leaderboard = useMemo(() => {
     // Filter events: only those with final standings
-    const events = challengeEvents.filter(
+    const filteredEvents = events?.filter(
       (ev) => Array.isArray(ev.standings) && ev.standings!.length > 0,
     );
     const filtered =
       selection === 'all'
-        ? events
-        : events.filter((ev) => monthKey(ev.startDateTime) === selection);
+        ? filteredEvents
+        : filteredEvents?.filter((ev) => monthKey(ev.startDateTime) === selection);
 
     // aggregate points per player using calculateWeekFinalPositions on synthetic Week
     const pointsByPlayer = new Map<string, { points: number; events: number }>();
 
-    filtered.forEach((ev, idx) => {
+    filtered?.forEach((ev, idx) => {
       type WeekLike = {
         id: number | string;
         date: string;
@@ -153,7 +154,7 @@ const Standings: React.FC = () => {
             <tbody className="bg-surface divide-y divide-border">
               {leaderboard.map((row) => {
                 const player =
-                  players.find((p) => p.id === row.playerId) ||
+                  players?.find((p) => p.id === row.playerId) ||
                   ({ name: 'Unknown', imageUrl: '', id: 'unknown' } as Player);
                 return (
                   <tr
@@ -196,4 +197,4 @@ const Standings: React.FC = () => {
   );
 };
 
-export default Standings;
+export default StandingsPage;

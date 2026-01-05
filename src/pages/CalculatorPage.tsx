@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   Users,
   Trophy,
@@ -9,8 +9,6 @@ import {
   CheckCircle2,
   Copy,
   Trash2,
-  ArrowUp,
-  ArrowDown,
 } from 'lucide-react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -58,14 +56,15 @@ import MovementIcon from '../components/calculator/MovementIcon';
  */
 
 import { useMatchCalculator } from '../hooks/useMatchCalculator';
-import { compareTiers, PlayerDetails, PlayersPerCourt, Court } from '../hooks/useMatchCalculator';
+import { compareTiers, PlayerDetails, PlayersPerCourt } from '../lib/courtUtils';
 import { defaultCourt } from '../hooks/usePersistentCalculator';
 
 /* ------------------------ Main component -------------------------- */
 
-export default function Calculator(): React.ReactElement {
+export default function CalculatorPage(): React.ReactElement {
   const {
-    courtDetails,
+    draws,
+    courts,
     round,
     setRound,
     duplicateError,
@@ -74,7 +73,6 @@ export default function Calculator(): React.ReactElement {
     copyFeedback,
     // realtime
     connected,
-    pending,
     liveMatchId,
 
     // actions
@@ -92,17 +90,16 @@ export default function Calculator(): React.ReactElement {
     playerRankings,
   } = useMatchCalculator();
 
-
   /* ------------------------ Movement icon helper ------------------------ */
 
-  const movementIconForTier = useCallback(({tier, nextTier}: PlayerDetails) => {
+  const movementIconForTier = useCallback(({ tier, nextTier }: PlayerDetails) => {
     const isUp = compareTiers(tier, nextTier!) > 0;
     const isDown = compareTiers(tier, nextTier!) < 0;
 
     return <MovementIcon isUp={isUp} isDown={isDown} />;
   }, []);
 
-  const movementIconForRank = useCallback(({seed, roundPlace}: PlayerDetails) => {
+  const movementIconForRank = useCallback(({ seed, roundPlace }: PlayerDetails) => {
     const isUp = seed > roundPlace!;
     const isDown = seed < roundPlace!;
     return <MovementIcon isUp={isUp} isDown={isDown} />;
@@ -121,7 +118,9 @@ export default function Calculator(): React.ReactElement {
         <div className="mx-auto">
           <header className="mb-4 text-center">
             <div className="flex items-center justify-center gap-3">
-              <h1 className="text-3xl sm:text-2xl font-extrabold tracking-tight">Match Calculator</h1>
+              <h1 className="text-3xl sm:text-2xl font-extrabold tracking-tight">
+                Match Calculator
+              </h1>
               <div className="text-xs flex items-center gap-2">
                 <span
                   className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
@@ -168,7 +167,7 @@ export default function Calculator(): React.ReactElement {
 
               <div className="lg:hidden overflow-x-auto pb-2">
                 <div className="flex gap-2 min-w-max">
-                  {courtDetails.map((court, ci) => (
+                  {courts.map((court, ci) => (
                     <button
                       key={ci}
                       onClick={() => setActiveView(ci)}
@@ -186,7 +185,7 @@ export default function Calculator(): React.ReactElement {
                             : 'bg-surface-highlight text-text-muted'
                         }`}
                       >
-                        {court.tier}
+                        {draws[ci].tier}
                       </span>
                     </button>
                   ))}
@@ -205,7 +204,7 @@ export default function Calculator(): React.ReactElement {
               </div>
 
               <div className="hidden lg:flex flex-col gap-2">
-                {courtDetails.map((court, ci) => (
+                {courts.map((court, ci) => (
                   <button
                     key={ci}
                     onClick={() => setActiveView(ci)}
@@ -220,10 +219,7 @@ export default function Calculator(): React.ReactElement {
                       Court {ci + 1}
                     </span>
 
-                      <TierPill
-                        tierId={court.tier}
-                        size="xs"
-                      />
+                    <TierPill tierId={draws[ci].tier} size="xs" />
                   </button>
                 ))}
                 <div className="h-px bg-border my-2" />
@@ -258,7 +254,7 @@ export default function Calculator(): React.ReactElement {
                 </div>
 
                 <div className="text-xs text-text-muted text-center">
-                  {courtDetails.length * PlayersPerCourt} Players • {courtDetails.length} Courts
+                  {courts.length * PlayersPerCourt} Players • {courts.length} Courts
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -269,7 +265,7 @@ export default function Calculator(): React.ReactElement {
                     <select
                       id="court-count"
                       className="text-sm bg-surface border border-border rounded px-2 py-1"
-                      value={String(courtDetails.length)}
+                      value={String(courts.length)}
                       onChange={(e) => {
                         const v = Math.max(2, Math.min(7, parseInt(e.target.value, 10) || 4));
                         setCourts(Array.from({ length: v }, () => defaultCourt));
@@ -354,10 +350,11 @@ export default function Calculator(): React.ReactElement {
                                     {movementIconForRank(player)}
                                     <RankBadge rank={idx + 1} size="md" />
                                   </div>
-                                ) : (<> 
-                                  {movementIconForRank(player)}
-                                  {ordinal(idx + 1)}
-                                </>
+                                ) : (
+                                  <>
+                                    {movementIconForRank(player)}
+                                    {ordinal(idx + 1)}
+                                  </>
                                 )}
                               </td>
                               <td className="py-4 text-text-main font-medium">{player.name}</td>
@@ -397,7 +394,7 @@ export default function Calculator(): React.ReactElement {
                   </div>
                 </Card>
               ) : (
-                courtDetails.map((court, ci) => {
+                courts.map((court, ci) => {
                   if (ci !== activeView) return null;
                   return (
                     <Card
@@ -412,7 +409,7 @@ export default function Calculator(): React.ReactElement {
                           <div>
                             <h2 className="text-xl font-bold text-text-main">Court {ci + 1}</h2>
                             <p className="text-sm text-text-muted">
-                              Tier {court.tier} • Round {round}
+                              Tier {draws[ci].tier} • Round {round}
                             </p>
                           </div>
                         </div>
@@ -435,13 +432,13 @@ export default function Calculator(): React.ReactElement {
                                 <div className="flex-1">
                                   <PlayerCombobox
                                     value={name}
-                                    seed={court.seeds[i]}
+                                    seed={draws[ci].seeds[i]}
                                     placeholder={`Select Player ${i + 1}`}
                                     onSelect={(val) => setPlayerName(ci, i, val)}
                                   />
                                 </div>
                                 <div className="text-right text-xs text-text-muted bg-surface px-2 py-1 rounded">
-                                  Seed {court.seeds[i]}
+                                  Seed {draws[ci].seeds[i]}
                                 </div>
                               </div>
                             ))}
@@ -594,7 +591,7 @@ export default function Calculator(): React.ReactElement {
                                         className="border-b border-border last:border-0 hover:bg-surface-highlight/20"
                                       >
                                         <td className="p-3 font-bold text-text-main">
-                                          {player.courtPlace ? ordinal(player.courtPlace) : '-'}
+                                          {player.courtRank ? ordinal(player.courtRank) : '-'}
                                         </td>
                                         <td className="p-3 text-text-main font-medium truncate max-w-[150px]">
                                           {player.name}

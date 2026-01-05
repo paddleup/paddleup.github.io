@@ -1,30 +1,34 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Standings from './pages/Standings';
-import Format from './pages/Format';
-import Champions from './pages/Champions';
-import Players from './pages/Players';
-import PlayerProfile from './pages/PlayerProfile';
-import Calculator from './pages/Calculator';
-import Schedule from './pages/Schedule';
+import HomePage from './pages/HomePage';
+import StandingsPage from './pages/StandingsPage';
+import FormatPage from './pages/FormatPage';
+import ChampionsPage from './pages/ChampionsPage';
+import PlayersPage from './pages/PlayersPage';
+import PlayerProfilePage from './pages/PlayerProfilePage';
+import CalculatorPage from './pages/CalculatorPage';
+import SchedulePage from './pages/SchedulePage';
+import AdminPage from './pages/AdminPage';
+import EventPage from './pages/EventPage';
 
 const App: React.FC = () => {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/standings" element={<Standings />} />
-        <Route path="/schedule" element={<Schedule />} />
-        <Route path="/players" element={<Players />} />
-        <Route path="/player/:id" element={<PlayerProfile />} />
-        <Route path="/format" element={<Format />} />
-        <Route path="/champions" element={<Champions />} />
-        <Route path="/calculator" element={<Calculator />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/standings" element={<StandingsPage />} />
+        <Route path="/schedule" element={<SchedulePage />} />
+        <Route path="/players" element={<PlayersPage />} />
+        <Route path="/player/:id" element={<PlayerProfilePage />} />
+        <Route path="/format" element={<FormatPage />} />
+        <Route path="/champions" element={<ChampionsPage />} />
+        <Route path="/calculator" element={<CalculatorPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/event/:id" element={<EventPage />} />
       </Routes>
     </Layout>
   );
-}
+};
 
 export default App;

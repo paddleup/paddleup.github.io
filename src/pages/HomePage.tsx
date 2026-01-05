@@ -9,7 +9,7 @@ import PlayerAvatar from '../components/ui/PlayerAvatar';
 import RankBadge from '../components/ui/RankBadge';
 import { Player } from '../types';
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   // Get top 3 players derived from challengeEvents (all-time)
   const topPlayers = React.useMemo(() => {
     const pointsByPlayer = new Map<string, number>();
@@ -311,4 +311,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

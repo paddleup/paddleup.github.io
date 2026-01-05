@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Combobox } from '@headlessui/react';
-import players from '../../data/players';
 
 type Props = {
   value: string;

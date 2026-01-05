@@ -10,7 +10,7 @@ import PlayerAvatar from '../components/ui/PlayerAvatar';
 import PageHeader from '../components/ui/PageHeader';
 import { Player } from '../types';
 
-const Champions: React.FC = () => {
+const ChampionsPage: React.FC = () => {
   return (
     <div className="space-y-12">
       <PageHeader
@@ -126,4 +126,4 @@ const Champions: React.FC = () => {
   );
 };
 
-export default Champions;
+export default ChampionsPage;

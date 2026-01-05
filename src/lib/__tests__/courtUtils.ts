@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import {
-  getNumberOfDifferentTierRanges,
-  calculateCourtDetails,
   calculatePlayerRankings,
+  calculateTierRangeCount,
   Court,
-} from '../useCalculator';
+  calculateDraws,
+} from '../courtUtils';
 
 /**
  * Table-driven specs that map the expected labels for each court count and round.
@@ -51,24 +51,24 @@ const specs = [
   },
 ];
 
-describe('getNumberOfDifferentTierRanges (table-driven)', () => {
+describe('calculateTierRangeCount (table-driven)', () => {
   it('returns expected counts for rounds 1-3', () => {
     for (const s of specs) {
       // round 1 -> always 1
-      expect(getNumberOfDifferentTierRanges(s.courts, 1)).toBe(1);
+      expect(calculateTierRangeCount(s.courts, 1)).toBe(1);
 
       // round 2 -> 1 for <=3 courts, otherwise 2
       const expectedRound2 = s.courts <= 3 ? 1 : 2;
-      expect(getNumberOfDifferentTierRanges(s.courts, 2)).toBe(expectedRound2);
+      expect(calculateTierRangeCount(s.courts, 2)).toBe(expectedRound2);
 
       // round 3 -> one per court
-      expect(getNumberOfDifferentTierRanges(s.courts, 3)).toBe(s.courts);
+      expect(calculateTierRangeCount(s.courts, 3)).toBe(s.courts);
     }
   });
 
   it('throws for invalid rounds', () => {
-    expect(() => getNumberOfDifferentTierRanges(4, 0)).toThrow();
-    expect(() => getNumberOfDifferentTierRanges(4, 4)).toThrow();
+    expect(() => calculateTierRangeCount(4, 0)).toThrow();
+    expect(() => calculateTierRangeCount(4, 4)).toThrow();
   });
 });
 
@@ -257,22 +257,20 @@ const layoutSpecs: {
   },
 ];
 
-describe('calculateCourtDetails (table-driven)', () => {
+describe('calculateDraws (table-driven)', () => {
   for (const s of layoutSpecs) {
     describe(`${s.courts} courts`, () => {
-      const courts = makeCourts(s.courts);
+      // const courts = makeCourts(s.courts);
       for (const roundStr of Object.keys(s.rounds)) {
         const round = Number(roundStr) as 1 | 2 | 3;
         it(`round ${round}: produces expected seeds, tiers and round property`, () => {
-          const details = calculateCourtDetails(courts, round);
-          expect(details).toHaveLength(s.courts);
+          const draws = calculateDraws(s.courts, round);
+          expect(draws).toHaveLength(s.courts);
 
           for (let i = 0; i < s.courts; i++) {
-            expect(details[i].round).toBe(round);
-            expect(details[i].seeds).toEqual(s.rounds[round].seeds[i]);
-            expect(details[i].tier).toBe(s.rounds[round].tiers[i]);
-            // ensure courtNumber and playerNames pass-through
-            expect(details[i].playerNames).toEqual(courts[i].playerNames);
+            expect(draws[i].round).toBe(round);
+            expect(draws[i].seeds).toEqual(s.rounds[round].seeds[i]);
+            expect(draws[i].tier).toBe(s.rounds[round].tiers[i]);
           }
         });
       }
@@ -281,7 +279,7 @@ describe('calculateCourtDetails (table-driven)', () => {
 
   it('throws when given empty courts array', () => {
     // @ts-ignore intentionally pass invalid input
-    expect(() => calculateCourtDetails([], 1)).toThrow();
+    expect(() => calculateDraws(0, 1)).toThrow();
   });
 });
 

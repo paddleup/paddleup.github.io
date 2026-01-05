@@ -17,7 +17,7 @@ import FAQSection from '../components/format/FAQSection';
 import ContactCard from '../components/format/ContactCard';
 import { leagueRules, challengeRules } from '../data/rules';
 
-const Format: React.FC = () => {
+const FormatPage: React.FC = () => {
   const [view, setView] = useState<'current' | 'future'>('current');
   const selected = view === 'current' ? challengeRules : leagueRules;
   const price =
@@ -252,4 +252,4 @@ const Format: React.FC = () => {
   );
 };
 
-export default Format;
+export default FormatPage;

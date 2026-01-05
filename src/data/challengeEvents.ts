@@ -3,32 +3,9 @@
  * This file exports a typed array so editors and the compiler can validate shapes.
  */
 
-export interface ChallengeEvent {
-  id: string;
-  name: string;
-  startDateTime: Date;
-  endDateTime?: Date;
-  location?: string;
-  status?: 'open' | 'closed' | 'cancelled';
-  link?: string;
-  standings?: string[]; // optional stored final standings (player ids)
-  label?: string;
-}
+import type { Event } from '../types/models';
 
-export const challengeEvents: ChallengeEvent[] = [
-  // {
-  //   id: '2025-12-14',
-  //   name: 'The Challenge — 12/14',
-  //   startDateTime: new Date('2025-12-14T19:00:00'),
-  //   location: 'Paddle Up Pickleball Club',
-  //   status: 'open',
-  //   link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117?resId=45176797',
-  //   standings : [
-  //     "garretth", "bekahola", "ravic", "karanc",
-  //     "seanl", "sairamt", "rebeccah", "libbyl",
-  //     "khoan", "loganh", "samanthar", "tobiola",
-  //   ],
-  // },
+export const challengeEvents: Event[] = [
   {
     id: '2025-12-28',
     name: 'The Challenge — 12/28',
@@ -37,18 +14,40 @@ export const challengeEvents: ChallengeEvent[] = [
     status: 'open',
     link: 'https://mobileapp.courtreserve.com/Online/Events/Details/10117?resId=45176797',
     standings: [
-      'tobiola',
-      'garretth',
-      'ravic',
-      'karanc',
-      'seanl',
-      'sairamt',
-      'rebeccah',
-      'libbyl',
-      'khoan',
-      'loganh',
-      'bekahola',
-      'samanthar',
+      'cFbaelu4ZQhUiUovuSDq',
+      'TMUWdVphOwXWWpBD0tg4',
+      'bmIXpKlFhwhNuex6mG3a',
+      'sBaVpfAOMRsqcUiaVdXN',
+      'ov1yJixQu0Y7GgSVGOS3',
+      'v8BhDF0WAc6VgcOwc87B',
+      'lR41KMImIthFWUlTfvcq',
+      'W3tjD6JMTZvL7h9DBekb',
+      'GqsPoUKXTw3kJMSJqwU0',
+      'sewQTUTqabMCEYb80N8L',
+      'T28AtFw8KdQU23bXrGKh',
+      '55YtackrvsPralsAJY2V',
+    ],
+    rounds: [
+      {
+        courts: [
+          {
+            playerNames: ['Tobi Ola', 'Garrett H.', 'Ravi C.', 'Karan C.'],
+            matches: [
+              { scoreA: 11, scoreB: 7 },
+              { scoreA: 11, scoreB: 9 },
+              { scoreA: 11, scoreB: 8 },
+            ],
+          },
+          {
+            playerNames: ['Bekah Ola', 'Rebecca H.', 'Anna H.', 'Jay H.'],
+            matches: [
+              { scoreA: 11, scoreB: 7 },
+              { scoreA: 11, scoreB: 9 },
+              { scoreA: 11, scoreB: 8 },
+            ],
+          },
+        ],
+      },
     ],
   },
   {

@@ -5,15 +5,31 @@ import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
 import PageHeader from '../components/ui/PageHeader';
-import { Player } from '../types';
-import { players as playersData } from '../data/players';
+import { usePlayers } from '../hooks/firestoreHooks';
+import { Player } from '../types/models';
 
 const monthKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 const monthLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
 
-const Players: React.FC = () => {
-  // Default to All Time view
+const PlayersPage: React.FC = () => {
+  const { data: playersData } = usePlayers();
+
+  console.log('Players data loaded:', playersData);
+
+  const playerStats = useMemo(() => {
+    if (!playersData) return [];
+
+    return playersData.map((p) => ({
+      ...p,
+      rank: undefined,
+      points: 0,
+      eventsPlayed: 0,
+      champCourt: 0,
+    }));
+  }, [playersData]);
+
+  // // Default to All Time view
   const [selection, setSelection] = useState<'all' | string>('all');
 
   // Build available months from challengeEvents
@@ -30,73 +46,73 @@ const Players: React.FC = () => {
       .map(([key, d]) => ({ key, label: monthLabel(d) }));
   }, []);
 
-  // Aggregate player stats from challenge events (use only events with final standings)
-  const playerStats = useMemo(() => {
-    const events = challengeEvents.filter(
-      (ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0,
-    );
-    const filtered =
-      selection === 'all'
-        ? events
-        : events.filter((ev) => monthKey(ev.startDateTime) === selection);
+  // // Aggregate player stats from challenge events (use only events with final standings)
+  // const playerStats = useMemo(() => {
+  //   const events = challengeEvents.filter(
+  //     (ev) => Array.isArray((ev as any).standings) && (ev as any).standings.length > 0,
+  //   );
+  //   const filtered =
+  //     selection === 'all'
+  //       ? events
+  //       : events.filter((ev) => monthKey(ev.startDateTime) === selection);
 
-    const agg = new Map<string, { points: number; events: number; champWins: number }>();
+  //   const agg = new Map<string, { points: number; events: number; champWins: number }>();
 
-    filtered.forEach((ev, idx) => {
-      const weekLike = {
-        id: idx,
-        date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
-        isCompleted: true,
-        standings: (ev as any).standings,
-      } as any;
+  //   filtered.forEach((ev, idx) => {
+  //     const weekLike = {
+  //       id: idx,
+  //       date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
+  //       isCompleted: true,
+  //       standings: (ev as any).standings,
+  //     } as any;
 
-      const finals = calculateWeekFinalPositions(weekLike);
-      if (!finals) return;
-      finals.forEach((f: any) => {
-        const id = f.playerId;
-        const pts = f.pointsEarned || 0;
-        const cur = agg.get(id) || { points: 0, events: 0, champWins: 0 };
-        cur.points += pts;
-        cur.events += 1;
-        if (f.rank === 1) cur.champWins += 1;
-        agg.set(id, cur);
-      });
-    });
+  //     const finals = calculateWeekFinalPositions(weekLike);
+  //     if (!finals) return;
+  //     finals.forEach((f: any) => {
+  //       const id = f.playerId;
+  //       const pts = f.pointsEarned || 0;
+  //       const cur = agg.get(id) || { points: 0, events: 0, champWins: 0 };
+  //       cur.points += pts;
+  //       cur.events += 1;
+  //       if (f.rank === 1) cur.champWins += 1;
+  //       agg.set(id, cur);
+  //     });
+  //   });
 
-    // Convert to array and sort by points desc
-    const rows = Array.from(agg.entries()).map(([playerId, v]) => ({
-      playerId,
-      points: v.points,
-      eventsPlayed: v.events,
-      champCourt: v.champWins,
-    }));
+  //   // Convert to array and sort by points desc
+  //   const rows = Array.from(agg.entries()).map(([playerId, v]) => ({
+  //     playerId,
+  //     points: v.points,
+  //     eventsPlayed: v.events,
+  //     champCourt: v.champWins,
+  //   }));
 
-    rows.sort((a, b) => b.points - a.points);
+  //   rows.sort((a, b) => b.points - a.points);
 
-    // assign ranks (ties share rank)
-    let lastPoints: number | null = null;
-    let rank = 0;
-    let seen = 0;
-    rows.forEach((r) => {
-      seen += 1;
-      if (lastPoints === null || r.points !== lastPoints) {
-        rank = seen;
-        lastPoints = r.points;
-      }
-      (r as any).rank = rank;
-    });
+  //   // assign ranks (ties share rank)
+  //   let lastPoints: number | null = null;
+  //   let rank = 0;
+  //   let seen = 0;
+  //   rows.forEach((r) => {
+  //     seen += 1;
+  //     if (lastPoints === null || r.points !== lastPoints) {
+  //       rank = seen;
+  //       lastPoints = r.points;
+  //     }
+  //     (r as any).rank = rank;
+  //   });
 
-    // merge with players data for display
-    return rows.map((r) => {
-      const p =
-        playersData.find((pl) => pl.id === r.playerId) ||
-        ({ id: r.playerId, name: 'Unknown', imageUrl: '', dupr: undefined } as Player);
-      return {
-        ...r,
-        ...p,
-      };
-    });
-  }, [selection]);
+  //   // merge with players data for display
+  //   return rows.map((r) => {
+  //     const p =
+  //       playersData?.find((pl) => pl.id === r.playerId) ||
+  //       ({ id: r.playerId, name: 'Unknown', imageUrl: '', dupr: undefined } as Player);
+  //     return {
+  //       ...r,
+  //       ...p,
+  //     };
+  //   });
+  // }, [selection, playersData]);
 
   return (
     <div className="space-y-8">
@@ -123,7 +139,7 @@ const Players: React.FC = () => {
       </PageHeader>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {playerStats.map((player: any) => (
+        {playerStats?.map((player: any) => (
           <Link key={player.id} to={`/player/${player.id}`} className="block group">
             <Card className="h-full overflow-hidden p-0 border-border group-hover:border-primary/50 transition-all group-hover:shadow-lg group-hover:shadow-primary/5 flex flex-col">
               <div className="aspect-square w-full relative bg-surface-highlight overflow-hidden">
@@ -198,4 +214,4 @@ const Players: React.FC = () => {
   );
 };
 
-export default Players;
+export default PlayersPage;
