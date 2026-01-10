@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { challengeEvents } from '../data/challengeEvents';
 import { TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
 import PageHeader from '../components/ui/PageHeader';
-import { usePlayers } from '../hooks/firestoreHooks';
+import { usePlayers, useEvents } from '../hooks/firestoreHooks';
 
 const monthKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 const monthLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
 
 const PlayersPage: React.FC = () => {
+  const { data: challengeEvents = [] } = useEvents();
   const { data: playersData } = usePlayers();
 
   console.log('Players data loaded:', playersData);
@@ -33,7 +33,7 @@ const PlayersPage: React.FC = () => {
   // Build available months from challengeEvents
   const months = useMemo(() => {
     const map = new Map<string, Date>();
-    challengeEvents.forEach((ev) => {
+    (challengeEvents || []).forEach((ev) => {
       if (ev.startDateTime instanceof Date && !isNaN(ev.startDateTime.getTime())) {
         const key = monthKey(ev.startDateTime);
         if (!map.has(key)) map.set(key, ev.startDateTime);
@@ -42,7 +42,7 @@ const PlayersPage: React.FC = () => {
     return Array.from(map.entries())
       .sort((a, b) => (a[1].getTime() < b[1].getTime() ? 1 : -1))
       .map(([key, d]) => ({ key, label: monthLabel(d) }));
-  }, []);
+  }, [challengeEvents]);
 
   // // Aggregate player stats from challenge events (use only events with final standings)
   // const playerStats = useMemo(() => {

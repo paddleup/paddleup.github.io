@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, ArrowRight, Users, Calendar, Star } from 'lucide-react';
-import { challengeEvents } from '../data/challengeEvents';
-import { players } from '../data/players';
+// import { players } from '../data/players';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
+import { useEvents, usePlayers } from '../hooks/firestoreHooks';
 import Card from '../components/ui/Card';
 import PlayerAvatar from '../components/ui/PlayerAvatar';
 import RankBadge from '../components/ui/RankBadge';
 import { Player } from '../types';
 
 const HomePage: React.FC = () => {
+  const { data: challengeEvents = [] } = useEvents();
+  const { data: players = [] } = usePlayers();
+
   // Get top 3 players derived from challengeEvents (all-time)
   const topPlayers = React.useMemo(() => {
     const pointsByPlayer = new Map<string, number>();
@@ -46,7 +49,7 @@ const HomePage: React.FC = () => {
       events: eventsByPlayer.get(r.playerId) || 0,
       rank: index + 1,
     }));
-  }, []);
+  }, [challengeEvents]);
 
   const seriesLabel = (() => {
     const parsed = (challengeEvents || []).filter(
@@ -81,7 +84,7 @@ const HomePage: React.FC = () => {
     if (upcoming.length > 0) return upcoming[0];
     // If none upcoming, return null (show nothing)
     return null;
-  }, []);
+  }, [challengeEvents]);
 
   const formatNiceDate = (d?: Date | null) =>
     d ? d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }) : '';
@@ -208,8 +211,8 @@ const HomePage: React.FC = () => {
           <div className="space-y-4 flex-1">
             {topPlayers.map((entry: any, index: number) => {
               const player =
-                players.find((p: Player) => p.id === entry.playerId) ||
-                ({ name: 'Unknown', imageUrl: '', id: 'unknown' } as Player);
+                players.find((p) => p.id === entry.playerId) ||
+                ({ name: 'Unknown', imageUrl: '', id: 'unknown' } as any);
               return (
                 <Link
                   key={entry.playerId}

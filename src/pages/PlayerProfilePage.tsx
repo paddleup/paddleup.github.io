@@ -169,12 +169,13 @@ const PlayerProfilePage: React.FC = () => {
                   .slice()
                   .reverse()
                   .map((week, idx) => (
-                    <div
+                    <Link
                       key={idx}
-                      className="flex items-center justify-between p-3 bg-surface-highlight rounded-lg border border-border"
+                      to={`/event/${week.eventId}`}
+                      className="flex items-center justify-between p-3 bg-surface-highlight rounded-lg border border-border hover:border-primary/50 transition-colors cursor-pointer group"
                     >
                       <div>
-                        <p className="text-sm font-medium text-text-main">
+                        <p className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">
                           {challengeEvents.find((e) => e.id === week.eventId)?.name || week.eventId}
                         </p>
                         <p className="text-xs text-text-muted">{week.date}</p>
@@ -182,7 +183,7 @@ const PlayerProfilePage: React.FC = () => {
                       <div className="text-right">
                         <p className="font-mono font-bold text-text-main">Rank #{week.rank}</p>
                       </div>
-                    </div>
+                    </Link>
                   ))
               ) : (
                 <p className="text-text-muted text-center py-4">No event placements available.</p>
@@ -202,18 +203,21 @@ const PlayerProfilePage: React.FC = () => {
                   .slice()
                   .reverse()
                   .map((week, idx) => (
-                    <div
+                    <Link
                       key={idx}
-                      className="flex items-center justify-between p-2 border-b border-border last:border-0"
+                      to={`/event/${week.eventId}`}
+                      className="flex items-center justify-between p-2 border-b border-border last:border-0 hover:bg-surface-highlight transition-colors cursor-pointer group"
                     >
-                      <span className="text-sm text-text-muted">{week.date}</span>
+                      <span className="text-sm text-text-muted group-hover:text-text-main transition-colors">
+                        {week.date}
+                      </span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-text-main">
+                        <span className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">
                           Rank #{week.rank}
                         </span>
                         <RankBadge rank={week.rank} size="sm" />
                       </div>
-                    </div>
+                    </Link>
                   ))
               ) : (
                 <p className="text-text-muted text-center py-4">No event data available.</p>
