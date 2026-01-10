@@ -1,13 +1,14 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
+import { InputProps as BaseInputProps } from './types';
+
+type InputProps = BaseInputProps & {
   label?: string;
   textarea?: boolean;
   error?: string;
   rows?: number;
-}
+};
 
 const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   ({ label, textarea = false, className, error, rows = 4, ...props }, ref) => {

@@ -1,5 +1,6 @@
 import { Season, PlayerStats, AllTimeStats } from '../types';
 import { calculateWeekFinalPositions } from './standings';
+import { createDefaultPlayerStats } from './utils';
 
 /**
  * Calculate season-level aggregated PlayerStats by deriving weekly final court positions from matches.
@@ -20,24 +21,14 @@ export const calculateSeasonStats = (seasonData: Season): PlayerStats[] => {
     finalPositions.forEach((fp) => {
       const pid = fp.playerId;
       if (!cumulative[pid]) {
-        cumulative[pid] = {
-          id: pid,
-          points: 0,
-          wins: 0,
-          losses: 0,
-          pointsWon: 0,
-          pointsLost: 0,
-          diff: 0,
-          appearances: 0,
-          champCourt: 0,
-          weeklyRanks: [],
-        };
+        cumulative[pid] = createDefaultPlayerStats(pid);
       }
 
-      cumulative[pid].points += fp.pointsEarned;
-      cumulative[pid].appearances += 1; // one appearance per completed event where player appears in standings
-      cumulative[pid].weeklyRanks.push(fp.rank);
-      if (fp.rank <= 4) cumulative[pid].champCourt += 1;
+      const p = cumulative[pid];
+      p.points += fp.pointsEarned;
+      p.appearances += 1; // one appearance per completed event where player appears in standings
+      p.weeklyRanks.push(fp.rank);
+      if (fp.rank <= 4) p.champCourt += 1;
     });
   });
 

@@ -1,28 +1,12 @@
-import { Week, PlayerStats, Match } from '../types';
+import { Week, PlayerStats, Match, Event } from '../types';
 import { getPointsForRank } from './points';
+import { createDefaultPlayerStats } from './utils';
 
 /**
  * Compute per-week aggregates from matches.
  */
 export const aggregatesFromWeek = (week: Week): Record<string, PlayerStats> => {
   const agg: Record<string, PlayerStats> = {};
-
-  const ensure = (pid: string) => {
-    if (!agg[pid]) {
-      agg[pid] = {
-        id: pid,
-        points: 0,
-        wins: 0,
-        losses: 0,
-        pointsWon: 0,
-        pointsLost: 0,
-        diff: 0,
-        appearances: 0,
-        champCourt: 0,
-        weeklyRanks: [],
-      };
-    }
-  };
 
   if (!week.matches) return agg;
 
@@ -31,31 +15,21 @@ export const aggregatesFromWeek = (week: Week): Record<string, PlayerStats> => {
     const team1Won = score1 > score2;
     const team2Won = score2 > score1;
 
-    // Ensure all player entries exist and increment appearance
-    team1.forEach((pid) => {
-      ensure(pid);
-      agg[pid].appearances += 1;
-    });
-    team2.forEach((pid) => {
-      ensure(pid);
-      agg[pid].appearances += 1;
-    });
+    const processTeam = (team: string[], score: number, oppScore: number, won: boolean) => {
+      team.forEach((pid) => {
+        if (!agg[pid]) agg[pid] = createDefaultPlayerStats(pid);
+        const p = agg[pid];
+        p.appearances += 1;
+        p.pointsWon += score;
+        p.pointsLost += oppScore;
+        p.diff += score - oppScore;
+        if (won) p.wins += 1;
+        else p.losses += 1;
+      });
+    };
 
-    // Points and diff
-    team1.forEach((pid) => {
-      agg[pid].pointsWon += score1;
-      agg[pid].pointsLost += score2;
-      agg[pid].diff += score1 - score2;
-      if (team1Won) agg[pid].wins += 1;
-      if (team2Won || score1 === score2) agg[pid].losses += 1;
-    });
-    team2.forEach((pid) => {
-      agg[pid].pointsWon += score2;
-      agg[pid].pointsLost += score1;
-      agg[pid].diff += score2 - score1;
-      if (team2Won) agg[pid].wins += 1;
-      if (team1Won || score1 === score2) agg[pid].losses += 1;
-    });
+    processTeam(team1, score1, score2, team1Won);
+    processTeam(team2, score2, score1, team2Won);
   });
 
   return agg;
@@ -100,4 +74,39 @@ export const calculateWeekFinalPositions = (week: Week) => {
   });
 
   return results;
+};
+
+/**
+ * Aggregates player stats across multiple events.
+ */
+export const aggregateStatsFromEvents = (events: Event[]) => {
+  const pointsByPlayer = new Map<string, { points: number; events: number; champWins: number }>();
+
+  events.forEach((ev) => {
+    // Only process events with final standings
+    if (!ev.standings || ev.standings.length === 0) return;
+
+    // Synthetic Week object for calculateWeekFinalPositions
+    const weekLike: Week = {
+      id: ev.id,
+      date: ev.startDateTime ? ev.startDateTime.toISOString() : ev.id,
+      isCompleted: true,
+      standings: ev.standings,
+    };
+
+    const finals = calculateWeekFinalPositions(weekLike);
+    if (!finals) return;
+
+    finals.forEach((f) => {
+      const id = f.playerId;
+      const pts = f.pointsEarned || 0;
+      const entry = pointsByPlayer.get(id) || { points: 0, events: 0, champWins: 0 };
+      entry.points += pts;
+      entry.events += 1;
+      if (f.rank === 1) entry.champWins += 1;
+      pointsByPlayer.set(id, entry);
+    });
+  });
+
+  return pointsByPlayer;
 };

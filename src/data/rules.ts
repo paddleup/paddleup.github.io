@@ -24,6 +24,48 @@ export interface PointsTable {
   court4: Record<number, number>;
 }
 
+export interface SeedingRule {
+  overview: string;
+  week1: string;
+  draw: string;
+  tieBreakers: string[];
+  promotionRelegation: {
+    summary: string;
+    nightlyPromotionBonus: string;
+  };
+  courts: Array<{ name: string; seeds: string }>;
+}
+
+export interface RewardItem {
+  name: string;
+  items: string[];
+}
+
+export interface Rewards {
+  firstPlace: RewardItem;
+  secondPlace: RewardItem;
+  thirdPlace: RewardItem;
+  notes: string;
+}
+
+export interface Qualification {
+  description: string;
+  who: string[];
+  format: string;
+  advancement: string[];
+  note: string;
+}
+
+export interface FormatStep {
+  title: string;
+  description: string[];
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface RulesBase {
   title?: string;
   subtitle?: string;
@@ -56,12 +98,12 @@ export interface RulesBase {
     type?: string;
     note?: string;
   };
-  seeding?: any;
-  rewards?: any;
-  qualification?: any;
+  seeding?: SeedingRule;
+  rewards?: Rewards;
+  qualification?: Qualification;
   general?: string[];
-  format?: any;
-  faqs?: any;
+  format?: FormatStep[];
+  faqs?: FAQ[];
   scoring?: string[];
   points?: PointsTable;
   subs?: string[];

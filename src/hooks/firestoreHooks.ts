@@ -18,7 +18,7 @@ import {
   deleteDocument,
 } from '../lib/firestoreClient';
 import { eventConverter, playerConverter } from '../lib/converters';
-import type { Event, Player } from '../types/models';
+import type { Event, Player } from '../types';
 
 /**
  * Generic factory: useFirestoreEntity

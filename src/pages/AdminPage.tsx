@@ -16,7 +16,7 @@ import {
   useEvent,
   useUpdateEvent,
 } from '../hooks/firestoreHooks';
-import type { Player, Event as EventModel } from '../types/models';
+import type { Player, Event as EventModel } from '../types';
 
 type EventFormProps = {
   isAdmin: boolean;

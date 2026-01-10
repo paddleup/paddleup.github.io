@@ -12,7 +12,7 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from 'firebase/firestore';
-import { PlayerSchema, Player, Event } from '../types/models';
+import { PlayerSchema, Player, EventSchema, Event } from '../types';
 
 /** Helper: normalize Firestore Timestamp -> ISO string (or keep string) */
 function toIsoString(value: unknown): string | undefined {
@@ -97,6 +97,6 @@ export const eventConverter: FirestoreDataConverter<Event> = {
       rounds: Array.isArray(data.rounds) ? (data.rounds as any) : undefined,
     };
     // Runtime-validate with zod; throws on invalid data
-    return Event.parse(parsed);
+    return EventSchema.parse(parsed);
   },
 };

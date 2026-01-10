@@ -1,17 +1,19 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-export interface Option {
-  value: string;
+import { Option as BaseOption } from './types';
+
+type Option = BaseOption & {
   label: React.ReactNode;
   disabled?: boolean;
-}
+};
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  options: Option[];
+import { SelectProps as BaseSelectProps } from './types';
+
+type SelectProps = BaseSelectProps & {
   error?: string;
-}
+  options: Option[];
+};
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, options, className, error, ...props }, ref) => {

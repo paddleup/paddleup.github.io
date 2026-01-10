@@ -27,7 +27,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { PageResult } from '../types/models';
+import { PageResult } from '../types';
 
 /** Helper to get a CollectionReference with optional converter */
 function collectionRef<T>(
