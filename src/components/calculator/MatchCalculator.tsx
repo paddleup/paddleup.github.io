@@ -117,16 +117,21 @@ const PlayerCombobox = React.memo(function PlayerCombobox({
   onSelect: (v: string | null) => void;
 }) {
   const [inputValue, setInputValue] = useState<string>(value ?? '');
+  const [prevValue, setPrevValue] = useState(value);
   const [suggests, setSuggests] = useState<string[]>([]);
   const debounceRef = React.useRef<number | null>(null);
 
-  useEffect(() => {
+  // Sync prop to state during render instead of useEffect
+  if (value !== prevValue) {
+    setPrevValue(value);
     setInputValue(value ?? '');
-  }, [value]);
+  }
 
   useEffect(() => {
     return () => {
-      if (debounceRef.current) window.clearTimeout(debounceRef.current);
+      if (debounceRef.current) {
+        window.clearTimeout(debounceRef.current);
+      }
     };
   }, []);
 
@@ -330,7 +335,7 @@ export default function MatchCalculator(): React.ReactElement {
         setDuplicateError(`${nm} is already selected in another slot`);
       }
     },
-    [courts],
+    [courts, setCourts],
   );
 
   const setScore = useCallback(
@@ -346,7 +351,7 @@ export default function MatchCalculator(): React.ReactElement {
         ),
       );
     },
-    [],
+    [setCourts],
   );
 
   /* ------------------------ Core computation ------------------------ */
@@ -564,14 +569,13 @@ export default function MatchCalculator(): React.ReactElement {
     return stats;
   }, [courts, playersCount, round, courtCount]);
 
-  const computeStandings = useCallback(() => {
+  useEffect(() => {
     setResults(computeStandingsReturningStats());
   }, [computeStandingsReturningStats]);
 
-  useEffect(() => {
-    computeStandings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courts, round]);
+  const computeStandings = useCallback(() => {
+    setResults(computeStandingsReturningStats());
+  }, [computeStandingsReturningStats]);
 
   /* ------------------------ Apply layouts / navigation ------------------------ */
 
@@ -601,7 +605,7 @@ export default function MatchCalculator(): React.ReactElement {
         });
       });
     },
-    [playersCount],
+    [playersCount, setCourts],
   );
 
   const advanceToNextRound = useCallback(() => {
@@ -610,7 +614,7 @@ export default function MatchCalculator(): React.ReactElement {
     const nextRound = Math.min(3, round + 1);
     applySeedLayoutForRound(nextRound);
     setRound(nextRound);
-  }, [computeStandingsReturningStats, courts, round, applySeedLayoutForRound]);
+  }, [computeStandingsReturningStats, courts, round, applySeedLayoutForRound, setRound]);
 
   const resetAll = useCallback(() => {
     if (!window.confirm('Are you sure you want to clear all data and start over?')) return;
@@ -647,7 +651,7 @@ export default function MatchCalculator(): React.ReactElement {
     setDuplicateError(null);
     setSnapshots([]);
     setRound(1);
-  }, [playersCount, removeCourts, removeRound]);
+  }, [playersCount, removeCourts, removeRound, setCourts, setRound]);
 
   /* ------------------------ Clipboard helper ------------------------ */
 

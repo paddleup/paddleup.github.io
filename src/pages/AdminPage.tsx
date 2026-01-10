@@ -214,13 +214,18 @@ const AdminPage: React.FC = () => {
   const { data: selectedEvent } = useEvent(selectedEventId) ?? {};
   const { update, status: updateStatus, error: updateError } = useUpdateEvent(selectedEventId);
 
-  useEffect(() => {
+  const [prevSelectedEventId, setPrevSelectedEventId] = useState(selectedEventId);
+  const [prevStandings, setPrevStandings] = useState(selectedEvent?.standings);
+
+  if (selectedEventId !== prevSelectedEventId || selectedEvent?.standings !== prevStandings) {
+    setPrevSelectedEventId(selectedEventId);
+    setPrevStandings(selectedEvent?.standings);
     if (selectedEvent?.standings && Array.isArray(selectedEvent.standings)) {
       setStandingsList([...selectedEvent.standings]);
     } else {
       setStandingsList([]);
     }
-  }, [selectedEventId, selectedEvent?.standings]);
+  }
 
   const addPlayerToStandings = (playerId: string) => {
     if (!playerId) return;

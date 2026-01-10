@@ -3,13 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 import Card from '../components/ui/Card';
-import { players } from '../data/players';
-import { useEvent } from '../hooks/firestoreHooks';
+import { useEvent, usePlayers } from '../hooks/firestoreHooks';
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const decodedId = id ? decodeURIComponent(id) : '';
   const { data: event } = useEvent(decodedId);
+  const { data: players = [] } = usePlayers();
 
   const formatNiceDate = (d?: Date | null) =>
     d
@@ -83,10 +83,10 @@ const EventPage: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-2">Final standings</h2>
                 <ol className="list-decimal list-inside space-y-1 text-text-main">
                   {event.standings.map((pid) => {
-                    const p = (players || []).find((pl) => pl.id === pid);
+                    const p = players.find((pl) => pl.id === pid);
                     return (
                       <li key={pid}>
-                        {p ? (
+                        {p && p.id ? (
                           <Link
                             to={`/player/${encodeURIComponent(p.id)}`}
                             className="text-primary hover:underline"
@@ -94,7 +94,7 @@ const EventPage: React.FC = () => {
                             {p.name}
                           </Link>
                         ) : (
-                          <span>{pid}</span>
+                          <span>Unknown Player ({pid})</span>
                         )}
                       </li>
                     );

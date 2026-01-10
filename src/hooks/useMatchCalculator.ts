@@ -148,7 +148,7 @@ export function useMatchCalculator() {
 
     resetAllStorage();
     setDuplicateError(null);
-  }, [resetAllStorage]);
+  }, [resetAllStorage, liveMatchId, writeRemote, courts.length]);
 
   const copyRankingsToClipboard = useCallback(() => {
     // TODO

@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { challengeEvents } from '../data/challengeEvents';
-import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { TrendingUp } from 'lucide-react';
 import Card from '../components/ui/Card';
 import PageHeader from '../components/ui/PageHeader';
 import { usePlayers } from '../hooks/firestoreHooks';
-import { Player } from '../types/models';
 
 const monthKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 const monthLabel = (d: Date) =>

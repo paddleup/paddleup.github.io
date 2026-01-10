@@ -308,16 +308,23 @@ export function useFirestoreRealtimeEntity<T>(
   id?: string,
 ) {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!id);
   const [error, setError] = useState<Error | null>(null);
-  useEffect(() => {
+  const [prevId, setPrevId] = useState(id);
+
+  if (id !== prevId) {
+    setPrevId(id);
+    setError(null);
     if (!id) {
       setData(null);
       setLoading(false);
-      return;
+    } else {
+      setLoading(true);
     }
-    setLoading(true);
-    setError(null);
+  }
+
+  useEffect(() => {
+    if (!id) return;
     const colRef = collection(db, collectionName) as CollectionReference<any>;
     const q = converter
       ? (colRef.withConverter(converter) as unknown as CollectionReference<T>)
@@ -352,9 +359,15 @@ export function useFirestoreRealtimeEntities<T>(
   const [data, setData] = useState<T[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  useEffect(() => {
-    setLoading(true);
+  const [prevCollection, setPrevCollection] = useState(collectionName);
+
+  if (collectionName !== prevCollection) {
+    setPrevCollection(collectionName);
     setError(null);
+    setLoading(true);
+  }
+
+  useEffect(() => {
     const colRef = collection(db, collectionName) as CollectionReference<any>;
     const q = converter
       ? (colRef.withConverter(converter) as unknown as CollectionReference<T>)

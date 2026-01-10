@@ -40,7 +40,7 @@ const StandingsPage: React.FC = () => {
     return Array.from(set.entries())
       .sort((a, b) => (a[1].getTime() < b[1].getTime() ? 1 : -1))
       .map(([key, d]) => ({ key, label: monthLabel(d) }));
-  }, []);
+  }, [events]);
 
   // Compute leaderboard rows from selected events
   const leaderboard = useMemo(() => {
@@ -104,7 +104,7 @@ const StandingsPage: React.FC = () => {
     });
 
     return rows;
-  }, [selection]);
+  }, [events, selection]);
 
   const handleSelectionChange = (v: string) => {
     setSelection(v === 'all' ? 'all' : v);

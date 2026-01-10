@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, Calendar, Star, Medal } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { players } from '../data/players';
-import { challengeEvents } from '../data/challengeEvents';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import Card from '../components/ui/Card';
 import PlayerAvatar from '../components/ui/PlayerAvatar';
 import PageHeader from '../components/ui/PageHeader';
 import { Player } from '../types';
+import { useEvents, usePlayers } from '../hooks/firestoreHooks';
 
 const ChampionsPage: React.FC = () => {
+  const { data: challengeEvents = [] } = useEvents();
+  const { data: players = [] } = usePlayers();
+
   return (
     <div className="space-y-12">
       <PageHeader
@@ -54,7 +56,7 @@ const ChampionsPage: React.FC = () => {
                 <Card key={index} className="h-full flex flex-col">
                   <div className="flex items-center justify-between mb-6">
                     <Link
-                      to={`/standings?season=${encodeURIComponent(String(ev.id))}`}
+                      to={`/event/${ev.id}`}
                       className="bg-primary-light text-primary text-xs font-bold px-3 py-1 rounded-full hover:bg-primary-light/80 transition-colors"
                     >
                       {ev.name}

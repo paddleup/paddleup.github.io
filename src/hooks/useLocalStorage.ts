@@ -33,7 +33,7 @@ export function useLocalStorageState<T>(key: string, initial: T | (() => T)) {
     } catch {
       // ignore
     }
-  }, [key]);
+  }, [key, initial]);
 
   return [state, setState, resetState] as const;
 }

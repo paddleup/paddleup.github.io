@@ -278,7 +278,6 @@ describe('calculateDraws (table-driven)', () => {
   }
 
   it('throws when given empty courts array', () => {
-    // @ts-ignore intentionally pass invalid input
     expect(() => calculateDraws(0, 1)).toThrow();
   });
 });
@@ -289,11 +288,9 @@ describe('calculateDraws (table-driven)', () => {
 
 describe('calculatePlayerRankings', () => {
   it('throws for invalid input', () => {
-    // @ts-ignore intentionally pass invalid input
     expect(() => calculatePlayerRankings([], 1)).toThrow();
 
     const courts = makeCourts(1);
-    // @ts-ignore force invalid round
     expect(() => calculatePlayerRankings(courts, 0 as any)).toThrow();
   });
 

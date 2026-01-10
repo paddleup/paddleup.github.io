@@ -21,9 +21,11 @@ const PlayerCombobox = React.memo(function PlayerCombobox({
   const [suggests, setSuggests] = useState<string[]>([]);
   const debounceRef = React.useRef<number | null>(null);
 
-  useEffect(() => {
+  const [prevValue, setPrevValue] = useState(value);
+  if (value !== prevValue) {
+    setPrevValue(value);
     setInputValue(value ?? '');
-  }, [value]);
+  }
 
   useEffect(() => {
     return () => {

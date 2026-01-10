@@ -40,7 +40,7 @@ const ContactForm: React.FC = () => {
       <div className="bg-success/20 p-6 rounded-xl border border-success/50 text-center">
         <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
         <h3 className="text-lg font-bold text-success mb-2">Message Sent!</h3>
-        <p className="text-success">We'll get back to you shortly.</p>
+        <p className="text-success">We{"'"}ll get back to you shortly.</p>
         <Button
           onClick={() => setStatus(null)}
           variant="ghost"

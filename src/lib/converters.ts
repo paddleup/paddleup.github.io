@@ -18,9 +18,7 @@ import { PlayerSchema, Player, Event } from '../types/models';
 function toIsoString(value: unknown): string | undefined {
   if (!value) return undefined;
   // Firestore Timestamp has toDate()
-  // @ts-ignore - runtime check
   if (typeof (value as any)?.toDate === 'function') {
-    // @ts-ignore
     return (value as any).toDate().toISOString();
   }
   if (typeof value === 'string') return value;
@@ -30,9 +28,7 @@ function toIsoString(value: unknown): string | undefined {
 function toDate(value: unknown): Date | undefined {
   if (!value) return undefined;
   // Firestore Timestamp
-  // @ts-ignore - runtime check
   if (typeof (value as any)?.toDate === 'function') {
-    // @ts-ignore
     return (value as any).toDate();
   }
   if (value instanceof Date) return value;
@@ -49,7 +45,7 @@ function toDate(value: unknown): Date | undefined {
 export const playerConverter: FirestoreDataConverter<Player> = {
   toFirestore(player: Player) {
     // Exclude id (stored as doc id) and use serverTimestamp for createdAt when creating
-    const { id, createdAt, ...rest } = player as any;
+    const { id: _id, createdAt, ...rest } = player as any;
     return {
       ...rest,
       // If caller provided createdAt (string), send it through; otherwise serverTimestamp()
@@ -74,7 +70,7 @@ export const playerConverter: FirestoreDataConverter<Player> = {
 export const eventConverter: FirestoreDataConverter<Event> = {
   toFirestore(event: Event) {
     // Exclude id (stored as doc id). Dates are written as JS Date or serverTimestamp().
-    const { id, ...rest } = event as any;
+    const { id: _id, ...rest } = event as any;
     const { startDateTime, endDateTime, ...other } = rest;
     return {
       ...other,

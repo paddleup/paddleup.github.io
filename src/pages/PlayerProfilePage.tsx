@@ -1,16 +1,16 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 // import { players } from '../data/players';
-import { challengeEvents } from '../data/challengeEvents';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import Card from '../components/ui/Card';
 import RankBadge from '../components/ui/RankBadge';
 import { Trophy, TrendingUp, Calendar, Activity, ArrowLeft } from 'lucide-react';
-import { usePlayersRealtime } from '../hooks/firestoreHooks';
+import { useEvents, usePlayersRealtime } from '../hooks/firestoreHooks';
 
 const PlayerProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: players } = usePlayersRealtime();
+  const { data: challengeEvents = [] } = useEvents();
   console.log('Players in profile:', players);
   const player = players?.find((p) => p.id === id);
 
