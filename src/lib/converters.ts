@@ -12,7 +12,16 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from 'firebase/firestore';
-import { PlayerSchema, Player, EventSchema, Event } from '../types';
+import {
+  PlayerSchema,
+  Player,
+  GameSchema,
+  Game,
+  CourtSchema,
+  Court,
+  EventSchema,
+  Event,
+} from '../types';
 
 /** Helper: normalize Firestore Timestamp -> ISO string (or keep string) */
 function toIsoString(value: unknown): string | undefined {
@@ -44,15 +53,12 @@ function toDate(value: unknown): Date | undefined {
  */
 export const playerConverter: FirestoreDataConverter<Player> = {
   toFirestore(player: Player) {
-    // Exclude id (stored as doc id) and use serverTimestamp for createdAt when creating
     const { id: _id, createdAt, ...rest } = player as any;
     return {
       ...rest,
-      // If caller provided createdAt (string), send it through; otherwise serverTimestamp()
       createdAt: createdAt ? createdAt : serverTimestamp(),
     };
   },
-
   fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Player {
     const data = snapshot.data(options) as Record<string, unknown>;
     const parsed = {
@@ -62,41 +68,80 @@ export const playerConverter: FirestoreDataConverter<Player> = {
       imageUrl: data.imageUrl,
       createdAt: toIsoString(data.createdAt),
     };
-    // Runtime-validate with zod; throws on invalid data
     return PlayerSchema.parse(parsed);
+  },
+};
+
+/**
+ * Game converter
+ */
+export const gameConverter: FirestoreDataConverter<Game> = {
+  toFirestore(game: Game) {
+    const { id: _id, ...rest } = game as any;
+    return { ...rest };
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Game {
+    const data = snapshot.data(options) as Record<string, unknown>;
+    const parsed = {
+      id: snapshot.id,
+      ...data,
+    };
+    return GameSchema.parse(parsed);
+  },
+};
+
+/**
+ * Court converter
+ */
+export const courtConverter: FirestoreDataConverter<Court> = {
+  toFirestore(court: Court) {
+    const { id: _id, ...rest } = court as any;
+    return {
+      ...rest,
+    };
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Court {
+    const data = snapshot.data(options) as Record<string, unknown>;
+    const { playerIds, ...other } = data;
+    const parsed = {
+      playerIds: Array.isArray(playerIds) ? playerIds.map(String) : [],
+      ...other,
+      id: snapshot.id,
+    };
+    return CourtSchema.parse(parsed);
   },
 };
 
 export const eventConverter: FirestoreDataConverter<Event> = {
   toFirestore(event: Event) {
-    // Exclude id (stored as doc id). Dates are written as JS Date or serverTimestamp().
     const { id: _id, ...rest } = event as any;
-    const { startDateTime, endDateTime, ...other } = rest;
+    const { startDateTime, ...other } = rest;
     return {
       ...other,
       startDateTime: startDateTime ? startDateTime : serverTimestamp(),
-      // endDateTime may be null/undefined
-      endDateTime: endDateTime ? endDateTime : null,
     };
   },
-
   fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Event {
     const data = snapshot.data(options) as Record<string, unknown>;
+
+    const startDateTime = new Date();
+    try {
+      toDate(data.startDateTime);
+    } catch {
+      // ignore
+    }
+
     const parsed = {
       id: snapshot.id,
       name: data.name,
-      startDateTime: toDate(data.startDateTime),
-      endDateTime: toDate(data.endDateTime),
+      startDateTime: startDateTime,
       location: data.location,
-      status: data.status as any,
       link: data.link,
       standings: Array.isArray(data.standings)
         ? (data.standings as unknown[]).map(String)
         : undefined,
       label: data.label,
-      rounds: Array.isArray(data.rounds) ? (data.rounds as any) : undefined,
     };
-    // Runtime-validate with zod; throws on invalid data
     return EventSchema.parse(parsed);
   },
 };

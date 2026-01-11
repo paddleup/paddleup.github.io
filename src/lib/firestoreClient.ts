@@ -150,9 +150,7 @@ export async function getCollectionPaginated<T>(
   }
 
   const q = query(col as any, ...constraints);
-  console.log('getCollectionPaginated running query:', q);
   const snap = await getDocs(q);
-  console.log('getCollectionPaginated received snapshot with', snap.docs.length, 'docs');
   const docs = snap.docs.map((d) => d.data() as T);
   const last = snap.docs[snap.docs.length - 1] ?? null;
   return { docs, nextCursor: last ? (last as QueryDocumentSnapshot).id : null };

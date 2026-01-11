@@ -315,8 +315,6 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  console.log('Current user in Admin page:', user);
-
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);

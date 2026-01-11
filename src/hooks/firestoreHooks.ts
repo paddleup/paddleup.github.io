@@ -17,8 +17,9 @@ import {
   updateDocument,
   deleteDocument,
 } from '../lib/firestoreClient';
-import { eventConverter, playerConverter } from '../lib/converters';
-import type { Event, Player } from '../types';
+import { courtConverter, eventConverter, gameConverter, playerConverter } from '../lib/converters';
+import { type Event, type Player } from '../types';
+import type { Court, Game } from '../types';
 
 /**
  * Generic factory: useFirestoreEntity
@@ -107,7 +108,7 @@ function createOptimisticHandlers<T extends WithOptionalId>(
 }
 
 export function useFirestoreEntity<T extends WithOptionalId>(
-  collectionName: string,
+  collectionName?: string,
   converter?: FirestoreDataConverter<T>,
   id?: string,
 ) {
@@ -118,13 +119,16 @@ export function useFirestoreEntity<T extends WithOptionalId>(
     queryKey,
     queryFn: async () => {
       if (!id) return null;
+      if (!collectionName) return null;
       return getDocById<T>(collectionName, id, converter);
     },
     enabled: Boolean(id),
     staleTime: 1000 * 60,
   });
 
-  const handlers = createOptimisticHandlers<T>(queryClient, collectionName, id);
+  const handlers = collectionName
+    ? createOptimisticHandlers<T>(queryClient, collectionName, id)
+    : undefined;
 
   const mutation = useMutation<
     T,
@@ -133,6 +137,7 @@ export function useFirestoreEntity<T extends WithOptionalId>(
     { previousItem?: T | null; previousList?: T[] | undefined }
   >({
     mutationFn: async (item: T) => {
+      if (!collectionName) return item;
       if (!item?.id) {
         const newId = await addDocument<T>(collectionName, item, converter);
         return { ...item, id: newId } as T;
@@ -141,9 +146,9 @@ export function useFirestoreEntity<T extends WithOptionalId>(
         return item;
       }
     },
-    onMutate: handlers.onMutate,
-    onError: handlers.onError,
-    onSettled: handlers.onSettled,
+    onMutate: handlers?.onMutate,
+    onError: handlers?.onError,
+    onSettled: handlers?.onSettled,
   });
 
   return {
@@ -157,24 +162,31 @@ export function useFirestoreEntity<T extends WithOptionalId>(
 }
 
 export function useFirestoreEntities<T>(
-  collectionName: string,
+  collectionName?: string,
   converter?: FirestoreDataConverter<T>,
 ) {
   const query = useQuery<T[]>({
     queryKey: [collectionName],
     queryFn: async () => {
+      if (!collectionName) return [];
       const res = await getCollectionPaginated<T>(collectionName, {
         pageSize: 1000,
         converter,
       });
-
-      console.log('useFirestoreEntities fetched', res.docs.length, 'items from', collectionName);
       return res.docs;
     },
     staleTime: 1000 * 60,
+    enabled: !!collectionName,
   });
 
-  console.log('useFirestoreEntities query:', query, 'collectionName:', collectionName);
+  if (!collectionName) {
+    return {
+      ...query,
+      data: [],
+      isLoading: false,
+      error: new Error('Missing collectionName'),
+    };
+  }
   return query;
 }
 
@@ -222,10 +234,9 @@ export function useFirestoreCreate<T extends WithOptionalId>(
 export function useFirestoreUpdate<T extends WithOptionalId>(
   collectionName: string,
   converter?: FirestoreDataConverter<T>,
-  id?: string,
 ) {
   const queryClient = useQueryClient();
-  const handlers = createOptimisticHandlers<T>(queryClient, collectionName, id);
+  const handlers = createOptimisticHandlers<T>(queryClient, collectionName);
 
   const mutation = useMutation<
     void,
@@ -234,6 +245,7 @@ export function useFirestoreUpdate<T extends WithOptionalId>(
     { previousItem?: T | null; previousList?: T[] | undefined }
   >({
     mutationFn: async (partial: Partial<T>) => {
+      const id = partial.id;
       if (!id) throw new Error('id required for update');
       await updateDocument<T>(collectionName, id, partial as Partial<T>, converter);
     },
@@ -249,19 +261,19 @@ export function useFirestoreUpdate<T extends WithOptionalId>(
   };
 }
 
-export function useFirestoreDelete<T extends WithOptionalId>(collectionName: string, id?: string) {
+export function useFirestoreDelete<T extends WithOptionalId>(collectionName: string) {
   const queryClient = useQueryClient();
   const mutation = useMutation<
     void,
     unknown,
-    void,
+    string,
     { previous?: T | null; previousList?: T[] | undefined }
   >({
-    mutationFn: async () => {
+    mutationFn: async (id: string) => {
       if (!id) throw new Error('id required for delete');
       await deleteDocument(collectionName, id);
     },
-    onMutate: async () => {
+    onMutate: async (id: string) => {
       if (!id) return {};
       await queryClient.cancelQueries({ queryKey: [collectionName] });
       const previous = queryClient.getQueryData<T | null>([collectionName, id]);
@@ -277,9 +289,10 @@ export function useFirestoreDelete<T extends WithOptionalId>(collectionName: str
     },
     onError: (
       _err: unknown,
-      _vars: void,
+      _vars: string,
       context?: { previous?: T | null; previousList?: T[] | undefined },
     ) => {
+      const id = _vars;
       if (context?.previous && id) {
         queryClient.setQueryData([collectionName, id], context.previous);
       }
@@ -289,7 +302,7 @@ export function useFirestoreDelete<T extends WithOptionalId>(collectionName: str
         queryClient.invalidateQueries({ queryKey: [collectionName] });
       }
     },
-    onSettled: () => {
+    onSettled: (_data, _err, id?: string) => {
       if (id) queryClient.invalidateQueries({ queryKey: [collectionName, id] });
       queryClient.invalidateQueries({ queryKey: [collectionName] });
     },
@@ -303,33 +316,21 @@ export function useFirestoreDelete<T extends WithOptionalId>(collectionName: str
 }
 
 export function useFirestoreRealtimeEntity<T>(
-  collectionName: string,
+  collectionName?: string,
   converter?: FirestoreDataConverter<T>,
   id?: string,
 ) {
+  const isActive = !!collectionName && !!id;
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(!!id);
   const [error, setError] = useState<Error | null>(null);
-  const [prevId, setPrevId] = useState(id);
-
-  if (id !== prevId) {
-    setPrevId(id);
-    setError(null);
-    if (!id) {
-      setData(null);
-      setLoading(false);
-    } else {
-      setLoading(true);
-    }
-  }
 
   useEffect(() => {
-    if (!id) return;
-    const colRef = collection(db, collectionName) as CollectionReference<any>;
+    if (!isActive) return;
+    const colRef = collection(db, collectionName!) as CollectionReference<any>;
     const q = converter
       ? (colRef.withConverter(converter) as unknown as CollectionReference<T>)
       : (colRef as unknown as CollectionReference<T>);
-    const docRef = doc(q, id);
+    const docRef = doc(q, id!);
     const unsub = onSnapshot(
       docRef,
       (docSnap) => {
@@ -338,22 +339,23 @@ export function useFirestoreRealtimeEntity<T>(
         } else {
           setData(null);
         }
-        setLoading(false);
       },
       (err: unknown) => {
         setError(err as Error);
-        setLoading(false);
       },
     );
     return () => {
       unsub();
     };
-  }, [collectionName, id, converter]);
-  return { data, loading, error };
+  }, [isActive, collectionName, id, converter]);
+
+  const loading = isActive && data === null && error === null;
+
+  return { data: isActive ? data : null, loading, error: isActive ? error : null };
 }
 
 export function useFirestoreRealtimeEntities<T>(
-  collectionName: string,
+  collectionName?: string,
   converter?: FirestoreDataConverter<T>,
 ) {
   const [data, setData] = useState<T[] | null>(null);
@@ -361,13 +363,8 @@ export function useFirestoreRealtimeEntities<T>(
   const [error, setError] = useState<Error | null>(null);
   const [prevCollection, setPrevCollection] = useState(collectionName);
 
-  if (collectionName !== prevCollection) {
-    setPrevCollection(collectionName);
-    setError(null);
-    setLoading(true);
-  }
-
   useEffect(() => {
+    if (!collectionName) return;
     const colRef = collection(db, collectionName) as CollectionReference<any>;
     const q = converter
       ? (colRef.withConverter(converter) as unknown as CollectionReference<T>)
@@ -389,6 +386,9 @@ export function useFirestoreRealtimeEntities<T>(
     };
   }, [collectionName, converter]);
 
+  if (!collectionName) {
+    return { data: [], loading: false, error: new Error('Missing collectionName') };
+  }
   return { data, loading, error };
 }
 
@@ -408,12 +408,12 @@ export function createEntityHooks<T extends WithOptionalId>(
     return useFirestoreCreate<T>(collectionName, converter);
   }
 
-  function useUpdate(id?: string) {
-    return useFirestoreUpdate<T>(collectionName, converter, id);
+  function useUpdate() {
+    return useFirestoreUpdate<T>(collectionName, converter);
   }
 
-  function useDelete(id?: string) {
-    return useFirestoreDelete<T>(collectionName, id);
+  function useDelete() {
+    return useFirestoreDelete<T>(collectionName);
   }
 
   function useEntityRealtime(id?: string) {
@@ -435,6 +435,160 @@ export function createEntityHooks<T extends WithOptionalId>(
   };
 }
 
+/**
+ * Generic factory for nested Firestore entity hooks.
+ * Accepts a path builder function that takes N parent IDs and returns the collection path.
+ */
+export function createNestedEntityHooks<T extends WithOptionalId, IdArgs extends any[]>(
+  buildPath: (...ids: IdArgs) => string | undefined,
+  converter?: FirestoreDataConverter<T>,
+) {
+  console.log('createNestedEntityHooks buildPath:', buildPath);
+
+  function useEntities(...ids: IdArgs) {
+    const fullName = buildPath(...ids);
+    const result = useFirestoreEntities<T>(fullName, converter);
+    if (!fullName) {
+      return { ...result, data: [], loading: false, error: new Error('Missing parent ID(s)') };
+    }
+    return result;
+  }
+
+  function useEntity(...args: [...IdArgs, string?]) {
+    const ids = args.slice(0, -1) as IdArgs;
+    const id = args[args.length - 1] as string | undefined;
+    const fullName = buildPath(...(ids as IdArgs));
+    const result = useFirestoreEntity<T>(fullName, converter, id);
+    if (!fullName) {
+      return { ...result, data: null, loading: false, error: new Error('Missing parent ID(s)') };
+    }
+    return result;
+  }
+
+  function useCreate(...ids: IdArgs) {
+    const fullName = buildPath(...ids);
+    const result = useFirestoreCreate<T>(fullName as string, converter);
+    if (!fullName) {
+      return {
+        ...result,
+        create: async () => {
+          throw new Error('Missing parent ID(s)');
+        },
+        status: 'error',
+        error: new Error('Missing parent ID(s)'),
+      };
+    }
+    return result;
+  }
+
+  function useUpdate(...args: [...IdArgs]) {
+    const ids = args as IdArgs;
+    const fullName = buildPath(...(ids as IdArgs));
+    console.log('useUpdate fullName:', fullName, 'ids:', ids);
+    const result = useFirestoreUpdate<T>(fullName as string, converter);
+    if (!fullName) {
+      return {
+        ...result,
+        update: async () => {
+          throw new Error('Missing parent ID(s)');
+        },
+        status: 'error',
+        error: new Error('Missing parent ID(s)'),
+      };
+    }
+    return result;
+  }
+
+  function useDelete(...ids: IdArgs) {
+    const fullName = buildPath(...ids);
+    const result = useFirestoreDelete<T>(fullName as string);
+    if (!fullName) {
+      return {
+        ...result,
+        remove: async () => {
+          throw new Error('Missing parent ID(s)');
+        },
+        status: 'error',
+        error: new Error('Missing parent ID(s)'),
+      };
+    }
+    return result;
+  }
+
+  function useEntitiesRealtime(...ids: IdArgs) {
+    const fullName = buildPath(...ids);
+    const result = useFirestoreRealtimeEntities<T>(fullName as string, converter);
+
+    if (!fullName) {
+      return { ...result, data: [], loading: false, error: new Error('Missing parent ID(s)') };
+    }
+    return result;
+  }
+
+  function useEntityRealtime(...args: [...IdArgs, string?]) {
+    const ids = args.slice(0, -1) as IdArgs;
+    const id = args[args.length - 1] as string | undefined;
+    const fullName = buildPath(...(ids as IdArgs));
+    const result = useFirestoreRealtimeEntity<T>(fullName as string, converter, id);
+    if (!fullName) {
+      return { ...result, data: null, loading: false, error: new Error('Missing parent ID(s)') };
+    }
+    return result;
+  }
+
+  return {
+    useEntities,
+    useEntity,
+    useCreate,
+    useUpdate,
+    useDelete,
+    useEntitiesRealtime,
+    useEntityRealtime,
+  };
+}
+
+// Reimplement the specific factories using the generic one
+
+export const createSubEntityHooks = <T extends WithOptionalId>(
+  parentCollectionName: string,
+  subCollectionName: string,
+  converter?: FirestoreDataConverter<T>,
+) =>
+  createNestedEntityHooks<T, [string | undefined]>(
+    (parentId) =>
+      parentId ? `${parentCollectionName}/${parentId}/${subCollectionName}` : undefined,
+    converter,
+  );
+
+export const createSubSubEntityHooks = <T extends WithOptionalId>(
+  grandParentCollectionName: string,
+  parentCollectionName: string,
+  subCollectionName: string,
+  converter?: FirestoreDataConverter<T>,
+) =>
+  createNestedEntityHooks<T, [string | undefined, string | undefined]>(
+    (grandParentId, parentId) =>
+      grandParentId && parentId
+        ? `${grandParentCollectionName}/${grandParentId}/${parentCollectionName}/${parentId}/${subCollectionName}`
+        : undefined,
+    converter,
+  );
+
+export const createSubSubSubEntityHooks = <T extends WithOptionalId>(
+  greatGrandParentCollectionName: string,
+  grandParentCollectionName: string,
+  parentCollectionName: string,
+  subCollectionName: string,
+  converter?: FirestoreDataConverter<T>,
+) =>
+  createNestedEntityHooks<T, [string | undefined, string | undefined, string | undefined]>(
+    (greatGrandParentId, grandParentId, parentId) =>
+      greatGrandParentId && grandParentId && parentId
+        ? `${greatGrandParentCollectionName}/${greatGrandParentId}/${grandParentCollectionName}/${grandParentId}/${parentCollectionName}/${parentId}/${subCollectionName}`
+        : undefined,
+    converter,
+  );
+
 export const {
   useEntity: usePlayer,
   useEntities: usePlayers,
@@ -454,3 +608,23 @@ export const {
   useEntitiesRealtime: useEventsRealtime,
   useEntityRealtime: useEventRealtime,
 } = createEntityHooks<Event>('events', eventConverter);
+
+export const {
+  useEntity: useCourtForEvent,
+  useEntities: useCourtsForEvent,
+  useCreate: useCreateCourtForEvent,
+  useUpdate: useUpdateCourtForEvent,
+  useDelete: useDeleteCourtForEvent,
+  useEntitiesRealtime: useCourtsRealtimeForEvent,
+  useEntityRealtime: useCourtRealtimeForEvent,
+} = createSubEntityHooks<Court>('events', 'courts', courtConverter);
+
+export const {
+  useEntity: useGameForEvent,
+  useEntities: useGamesForEvent,
+  useCreate: useCreateGameForEvent,
+  useUpdate: useUpdateGameForEvent,
+  useDelete: useDeleteGameForEvent,
+  useEntitiesRealtime: useGamesRealtimeForEvent,
+  useEntityRealtime: useGameRealtimeForEvent,
+} = createSubEntityHooks<Game>('events', 'games', gameConverter);

@@ -12,98 +12,73 @@ export const PlayerSchema = z.object({
 
 export type Player = z.infer<typeof PlayerSchema>;
 
-/**
- * MatchScore represents the outcome of a single set/game between two teams.
- * Used within the Court/Round structure.
- */
-export const MatchScoreSchema = z.object({
-  scoreA: z.number().optional(),
-  scoreB: z.number().optional(),
+export const ChallengeEventRoundNumberSchema = z.union([z.literal(1), z.literal(2), z.literal(3)]);
+
+export type ChallengeEventRoundNumber = z.infer<typeof ChallengeEventRoundNumberSchema>;
+
+export const GameSchema = z.object({
+  id: z.string().optional(),
+  team1Player1Id: z.string(),
+  team1Player2Id: z.string(),
+  team2Player1Id: z.string(),
+  team2Player2Id: z.string(),
+  team1Score: z.number().nonnegative().optional(),
+  team2Score: z.number().nonnegative().optional(),
+  courtId: z.string().optional(),
+  roundNumber: ChallengeEventRoundNumberSchema,
 });
 
-export type MatchScore = z.infer<typeof MatchScoreSchema>;
+export type Game = z.infer<typeof GameSchema>;
 
-/**
- * Court within a tournament round, usually involving 4 players rotating.
- */
 export const CourtSchema = z.object({
-  playerNames: z.array(z.string()).length(4),
-  matches: z.array(MatchScoreSchema).length(3),
+  id: z.string().optional(),
+  playerIds: z.array(z.string()).length(4),
+  roundNumber: ChallengeEventRoundNumberSchema,
+  courtNumber: z.number().positive(),
 });
 
 export type Court = z.infer<typeof CourtSchema>;
 
-/**
- * A Round within an Event (e.g. Round 1, Semifinals, Finals).
- */
-export const RoundSchema = z.object({
-  courts: z.array(CourtSchema),
-});
+export const ChallengeEventStageSchema = z.union([
+  z.literal('initial'),
+  ChallengeEventRoundNumberSchema,
+  z.literal('standings'),
+]);
 
-export type Round = z.infer<typeof RoundSchema>;
+export type ChallengeEventStage = z.infer<typeof ChallengeEventStageSchema>;
 
-/**
- * Event represents a single night or tournament.
- */
 export const EventSchema = z.object({
   id: z.string(),
   name: z.string(),
   startDateTime: z.date(),
-  endDateTime: z.date().optional(),
-  allDay: z.boolean().optional(),
   location: z.string().optional(),
-  status: z.enum(['open', 'closed', 'cancelled']).optional(),
   link: z.string().optional(),
+  ongoingStage: ChallengeEventStageSchema.optional(),
   standings: z.array(z.string()).optional(), // Array of player IDs in final rank order
-  label: z.string().optional(),
-  rounds: z.array(RoundSchema).optional(),
 });
 
 export type Event = z.infer<typeof EventSchema>;
 
-/* --- Domain Interfaces (derived/aggregated data) --- */
+/* --- Domain types (derived/aggregated data) --- */
 
-/**
- * Flat Match record used for certain historical displays and legacy standings logic.
- */
-export interface Match {
-  id?: string;
-  team1: string[];
-  team2: string[];
-  score1: number;
-  score2: number;
-  court?: number;
-  round?: number;
-  event?: 'regular' | 'qualifier';
-  notes?: string;
-}
+export type CourtWithDrawAndGames = Court &
+  Draw & {
+    games: Game[];
+  };
 
-export interface Week {
-  id: number | string;
-  date: string;
-  isCompleted: boolean;
-  rankings?: string[];
-  matches?: Match[];
-  standings?: string[]; // Alias for rankings in some contexts
-}
+export type Round = {
+  roundNumber: ChallengeEventRoundNumber;
+  courts: CourtWithDrawAndGames[];
+  standings: string[];
+};
 
-export interface Standing {
+export type Standing = {
   rank: number;
   playerId: string;
   points: number;
-}
+};
 
-export interface Season {
-  season: string;
-  date?: string;
-  lastUpdated?: string;
-  weeks?: Week[];
-  standings?: Standing[];
-}
-
-export type SeasonData = Season;
-
-export interface PlayerStats {
+export type PlayerStats = {
   id: string;
   points: number;
   wins: number;
@@ -115,22 +90,22 @@ export interface PlayerStats {
   champCourt: number;
   weeklyRanks: number[];
   rank?: number;
-}
+};
 
-export interface AllTimeStats {
+export type AllTimeStats = {
   playerId: string;
   points: number;
   seasons: number;
   rank?: number;
-}
+};
 
 /**
  * Generic paginated response shape used by client helpers.
  */
-export interface PageResult<T> {
+export type PageResult<T> = {
   docs: T[];
   nextCursor?: string | null;
-}
+};
 
 /* Rules & format types (sourced from data/rules.ts so the data file is the single source of truth) */
 import type {
@@ -139,6 +114,7 @@ import type {
   ChallengeRules as DataChallengeRules,
   RulesBase as DataRulesBase,
 } from '../data/rules';
+import { Draw } from '../lib/courtUtils';
 
 export type BaseRules = DataRulesBase;
 export type LeagueRules = DataLeagueRules;

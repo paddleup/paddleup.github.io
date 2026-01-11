@@ -1,24 +1,15 @@
-// Always 4 players per court
+import { Court, ChallengeEventRoundNumber, CourtWithDrawAndGames } from '../types';
+
 export const PlayersPerCourt: number = 4;
 
-export type Court = {
-  playerNames: string[];
-  matches: Match[];
-};
 export type Draw = {
   seeds: number[];
   tier: string;
-  round: number;
-};
-export type CourtWithDraw = Court & Draw;
-
-export type Match = {
-  scoreA?: number;
-  scoreB?: number;
+  // round: number;
 };
 
 export type PlayerDetails = {
-  name: string;
+  id: string;
   courtIndex: number;
 
   // Used to determine round place in order of precidence
@@ -29,8 +20,10 @@ export type PlayerDetails = {
   pointDifferential: number;
   seed: number;
 
+  // round results
   roundPlace: number;
 
+  // next round assignment
   nextCourt?: number;
   nextTier?: string;
 };
@@ -71,7 +64,8 @@ function snakeDraw(courtsInRange: number, startSeed: number = 1): number[][] {
 }
 
 export const calculateDraws = (totalCourts: number, round: 1 | 2 | 3): Draw[] => {
-  if (totalCourts <= 0) throw new Error('totalCourts must be greater than zero.');
+  if (totalCourts <= 0) return [];
+  if (![1, 2, 3].includes(round)) return [];
 
   const rangeCount = calculateTierRangeCount(totalCourts, round);
 
@@ -83,14 +77,10 @@ export const calculateDraws = (totalCourts: number, round: 1 | 2 | 3): Draw[] =>
   let seedStart = 1; // next seed start across ranges
   for (let r = 0; r < rangeCount; r++) {
     const size = baseSize + (r < remainder ? 1 : 0);
-    const tierLabel = tierRange(cursorCourtIndex, cursorCourtIndex + size - 1);
+    const tier = tierRange(cursorCourtIndex, cursorCourtIndex + size - 1);
     const groups = snakeDraw(size, seedStart);
     for (let i = 0; i < size; i++) {
-      result.push({
-        seeds: groups[i],
-        tier: tierLabel,
-        round,
-      });
+      result.push({ seeds: groups[i], tier });
     }
 
     // Advance seed start and court cursor to the next range
@@ -99,6 +89,11 @@ export const calculateDraws = (totalCourts: number, round: 1 | 2 | 3): Draw[] =>
   }
 
   return result;
+};
+
+export const useDraws = (totalCourts?: number, round?: ChallengeEventRoundNumber): Draw[] => {
+  if (!totalCourts || !round || totalCourts <= 0) return [];
+  return calculateDraws(totalCourts, round as 1 | 2 | 3);
 };
 
 const getAverageTierCharCode = (tier: string): number =>
@@ -116,15 +111,18 @@ const rankPlayersByPerformance = (a: PlayerDetails, b: PlayerDetails): number =>
   return a.seed - b.seed;
 };
 
-export function calculatePlayerRankings(courts: Court[], round: 1 | 2 | 3): PlayerDetails[] {
-  if (!courts?.length) throw new Error('courts array is required.');
-  if (![1, 2, 3].includes(round)) throw new Error('Supported rounds are 1, 2, or 3.');
+export function calculatePlayerRankings(
+  courts: CourtWithDrawAndGames[],
+  round: 1 | 2 | 3,
+): PlayerDetails[] {
+  if (!courts?.length) return [];
+  if (![1, 2, 3].includes(round)) return [];
 
   const draws = calculateDraws(courts.length, round);
 
   const playerDetails: PlayerDetails[] = courts.flatMap((court, courtIndex) => {
-    const players: PlayerDetails[] = court.playerNames.map((name, index) => ({
-      name,
+    const players: PlayerDetails[] = court.playerIds.map((playerId, index) => ({
+      id: playerId,
       courtIndex,
 
       tier: draws[courtIndex].tier,
@@ -139,34 +137,37 @@ export function calculatePlayerRankings(courts: Court[], round: 1 | 2 | 3): Play
       nextTier: '',
     }));
 
-    const matchDefs = [
-      { teamA: [0, 1], teamB: [2, 3], score: court.matches[0] },
-      { teamA: [0, 2], teamB: [1, 3], score: court.matches[1] },
-      { teamA: [0, 3], teamB: [1, 2], score: court.matches[2] },
-    ];
+    court.games.forEach((game) => {
+      const {
+        team1Player1Id,
+        team1Player2Id,
+        team2Player1Id,
+        team2Player2Id,
+        team1Score = 0,
+        team2Score = 0,
+      } = game;
 
-    matchDefs.forEach((md) => {
-      const { scoreA = 0, scoreB = 0 } = md.score;
+      const updateWinsLossesAndDiff = (
+        player: PlayerDetails,
+        score: number,
+        opponentScore: number,
+        isTeamA: boolean,
+      ) => {
+        const wonGame = score > opponentScore || (score === opponentScore && isTeamA);
+        player.wins += wonGame ? 1 : 0;
+        player.losses += wonGame ? 0 : 1;
+        player.pointDifferential += score - opponentScore;
+      };
 
-      // update wins, losses, pointDifferential
-      md.teamA.forEach((pi) => {
-        const player = players[pi];
-        player.pointDifferential += scoreA - scoreB;
-        if (scoreA > scoreB) {
-          player.wins += 1;
-        } else {
-          player.losses += 1;
-        }
-      });
-      md.teamB.forEach((pi) => {
-        const player = players[pi];
-        player.pointDifferential += scoreB - scoreA;
-        if (scoreB > scoreA) {
-          player.wins += 1;
-        } else {
-          player.losses += 1;
-        }
-      });
+      const player1 = players.find((p) => p.id === team1Player1Id)!;
+      const player2 = players.find((p) => p.id === team1Player2Id)!;
+      const player3 = players.find((p) => p.id === team2Player1Id)!;
+      const player4 = players.find((p) => p.id === team2Player2Id)!;
+
+      updateWinsLossesAndDiff(player1, team1Score, team2Score, true);
+      updateWinsLossesAndDiff(player2, team1Score, team2Score, true);
+      updateWinsLossesAndDiff(player3, team2Score, team1Score, false);
+      updateWinsLossesAndDiff(player4, team2Score, team1Score, false);
     });
 
     return players;
@@ -209,11 +210,11 @@ export const generateNextRoundCourts = (
   const nextRound = (currentRound + 1) as 1 | 2 | 3;
   const totalCourts = Math.ceil(playerDetails.length / PlayersPerCourt);
   const draws = calculateDraws(totalCourts, nextRound);
-  const courts = draws.map((draw) => ({
-    playerNames: draw.seeds.map(
-      (seed) => playerDetails.find((p) => p.roundPlace === seed)?.name || '',
-    ),
-    matches: [{}, {}, {}],
+
+  const courts = draws.map((draw, index) => ({
+    playerIds: draw.seeds.map((seed) => playerDetails.find((p) => p.roundPlace === seed)?.id || ''),
+    roundNumber: nextRound,
+    courtNumber: index + 1,
   }));
 
   return courts;

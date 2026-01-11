@@ -11,7 +11,6 @@ const PlayerProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: players } = usePlayersRealtime();
   const { data: challengeEvents = [] } = useEvents();
-  console.log('Players in profile:', players);
   const player = players?.find((p) => p.id === id);
 
   if (!player) {
