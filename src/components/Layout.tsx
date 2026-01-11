@@ -16,10 +16,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Standings', href: '/standings', icon: Trophy },
     { name: 'Schedule', href: '/schedule', icon: Calendar },
-    { name: 'Calculator', href: '/calculator', icon: Calculator },
     { name: 'Players', href: '/players', icon: Users },
     { name: 'Format', href: '/format', icon: Calendar },
     { name: 'Champions', href: '/champions', icon: Trophy },
+    { name: 'Admin', href: '/admin', icon: Calculator },
   ];
 
   return (

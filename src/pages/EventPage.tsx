@@ -1,25 +1,21 @@
+// Redesigned EventPage.tsx — Mobile-first, aesthetic, court-focused
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  ExternalLink,
-  ChevronLeft,
-  Trophy,
-  Users,
-  Medal,
-} from 'lucide-react';
-import PageHeader from '../components/ui/PageHeader';
-import Card from '../components/ui/Card';
+import { ChevronLeft } from 'lucide-react';
 import { useEvent, usePlayers } from '../hooks/firestoreHooks';
-import LeaderboardTable, { LeaderboardRow } from '../components/LeaderboardTable';
+import { useAdmin } from '../hooks/useAdmin';
+import { useChallengeEvent } from '../hooks/useChallengeEvent';
+import RoundTabs from '../components/ui/RoundTabs';
+import CourtCardsCollapsible from '../components/eventNight/CourtCardsCollapsible';
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const decodedId = id ? decodeURIComponent(id) : '';
   const { data: event, isLoading: eventLoading } = useEvent(decodedId);
   const { data: players = [] } = usePlayers();
+  const { isAdmin } = useAdmin();
+  const challenge = useChallengeEvent(decodedId);
 
   const formatNiceDate = (d?: Date | null) =>
     d
@@ -62,216 +58,117 @@ const EventPage: React.FC = () => {
 
   const isCompleted = Array.isArray(event.standings) && event.standings.length > 0;
   const isPast = event.startDateTime && new Date(event.startDateTime) < new Date();
+  const showLiveBanner = !isCompleted && isPast;
+  const showCurrentRound =
+    challenge.currentRoundViewData?.courts && (showLiveBanner || isCompleted);
 
+  // --- Mobile-first sticky header ---
   return (
-    <div className="space-y-8 pb-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-30 bg-surface/95 border-b border-border shadow-sm px-4 py-3 flex items-center gap-2">
         <Link
           to="/schedule"
-          className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text-main transition-colors mb-6 group"
+          className="flex items-center gap-1 text-sm text-text-muted hover:text-text-main transition-colors font-semibold"
         >
-          <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to schedule
+          <ChevronLeft className="h-5 w-5" />
+          <span>Schedule</span>
         </Link>
-
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {isCompleted ? (
-                  <span className="px-3 py-1 bg-success/10 text-success text-xs font-bold uppercase tracking-wider rounded-full border border-success/20">
-                    Completed
-                  </span>
-                ) : isPast ? (
-                  <span className="px-3 py-1 bg-warning/10 text-warning text-xs font-bold uppercase tracking-wider rounded-full border border-warning/20">
-                    Ongoing
-                  </span>
-                ) : (
-                  <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider rounded-full border border-primary/20">
-                    Upcoming
-                  </span>
-                )}
-                {event.label && (
-                  <span className="px-3 py-1 bg-surface-alt text-text-muted text-xs font-bold uppercase tracking-wider rounded-full border border-border">
-                    {event.label}
-                  </span>
-                )}
-              </div>
-              <h1 className="text-4xl md:text-5xl font-black text-text-main tracking-tight leading-tight">
-                {event.name}
-              </h1>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Card className="p-4 flex items-start gap-4 bg-surface/50 border-border/50">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
-                  <Calendar className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider">
-                    Date
-                  </div>
-                  <div className="text-lg font-bold text-text-main">
-                    {formatNiceDate(event.startDateTime)}
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4 flex items-start gap-4 bg-surface/50 border-border/50">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
-                  <Clock className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider">
-                    Time
-                  </div>
-                  <div className="text-lg font-bold text-text-main">
-                    {formatNiceTime(event.startDateTime)}
-                    {event.endDateTime ? ` - ${formatNiceTime(event.endDateTime)}` : ' - 10:00 PM'}
-                  </div>
-                </div>
-              </Card>
-
-              {event.location && (
-                <Card className="p-4 flex items-start gap-4 bg-surface/50 border-border/50 sm:col-span-2">
-                  <div className="p-3 bg-primary/10 rounded-xl text-primary mt-1">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-text-muted uppercase tracking-wider">
-                      Location
-                    </div>
-                    <div className="text-lg font-bold text-text-main">{event.location}</div>
-                  </div>
-                </Card>
-              )}
-            </div>
-
-            {!isCompleted && event.link && (
-              <div className="pt-4">
-                <a
-                  href={event.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-primary text-text-main rounded-2xl font-black text-lg hover:shadow-xl hover:-translate-y-1 transition-all shadow-primary/20 border-b-4 border-primary-hover active:border-b-0 active:translate-y-0"
-                >
-                  Register on CourtReserve <ExternalLink className="h-5 w-5" />
-                </a>
-                <p className="mt-4 text-sm text-text-muted flex items-center gap-1.5 ml-1">
-                  <Users className="h-4 w-4" /> Limited spots available. Register early!
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-6">
-            {isCompleted ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between px-2">
-                  <h2 className="text-2xl font-black text-text-main flex items-center gap-2">
-                    <Trophy className="h-6 w-6 text-warning" />
-                    Final Standings
-                  </h2>
-                </div>
-                <Card className="overflow-hidden border-border/50 shadow-xl">
-                  <LeaderboardTable
-                    data={event.standings!.map(
-                      (pid, idx): LeaderboardRow => ({
-                        playerId: pid,
-                        rank: idx + 1,
-                      }),
-                    )}
-                    players={players}
-                    showEvents={false}
-                    showPoints={false}
-                  />
-                </Card>
-              </div>
-            ) : (
-              <Card className="p-6 bg-surface-alt/50 border-dashed space-y-4 flex flex-col items-center text-center justify-center min-h-[200px]">
-                <div className="p-4 bg-surface rounded-full text-text-muted border border-border">
-                  <Medal className="h-8 w-8 opacity-40" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-text-main">Standings TBD</h3>
-                  <p className="text-sm text-text-muted">
-                    Final results will appear here after the event concludes.
-                  </p>
-                </div>
-              </Card>
-            )}
-          </div>
+        <div className="flex-1 flex flex-col items-center">
+          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+            {isCompleted ? 'Completed' : isPast ? 'Ongoing' : 'Upcoming'}
+          </span>
+          <span className="text-lg font-extrabold text-text-main truncate">{event.name}</span>
         </div>
+        <span className="text-xs text-text-muted font-semibold">
+          {formatNiceDate(event.startDateTime)}
+        </span>
+      </header>
 
-        {/* Rounds & Matches Section */}
-        {Array.isArray(event.rounds) && event.rounds.length > 0 && (
-          <div className="mt-16 space-y-8">
-            <div className="flex items-center gap-3">
-              <div className="h-1 lg:h-px flex-grow bg-gradient-to-r from-transparent via-border to-transparent"></div>
-              <h2 className="text-2xl font-black text-text-main uppercase tracking-widest whitespace-nowrap">
-                Match Results
-              </h2>
-              <div className="h-1 lg:h-px flex-grow bg-gradient-to-r from-transparent via-border to-transparent"></div>
-            </div>
-
-            <div className="space-y-12">
-              {event.rounds.map((round, rIdx) => (
-                <div key={rIdx} className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-surface-highlight flex items-center justify-center font-black text-primary border border-primary/20">
-                      {rIdx + 1}
-                    </div>
-                    <h3 className="text-xl font-bold text-text-main">Round {rIdx + 1} Results</h3>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {round.courts.map((court, cIdx) => (
-                      <Card
-                        key={cIdx}
-                        className="p-0 overflow-hidden border-border/40 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div className="bg-surface-alt px-4 py-2 border-b border-border flex justify-between items-center">
-                          <span className="text-sm font-black text-text-muted uppercase tracking-wider">
-                            Court {cIdx + 1}
-                          </span>
-                          <span className="text-xs text-text-muted font-medium px-2 py-0.5 bg-surface rounded-full border border-border">
-                            Fast Format
-                          </span>
-                        </div>
-                        <div className="p-4 grid grid-cols-2 gap-y-4 gap-x-6">
-                          {court.playerNames.map((name, pIdx) => (
-                            <div key={pIdx} className="flex items-center gap-2">
-                              <div className="h-2 w-2 rounded-full bg-primary/40"></div>
-                              <span className="text-sm font-semibold truncate text-text-main">
-                                {name}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="px-4 py-3 bg-surface-highlight/30 border-t border-border/30 flex items-center justify-center gap-6">
-                          {court.matches.map((m, mIdx) => (
-                            <div key={mIdx} className="text-center group">
-                              <div className="text-[10px] text-text-muted uppercase font-bold tracking-tighter mb-0.5 group-hover:text-primary transition-colors">
-                                G{mIdx + 1}
-                              </div>
-                              <div className="font-mono font-black text-sm text-text-main">
-                                {m.scoreA ?? '-'}
-                                <span className="text-text-muted px-0.5">:</span>
-                                {m.scoreB ?? '-'}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* Main Content */}
+      <main className="flex-1 w-full max-w-2xl mx-auto px-2 sm:px-4 py-4 space-y-6">
+        {/* Event Info Card */}
+        <section className="bg-surface rounded-xl shadow border border-border p-4 flex flex-col gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span className="text-text-main font-bold text-xl">{event.name}</span>
+            <span className="text-xs text-text-muted ml-1">
+              {formatNiceDate(event.startDateTime)} &middot; {formatNiceTime(event.startDateTime)}
+            </span>
           </div>
+          {event.location && (
+            <div className="text-sm text-text-muted flex items-center gap-2">
+              <span className="font-semibold">Location:</span>
+              <span>{event.location}</span>
+            </div>
+          )}
+          {'description' in event && typeof event.description === 'string' && (
+            <div className="text-sm text-text-muted">{event.description}</div>
+          )}
+        </section>
+
+        {/* Round Selector */}
+        {showCurrentRound && (
+          <section>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-lg font-bold text-text-main">
+                {showLiveBanner ? 'Current Round' : 'Final Round'}
+              </span>
+              <RoundTabs
+                current={challenge.currentView}
+                onSelect={challenge.setCurrentView}
+                showInitialize={isAdmin}
+              />
+            </div>
+            {/* Court Assignments */}
+            <CourtCardsCollapsible
+              courts={challenge.currentRoundViewData?.courts ?? []}
+              players={players}
+              isAdmin={isAdmin}
+              showLiveBanner={showLiveBanner}
+              handleScoreChange={challenge.handleScoreChange}
+            />
+          </section>
         )}
-      </div>
+
+        {/* Standings or Info */}
+        <section>
+          {isCompleted ? (
+            <div className="bg-surface-alt rounded-xl border border-border p-4 shadow flex flex-col items-center">
+              <span className="text-lg font-bold text-text-main mb-2">Final Standings</span>
+              {/* Standings table or summary can be added here */}
+              <ul className="w-full">
+                {event.standings!.map((pid: string, idx: number) => {
+                  const player = players.find((p) => p.id === pid);
+                  return (
+                    <li
+                      key={pid}
+                      className="flex items-center gap-2 py-1 border-b border-border last:border-b-0"
+                    >
+                      <span className="font-mono text-xs text-text-muted w-6">{idx + 1}</span>
+                      <span className="font-semibold text-text-main">{player?.name ?? pid}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ) : (
+            <div className="bg-surface-alt rounded-xl border border-border p-4 shadow text-center text-text-muted">
+              Standings will appear here after the event concludes.
+            </div>
+          )}
+        </section>
+      </main>
+
+      {/* Admin FAB */}
+      {isAdmin && showLiveBanner && (
+        <button
+          className="fixed bottom-6 right-6 z-50 bg-primary text-white rounded-full shadow-lg p-5 text-2xl hover:bg-primary-hover transition-all"
+          aria-label="Edit Scores"
+          tabIndex={0}
+        >
+          ✏️
+        </button>
+      )}
     </div>
   );
 };

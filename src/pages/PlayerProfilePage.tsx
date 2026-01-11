@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 // import { players } from '../data/players';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
+import PlayerHistoryCardList from '../components/PlayerHistoryCardList';
 import Card from '../components/ui/Card';
 import RankBadge from '../components/ui/RankBadge';
 import { Trophy, TrendingUp, Calendar, Activity, ArrowLeft } from 'lucide-react';
@@ -162,32 +163,12 @@ const PlayerProfilePage: React.FC = () => {
               <Activity className="h-5 w-5 text-primary" />
               Event Placements
             </h3>
-            <div className="space-y-3">
-              {weeklyHistory.length > 0 ? (
-                weeklyHistory
-                  .slice()
-                  .reverse()
-                  .map((week, idx) => (
-                    <Link
-                      key={idx}
-                      to={`/event/${week.eventId}`}
-                      className="flex items-center justify-between p-3 bg-surface-highlight rounded-lg border border-border hover:border-primary/50 transition-colors cursor-pointer group"
-                    >
-                      <div>
-                        <p className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">
-                          {challengeEvents.find((e) => e.id === week.eventId)?.name || week.eventId}
-                        </p>
-                        <p className="text-xs text-text-muted">{week.date}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-mono font-bold text-text-main">Rank #{week.rank}</p>
-                      </div>
-                    </Link>
-                  ))
-              ) : (
-                <p className="text-text-muted text-center py-4">No event placements available.</p>
-              )}
-            </div>
+            <PlayerHistoryCardList
+              history={weeklyHistory.map((week) => ({
+                ...week,
+                eventName: challengeEvents.find((e) => e.id === week.eventId)?.name,
+              }))}
+            />
           </Card>
 
           {/* Weekly Rankings */}

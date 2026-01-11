@@ -18,23 +18,44 @@ import {
   generateNextRoundCourts,
 } from '../lib/courtUtils';
 import { useRoundRealtime } from './useRoundRealtime';
+import { useQueryState } from './useQueryState';
 
 // export type ChallengeEventView = ChallengeEventRoundNumber | 'standings' | 'initialize';
 
-export const useChallengeEvent = () => {
+export const useChallengeEvent = (eventId?: string) => {
   const { data: events } = useEvents();
-  const [selectedEventId, setSelectedEventId] = useState<string | undefined>(undefined);
-  const { data: event } = useEventRealtime(selectedEventId);
+  const [selectedEventId, setSelectedEventId] = useState<string | undefined>(eventId);
+  // If eventId is provided, always use it instead of internal state
+  const effectiveEventId = eventId ?? selectedEventId;
+  const { data: event } = useEventRealtime(effectiveEventId);
   const { update: updateEvent } = useUpdateEvent();
 
   const eventStage: ChallengeEventStage = useMemo(() => {
     return event?.ongoingStage || 'initial';
   }, [event]);
 
-  const [currentView, setCurrentView] = useState<ChallengeEventStage>(eventStage);
+  const [view, setView] = useQueryState('stage', eventStage as string);
+  const setCurrentView = useCallback(
+    (stage: ChallengeEventStage) => {
+      setView(typeof stage === 'string' ? stage : stage.toString());
+    },
+    [setView],
+  );
+
+  const currentView = useMemo<ChallengeEventStage>(() => {
+    if (view === 'initial' || view === 'standings') {
+      return view as ChallengeEventStage;
+    }
+
+    const roundNumber = parseInt(view, 10);
+    if ([1, 2, 3].includes(roundNumber)) {
+      return roundNumber as ChallengeEventRoundNumber;
+    }
+    return eventStage;
+  }, [view, eventStage]);
 
   const currentRoundViewData = useRoundRealtime(
-    selectedEventId,
+    effectiveEventId,
     currentView as ChallengeEventRoundNumber,
   );
 
@@ -57,19 +78,19 @@ export const useChallengeEvent = () => {
     [event, updateEvent],
   );
 
-  const ongoingRound = useRoundRealtime(selectedEventId, ongoingRoundNumber);
-  const nextRound = useRoundRealtime(selectedEventId, nextRoundNumber);
+  const ongoingRound = useRoundRealtime(effectiveEventId, ongoingRoundNumber);
+  const nextRound = useRoundRealtime(effectiveEventId, nextRoundNumber);
 
   const completedRounds = useMemo(() => ongoingRoundNumber - 1, [ongoingRoundNumber]);
-  const { create: createCourt } = useCreateCourtForEvent(selectedEventId);
-  const { create: createGame } = useCreateGameForEvent(selectedEventId);
-  const { update: updateGame } = useUpdateGameForEvent(selectedEventId);
-  console.log('selectedEventId:', selectedEventId, 'updateGame:', updateGame);
+  const { create: createCourt } = useCreateCourtForEvent(effectiveEventId);
+  const { create: createGame } = useCreateGameForEvent(effectiveEventId);
+  const { update: updateGame } = useUpdateGameForEvent(effectiveEventId);
+  console.log('effectiveEventId:', effectiveEventId, 'updateGame:', updateGame);
 
-  const { data: games = [] } = useGamesRealtimeForEvent(selectedEventId);
-  const { remove: deleteGame } = useDeleteGameForEvent(selectedEventId);
-  const { data: courts = [] } = useCourtsRealtimeForEvent(selectedEventId);
-  const { remove: deleteCourt } = useDeleteCourtForEvent(selectedEventId);
+  const { data: games = [] } = useGamesRealtimeForEvent(effectiveEventId);
+  const { remove: deleteGame } = useDeleteGameForEvent(effectiveEventId);
+  const { data: courts = [] } = useCourtsRealtimeForEvent(effectiveEventId);
+  const { remove: deleteCourt } = useDeleteCourtForEvent(effectiveEventId);
 
   const resetAll = useCallback(async () => {
     if (!window.confirm('Are you sure you want to clear all data and start over?')) return;
@@ -87,7 +108,7 @@ export const useChallengeEvent = () => {
 
     setEventStage('initial');
     setCurrentView('initial');
-  }, [selectedEventId, setEventStage, games, deleteGame, courts, deleteCourt]);
+  }, [selectedEventId, setEventStage, setCurrentView, games, deleteGame, courts, deleteCourt]);
 
   const initializeCourts = useCallback(
     async (numCourts: number, playerIds: string[]) => {
@@ -232,6 +253,7 @@ export const useChallengeEvent = () => {
     setEventStage,
     createCourt,
     createGame,
+    setCurrentView,
   ]);
 
   const finalizeEvent = () => {
@@ -289,7 +311,7 @@ export const useChallengeEvent = () => {
 
   return {
     events,
-    selectedEventId,
+    selectedEventId: effectiveEventId,
     setSelectedEventId,
 
     ongoingRound,

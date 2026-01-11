@@ -1,6 +1,7 @@
 // src/components/ui/RoundTabs.tsx
 import React from 'react';
 import { ChallengeEventRoundNumber, ChallengeEventStage } from '../../types';
+import Button from './Button';
 
 type Props = {
   current: ChallengeEventStage;
@@ -8,46 +9,49 @@ type Props = {
   showInitialize?: boolean;
 };
 
+const tabClass = (active: boolean) =>
+  `px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
+    active
+      ? 'bg-primary text-white shadow'
+      : 'bg-surface-alt text-text-muted hover:text-primary hover:bg-primary/10'
+  }`;
+
 const RoundTabs: React.FC<Props> = ({ current, onSelect, showInitialize }) => (
-  <div className="flex p-1 bg-surface-alt rounded-lg mb-4 gap-2 justify-center">
+  <div className="flex gap-2 mb-2">
     {showInitialize && (
-      <button
-        key={'initial'}
+      <Button
+        key="initial"
+        type="button"
         onClick={() => onSelect('initial')}
-        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-          current === 'initial'
-            ? 'bg-surface-highlight text-text-main shadow-sm'
-            : 'text-text-muted hover:text-text-main'
-        }`}
+        className={tabClass(current === 'initial')}
+        size="sm"
+        variant="ghost"
       >
         Initialize
-      </button>
+      </Button>
     )}
     {Array.from({ length: 3 }, (_, i) => (
-      <button
+      <Button
         key={i}
+        type="button"
         onClick={() => onSelect((i + 1) as ChallengeEventRoundNumber)}
-        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-          current === i + 1
-            ? 'bg-surface-highlight text-text-main shadow-sm'
-            : 'text-text-muted hover:text-text-main'
-        }`}
+        className={tabClass(current === i + 1)}
+        size="sm"
+        variant="ghost"
       >
         Round {i + 1}
-      </button>
+      </Button>
     ))}
-
-    <button
-      key={'standings'}
+    <Button
+      key="standings"
+      type="button"
       onClick={() => onSelect('standings')}
-      className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-        current === 'standings'
-          ? 'bg-surface-highlight text-text-main shadow-sm'
-          : 'text-text-muted hover:text-text-main'
-      }`}
+      className={tabClass(current === 'standings')}
+      size="sm"
+      variant="ghost"
     >
       Standings
-    </button>
+    </Button>
   </div>
 );
 

@@ -1,0 +1,9 @@
+- [x] Analyze requirements and audit existing event pages
+- [x] Refactor routes to use unified EventPage
+- [ ] Remove EventNightAdminPage and EventNightPlayerViewPage from codebase
+- [ ] Implement mobile-first, card-based layout for EventPage (all event-night UI)
+- [ ] Add role-aware logic (admin/player) to EventPage if needed
+- [ ] Design and implement VisualBracket component using generateSnakeDraw
+- [ ] Integrate VisualBracket into EventPage below round/court assignments
+- [ ] Test on mobile and desktop
+- [ ] Polish UI and verify all flows

@@ -17,6 +17,7 @@ import {
   useUpdateEvent,
 } from '../hooks/firestoreHooks';
 import type { Player, Event as EventModel } from '../types';
+import Card from '../components/ui/Card';
 
 type EventFormProps = {
   isAdmin: boolean;
@@ -212,7 +213,7 @@ const AdminPage: React.FC = () => {
   const [selectedEventId, setSelectedEventId] = useState<string | undefined>(undefined);
   const [standingsList, setStandingsList] = useState<string[]>([]);
   const { data: selectedEvent } = useEvent(selectedEventId) ?? {};
-  const { update, status: updateStatus, error: updateError } = useUpdateEvent(selectedEventId);
+  const { update, status: updateStatus, error: updateError } = useUpdateEvent();
 
   const [prevSelectedEventId, setPrevSelectedEventId] = useState(selectedEventId);
   const [prevStandings, setPrevStandings] = useState(selectedEvent?.standings);
@@ -270,7 +271,7 @@ const AdminPage: React.FC = () => {
       return;
     }
     try {
-      await update({ standings: standingsList } as any);
+      await update({ id: selectedEventId, standings: standingsList } as any);
       // eslint-disable-next-line no-alert
       alert('Standings saved.');
     } catch (err) {
@@ -343,11 +344,11 @@ const AdminPage: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 space-y-8">
       <h1 className="text-2xl font-bold mb-4">Admin</h1>
 
       {user ? (
-        <div>
+        <div className="space-y-8">
           <p className="mb-2">
             Signed in as <strong>{user.displayName ?? user.email}</strong>
           </p>
@@ -359,7 +360,7 @@ const AdminPage: React.FC = () => {
             Sign out
           </button>
 
-          <section className="mt-6">
+          <Card className="p-6 mb-6">
             <h2 className="text-lg font-semibold mb-2">Protected admin area</h2>
             <p className="text-sm text-gray-600 mb-4">
               You are authenticated and can now access admin-only features.
@@ -370,8 +371,10 @@ const AdminPage: React.FC = () => {
                 You are not an admin. Editing is disabled.
               </p>
             )}
+          </Card>
 
-            <form onSubmit={handleCreate} className="space-y-3 max-w-md">
+          <Card className="p-6 mb-6">
+            <form onSubmit={handleCreate} className="space-y-3">
               <div>
                 <label className="block text-sm font-medium">Name</label>
                 <input
@@ -415,9 +418,9 @@ const AdminPage: React.FC = () => {
                 <p className="text-sm text-red-600">Error creating player: {String(createError)}</p>
               )}
             </form>
-          </section>
+          </Card>
 
-          <section className="mt-8">
+          <Card className="p-6 mb-6">
             <h2 className="text-lg font-semibold mb-2">Create Event</h2>
             <p className="text-sm text-gray-600 mb-4">
               Create a new Event (start date/time is required).
@@ -425,15 +428,15 @@ const AdminPage: React.FC = () => {
 
             <EventForm isAdmin={isAdmin} />
             {/* Inline event errors displayed by the form */}
-          </section>
+          </Card>
 
-          <section className="mt-8">
+          <Card className="p-6 mb-6">
             <h2 className="text-lg font-semibold mb-2">Manage Event Standings</h2>
             <p className="text-sm text-gray-600 mb-4">
               Select an event, build an ordered standings list of players, and save to the event.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="p-6">
               <div className="md:col-span-1">
                 <label className="block text-sm font-medium">Event</label>
                 <select
@@ -456,13 +459,13 @@ const AdminPage: React.FC = () => {
                       <p className="text-sm text-gray-500">No players found.</p>
                     )}
                     {players.map((p: any) => (
-                      <div key={p.id} className="flex items-center justify-between px-1 py-1">
-                        <div className="text-sm">{p.name}</div>
+                      <div key={p.id} className="flex items-center justify-between px-1 py-2">
+                        <div className="text-base">{p.name}</div>
                         <div>
                           <button
                             type="button"
                             onClick={() => addPlayerToStandings(p.id)}
-                            className="px-2 py-1 bg-blue-600 text-white rounded text-xs"
+                            className="px-4 py-2 bg-blue-600 text-white rounded text-base"
                           >
                             Add
                           </button>
@@ -500,7 +503,7 @@ const AdminPage: React.FC = () => {
                               type="button"
                               onClick={() => moveUp(idx)}
                               disabled={idx === 0}
-                              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50 text-xs"
+                              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 text-base"
                             >
                               ↑
                             </button>
@@ -508,14 +511,14 @@ const AdminPage: React.FC = () => {
                               type="button"
                               onClick={() => moveDown(idx)}
                               disabled={idx === standingsList.length - 1}
-                              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50 text-xs"
+                              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 text-base"
                             >
                               ↓
                             </button>
                             <button
                               type="button"
                               onClick={() => removeFromStandings(idx)}
-                              className="px-2 py-1 bg-red-600 text-white rounded text-xs"
+                              className="px-4 py-2 bg-red-600 text-white rounded text-base"
                             >
                               Remove
                             </button>
@@ -530,7 +533,7 @@ const AdminPage: React.FC = () => {
                       type="button"
                       onClick={handleSaveStandings}
                       disabled={!isAdmin || updateStatus === 'pending' || !selectedEventId}
-                      className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                      className="px-6 py-3 bg-green-600 text-white rounded disabled:opacity-50 text-base"
                     >
                       {updateStatus === 'pending' ? 'Saving...' : 'Save standings to event'}
                     </button>
@@ -540,7 +543,7 @@ const AdminPage: React.FC = () => {
                       onClick={() => {
                         setStandingsList([]);
                       }}
-                      className="px-3 py-2 bg-gray-200 rounded"
+                      className="px-6 py-3 bg-gray-200 rounded text-base"
                     >
                       Clear
                     </button>
@@ -551,8 +554,8 @@ const AdminPage: React.FC = () => {
                   )}
                 </div>
               </div>
-            </div>
-          </section>
+            </Card>
+          </Card>
         </div>
       ) : (
         <div>

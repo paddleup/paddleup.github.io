@@ -5,6 +5,7 @@ import PageHeader from '../components/ui/PageHeader';
 import Card from '../components/ui/Card';
 import ToggleGroup from '../components/ui/ToggleGroup';
 import { useEvents } from '../hooks/firestoreHooks';
+import { useQueryState } from '../hooks/useQueryState';
 
 const SchedulePage: React.FC = () => {
   const { data: events } = useEvents();
@@ -14,8 +15,6 @@ const SchedulePage: React.FC = () => {
 
   const formatNiceTime = (d?: Date | null) =>
     d ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
-
-  const [view, setView] = React.useState<'upcoming' | 'past'>('upcoming');
 
   // Normalize and sort events
   const parsed = (events || [])
@@ -31,6 +30,7 @@ const SchedulePage: React.FC = () => {
     .slice()
     .reverse();
 
+  const [view, setView] = useQueryState('view', 'upcoming');
   const displayed = view === 'upcoming' ? upcoming : past;
 
   return (
