@@ -22,6 +22,7 @@ import {
   EventSchema,
   Event,
 } from '../types';
+import { getDemoName } from './getDemoName';
 
 /** Helper: normalize Firestore Timestamp -> ISO string (or keep string) */
 function toIsoString(value: unknown): string | undefined {
@@ -61,9 +62,14 @@ export const playerConverter: FirestoreDataConverter<Player> = {
   },
   fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Player {
     const data = snapshot.data(options) as Record<string, unknown>;
+    const demoName = getDemoName(snapshot.id);
+    if (!demoName) {
+      console.log('No demo name for player id:', snapshot.id);
+    }
+
     const parsed = {
       id: snapshot.id,
-      name: data.name,
+      name: demoName || data.name,
       dupr: data.dupr,
       imageUrl: data.imageUrl,
       createdAt: toIsoString(data.createdAt),
@@ -124,12 +130,15 @@ export const eventConverter: FirestoreDataConverter<Event> = {
   fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Event {
     const data = snapshot.data(options) as Record<string, unknown>;
 
-    const startDateTime = new Date();
+    let startDateTime = new Date();
     try {
-      toDate(data.startDateTime);
-    } catch {
+      startDateTime = toDate(data.startDateTime) || new Date();
+    } catch (e) {
+      console.log(e);
       // ignore
     }
+
+    console.log('Parsed startDateTime:', startDateTime);
 
     const parsed = {
       id: snapshot.id,

@@ -48,7 +48,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* @media (prefers-color-scheme: dark) { */
+@media (prefers-color-scheme: dark) {
   :root {
     /* Dark Theme (Refined - Deep Space) */
     --background: #020617; /* Slate 950 - Richer, deeper black/blue */
@@ -71,7 +71,7 @@
     --error: #F87171;       /* Red 400 - Vibrant on dark */
     --bronze: #FB923C;      /* Orange 400 */
   }
-/* } */
+}
 
 /* Base page styles using Tailwind-mapped color tokens (defined in tailwind.config.cjs) */
 body {
