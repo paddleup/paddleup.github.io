@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import StandingsPage from './pages/StandingsPage';
 import FormatPage from './pages/FormatPage';
-import ChampionsPage from './pages/ChampionsPage';
 import PlayersPage from './pages/PlayersPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
 import SchedulePage from './pages/SchedulePage';
@@ -21,7 +20,6 @@ const App: React.FC = () => {
         <Route path="/players" element={<PlayersPage />} />
         <Route path="/player/:id" element={<PlayerProfilePage />} />
         <Route path="/format" element={<FormatPage />} />
-        <Route path="/champions" element={<ChampionsPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/event/:id" element={<EventPage />} />
       </Routes>

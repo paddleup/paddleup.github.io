@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
 import { calculatePlayerRankings, useDraws } from '../lib/courtUtils';
-import {
-  ChallengeEventRoundNumber,
-  ChallengeEventStage,
-  CourtWithDrawAndGames,
-  Round,
-} from '../types';
+import { RoundNumber, ChallengeEventStage, CourtWithDrawAndGames, Round } from '../types';
 import { useCourtsRealtimeForEvent, useGamesRealtimeForEvent } from './firestoreHooks';
 
 export const useRoundRealtime = (
@@ -13,7 +8,7 @@ export const useRoundRealtime = (
   roundNumber?: ChallengeEventStage,
 ): Round | undefined => {
   const { data: courts } = useCourtsRealtimeForEvent(eventId);
-  const draws = useDraws(courts?.length, roundNumber as ChallengeEventRoundNumber | undefined);
+  const draws = useDraws(courts?.length, roundNumber as RoundNumber | undefined);
 
   const { data: games } = useGamesRealtimeForEvent(eventId);
 
@@ -29,12 +24,11 @@ export const useRoundRealtime = (
         games: games.filter((g) => g.courtId === court.id),
       }));
     return {
-      roundNumber: roundNumber as ChallengeEventRoundNumber,
+      roundNumber: roundNumber as RoundNumber,
       courts: filteredCourtsWithDraws,
-      standings: calculatePlayerRankings(
-        filteredCourtsWithDraws,
-        roundNumber as ChallengeEventRoundNumber,
-      ).map((pd) => pd.id),
+      standings: calculatePlayerRankings(filteredCourtsWithDraws, roundNumber as RoundNumber).map(
+        (pd) => pd.id,
+      ),
     };
   }, [courts, draws, games, roundNumber]);
 

@@ -1,15 +1,25 @@
 import React from 'react';
 import { ArrowDown, ArrowUp, Users, Trophy } from 'lucide-react';
 import Card from '../ui/Card';
-import { rules } from '../../data/rules';
+import { rules, challengeRules } from '../../data/rules';
 
-const NightlyFormat: React.FC = () => {
+interface NightlyFormatProps {
+  viewRules?: typeof rules | typeof challengeRules;
+}
+
+const NightlyFormat: React.FC<NightlyFormatProps> = ({ viewRules = challengeRules }) => {
+  // Use the provided viewRules or default to challengeRules
+  const formatRules = viewRules.format || [];
+  const isChallenge = viewRules === challengeRules;
+
   return (
     <div className="space-y-12">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-text-main mb-4">The Nightly Format</h2>
         <p className="text-text-muted max-w-2xl mx-auto">
-          Three rounds of intense play. Perform well to move up; struggle and you move down.
+          {isChallenge
+            ? 'Two rounds of structured play. Rotating partners with merit-based court advancement.'
+            : 'Three rounds of intense play. Perform well to move up; struggle and you move down.'}
         </p>
       </div>
 
@@ -17,7 +27,7 @@ const NightlyFormat: React.FC = () => {
         <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-border -z-10 transform -translate-x-1/2"></div>
 
         <div className="space-y-12">
-          {rules.format?.map(
+          {formatRules.map(
             (round: { title?: string; description?: string | string[] }, idx: number) => (
               <div key={idx} className="relative">
                 <Card className="p-8 max-w-3xl mx-auto">
@@ -51,7 +61,7 @@ const NightlyFormat: React.FC = () => {
                   </div>
                 </Card>
 
-                {idx < rules.format.length - 1 && (
+                {idx < formatRules.length - 1 && (
                   <div className="flex justify-center">
                     <div className="bg-surface p-2 rounded-full border border-border shadow-sm">
                       <ArrowDown className="h-6 w-6 text-text-muted" />

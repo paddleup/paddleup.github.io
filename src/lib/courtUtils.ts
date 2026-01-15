@@ -1,4 +1,4 @@
-import { Court, ChallengeEventRoundNumber, CourtWithDrawAndGames } from '../types';
+import { Court, RoundNumber, CourtWithDrawAndGames } from '../types';
 
 export const PlayersPerCourt: number = 4;
 
@@ -91,7 +91,7 @@ export const calculateDraws = (totalCourts: number, round: 1 | 2 | 3): Draw[] =>
   return result;
 };
 
-export const useDraws = (totalCourts?: number, round?: ChallengeEventRoundNumber): Draw[] => {
+export const useDraws = (totalCourts?: number, round?: RoundNumber): Draw[] => {
   if (!totalCourts || !round || totalCourts <= 0) return [];
   return calculateDraws(totalCourts, round as 1 | 2 | 3);
 };

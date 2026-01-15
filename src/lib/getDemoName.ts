@@ -20,6 +20,7 @@ export const getDemoName = (playerId: string): string | undefined => {
     v8BhDF0WAc6VgcOwc87B: 'Ryan Adams',
     wekFMjCMfuI7MNNVYVnO: 'Lauren Baker',
     zi6ygH5Iais5EPUVR0Ix: 'Kevin Perez',
+    '55YtackrvsPralsAJY2V': 'Natalie Roberts',
   };
   return demoNames[playerId];
 };

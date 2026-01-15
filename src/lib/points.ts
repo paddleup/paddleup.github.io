@@ -4,7 +4,7 @@ import { rules } from '../data/rules';
  * Points mapping by rank (courts).
  */
 export const getPointsForRank = (rank: number): number => {
-  return getPointsForRankHalfEveryTwo(rank);
+  return getPointsForRankHalfEveryThree(rank);
 };
 
 const getPointsForRankHalfEveryTwo = (rank: number): number => {

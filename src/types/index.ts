@@ -12,20 +12,25 @@ export const PlayerSchema = z.object({
 
 export type Player = z.infer<typeof PlayerSchema>;
 
-export const ChallengeEventRoundNumberSchema = z.union([z.literal(1), z.literal(2), z.literal(3)]);
+export const RoundNumberSchema = z.union([z.literal(1), z.literal(2)]);
 
-export type ChallengeEventRoundNumber = z.infer<typeof ChallengeEventRoundNumberSchema>;
+export type RoundNumber = z.infer<typeof RoundNumberSchema>;
+
+export const TeamSchema = z.object({
+  player1Id: z.string(),
+  player2Id: z.string(),
+});
+
+export type Team = z.infer<typeof TeamSchema>;
 
 export const GameSchema = z.object({
   id: z.string().optional(),
-  team1Player1Id: z.string(),
-  team1Player2Id: z.string(),
-  team2Player1Id: z.string(),
-  team2Player2Id: z.string(),
+  team1: TeamSchema,
+  team2: TeamSchema,
   team1Score: z.number().nonnegative().optional(),
   team2Score: z.number().nonnegative().optional(),
   courtId: z.string().optional(),
-  roundNumber: ChallengeEventRoundNumberSchema,
+  roundNumber: RoundNumberSchema,
 });
 
 export type Game = z.infer<typeof GameSchema>;
@@ -33,7 +38,7 @@ export type Game = z.infer<typeof GameSchema>;
 export const CourtSchema = z.object({
   id: z.string().optional(),
   playerIds: z.array(z.string()).length(4),
-  roundNumber: ChallengeEventRoundNumberSchema,
+  roundNumber: RoundNumberSchema,
   courtNumber: z.number().positive(),
 });
 
@@ -41,7 +46,7 @@ export type Court = z.infer<typeof CourtSchema>;
 
 export const ChallengeEventStageSchema = z.union([
   z.literal('initial'),
-  ChallengeEventRoundNumberSchema,
+  RoundNumberSchema,
   z.literal('standings'),
 ]);
 
@@ -67,7 +72,7 @@ export type CourtWithDrawAndGames = Court &
   };
 
 export type Round = {
-  roundNumber: ChallengeEventRoundNumber;
+  roundNumber: RoundNumber;
   courts: CourtWithDrawAndGames[];
   standings: string[];
 };

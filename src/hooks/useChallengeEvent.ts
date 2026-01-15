@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ChallengeEventRoundNumber, ChallengeEventStage } from '../types';
+import { RoundNumber, ChallengeEventStage } from '../types';
 import {
   useCourtsRealtimeForEvent,
   useCreateCourtForEvent,
@@ -12,13 +12,14 @@ import {
   useUpdateEvent,
   useUpdateGameForEvent,
 } from './firestoreHooks';
-import {
-  calculateDraws,
-  calculatePlayerRankings,
-  generateNextRoundCourts,
-} from '../lib/courtUtils';
 import { useRoundRealtime } from './useRoundRealtime';
 import { useQueryState } from './useQueryState';
+import {
+  calculatePlayerRankings,
+  generateCourts,
+  generateGames,
+  isValidNumberOfPlayers,
+} from '../lib/challengeEventUtils';
 
 // export type ChallengeEventView = ChallengeEventRoundNumber | 'standings' | 'initialize';
 
@@ -49,24 +50,20 @@ export const useChallengeEvent = (eventId?: string) => {
 
     const roundNumber = parseInt(view, 10);
     if ([1, 2, 3].includes(roundNumber)) {
-      return roundNumber as ChallengeEventRoundNumber;
+      return roundNumber as RoundNumber;
     }
     return eventStage;
   }, [view, eventStage]);
 
-  const currentRoundViewData = useRoundRealtime(
-    effectiveEventId,
-    currentView as ChallengeEventRoundNumber,
-  );
+  const currentRoundViewData = useRoundRealtime(effectiveEventId, currentView as RoundNumber);
 
-  const ongoingRoundNumber: ChallengeEventRoundNumber | undefined = useMemo(
-    () => (eventStage as ChallengeEventRoundNumber) || 0,
+  const ongoingRoundNumber: RoundNumber | undefined = useMemo(
+    () => (eventStage as RoundNumber) || 0,
     [eventStage],
   );
   const nextRoundNumber = useMemo(() => {
     if (eventStage === 'initial') return 1;
-    if (typeof eventStage === 'number' && eventStage < 3)
-      return (eventStage + 1) as ChallengeEventRoundNumber;
+    if (typeof eventStage === 'number' && eventStage < 3) return (eventStage + 1) as RoundNumber;
     return undefined;
   }, [eventStage]);
 
@@ -110,68 +107,43 @@ export const useChallengeEvent = (eventId?: string) => {
     setCurrentView('initial');
   }, [selectedEventId, setEventStage, setCurrentView, games, deleteGame, courts, deleteCourt]);
 
-  const initializeCourts = useCallback(
-    async (numCourts: number, playerIds: string[]) => {
-      if (completedRounds > 0) {
-        console.error('Cannot initialize courts: rounds have already been played');
+  const setupRound = useCallback(
+    async (playerIds: string[], roundNumber: RoundNumber) => {
+      if (completedRounds >= roundNumber) {
+        console.error(`Cannot setup round: round ${roundNumber} has already been played`);
         return;
       }
 
-      const playersPerCourt = 4;
-      const totalPlayersNeeded = numCourts * playersPerCourt;
-      if (playerIds.length !== totalPlayersNeeded) {
+      if (isValidNumberOfPlayers(playerIds.length) === false) {
         console.error(
-          `Not enough players to initialize ${numCourts} courts. Required: ${totalPlayersNeeded}, provided: ${playerIds.length}`,
+          `Invalid number of players: ${playerIds.length}. Must be between 8 and 40 players.`,
         );
         return;
       }
 
-      const draws = calculateDraws(numCourts, 1);
-      for (let i = 0; i < numCourts; i++) {
-        const courtPlayerIds = draws[i].seeds.map((seed) => playerIds[seed - 1]);
+      const courts = generateCourts(playerIds, roundNumber);
+      for (const court of courts) {
+        const courtId = await createCourt(court);
 
-        const courtId = await createCourt({
-          playerIds: courtPlayerIds,
-          roundNumber: 1,
-          courtNumber: i + 1,
-        });
+        const games = generateGames(court);
+        for (const game of games) {
+          await createGame({ courtId, ...game });
+        }
 
-        createGame({
-          courtId,
-          team1Player1Id: courtPlayerIds[0],
-          team1Player2Id: courtPlayerIds[1],
-          team2Player1Id: courtPlayerIds[2],
-          team2Player2Id: courtPlayerIds[3],
-          roundNumber: 1,
-        });
-
-        createGame({
-          courtId,
-          team1Player1Id: courtPlayerIds[0],
-          team1Player2Id: courtPlayerIds[2],
-          team2Player1Id: courtPlayerIds[1],
-          team2Player2Id: courtPlayerIds[3],
-          roundNumber: 1,
-        });
-
-        createGame({
-          courtId,
-          team1Player1Id: courtPlayerIds[0],
-          team1Player2Id: courtPlayerIds[3],
-          team2Player1Id: courtPlayerIds[1],
-          team2Player2Id: courtPlayerIds[2],
-          roundNumber: 1,
-        });
+        setEventStage(roundNumber);
+        setCurrentView(roundNumber);
       }
-
-      setEventStage(1);
-      setCurrentView(1);
     },
     [completedRounds, createCourt, createGame, setEventStage, setCurrentView],
   );
 
-  const advanceToNextRound = useCallback(async () => {
-    if (![1, 2].includes(ongoingRoundNumber || 0)) {
+  const initializeRoundOne = useCallback(
+    async (playerIds: string[]) => await setupRound(playerIds, 1),
+    [setupRound],
+  );
+
+  const advanceToRoundTwo = useCallback(async () => {
+    if (![2].includes(ongoingRoundNumber || 0)) {
       alert('Can only advance to next round from rounds 1 or 2.');
       return;
     }
@@ -207,53 +179,21 @@ export const useChallengeEvent = (eventId?: string) => {
 
     const playerRankings = calculatePlayerRankings(ongoingRound.courts, ongoingRoundNumber);
 
-    const nextCourts = generateNextRoundCourts(playerRankings, nextRoundNumber as 1 | 2 | 3);
+    await setupRound(
+      playerRankings.map((p) => p.id),
+      2,
+    );
 
-    nextCourts.forEach(async (court) => {
-      const courtId = await createCourt({
-        playerIds: court.playerIds,
-        roundNumber: nextRoundNumber,
-        courtNumber: court.courtNumber,
-      });
-
-      createGame({
-        courtId,
-        team1Player1Id: court.playerIds[0],
-        team1Player2Id: court.playerIds[1],
-        team2Player1Id: court.playerIds[2],
-        team2Player2Id: court.playerIds[3],
-        roundNumber: nextRoundNumber,
-      });
-
-      createGame({
-        courtId,
-        team1Player1Id: court.playerIds[0],
-        team1Player2Id: court.playerIds[2],
-        team2Player1Id: court.playerIds[1],
-        team2Player2Id: court.playerIds[3],
-        roundNumber: nextRoundNumber,
-      });
-
-      createGame({
-        courtId,
-        team1Player1Id: court.playerIds[0],
-        team1Player2Id: court.playerIds[3],
-        team2Player1Id: court.playerIds[1],
-        team2Player2Id: court.playerIds[2],
-        roundNumber: nextRoundNumber,
-      });
-      setCurrentView(nextRoundNumber);
-    });
+    setCurrentView(nextRoundNumber);
     setEventStage(nextRoundNumber);
   }, [
-    ongoingRoundNumber,
-    ongoingRound,
-    nextRoundNumber,
     nextRound,
-    setEventStage,
-    createCourt,
-    createGame,
+    nextRoundNumber,
+    ongoingRound,
+    ongoingRoundNumber,
     setCurrentView,
+    setEventStage,
+    setupRound,
   ]);
 
   const finalizeEvent = () => {
@@ -262,8 +202,8 @@ export const useChallengeEvent = (eventId?: string) => {
       return;
     }
 
-    if (eventStage !== 3) {
-      alert('Event can only be finalized after completing round 3.');
+    if (eventStage !== 2) {
+      alert('Event can only be finalized after completing round 2.');
       return;
     }
 
@@ -328,8 +268,8 @@ export const useChallengeEvent = (eventId?: string) => {
 
     handleScoreChange,
 
-    initializeCourts,
-    advanceToNextRound,
+    initializeRoundOne,
+    advanceToRoundTwo,
     finalizeEvent,
     resetAll,
 

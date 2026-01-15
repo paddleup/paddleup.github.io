@@ -1,6 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, ArrowRight, Users, Calendar, Star } from 'lucide-react';
+import {
+  Trophy,
+  ArrowRight,
+  Users,
+  Calendar,
+  Star,
+  Clock,
+  Target,
+  ExternalLink,
+} from 'lucide-react';
 // import { players } from '../data/players';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { useEvents, usePlayers } from '../hooks/firestoreHooks';
@@ -93,177 +102,342 @@ const HomePage: React.FC = () => {
     d ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 pb-12">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-surface border border-border">
-        <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-surface-highlight/50 rounded-full blur-3xl"></div>
+      <div className="relative overflow-hidden">
+        <div className="bg-gradient-to-br from-primary/5 via-surface to-text-accent/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
+          {/* Header with animated icon */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-success to-success/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <span className="text-4xl">🏓</span>
+            </div>
 
-        <div className="relative z-10 px-8 py-16 md:py-24 text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-highlight border border-border mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-            </span>
-            <span className="text-sm font-medium text-text-main">{seriesLabel} is Live</span>
+            {/* Live Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-success/10 border border-success/20 mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+              </span>
+              <span className="text-sm font-semibold text-success">{seriesLabel} is Live</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-black text-text-main mb-6 tracking-tight leading-tight">
+              🏓 Paddle Up
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-text-accent">
+                Premier League
+              </span>
+            </h1>
+
+            <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto leading-relaxed">
+              Join our competitive pickleball league designed for advanced players looking to test
+              their skills and climb the rankings each week.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/standings"
+                className="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/20 flex items-center gap-2 hover:scale-105"
+              >
+                View Standings <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                to="/format"
+                className="bg-surface border-2 border-primary text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary hover:text-white transition-all duration-300 flex items-center gap-2"
+              >
+                League Format
+              </Link>
+            </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-text-main mb-6 tracking-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-            Paddle Up
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-text-accent">
-              Advanced Challenge
-            </span>
-          </h1>
-
-          <p className="text-xl text-text-muted mb-10 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-            Join our competitive pickleball event designed for advanced players looking to test
-            their skills and climb the rankings each week.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
-            <Link
-              to="/standings"
-              className="w-full sm:w-auto px-8 py-4 bg-primary text-text-main rounded-xl font-bold text-lg hover:bg-primary-hover transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2"
-            >
-              View Standings <ArrowRight className="h-5 w-5" />
-            </Link>
-            <Link
-              to="/format"
-              className="w-full sm:w-auto px-8 py-4 bg-surface-highlight text-text-main border border-border rounded-xl font-bold text-lg hover:bg-surface-alt transition-all flex items-center justify-center gap-2"
-            >
-              League Format
-            </Link>
-          </div>
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-text-accent/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-success/5 rounded-full blur-xl -z-10"></div>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-6 flex flex-col items-center justify-center text-center hover:border-primary/30 transition-colors group">
-          <Users className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-          <span className="text-3xl font-bold text-text-main mb-1">16</span>
-          <span className="text-sm text-text-muted uppercase tracking-wider">
-            Players per night
-          </span>
-        </Card>
-        <Card className="p-6 flex flex-col items-center justify-center text-center hover:border-primary/30 transition-colors group">
-          <Calendar className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-          <span className="text-3xl font-bold text-text-main mb-1">7-10 PM</span>
-          <span className="text-sm text-text-muted uppercase tracking-wider">Every Sunday</span>
-        </Card>
-        <Card className="p-6 flex flex-col items-center justify-center text-center hover:border-primary/30 transition-colors group">
-          <Trophy className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-          <span className="text-3xl font-bold text-text-main mb-1">100</span>
-          <span className="text-sm text-text-muted uppercase tracking-wider">
-            Club Points Prize Pool
-          </span>
-        </Card>
-        <Card className="p-6 flex flex-col items-center justify-center text-center hover:border-primary/30 transition-colors group">
-          <Star className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-          <span className="text-3xl font-bold text-text-main mb-1">3.6+ DUPR</span>
-          <span className="text-sm text-text-muted uppercase tracking-wider">Level Format</span>
-        </Card>
-      </div>
-
-      {/* Prizes Summary */}
-      <div className="bg-surface-highlight/50 rounded-2xl p-8 border border-border text-center">
-        <h2 className="text-2xl font-bold text-text-main mb-4 flex items-center justify-center gap-2">
-          <Trophy className="h-6 w-6 text-warning" />
-          Monthly Prizes
-        </h2>
-        <p className="text-text-muted max-w-2xl mx-auto mb-6">
-          At the end of each month, the top 3 players in the monthly standings will receive club
-          points as rewards for their performance.
-        </p>
-        <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-          <div className="bg-surface p-4 rounded-xl border border-border">
-            <span className="block text-2xl font-bold text-warning mb-1">1st Place</span>
-            <span className="text-sm text-text-muted">50 Club Pts</span>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border">
-            <span className="block text-2xl font-bold text-text-main mb-1">2nd Place</span>
-            <span className="text-sm text-text-muted">30 Club Pts</span>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border">
-            <span className="block text-2xl font-bold text-text-main mb-1">3rd Place</span>
-            <span className="text-sm text-text-muted">20 Club Pts</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Top Players Preview */}
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="h-full flex flex-col">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-text-main flex items-center gap-2">
-              <Trophy className="h-6 w-6 text-warning" />
-              Current Leaders
+      {/* League Stats */}
+      <div className="relative overflow-hidden">
+        <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <Users className="h-10 w-10 text-white" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
+              🏆 League Overview
             </h2>
-            <Link
-              to="/standings"
-              className="text-sm text-primary hover:text-primary-hover font-medium flex items-center gap-1"
-            >
-              Full Standings <ArrowRight className="h-4 w-4" />
-            </Link>
+            <p className="text-xl text-text-muted max-w-2xl mx-auto">
+              Weekly competitive action with structured format and player advancement
+            </p>
           </div>
 
-          <div className="space-y-4 flex-1">
-            {topPlayers.map((entry: any, index: number) => {
-              const player =
-                players.find((p) => p.id === entry.playerId) ||
-                ({ name: 'Unknown', imageUrl: '', id: 'unknown' } as any);
-              return (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Players Card */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-center">
+                <div className="text-4xl mb-4">👥</div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Players</h3>
+                <div className="space-y-2">
+                  <div className="text-2xl font-black text-primary">16</div>
+                  <div className="text-text-muted font-medium">per night</div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full blur-xl"></div>
+            </div>
+
+            {/* Schedule Card */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-success/10 to-success/5 border-2 border-success/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-center">
+                <div className="text-4xl mb-4">📅</div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Schedule</h3>
+                <div className="space-y-2">
+                  <div className="text-2xl font-black text-success">7-10 PM</div>
+                  <div className="text-text-muted font-medium">Every Sunday</div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-success/5 rounded-full blur-xl"></div>
+            </div>
+
+            {/* Prizes Card */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-warning/10 to-warning/5 border-2 border-warning/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-center">
+                <div className="text-4xl mb-4">🏆</div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Prize Pool</h3>
+                <div className="space-y-2">
+                  <div className="text-2xl font-black text-warning">100</div>
+                  <div className="text-text-muted font-medium">Club Points</div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-warning/5 rounded-full blur-xl"></div>
+            </div>
+
+            {/* Level Card */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-text-accent/10 to-text-accent/5 border-2 border-text-accent/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="text-center">
+                <div className="text-4xl mb-4">⭐</div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Level</h3>
+                <div className="space-y-2">
+                  <div className="text-2xl font-black text-text-accent">3.5+ DUPR</div>
+                  <div className="text-text-muted font-medium">Required</div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-text-accent/5 rounded-full blur-xl"></div>
+            </div>
+          </div>
+
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
+        </div>
+      </div>
+
+      {/* Season Prizes */}
+      <div className="relative overflow-hidden">
+        <div className="bg-gradient-to-br from-warning/5 via-surface to-primary/5 rounded-3xl p-8 md:p-12 border border-warning/20 shadow-2xl">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <Trophy className="h-10 w-10 text-white" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
+              🎯 Season Rewards
+            </h2>
+            <p className="text-xl text-text-muted max-w-2xl mx-auto">
+              Top performers this season earn Joola gear and Paddle Up club points as rewards for
+              their competitive excellence
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {/* 1st Place */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-warning/20 via-warning/10 to-warning/5 border-2 border-warning/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
+                  <span className="text-2xl font-black text-white">1st</span>
+                </div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Champion</h3>
+                <div className="space-y-2">
+                  <div className="text-lg font-bold text-warning">Joola Hat</div>
+                  <div className="text-2xl font-black text-warning">25</div>
+                  <div className="text-text-muted font-medium">Club Points</div>
+                </div>
+              </div>
+              <div className="text-3xl opacity-50 absolute top-6 right-6">🧢</div>
+            </div>
+
+            {/* 2nd Place */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-text-accent/20 via-text-accent/10 to-text-accent/5 border-2 border-text-accent/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-text-accent to-text-accent/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
+                  <span className="text-2xl font-black text-white">2nd</span>
+                </div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Runner-up</h3>
+                <div className="space-y-2">
+                  <div className="text-lg font-bold text-text-accent">Joola Water Bottle</div>
+                  <div className="text-2xl font-black text-text-accent">15</div>
+                  <div className="text-text-muted font-medium">Club Points</div>
+                </div>
+              </div>
+              <div className="text-3xl opacity-50 absolute top-6 right-6">🍶</div>
+            </div>
+
+            {/* 3rd Place */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-bronze/20 via-bronze/10 to-bronze/5 border-2 border-bronze/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-bronze to-bronze/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
+                  <span className="text-2xl font-black text-white">3rd</span>
+                </div>
+                <h3 className="text-xl font-bold text-text-main mb-3">Third Place</h3>
+                <div className="space-y-2">
+                  <div className="text-lg font-bold text-bronze">Joola Wristbands</div>
+                  <div className="text-2xl font-black text-bronze">10</div>
+                  <div className="text-text-muted font-medium">Club Points</div>
+                </div>
+              </div>
+              <div className="text-3xl opacity-50 absolute top-6 right-6">⌚</div>
+            </div>
+          </div>
+
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+        </div>
+      </div>
+
+      {/* Current Leaders & Next Event */}
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Current Leaders */}
+        <div className="relative overflow-hidden">
+          <div className="bg-gradient-to-br from-success/10 via-surface to-text-accent/10 rounded-3xl p-8 md:p-10 border border-success/20 shadow-2xl h-full">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-success to-success/70 rounded-full shadow-lg mb-4 transform hover:scale-110 transition-all duration-300">
+                <Trophy className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-black text-text-main mb-2">🏆 Current Leaders</h2>
+              <div className="flex items-center justify-center gap-2">
                 <Link
-                  key={entry.playerId}
-                  to={`/player/${entry.playerId}`}
-                  className="flex items-center justify-between p-3 rounded-xl bg-surface-highlight border border-border hover:border-primary/50 transition-colors group"
+                  to="/standings"
+                  className="text-success hover:text-success font-semibold text-sm flex items-center gap-1"
                 >
-                  <div className="flex items-center gap-3">
-                    <RankBadge rank={index + 1} size="sm" />
-                    <div className="flex items-center gap-3">
-                      <PlayerAvatar
-                        imageUrl={player.imageUrl}
-                        name={player.name}
-                        size="md"
-                        className="group-hover:ring-2 ring-primary transition-all"
-                      />
-                      <span className="font-bold text-text-main group-hover:text-primary transition-colors">
-                        {player.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="block font-bold text-primary">{entry.points} pts</span>
-                    <span className="text-xs text-text-muted">{entry.events} Events</span>
-                  </div>
+                  Full Standings <ArrowRight className="h-4 w-4" />
                 </Link>
-              );
-            })}
-          </div>
-        </Card>
+              </div>
+            </div>
 
-        <Card className="h-full flex flex-col bg-gradient-to-br from-surface to-surface-highlight relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-2xl font-bold text-text-main mb-4">Next Match Night</h2>
+            <div className="space-y-4">
+              {topPlayers.map((entry: any, index: number) => {
+                const player =
+                  players.find((p) => p.id === entry.playerId) ||
+                  ({ name: 'Unknown', imageUrl: '', id: 'unknown' } as any);
+                return (
+                  <Link
+                    key={entry.playerId}
+                    to={`/player/${entry.playerId}`}
+                    className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-success/10 to-success/5 border-2 border-success/20 p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] block"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-success to-success/80 rounded-full flex items-center justify-center shadow-lg">
+                          <span className="text-lg font-black text-white">{index + 1}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <PlayerAvatar
+                            imageUrl={player.imageUrl}
+                            name={player.name}
+                            size="md"
+                            className="group-hover:ring-2 ring-success transition-all"
+                          />
+                          <span className="font-bold text-text-main group-hover:text-success transition-colors">
+                            {player.name}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="block font-bold text-success">{entry.points} pts</span>
+                        <span className="text-xs text-text-muted">{entry.events} Events</span>
+                      </div>
+                    </div>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-success/5 rounded-full blur-xl"></div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Decorative Background Elements */}
+            <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-success/10 to-transparent rounded-full blur-xl -z-10"></div>
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-text-accent/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          </div>
+        </div>
+
+        {/* Next Event */}
+        <div className="relative overflow-hidden">
+          <div className="bg-gradient-to-br from-primary/10 via-surface to-warning/10 rounded-3xl p-8 md:p-10 border border-primary/20 shadow-2xl h-full">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-4 transform hover:scale-110 transition-all duration-300">
+                <Calendar className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-black text-text-main mb-2">📅 Next Match Night</h2>
+            </div>
 
             {nextEvent ? (
               <div className="space-y-6">
-                <div>
-                  <p className="text-text-muted text-sm uppercase tracking-wider mb-1">Date</p>
-                  <p className="text-xl font-bold text-text-main">
-                    {formatNiceDate(nextEvent.startDateTime)}
-                  </p>
+                {/* Date Card */}
+                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
+                        <span className="text-lg font-black text-white">📅</span>
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
+                        Date
+                      </div>
+                      <div className="text-lg font-bold text-text-main">
+                        {formatNiceDate(nextEvent.startDateTime)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-text-muted text-sm uppercase tracking-wider mb-1">Time</p>
-                  <p className="text-xl font-bold text-text-main">
-                    {formatNiceTime(nextEvent.startDateTime)}
-                  </p>
+
+                {/* Time Card */}
+                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-warning/10 to-warning/5 border-2 border-warning/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center shadow-lg">
+                        <span className="text-lg font-black text-white">🕖</span>
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
+                        Time
+                      </div>
+                      <div className="text-lg font-bold text-text-main">
+                        {formatNiceTime(nextEvent.startDateTime)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-text-muted text-sm uppercase tracking-wider mb-1">Location</p>
-                  <p className="text-xl font-bold text-text-main">{nextEvent.location}</p>
+
+                {/* Location Card */}
+                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-success/10 to-success/5 border-2 border-success/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-gradient-to-br from-success to-success/80 rounded-full flex items-center justify-center shadow-lg">
+                        <span className="text-lg font-black text-white">📍</span>
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
+                        Location
+                      </div>
+                      <div className="text-lg font-bold text-text-main">{nextEvent.location}</div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="pt-4">
@@ -271,43 +445,72 @@ const HomePage: React.FC = () => {
                     href={nextEvent.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-full px-6 py-3 bg-surface border border-border hover:border-primary/50 rounded-xl text-text-main font-bold transition-colors"
+                    className="w-full bg-primary text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                   >
                     Register on CourtReserve
+                    <ExternalLink className="h-5 w-5" />
                   </a>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
-                <p className="text-text-muted">
-                  No upcoming match nights are listed. Check the full schedule for details.
-                </p>
-                <Link
-                  to="/schedule"
-                  className="inline-flex items-center justify-center w-full px-6 py-3 bg-surface border border-border hover:border-primary/50 rounded-xl text-text-main font-bold transition-colors"
-                >
-                  View Schedule
-                </Link>
+              <div className="space-y-6">
+                <div className="text-center p-8">
+                  <div className="text-6xl mb-4 opacity-50">📅</div>
+                  <p className="text-text-muted mb-6">
+                    No upcoming match nights are listed. Check the full schedule for details.
+                  </p>
+                  <Link
+                    to="/schedule"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white rounded-xl font-bold transition-colors hover:bg-primary-hover"
+                  >
+                    View Schedule
+                  </Link>
+                </div>
               </div>
             )}
+
+            {/* Decorative Background Elements */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-xl -z-10"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
           </div>
-        </Card>
+        </div>
       </div>
 
-      {/* How to Join */}
-      <div className="bg-primary-light rounded-2xl p-8 md:p-12 text-center border border-primary/50">
-        <h2 className="text-3xl font-bold text-text-main mb-4">Want to Join the League?</h2>
-        <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
-          We are always looking for competitive players to join the roster. Check out the format and
-          rules to see if you qualify.
-        </p>
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-          <Link
-            to="/format"
-            className="bg-primary text-text-main px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-colors shadow-lg shadow-primary/20 flex items-center gap-2"
-          >
-            View Format <ArrowRight className="h-5 w-5" />
-          </Link>
+      {/* Call to Action */}
+      <div className="relative overflow-hidden">
+        <div className="bg-gradient-to-br from-text-accent/5 via-surface to-primary/5 rounded-3xl p-8 md:p-12 border border-text-accent/20 shadow-2xl">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-text-accent to-text-accent/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <Target className="h-10 w-10 text-white" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
+              🎯 Ready to Compete?
+            </h2>
+            <p className="text-xl text-text-muted max-w-2xl mx-auto mb-8">
+              We are always looking for competitive players to join the roster. Check out the format
+              and rules to see if you qualify for our premier league.
+            </p>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <Link
+                to="/format"
+                className="bg-text-accent text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-text-accent/80 transition-colors shadow-lg shadow-text-accent/20 flex items-center gap-2"
+              >
+                View League Format <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                to="/standings"
+                className="bg-surface border-2 border-text-accent text-text-accent px-8 py-4 rounded-xl font-bold text-lg hover:bg-text-accent hover:text-white transition-colors"
+              >
+                Current Standings
+              </Link>
+            </div>
+          </div>
+
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-text-accent/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
         </div>
       </div>
     </div>

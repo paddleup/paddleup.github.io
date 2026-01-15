@@ -1,7 +1,6 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
+import { Calendar, Clock, MapPin, ExternalLink, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import PageHeader from '../components/ui/PageHeader';
 import Card from '../components/ui/Card';
 import ToggleGroup from '../components/ui/ToggleGroup';
 import { useEvents } from '../hooks/firestoreHooks';
@@ -34,69 +33,175 @@ const SchedulePage: React.FC = () => {
   const displayed = view === 'upcoming' ? upcoming : past;
 
   return (
-    <div className="space-y-8 pb-12">
-      <PageHeader
-        title="Season Schedule"
-        subtitle="Per-night registration links for 'The Challenge' — register for any night below."
-        center
-      />
+    <div className="space-y-16 pb-12">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden">
+        <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
+          {/* Header with animated icon */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <Calendar className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-black text-text-main mb-4">
+              📅 Season Schedule
+            </h1>
+            <p className="text-xl text-text-muted max-w-2xl mx-auto">
+              Per-night registration links for &apos;The Challenge&apos; — register for any night
+              below
+            </p>
+          </div>
 
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-end gap-2 mb-4">
-          <ToggleGroup
-            options={[
-              { value: 'upcoming', label: 'Upcoming' },
-              { value: 'past', label: 'Past' },
-            ]}
-            value={view}
-            onChange={(v) => setView(v as 'upcoming' | 'past')}
-          />
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
         </div>
+      </div>
 
-        <div className="grid gap-6">
-          {displayed.map((ev) => (
-            <Link key={ev.id} to={`/event/${encodeURIComponent(ev.id)}`} className="group">
-              <Card className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 group-hover:shadow-lg transition">
-                <div>
-                  <h3 className="text-xl font-bold text-text-main mb-1">{ev.name}</h3>
+      {/* Toggle Section */}
+      <div className="max-w-4xl mx-auto mb-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ToggleGroup
+              options={[
+                { value: 'upcoming', label: 'Upcoming' },
+                { value: 'past', label: 'Past' },
+              ]}
+              value={view}
+              onChange={(v) => setView(v as 'upcoming' | 'past')}
+            />
+          </div>
+          <div className="text-sm text-text-muted">
+            {displayed.length} {displayed.length === 1 ? 'event' : 'events'}
+          </div>
+        </div>
+      </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-text-muted">
-                    <span className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" /> {formatNiceDate(ev.startDateTime)}
-                    </span>
+      {/* Events List */}
+      <div className="max-w-4xl mx-auto space-y-4">
+        {displayed.map((ev) => (
+          <div
+            key={ev.id}
+            className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-surface via-surface-alt to-surface border border-border p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/50"
+          >
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Event Details */}
+              <div className="flex-grow">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className="text-2xl font-bold text-text-main mb-2 group-hover:text-primary transition-colors">
+                      {ev.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-sm text-text-muted">
+                      <span
+                        className={`inline-block h-2 w-2 rounded-full ${
+                          view === 'past' ? 'bg-success' : 'bg-primary'
+                        }`}
+                      ></span>
+                      {view === 'past' ? 'Completed Event' : 'Upcoming Event'}
+                    </div>
+                  </div>
 
-                    <span className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" /> {formatNiceTime(ev.startDateTime)}
-                    </span>
-
-                    <span className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" /> {ev.location}
-                    </span>
+                  {/* Quick Info */}
+                  <div className="text-right text-sm text-text-muted">
+                    <div className="font-semibold">{formatNiceDate(ev.startDateTime)}</div>
+                    <div>{formatNiceTime(ev.startDateTime)}</div>
                   </div>
                 </div>
 
-                <div className="flex-shrink-0 w-full md:w-auto">
-                  {view === 'past' ? (
-                    <div className="inline-flex items-center gap-2 px-5 py-3 bg-surface border border-border rounded-xl text-text-muted font-semibold">
-                      <span className="inline-block h-2 w-2 rounded-full bg-success/80"></span>
+                {/* Event Info Grid */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                  {/* Date */}
+                  <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/20">
+                    <Calendar className="h-5 w-5 text-primary flex-shrink-0" />
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                        Date
+                      </div>
+                      <div className="font-bold text-text-main truncate">
+                        {formatNiceDate(ev.startDateTime)}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <div className="flex items-center gap-3 p-3 bg-success/10 rounded-xl border border-success/20">
+                    <Clock className="h-5 w-5 text-success flex-shrink-0" />
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                        Time
+                      </div>
+                      <div className="font-bold text-text-main truncate">
+                        {formatNiceTime(ev.startDateTime)}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex items-center gap-3 p-3 bg-warning/10 rounded-xl border border-warning/20 sm:col-span-2 lg:col-span-1">
+                    <MapPin className="h-5 w-5 text-warning flex-shrink-0" />
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                        Location
+                      </div>
+                      <div className="font-bold text-text-main truncate">{ev.location}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex-shrink-0 flex flex-col gap-3 lg:w-48">
+                {view === 'past' ? (
+                  <>
+                    <div className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-success/20 border-2 border-success/30 rounded-xl text-success font-bold">
+                      <span className="inline-block h-3 w-3 rounded-full bg-success"></span>
                       Completed
                     </div>
-                  ) : (
+                    <Link
+                      to={`/event/${encodeURIComponent(ev.id)}`}
+                      className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-surface-highlight border border-border text-text-main rounded-xl font-semibold hover:bg-surface-alt transition-colors"
+                    >
+                      View Results
+                    </Link>
+                  </>
+                ) : (
+                  <>
                     <a
                       href={ev.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-text-main rounded-xl font-bold hover:opacity-95 transition shadow"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover transition-all duration-300 shadow-md hover:shadow-lg"
                     >
-                      Register on CourtReserve <ExternalLink className="h-4 w-4" />
+                      <ExternalLink className="h-5 w-5" />
+                      Register Now
                     </a>
-                  )}
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
+                    <Link
+                      to={`/event/${encodeURIComponent(ev.id)}`}
+                      className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-surface-highlight border border-border text-text-main rounded-xl font-semibold hover:bg-surface-alt transition-colors"
+                    >
+                      Event Details
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Empty State */}
+        {displayed.length === 0 && (
+          <div className="text-center p-12 bg-surface rounded-2xl border border-border">
+            <div className="text-6xl mb-6 opacity-50">{view === 'upcoming' ? '📅' : '🏁'}</div>
+            <h3 className="text-2xl font-bold text-text-main mb-4">
+              {view === 'upcoming' ? 'No Upcoming Events' : 'No Past Events'}
+            </h3>
+            <p className="text-text-muted">
+              {view === 'upcoming'
+                ? 'Check back soon for new match nights to register for!'
+                : "Past events will appear here once they're completed."}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

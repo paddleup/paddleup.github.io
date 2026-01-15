@@ -67,9 +67,11 @@ export const playerConverter: FirestoreDataConverter<Player> = {
       console.log('No demo name for player id:', snapshot.id);
     }
 
+    const name = import.meta.env.DEV ? data.name : demoName || data.name;
+
     const parsed = {
       id: snapshot.id,
-      name: demoName || data.name,
+      name: name,
       dupr: data.dupr,
       imageUrl: data.imageUrl,
       createdAt: toIsoString(data.createdAt),

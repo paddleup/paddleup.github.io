@@ -1,6 +1,6 @@
 // src/components/ui/RoundTabs.tsx
 import React from 'react';
-import { ChallengeEventRoundNumber, ChallengeEventStage } from '../../types';
+import { RoundNumber, ChallengeEventStage } from '../../types';
 import Button from './Button';
 
 type Props = {
@@ -34,7 +34,7 @@ const RoundTabs: React.FC<Props> = ({ current, onSelect, showInitialize }) => (
       <Button
         key={i}
         type="button"
-        onClick={() => onSelect((i + 1) as ChallengeEventRoundNumber)}
+        onClick={() => onSelect((i + 1) as RoundNumber)}
         className={tabClass(current === i + 1)}
         size="sm"
         variant="ghost"
