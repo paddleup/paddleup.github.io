@@ -202,14 +202,15 @@ export function calculatePlayerRankings(
     }));
 
     for (const game of court.games) {
-      const { team1, team2, team1Score = 0, team2Score = 0 } = game;
+      const { team1, team2, team1Score, team2Score } = game;
 
       const updateWinsLossesAndDiff = (
         player: PlayerDetails,
-        score: number,
-        opponentScore: number,
-        isTeamA: boolean,
+        score?: number,
+        opponentScore?: number,
+        isTeamA?: boolean,
       ) => {
+        if (score === undefined || opponentScore === undefined) return;
         const wonGame = score > opponentScore || (score === opponentScore && isTeamA);
         player.wins += wonGame ? 1 : 0;
         player.losses += wonGame ? 0 : 1;

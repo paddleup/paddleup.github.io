@@ -443,8 +443,6 @@ export function createNestedEntityHooks<T extends WithOptionalId, IdArgs extends
   buildPath: (...ids: IdArgs) => string | undefined,
   converter?: FirestoreDataConverter<T>,
 ) {
-  console.log('createNestedEntityHooks buildPath:', buildPath);
-
   function useEntities(...ids: IdArgs) {
     const fullName = buildPath(...ids);
     const result = useFirestoreEntities<T>(fullName, converter);
@@ -484,7 +482,6 @@ export function createNestedEntityHooks<T extends WithOptionalId, IdArgs extends
   function useUpdate(...args: [...IdArgs]) {
     const ids = args as IdArgs;
     const fullName = buildPath(...(ids as IdArgs));
-    console.log('useUpdate fullName:', fullName, 'ids:', ids);
     const result = useFirestoreUpdate<T>(fullName as string, converter);
     if (!fullName) {
       return {

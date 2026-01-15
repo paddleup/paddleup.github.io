@@ -5,18 +5,16 @@ import {
   ArrowRight,
   Users,
   Calendar,
-  Star,
-  Clock,
   Target,
   ExternalLink,
 } from 'lucide-react';
 // import { players } from '../data/players';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { useEvents, usePlayers } from '../hooks/firestoreHooks';
-import Card from '../components/ui/Card';
 import PlayerAvatar from '../components/ui/PlayerAvatar';
-import RankBadge from '../components/ui/RankBadge';
-import { Player } from '../types';
+import PremiumSection from '../components/ui/PremiumSection';
+import SectionHeader from '../components/ui/SectionHeader';
+import StatsCard from '../components/ui/StatsCard';
 
 const HomePage: React.FC = () => {
   const { data: challengeEvents = [] } = useEvents();
@@ -154,80 +152,48 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* League Stats */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Users className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🏆 League Overview
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Weekly competitive action with structured format and player advancement
-            </p>
-          </div>
+      <PremiumSection primaryColor="primary" secondaryColor="success">
+        <SectionHeader
+          icon={Users}
+          title="League Overview"
+          subtitle="Weekly competitive action with structured format and player advancement"
+          iconColor="primary"
+        />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Players Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">👥</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Players</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-primary">16</div>
-                  <div className="text-text-muted font-medium">per night</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full blur-xl"></div>
-            </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatsCard
+            emoji="👥"
+            title="Players"
+            value="16"
+            description="per night"
+            color="primary"
+          />
 
-            {/* Schedule Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-success/10 to-success/5 border-2 border-success/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">📅</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Schedule</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-success">7-10 PM</div>
-                  <div className="text-text-muted font-medium">Every Sunday</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-success/5 rounded-full blur-xl"></div>
-            </div>
+          <StatsCard
+            emoji="📅"
+            title="Schedule"
+            value="7-10 PM"
+            description="Every Sunday"
+            color="success"
+          />
 
-            {/* Prizes Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-warning/10 to-warning/5 border-2 border-warning/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🏆</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Prize Pool</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-warning">100</div>
-                  <div className="text-text-muted font-medium">Club Points</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-warning/5 rounded-full blur-xl"></div>
-            </div>
+          <StatsCard
+            emoji="🏆"
+            title="Prize Pool"
+            value="100"
+            description="Club Points"
+            color="warning"
+          />
 
-            {/* Level Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-text-accent/10 to-text-accent/5 border-2 border-text-accent/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">⭐</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Level</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-text-accent">3.5+ DUPR</div>
-                  <div className="text-text-muted font-medium">Required</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-text-accent/5 rounded-full blur-xl"></div>
-            </div>
-          </div>
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <StatsCard
+            emoji="⭐"
+            title="Level"
+            value="3.5+ DUPR"
+            description="Required"
+            color="text-accent"
+          />
         </div>
-      </div>
+      </PremiumSection>
 
       {/* Season Prizes */}
       <div className="relative overflow-hidden">
@@ -238,7 +204,7 @@ const HomePage: React.FC = () => {
               <Trophy className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🎯 Season Rewards
+              Season Rewards
             </h2>
             <p className="text-xl text-text-muted max-w-2xl mx-auto">
               Top performers this season earn Joola gear and Paddle Up club points as rewards for
@@ -312,7 +278,7 @@ const HomePage: React.FC = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-success to-success/70 rounded-full shadow-lg mb-4 transform hover:scale-110 transition-all duration-300">
                 <Trophy className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-text-main mb-2">🏆 Current Leaders</h2>
+              <h2 className="text-3xl font-black text-text-main mb-2">Current Leaders</h2>
               <div className="flex items-center justify-center gap-2">
                 <Link
                   to="/standings"
@@ -481,7 +447,7 @@ const HomePage: React.FC = () => {
               <Target className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🎯 Ready to Compete?
+              Ready to Compete?
             </h2>
             <p className="text-xl text-text-muted max-w-2xl mx-auto mb-8">
               We are always looking for competitive players to join the roster. Check out the format

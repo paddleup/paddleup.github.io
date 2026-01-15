@@ -7,23 +7,32 @@ import {
   MapPin,
   Trophy,
   Users,
-  Target,
   Search,
   UserPlus,
   Play,
   ArrowRight,
   CheckCircle,
-  Edit3,
-  Save,
-  X,
   RotateCcw,
+  Plus,
 } from 'lucide-react';
 import { useEvent, usePlayers } from '../hooks/firestoreHooks';
 import { useAdmin } from '../hooks/useAdmin';
 import { useChallengeEvent } from '../hooks/useChallengeEvent';
+import { calculatePlayerRankings } from '../lib/challengeEventUtils';
+import { getPointsForRank } from '../lib/points';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
+import { 
+  RoundRankingsPanel, 
+  CourtStatsPanel, 
+  MobileScoreInput, 
+  PlayerSearchFilter 
+} from '../components/ui';
+import DetailCard from '../components/ui/DetailCard';
+import TeamRow from '../components/ui/TeamRow';
+import CourtCard from '../components/ui/CourtCard';
+import { formatNiceDate, formatNiceTime } from '../utils/format';
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,24 +47,9 @@ const EventPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isInitializing, setIsInitializing] = useState(false);
 
-  // State for score editing - simplified for auto-save
-  const [editingScore, setEditingScore] = useState<{
-    gameId: string;
-    team: 'team1Score' | 'team2Score';
-  } | null>(null);
+  // State for player search and highlighting
+  const [highlightedPlayerId, setHighlightedPlayerId] = useState<string | null>(null);
 
-  const formatNiceDate = (d?: Date | null) =>
-    d
-      ? d.toLocaleDateString(undefined, {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })
-      : '';
-
-  const formatNiceTime = (d?: Date | null) =>
-    d ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
 
   // Filter and sort players for selection
   const filteredPlayers = useMemo(() => {
@@ -111,25 +105,6 @@ const EventPage: React.FC = () => {
     }
 
     challenge.finalizeEvent();
-  };
-
-  const handleScoreInputChange = (
-    gameId: string,
-    team: 'team1Score' | 'team2Score',
-    value: string,
-  ) => {
-    const score = parseInt(value);
-    if (!isNaN(score) && score >= 0) {
-      challenge.handleScoreChange(gameId, team, score);
-    }
-  };
-
-  const startEditingScore = (gameId: string, team: 'team1Score' | 'team2Score') => {
-    setEditingScore({ gameId, team });
-  };
-
-  const stopEditingScore = () => {
-    setEditingScore(null);
   };
 
   if (eventLoading) {
@@ -200,27 +175,21 @@ const EventPage: React.FC = () => {
 
             {/* Event Details Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
-                <Calendar className="h-5 w-5 text-primary" />
-                <div className="text-left">
-                  <div className="text-xs text-text-muted uppercase">Date</div>
-                  <div className="font-semibold text-sm">{formatNiceDate(event.startDateTime)}</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
-                <Clock className="h-5 w-5 text-success" />
-                <div className="text-left">
-                  <div className="text-xs text-text-muted uppercase">Time</div>
-                  <div className="font-semibold text-sm">{formatNiceTime(event.startDateTime)}</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
-                <MapPin className="h-5 w-5 text-warning" />
-                <div className="text-left">
-                  <div className="text-xs text-text-muted uppercase">Location</div>
-                  <div className="font-semibold text-sm truncate">{event.location || 'TBD'}</div>
-                </div>
-              </div>
+              <DetailCard
+                icon={<Calendar className="h-5 w-5 text-primary" />}
+                label="Date"
+                value={formatNiceDate(event.startDateTime)}
+              />
+              <DetailCard
+                icon={<Clock className="h-5 w-5 text-success" />}
+                label="Time"
+                value={formatNiceTime(event.startDateTime)}
+              />
+              <DetailCard
+                icon={<MapPin className="h-5 w-5 text-warning" />}
+                label="Location"
+                value={event.location || 'TBD'}
+              />
             </div>
           </div>
         </Card>
@@ -349,9 +318,60 @@ const EventPage: React.FC = () => {
         </Card>
       )}
 
+      {/* Player Search */}
+      {!challenge.needsInitialization && currentRound && (
+        <PlayerSearchFilter
+          players={players.filter(p => 
+            currentRound.courts.some(court => 
+              court.playerIds.includes(p.id || '')
+            )
+          )}
+          onPlayerSelect={(playerId) => {
+            setHighlightedPlayerId(playerId);
+            // Scroll to the court containing this player
+            const court = currentRound.courts.find(c => c.playerIds.includes(playerId));
+            if (court) {
+              const courtElement = document.getElementById(`court-${court.id}`);
+              if (courtElement) {
+                courtElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }
+          }}
+          onClear={() => setHighlightedPlayerId(null)}
+          placeholder="Find a player on the courts..."
+          className="mb-6"
+        />
+      )}
+
       {/* Round Display */}
       {currentRound && (
         <div className="space-y-6">
+          {/* Round Rankings Panel */}
+          {(() => {
+            const playerRankings = calculatePlayerRankings(currentRound.courts, challenge.currentView as 1 | 2);
+            const previousRoundRankings = challenge.currentView === 2 && challenge.round1 
+              ? calculatePlayerRankings(challenge.round1.courts, 1)
+              : undefined;
+
+            // Only count games for the current round
+            const roundGames = currentRound.courts.flatMap(court =>
+              court.games.filter(g => g.roundNumber === challenge.currentView)
+            );
+            const completedRoundGames = roundGames.filter(
+              g => g.team1Score !== undefined && g.team2Score !== undefined
+            ).length;
+
+            return (
+              <RoundRankingsPanel
+                roundNumber={challenge.currentView as number}
+                playerRankings={playerRankings}
+                players={players}
+                completedGames={completedRoundGames}
+                totalGames={roundGames.length}
+                previousRoundRankings={previousRoundRankings}
+              />
+            );
+          })()}
           {/* Round Header */}
           <Card variant="gradient" theme="success" padding="md">
             <div className="flex items-center justify-between">
@@ -423,108 +443,18 @@ const EventPage: React.FC = () => {
             </div>
           </Card>
 
-          {/* Courts Grid - Compact & Dense for Maximum Information */}
-          <div className="grid grid-cols-1 gap-3">
+          {/* Mobile-Optimized Courts Grid */}
+          <div className="grid grid-cols-1 gap-4">
             {currentRound.courts.map((court) => (
-              <Card key={court.id} variant="premium" padding="sm" hover>
-                <div className="space-y-3">
-                  {/* Court Header - Compact */}
-                  <div className="flex items-center justify-between border-b border-border pb-2">
-                    <h3 className="text-xl font-bold text-text-main">Court {court.courtNumber}</h3>
-                    <span className="text-xs px-2 py-1 bg-primary/20 text-primary rounded-lg font-semibold">
-                      {court.games.length} games
-                    </span>
-                  </div>
-
-                  {/* Games - Ultra Compact Layout */}
-                  <div className="space-y-1">
-                    {court.games.map((game, gameIndex) => {
-                      const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
-                      const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
-                      const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
-                      const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
-
-                      return (
-                        <div
-                          key={game.id}
-                          className="bg-surface-alt/20 rounded p-2 border border-border/20"
-                        >
-                          <div className="flex items-center justify-between">
-                            {/* Team 1 - Ultra Compact */}
-                            <div className="flex items-center gap-2 flex-1">
-                              <div className="text-xs font-bold text-text-main min-w-0">
-                                <div className="truncate">{team1Player1?.name || 'P1'}</div>
-                                <div className="truncate">{team1Player2?.name || 'P2'}</div>
-                              </div>
-                              {/* Auto-Save Score Input */}
-                              {editingScore?.gameId === game.id &&
-                              editingScore?.team === 'team1Score' ? (
-                                <input
-                                  type="number"
-                                  defaultValue={game.team1Score || ''}
-                                  onChange={(e) =>
-                                    handleScoreInputChange(game.id!, 'team1Score', e.target.value)
-                                  }
-                                  onBlur={stopEditingScore}
-                                  className="w-10 px-1 py-1 text-sm font-bold border border-primary rounded bg-surface text-center"
-                                  autoFocus
-                                />
-                              ) : (
-                                <div
-                                  className={`w-10 h-6 flex items-center justify-center bg-primary/10 border border-primary/30 rounded text-sm font-black cursor-pointer ${
-                                    isAdmin ? 'hover:bg-primary/20' : ''
-                                  }`}
-                                  onClick={() =>
-                                    isAdmin && startEditingScore(game.id!, 'team1Score')
-                                  }
-                                >
-                                  {game.team1Score ?? '-'}
-                                </div>
-                              )}
-                            </div>
-
-                            {/* VS - Minimal */}
-                            <div className="mx-2 text-xs font-bold text-text-muted">vs</div>
-
-                            {/* Team 2 - Ultra Compact */}
-                            <div className="flex items-center gap-2 flex-1 justify-end">
-                              {/* Auto-Save Score Input */}
-                              {editingScore?.gameId === game.id &&
-                              editingScore?.team === 'team2Score' ? (
-                                <input
-                                  type="number"
-                                  defaultValue={game.team2Score || ''}
-                                  onChange={(e) =>
-                                    handleScoreInputChange(game.id!, 'team2Score', e.target.value)
-                                  }
-                                  onBlur={stopEditingScore}
-                                  className="w-10 px-1 py-1 text-sm font-bold border border-success rounded bg-surface text-center"
-                                  autoFocus
-                                />
-                              ) : (
-                                <div
-                                  className={`w-10 h-6 flex items-center justify-center bg-success/10 border border-success/30 rounded text-sm font-black cursor-pointer ${
-                                    isAdmin ? 'hover:bg-success/20' : ''
-                                  }`}
-                                  onClick={() =>
-                                    isAdmin && startEditingScore(game.id!, 'team2Score')
-                                  }
-                                >
-                                  {game.team2Score ?? '-'}
-                                </div>
-                              )}
-                              <div className="text-xs font-bold text-text-main min-w-0 text-right">
-                                <div className="truncate">{team2Player1?.name || 'P1'}</div>
-                                <div className="truncate">{team2Player2?.name || 'P2'}</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Card>
+              <CourtCard
+                key={court.id}
+                court={court}
+                players={players}
+                roundNumber={challenge.currentView as 1 | 2}
+                highlightedPlayerId={highlightedPlayerId}
+                isAdmin={isAdmin}
+                handleScoreChange={challenge.handleScoreChange}
+              />
             ))}
           </div>
         </div>
@@ -541,45 +471,78 @@ const EventPage: React.FC = () => {
             <p className="text-text-muted">Official results from this event</p>
           </div>
 
-          <div className="space-y-3 max-w-lg mx-auto">
-            {event.standings.map((playerId: string, index: number) => {
-              const player = players.find((p) => p.id === playerId);
-              const medalColors = ['warning', 'text-accent', 'bronze'];
-              const medals = ['🥇', '🥈', '🥉'];
+          <div className="bg-surface rounded-xl border border-border overflow-hidden max-w-2xl mx-auto">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-surface-alt border-b border-border">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">Position</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">Player</th>
+                    <th className="px-6 py-4 text-center text-sm font-semibold text-text-main uppercase tracking-wider">Points</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {event.standings.map((playerId: string, index: number) => {
+                    const player = players.find((p) => p.id === playerId);
+                    const medalColors = ['warning', 'text-accent', 'bronze'];
+                    const medals = ['🥇', '🥈', '🥉'];
 
-              return (
-                <div
-                  key={playerId}
-                  className="flex items-center gap-4 p-4 bg-surface rounded-xl border border-border"
-                >
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      index < 3
-                        ? `bg-gradient-to-br from-${medalColors[index]} to-${medalColors[index]}/70 text-white`
-                        : 'bg-surface-alt text-text-main'
-                    }`}
-                  >
-                    <span className="font-bold text-lg">
-                      {index < 3 ? medals[index] : `#${index + 1}`}
-                    </span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-text-main">
-                      {player?.name || `Player ${playerId}`}
-                    </div>
-                    <div className="text-sm text-text-muted">
-                      {index === 0
-                        ? 'Champion'
-                        : index === 1
-                        ? 'Runner-up'
-                        : index === 2
-                        ? 'Third Place'
-                        : `Position ${index + 1}`}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                    return (
+                      <tr
+                        key={playerId}
+                        className={`transition-colors ${
+                          index < 3
+                            ? index === 0
+                              ? 'bg-warning/5 hover:bg-warning/10'
+                              : index === 1
+                              ? 'bg-text-accent/5 hover:bg-text-accent/10'
+                              : 'bg-bronze/5 hover:bg-bronze/10'
+                            : 'hover:bg-surface-highlight'
+                        }`}
+                      >
+                        {/* Position Column */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div
+                            className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                              index < 3
+                                ? `bg-gradient-to-br from-${medalColors[index]} to-${medalColors[index]}/70 text-white`
+                                : 'bg-surface-alt text-text-main'
+                            }`}
+                          >
+                            <span className="font-bold text-lg">
+                              {index < 3 ? medals[index] : `#${index + 1}`}
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Player Name Column */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-bold text-lg text-text-main">
+                            {player?.name || `Player ${playerId}`}
+                          </div>
+                          {player?.dupr && (
+                            <div className="text-sm text-text-muted">
+                              DUPR: {player.dupr}
+                            </div>
+                          )}
+                        </td>
+
+                        {/* Points Column */}
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <div className="flex items-center justify-center gap-1 text-2xl font-bold text-success">
+                            <Plus className="h-5 w-5" />
+                            {getPointsForRank(index + 1).toLocaleString()}
+                          </div>
+                          <div className="text-sm text-text-muted">
+                            points
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Card>
       )}

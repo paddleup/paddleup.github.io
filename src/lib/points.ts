@@ -1,9 +1,14 @@
-import { rules } from '../data/rules';
-
 /**
  * Points mapping by rank (courts).
  */
-export const getPointsForRank = (rank: number): number => {
+export const getPointsForRank = (rank: number, halfEvery: 2 | 3 | 5 = 3): number => {
+  if (halfEvery === 5) {
+    return getPointsForRankHalfEveryFive(rank);
+  }
+  if (halfEvery === 2) {
+    return getPointsForRankHalfEveryTwo(rank);
+  }
+
   return getPointsForRankHalfEveryThree(rank);
 };
 

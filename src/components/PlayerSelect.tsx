@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import PlayerAvatar from './ui/PlayerAvatar';
 import Button from './ui/Button';
-import players from '../data/players';
+import { usePlayers } from '../hooks/firestoreHooks';
+import { Player } from '../types';
 
 interface PlayerSelectProps {
   value: string;
@@ -14,6 +15,7 @@ const PlayerSelect: React.FC<PlayerSelectProps> = ({ value, onChange, placeholde
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { data: players = [] } = usePlayers();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -25,7 +27,7 @@ const PlayerSelect: React.FC<PlayerSelectProps> = ({ value, onChange, placeholde
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const filteredPlayers = players.filter((p) =>
+  const filteredPlayers = players.filter((p: Player) =>
     p.name.toLowerCase().includes((searchTerm || value).toLowerCase()),
   );
 
@@ -57,7 +59,7 @@ const PlayerSelect: React.FC<PlayerSelectProps> = ({ value, onChange, placeholde
 
       {isOpen && filteredPlayers.length > 0 && (
         <div className="absolute z-10 w-full mt-1 bg-surface-highlight border border-border rounded-md shadow-lg max-h-60 overflow-auto">
-          {filteredPlayers.map((p) => (
+          {filteredPlayers.map((p: Player) => (
             <Button
               key={p.id}
               onClick={() => handleSelect(p.name)}
@@ -65,7 +67,12 @@ const PlayerSelect: React.FC<PlayerSelectProps> = ({ value, onChange, placeholde
               size="sm"
               className="w-full text-left px-4 py-2 text-sm hover:bg-surface-alt flex items-center gap-2"
             >
-              <PlayerAvatar imageUrl={p.imageUrl} name={p.name} size="sm" border={false} />
+              <PlayerAvatar 
+                imageUrl={p.imageUrl} 
+                name={p.name} 
+                size="sm" 
+                border={false} 
+              />
               <span className="text-text-main">{p.name}</span>
             </Button>
           ))}

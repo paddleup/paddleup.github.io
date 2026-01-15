@@ -11,6 +11,7 @@ interface PlayerLike {
   id?: string;
   name: string;
   imageUrl?: string;
+  dupr?: number;
 }
 
 export interface LeaderboardRow {

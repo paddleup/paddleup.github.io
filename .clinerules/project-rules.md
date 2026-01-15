@@ -18,31 +18,7 @@ This document reflects the current authoritative locations, conventions, and rec
 - Tests: limited. Recommended: Vitest + CI (typecheck + tests + build)
 
 ## Recent code changes (high level)
-- src/data/rules.ts
-  - Added explicit PointsTable type and replaced permissive `any` for the points shape.
-  - rules.* objects remain the canonical source of truth and export typed rule shapes.
-- src/lib/points.ts
-  - Replaced unsafe index helpers with typed safeLookup and guarded access to rules.points.
-  - getPointsForRank now uses the typed PointsTable and defaults to empty tables to avoid runtime errors.
-- Multiple UI components updated to remove implicit-`any` and handle optional fields:
-  - src/pages/Standings.tsx — removed unsafe casts and introduced a small WeekLike shape when synthesizing week objects from challenge events.
-  - src/components/format/* — NightlyFormat, PreSeasonQualifiers, ScoringSection, SeasonStructure: added explicit callback param types and guards for optional rules.* fields.
-  - src/components/match/CourtCard.tsx — aligned Props with destructured values (added optional scores and onScoreChange).
-- TypeScript checks were run iteratively to surface and fix implicit-any and possibly-undefined errors. Work is ongoing to reach zero type errors under tsc --noEmit.
 - Small cleanup: removed or gated several unsafe `any` usages and substituted explicit shapes where safe.
-
-## Current authoritative files & directories (critical)
-- `src/data/rules.ts` — CRITICAL. Canonical rules data + exported rule types (baseRules, leagueRules, challengeRules, rules). Contains PointsTable type now.
-- `src/data/players.ts` — CRITICAL. Typed roster export: `export const players: Player[]`.
-- `src/data/challengeEvents.ts` — Typed event definitions and exported `challengeEvents: ChallengeEvent[]`.
-- `src/types/index.ts` — CRITICAL. Central TypeScript types and re-exports of rules types.
-- `src/lib/standings.ts` — CRITICAL. Week-level computations; exports calculateWeekFinalPositions and aggregatesFromWeek.
-- `src/lib/season.ts` — CRITICAL. Season-level aggregations: calculateSeasonStats and calculateAllTimeStats.
-- `src/lib/points.ts` — Points lookup (getPointsForRank) — now typed and defensive.
-- `src/hooks/` — usePlayers.ts, useRules.ts, useSeasonStats.ts — memoized selectors for UI consumption.
-- `src/pages/` — key views: Format, Home, Standings, Players, PlayerProfile, MatchSheet, Champions, Calculator.
-- `src/components/format/` — UI for rendering rules (NightlyFormat, SeasonStructure, ScoringSection, PreSeasonQualifiers).
-- `public/images/players/` — Player images referenced by players.ts.
 
 ## Conventions & recent decisions (updated)
 - Data files remain TypeScript modules exporting typed constants. Do NOT add plain JSON for domain data.
@@ -57,7 +33,6 @@ This document reflects the current authoritative locations, conventions, and rec
 
 ## Notes about editing rules/data safely
 - Update `src/types/index.ts` when adding new domain types or changing data shapes.
-- Edit data under `src/data/*` only; keep UI components importing from those modules rather than duplicating constants.
 - Avoid hardcoding points or seeding constants in components — use `src/lib/points.ts` and `src/data/rules.ts`.
 - When adding new arrays/strings to rules, ensure components consuming them use guards (Array.isArray, ??) to avoid TS errors.
 

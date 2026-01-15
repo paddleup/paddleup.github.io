@@ -23,6 +23,7 @@ import {
   Event,
 } from '../types';
 import { getDemoName } from './getDemoName';
+import { generatePlayerAvatarDataUrl } from './avatarGenerator';
 
 /** Helper: normalize Firestore Timestamp -> ISO string (or keep string) */
 function toIsoString(value: unknown): string | undefined {
@@ -68,12 +69,22 @@ export const playerConverter: FirestoreDataConverter<Player> = {
     }
 
     const name = import.meta.env.DEV ? data.name : demoName || data.name;
+    let imageUrl = data.imageUrl as string | undefined;
+
+    // Generate avatar if no image URL is provided
+    if (!imageUrl && name && typeof name === 'string') {
+      imageUrl = generatePlayerAvatarDataUrl({
+        playerId: snapshot.id,
+        playerName: name,
+        size: 64
+      });
+    }
 
     const parsed = {
       id: snapshot.id,
       name: name,
       dupr: data.dupr,
-      imageUrl: data.imageUrl,
+      imageUrl: imageUrl,
       createdAt: toIsoString(data.createdAt),
     };
     return PlayerSchema.parse(parsed);
@@ -123,10 +134,9 @@ export const courtConverter: FirestoreDataConverter<Court> = {
 export const eventConverter: FirestoreDataConverter<Event> = {
   toFirestore(event: Event) {
     const { id: _id, ...rest } = event as any;
-    const { startDateTime, ...other } = rest;
+    const { ...other } = rest;
     return {
       ...other,
-      startDateTime: startDateTime ? startDateTime : serverTimestamp(),
     };
   },
   fromFirestore(snapshot: QueryDocumentSnapshot, options?: SnapshotOptions): Event {
@@ -139,8 +149,6 @@ export const eventConverter: FirestoreDataConverter<Event> = {
       console.log(e);
       // ignore
     }
-
-    console.log('Parsed startDateTime:', startDateTime);
 
     const parsed = {
       id: snapshot.id,

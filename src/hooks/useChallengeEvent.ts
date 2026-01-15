@@ -20,6 +20,7 @@ import {
   generateGames,
   isValidNumberOfPlayers,
 } from '../lib/challengeEventUtils';
+import { useLeaderboard } from './useLeaderboard';
 
 // export type ChallengeEventView = ChallengeEventRoundNumber | 'standings' | 'initialize';
 
@@ -141,9 +142,19 @@ export const useChallengeEvent = (eventId?: string) => {
     [isRoundCreated, createCourt, setEventStage, setCurrentView, createGame],
   );
 
+  const leaderboard = useLeaderboard();
+
   const initializeRoundOne = useCallback(
-    async (playerIds: string[]) => await setupRound(playerIds, 1),
-    [setupRound],
+    async (playerIds: string[]) => {
+      // sort players based on all time rankings
+      const sortedPlayerIds = playerIds.sort((a, b) => {
+        const pA = leaderboard.find((p) => p.playerId === a);
+        const pB = leaderboard.find((p) => p.playerId === b);
+        return (pB?.points || 0) - (pA?.points || 0);
+      });
+
+      await setupRound(sortedPlayerIds, 1)
+    }, [setupRound, leaderboard],
   );
 
   const advanceToRoundTwo = useCallback(async () => {
@@ -211,11 +222,16 @@ export const useChallengeEvent = (eventId?: string) => {
 
   const handleScoreChange = useCallback(
     (gameId: string, team: 'team1Score' | 'team2Score', score: number) => {
-      console.log('updateGame called with:', gameId, team, score, updateGame);
       updateGame({ id: gameId, [team]: score });
     },
     [updateGame],
   );
+
+  const areRound1UpdatesAllowed = useMemo(() =>
+    isRoundCreated(2) === false, [isRoundCreated]);
+  const areRound2UpdatesAllowed = useMemo(() =>
+    event?.standings === undefined || event.standings.length === 0,
+    [event]);
 
   const needsInitialization = useMemo(() => isRoundCreated(1) === false, [isRoundCreated]);
   return {
@@ -236,6 +252,9 @@ export const useChallengeEvent = (eventId?: string) => {
     progressPercent,
 
     handleScoreChange,
+
+    areRound1UpdatesAllowed,
+    areRound2UpdatesAllowed,
 
     initializeRoundOne,
     advanceToRoundTwo,

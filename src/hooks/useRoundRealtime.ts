@@ -24,16 +24,14 @@ export const useRoundRealtime = (
         games: games.filter((g) => g.courtId === court.id),
       }));
 
-    console.log('filtererdCourtsWithDraws', filteredCourtsWithDraws);
-
     if (filteredCourtsWithDraws.length === 0) return undefined;
 
     return {
       roundNumber: roundNumber as RoundNumber,
       courts: filteredCourtsWithDraws,
-      // standings: calculatePlayerRankings(filteredCourtsWithDraws, roundNumber as RoundNumber).map(
-      //   (pd) => pd.id,
-      // ),
+      standings: calculatePlayerRankings(filteredCourtsWithDraws, roundNumber as RoundNumber).map(
+        (pd) => pd.id,
+      ),
     };
   }, [courts, games, roundNumber]);
 

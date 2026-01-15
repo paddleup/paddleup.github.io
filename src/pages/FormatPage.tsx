@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, Clock, Users, Swords, Star, ExternalLink } from 'lucide-react';
+import PremiumSection from '../components/ui/PremiumSection';
+import SectionHeader from '../components/ui/SectionHeader';
+import StatsCard from '../components/ui/StatsCard';
+import FeatureCard from '../components/ui/FeatureCard';
 
 const FormatPage: React.FC = () => {
   useEffect(() => {
@@ -85,193 +89,135 @@ const FormatPage: React.FC = () => {
       </div>
 
       {/* Season Overview */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-warning/5 via-surface to-primary/5 rounded-3xl p-8 md:p-12 border border-warning/20 shadow-2xl">
-          {/* Header with animated trophy */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Trophy className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              Season 1 Championship
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Compete for exclusive prizes and eternal glory in our inaugural competitive season
-            </p>
-          </div>
+      <PremiumSection primaryColor="warning" secondaryColor="primary">
+        <SectionHeader
+          icon={Trophy}
+          title="🏅 Season 1 Championship"
+          subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
+          iconColor="warning"
+        />
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Duration Section */}
-            <div className="text-center lg:text-left">
-              <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8 border border-primary/20 shadow-lg">
-                <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
-                  <Clock className="h-8 w-8 text-primary" />
-                  <h3 className="text-2xl font-bold text-text-main">Season Duration</h3>
-                </div>
-                <div className="space-y-4">
-                  <div className="text-center lg:text-left">
-                    <div className="text-4xl font-black text-primary mb-2">4</div>
-                    <div className="text-xl font-semibold text-text-main">Weeks of Competition</div>
-                    <div className="text-text-muted mt-2">Every Sunday • 7PM-10PM</div>
-                  </div>
-                </div>
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Duration Section */}
+          <div className="text-center lg:text-left">
+            <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8 border border-primary/20 shadow-lg">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
+                <Clock className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-bold text-text-main">Season Duration</h3>
               </div>
-            </div>
-
-            {/* Prizes Section */}
-            <div>
-              <h3 className="text-2xl font-bold text-text-main mb-6 text-center lg:text-left">
-                Championship Rewards
-              </h3>
-              <p className="text-text-muted mb-6 text-center lg:text-left">
-                Top 3 finishers earn exclusive Joola gear and club points:
-              </p>
-
               <div className="space-y-4">
-                {/* 1st Place */}
-                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-warning/20 via-warning/10 to-warning/5 border-2 border-warning/30 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                  <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-2xl font-black text-white">1st</span>
-                      </div>
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-lg font-bold text-text-main mb-1">Champion</div>
-                      <div className="text-text-muted">
-                        <span className="font-semibold text-warning">Joola Hat</span> +
-                        <span className="font-semibold text-primary ml-1">25 Club Points</span>
-                      </div>
-                    </div>
-                    <div className="text-3xl opacity-50">🧢</div>
-                  </div>
-                </div>
-
-                {/* 2nd Place */}
-                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-text-accent/20 via-text-accent/10 to-text-accent/5 border-2 border-text-accent/30 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                  <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-br from-text-accent to-text-accent/80 rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-2xl font-black text-white">2nd</span>
-                      </div>
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-lg font-bold text-text-main mb-1">Runner-up</div>
-                      <div className="text-text-muted">
-                        <span className="font-semibold text-text-accent">Joola Water Bottle</span> +
-                        <span className="font-semibold text-primary ml-1">15 Club Points</span>
-                      </div>
-                    </div>
-                    <div className="text-3xl opacity-50">🍶</div>
-                  </div>
-                </div>
-
-                {/* 3rd Place */}
-                <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-bronze/20 via-bronze/10 to-bronze/5 border-2 border-bronze/30 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-                  <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-br from-bronze to-bronze/80 rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-2xl font-black text-white">3rd</span>
-                      </div>
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-lg font-bold text-text-main mb-1">Third Place</div>
-                      <div className="text-text-muted">
-                        <span className="font-semibold text-bronze">Joola Wristbands</span> +
-                        <span className="font-semibold text-primary ml-1">10 Club Points</span>
-                      </div>
-                    </div>
-                    <div className="text-3xl opacity-50">⌚</div>
-                  </div>
+                <div className="text-center lg:text-left">
+                  <div className="text-4xl font-black text-primary mb-2">4</div>
+                  <div className="text-xl font-semibold text-text-main">Weeks of Competition</div>
+                  <div className="text-text-muted mt-2">Every Sunday • 7PM-10PM</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          {/* Prizes Section */}
+          <div>
+            <h3 className="text-2xl font-bold text-text-main mb-6 text-center lg:text-left">
+              Championship Rewards
+            </h3>
+            <p className="text-text-muted mb-6 text-center lg:text-left">
+              Top 3 finishers earn exclusive Joola gear and club points:
+            </p>
+
+            <div className="space-y-4">
+              <FeatureCard
+                badgeContent="1st"
+                title="Champion"
+                description={
+                  <>
+                    <span className="font-semibold text-warning">Joola Hat</span> +
+                    <span className="font-semibold text-primary ml-1">25 Club Points</span>
+                  </>
+                }
+                emoji="🧢"
+                color="warning"
+              />
+
+              <FeatureCard
+                badgeContent="2nd"
+                title="Runner-up"
+                description={
+                  <>
+                    <span className="font-semibold text-text-accent">Joola Water Bottle</span> +
+                    <span className="font-semibold text-primary ml-1">15 Club Points</span>
+                  </>
+                }
+                emoji="🍶"
+                color="text-accent"
+              />
+
+              <FeatureCard
+                badgeContent="3rd"
+                title="Third Place"
+                description={
+                  <>
+                    <span className="font-semibold text-bronze">Joola Wristbands</span> +
+                    <span className="font-semibold text-primary ml-1">10 Club Points</span>
+                  </>
+                }
+                emoji="⌚"
+                color="bronze"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </PremiumSection>
 
       {/* Nightly Format */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Clock className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              Nightly Experience
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Every Sunday brings competitive action with structured rounds and exciting gameplay
-            </p>
-          </div>
+      <PremiumSection primaryColor="primary" secondaryColor="success">
+        <SectionHeader
+          icon={Clock}
+          title="🕖 Nightly Experience"
+          subtitle="Every Sunday brings competitive action with structured rounds and exciting gameplay"
+          iconColor="primary"
+        />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Schedule Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">📅</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Schedule</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-primary">7PM – 10PM</div>
-                  <div className="text-text-muted font-medium">Every Sunday</div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatsCard
+            emoji="📅"
+            title="Schedule"
+            value="7PM – 10PM"
+            description="Every Sunday"
+            color="primary"
+          />
+
+          <StatsCard
+            emoji="💰"
+            title="Entry Fee"
+            value="$20"
+            description={
+              <div className="space-y-1">
+                <div>per night</div>
+                <div className="text-sm text-success font-semibold bg-success/10 rounded-full px-3 py-1">
+                  Free for Annual Members
                 </div>
               </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full blur-xl"></div>
-            </div>
+            }
+            color="success"
+          />
 
-            {/* Entry Fee Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-success/10 to-success/5 border-2 border-success/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">💰</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Entry Fee</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-success">$20</div>
-                  <div className="text-text-muted font-medium">per night</div>
-                  <div className="text-sm text-success font-semibold bg-success/10 rounded-full px-3 py-1">
-                    Free for Annual Members
-                  </div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-success/5 rounded-full blur-xl"></div>
-            </div>
+          <StatsCard
+            emoji="🎯"
+            title="Eligibility"
+            value="DUPR 3.5+"
+            description="Required Rating"
+            color="warning"
+          />
 
-            {/* Eligibility Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-warning/10 to-warning/5 border-2 border-warning/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🎯</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Eligibility</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-warning">DUPR 3.5+</div>
-                  <div className="text-text-muted font-medium">Required Rating</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-warning/5 rounded-full blur-xl"></div>
-            </div>
-
-            {/* Format Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-text-accent/10 to-text-accent/5 border-2 border-text-accent/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🔄</div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Format</h3>
-                <div className="space-y-2">
-                  <div className="text-2xl font-black text-text-accent">2 Rounds</div>
-                  <div className="text-text-muted font-medium">per night</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-text-accent/5 rounded-full blur-xl"></div>
-            </div>
-          </div>
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <StatsCard
+            emoji="🔄"
+            title="Format"
+            value="2 Rounds"
+            description="per night"
+            color="text-accent"
+          />
         </div>
-      </div>
+      </PremiumSection>
 
       {/* Round Format */}
       <div className="relative overflow-hidden">

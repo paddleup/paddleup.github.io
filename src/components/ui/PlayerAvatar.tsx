@@ -10,7 +10,13 @@ interface PlayerAvatarProps {
   border?: boolean;
 }
 
-const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ imageUrl, name, size = 'md', className, border = true }) => {
+const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ 
+  imageUrl, 
+  name, 
+  size = 'md', 
+  className, 
+  border = true 
+}) => {
   const sizeClasses = {
     sm: 'h-6 w-6 text-xs',
     md: 'h-8 w-8 text-xs',
@@ -47,6 +53,7 @@ const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ imageUrl, name, size = 'md'
     );
   }
 
+  // Fallback to initials or user icon
   return (
     <div className={cn(baseClasses, "bg-surface-highlight flex items-center justify-center")}>
       {name ? (
