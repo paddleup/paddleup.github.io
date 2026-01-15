@@ -93,7 +93,7 @@ const FormatPage: React.FC = () => {
               <Trophy className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🏅 Season 1 Championship
+              Season 1 Championship
             </h2>
             <p className="text-xl text-text-muted max-w-2xl mx-auto">
               Compete for exclusive prizes and eternal glory in our inaugural competitive season
@@ -121,7 +121,7 @@ const FormatPage: React.FC = () => {
             {/* Prizes Section */}
             <div>
               <h3 className="text-2xl font-bold text-text-main mb-6 text-center lg:text-left">
-                🎯 Championship Rewards
+                Championship Rewards
               </h3>
               <p className="text-text-muted mb-6 text-center lg:text-left">
                 Top 3 finishers earn exclusive Joola gear and club points:
@@ -203,7 +203,7 @@ const FormatPage: React.FC = () => {
               <Clock className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🌙 Nightly Experience
+              Nightly Experience
             </h2>
             <p className="text-xl text-text-muted max-w-2xl mx-auto">
               Every Sunday brings competitive action with structured rounds and exciting gameplay
@@ -347,8 +347,8 @@ const FormatPage: React.FC = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-4 transform hover:scale-110 transition-all duration-300">
                 <Users className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-text-main mb-2">🧩 Round 1</h2>
-              <p className="text-lg text-text-muted font-medium">Initial Seeding</p>
+              <h2 className="text-3xl font-black text-text-main mb-2">Round 1: Initial Seeding</h2>
+              {/* <p className="text-lg text-text-muted font-medium">Initial Seeding</p> */}
             </div>
 
             <div className="space-y-6">
@@ -406,7 +406,7 @@ const FormatPage: React.FC = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-4 transform hover:scale-110 transition-all duration-300">
                 <Star className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-text-main mb-2">🔁 Round 2</h2>
+              <h2 className="text-3xl font-black text-text-main mb-2">Round 2</h2>
               <p className="text-lg text-text-muted font-medium">Ranked Courts</p>
             </div>
 
@@ -461,7 +461,7 @@ const FormatPage: React.FC = () => {
       <div className="bg-gradient-to-r from-primary/10 to-warning/10 rounded-2xl p-8 border border-primary/30">
         <h2 className="text-3xl font-bold text-text-main mb-6 flex items-center gap-3">
           <Trophy className="h-8 w-8 text-warning" />
-          🏆 Points & Prizes
+          Points & Prizes
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">

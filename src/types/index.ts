@@ -37,18 +37,14 @@ export type Game = z.infer<typeof GameSchema>;
 
 export const CourtSchema = z.object({
   id: z.string().optional(),
-  playerIds: z.array(z.string()).length(4),
+  playerIds: z.array(z.string()).min(4).max(5),
   roundNumber: RoundNumberSchema,
   courtNumber: z.number().positive(),
 });
 
 export type Court = z.infer<typeof CourtSchema>;
 
-export const ChallengeEventStageSchema = z.union([
-  z.literal('initial'),
-  RoundNumberSchema,
-  z.literal('standings'),
-]);
+export const ChallengeEventStageSchema = z.union([RoundNumberSchema, z.literal('standings')]);
 
 export type ChallengeEventStage = z.infer<typeof ChallengeEventStageSchema>;
 
@@ -65,6 +61,9 @@ export const EventSchema = z.object({
 export type Event = z.infer<typeof EventSchema>;
 
 /* --- Domain types (derived/aggregated data) --- */
+export type Draw = {
+  seeds: number[];
+};
 
 export type CourtWithDrawAndGames = Court &
   Draw & {
@@ -113,15 +112,3 @@ export type PageResult<T> = {
 };
 
 /* Rules & format types (sourced from data/rules.ts so the data file is the single source of truth) */
-import type {
-  Rules as DataRules,
-  LeagueRules as DataLeagueRules,
-  ChallengeRules as DataChallengeRules,
-  RulesBase as DataRulesBase,
-} from '../data/rules';
-import { Draw } from '../lib/courtUtils';
-
-export type BaseRules = DataRulesBase;
-export type LeagueRules = DataLeagueRules;
-export type ChallengeRules = DataChallengeRules;
-export type Rules = DataRules;

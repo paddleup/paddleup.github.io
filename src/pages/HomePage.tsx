@@ -108,10 +108,6 @@ const HomePage: React.FC = () => {
         <div className="bg-gradient-to-br from-primary/5 via-surface to-text-accent/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
           {/* Header with animated icon */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-success to-success/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <span className="text-4xl">🏓</span>
-            </div>
-
             {/* Live Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-success/10 border border-success/20 mb-6">
               <span className="relative flex h-2 w-2">
@@ -122,7 +118,7 @@ const HomePage: React.FC = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-black text-text-main mb-6 tracking-tight leading-tight">
-              🏓 Paddle Up
+              Paddle Up
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-text-accent">
                 Premier League

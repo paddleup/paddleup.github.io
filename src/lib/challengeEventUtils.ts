@@ -1,8 +1,4 @@
-import { Court, CourtWithDrawAndGames, Game, Player, RoundNumber } from '../types';
-
-export type ChallengeEventDraw = {
-  seeds: number[];
-};
+import { Court, CourtWithDrawAndGames, Draw, Game, Player, RoundNumber } from '../types';
 
 export const getNumberOfCourts = (totalPlayers: number, preferredCourtSize: 4 | 5 = 5): number => {
   const nonPreferredCourtSize = preferredCourtSize === 5 ? 4 : 5;
@@ -40,9 +36,9 @@ export const generateChallengeEventDraw = (
   totalPlayers: number,
   roundNumber: RoundNumber,
   preferredCourtSize: 4 | 5 = 5,
-): ChallengeEventDraw[] => {
+): Draw[] => {
   const numberOfCourts = getNumberOfCourts(totalPlayers, preferredCourtSize);
-  const draws: ChallengeEventDraw[] = Array.from({ length: numberOfCourts }, () => ({ seeds: [] }));
+  const draws: Draw[] = Array.from({ length: numberOfCourts }, () => ({ seeds: [] }));
 
   // Distribute players to courts in a snake pattern for round 1
   // For round 2, we can just assign based on court rank, highest players on the highest court
@@ -188,7 +184,8 @@ export function calculatePlayerRankings(
   if (!courts?.length) return [];
   if (![1, 2, 3].includes(roundNumber)) return [];
 
-  const draws = generateChallengeEventDraw(courts.length, roundNumber);
+  const totalPlayers = courts.reduce((sum, court) => sum + court.playerIds.length, 0);
+  const draws = generateChallengeEventDraw(totalPlayers, roundNumber);
 
   const playerDetails: PlayerDetails[] = courts.flatMap((court, courtIndex) => {
     const players: PlayerDetails[] = court.playerIds.map((playerId, index) => ({
@@ -245,7 +242,8 @@ export function calculatePlayerRankings(
 
   // Generate nextCourt and nextTier based on roundPlace
   if (roundNumber === 1) {
-    const draws = generateChallengeEventDraw(courts.length, 2);
+    const totalPlayers = courts.reduce((sum, court) => sum + court.playerIds.length, 0);
+    const draws = generateChallengeEventDraw(totalPlayers, 2);
 
     playerDetails.forEach((pd) => {
       const nextCourtIndex = draws.findIndex((draw) => draw.seeds.includes(pd.roundPlace));

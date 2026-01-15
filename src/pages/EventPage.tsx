@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, Calendar, Clock, MapPin, Trophy, Users, Target } from 'lucide-react';
+import {
+  ChevronLeft,
+  Calendar,
+  Clock,
+  MapPin,
+  Trophy,
+  Users,
+  Target,
+  Search,
+  UserPlus,
+  Play,
+  ArrowRight,
+  CheckCircle,
+  Edit3,
+  Save,
+  X,
+  RotateCcw,
+} from 'lucide-react';
 import { useEvent, usePlayers } from '../hooks/firestoreHooks';
 import { useAdmin } from '../hooks/useAdmin';
 import { useChallengeEvent } from '../hooks/useChallengeEvent';
-import RoundTabs from '../components/ui/RoundTabs';
-import CourtCardsCollapsible from '../components/eventNight/CourtCardsCollapsible';
+import Button from '../components/ui/Button';
+import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +32,17 @@ const EventPage: React.FC = () => {
   const { data: players = [] } = usePlayers();
   const { isAdmin } = useAdmin();
   const challenge = useChallengeEvent(decodedId);
+
+  // State for player selection
+  const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isInitializing, setIsInitializing] = useState(false);
+
+  // State for score editing - simplified for auto-save
+  const [editingScore, setEditingScore] = useState<{
+    gameId: string;
+    team: 'team1Score' | 'team2Score';
+  } | null>(null);
 
   const formatNiceDate = (d?: Date | null) =>
     d
@@ -28,374 +57,531 @@ const EventPage: React.FC = () => {
   const formatNiceTime = (d?: Date | null) =>
     d ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
 
+  // Filter and sort players for selection
+  const filteredPlayers = useMemo(() => {
+    return players
+      .filter((player) => player.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [players, searchTerm]);
+
+  const handlePlayerToggle = (playerId: string) => {
+    setSelectedPlayerIds((prev) =>
+      prev.includes(playerId) ? prev.filter((id) => id !== playerId) : [...prev, playerId],
+    );
+  };
+
+  const handleInitializeRound = async () => {
+    if (selectedPlayerIds.length < 8 || selectedPlayerIds.length > 35) {
+      alert('Please select between 8-35 players');
+      return;
+    }
+
+    setIsInitializing(true);
+    try {
+      await challenge.initializeRoundOne(selectedPlayerIds);
+      setSelectedPlayerIds([]);
+    } catch (error) {
+      console.error('Failed to initialize round:', error);
+      alert('Failed to initialize round. Please try again.');
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
+  const handleAdvanceToRoundTwo = async () => {
+    if (!window.confirm('Are you sure you want to advance to Round 2? This cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await challenge.advanceToRoundTwo();
+    } catch (error) {
+      console.error('Failed to advance to round 2:', error);
+      alert('Failed to advance to Round 2. Please try again.');
+    }
+  };
+
+  const handleFinalizeEvent = () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to finalize this event? Final standings will be published.',
+      )
+    ) {
+      return;
+    }
+
+    challenge.finalizeEvent();
+  };
+
+  const handleScoreInputChange = (
+    gameId: string,
+    team: 'team1Score' | 'team2Score',
+    value: string,
+  ) => {
+    const score = parseInt(value);
+    if (!isNaN(score) && score >= 0) {
+      challenge.handleScoreChange(gameId, team, score);
+    }
+  };
+
+  const startEditingScore = (gameId: string, team: 'team1Score' | 'team2Score') => {
+    setEditingScore({ gameId, team });
+  };
+
+  const stopEditingScore = () => {
+    setEditingScore(null);
+  };
+
   if (eventLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="relative overflow-hidden">
-          <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-12 border border-primary/20 shadow-2xl">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary mx-auto mb-6"></div>
-              <h2 className="text-2xl font-bold text-text-main mb-2">Loading Event</h2>
-              <p className="text-text-muted">Please wait while we fetch the event details...</p>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card variant="premium" padding="xl" className="max-w-md w-full text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary mx-auto mb-6"></div>
+          <h2 className="text-2xl font-bold text-text-main mb-2">Loading Event</h2>
+          <p className="text-text-muted">Please wait while we fetch the event details...</p>
+        </Card>
       </div>
     );
   }
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="relative overflow-hidden">
-          <div className="bg-gradient-to-br from-error/5 via-surface to-warning/5 rounded-3xl p-12 border border-error/20 shadow-2xl max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-6xl mb-6 opacity-50">❌</div>
-              <h1 className="text-3xl font-black text-text-main mb-4">Event Not Found</h1>
-              <p className="text-text-muted mb-8 leading-relaxed">
-                The event ID{' '}
-                <code className="bg-surface-alt px-2 py-1 rounded font-mono text-sm">
-                  {decodedId || '(empty)'}
-                </code>{' '}
-                does not match any scheduled event in our system.
-              </p>
-              <Link
-                to="/schedule"
-                className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-105"
-              >
-                <ChevronLeft className="h-5 w-5" /> Back to Schedule
-              </Link>
-            </div>
-
-            {/* Decorative Background Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-error/10 to-transparent rounded-full blur-2xl -z-10"></div>
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card
+          variant="gradient"
+          theme="error"
+          padding="xl"
+          className="max-w-2xl w-full text-center"
+        >
+          <div className="text-6xl mb-6 opacity-50">❌</div>
+          <h1 className="text-3xl font-black text-text-main mb-4">Event Not Found</h1>
+          <p className="text-text-muted mb-8 leading-relaxed">
+            The event ID{' '}
+            <code className="bg-surface-alt px-2 py-1 rounded font-mono text-sm">
+              {decodedId || '(empty)'}
+            </code>{' '}
+            does not match any scheduled event in our system.
+          </p>
+          <Link to="/schedule">
+            <Button variant="primary" size="lg" icon={<ChevronLeft />} iconPosition="left">
+              Back to Schedule
+            </Button>
+          </Link>
+        </Card>
       </div>
     );
   }
 
-  const isCompleted = Array.isArray(event.standings) && event.standings.length > 0;
-  const isPast = event.startDateTime && new Date(event.startDateTime) < new Date();
-  const showLiveBanner = !isCompleted && isPast;
-  const showCurrentRound =
-    challenge.currentRoundViewData?.courts && (showLiveBanner || isCompleted);
-
-  const getEventStatus = () => {
-    if (isCompleted) return { label: 'Completed', color: 'success', emoji: '✅' };
-    if (isPast) return { label: 'Live', color: 'warning', emoji: '🔴' };
-    return { label: 'Upcoming', color: 'primary', emoji: '📅' };
-  };
-
-  const status = getEventStatus();
+  const currentRound =
+    challenge.currentView === 1
+      ? challenge.round1
+      : challenge.currentView === 2
+      ? challenge.round2
+      : null;
 
   return (
-    <div className="space-y-16 pb-12">
-      {/* Hero Header */}
-      <div className="relative overflow-hidden">
-        <div
-          className={`bg-gradient-to-br from-${status.color}/5 via-surface to-primary/5 rounded-3xl p-8 md:p-12 border border-${status.color}/20 shadow-2xl`}
+    <div className="space-y-8 pb-12 px-4 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="space-y-4">
+        <Link
+          to="/schedule"
+          className="inline-flex items-center gap-2 text-text-muted hover:text-primary transition-colors font-semibold"
         >
-          {/* Navigation */}
-          <div className="mb-8">
-            <Link
-              to="/schedule"
-              className="inline-flex items-center gap-2 text-text-muted hover:text-primary transition-colors font-semibold"
-            >
-              <ChevronLeft className="h-5 w-5" />
-              <span>Back to Schedule</span>
-            </Link>
+          <ChevronLeft className="h-5 w-5" />
+          <span>Back to Schedule</span>
+        </Link>
+
+        <Card variant="premium" padding="lg">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-4">
+              <Calendar className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black text-text-main mb-6">{event.name}</h1>
+
+            {/* Event Details Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
+                <Calendar className="h-5 w-5 text-primary" />
+                <div className="text-left">
+                  <div className="text-xs text-text-muted uppercase">Date</div>
+                  <div className="font-semibold text-sm">{formatNiceDate(event.startDateTime)}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
+                <Clock className="h-5 w-5 text-success" />
+                <div className="text-left">
+                  <div className="text-xs text-text-muted uppercase">Time</div>
+                  <div className="font-semibold text-sm">{formatNiceTime(event.startDateTime)}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-surface-alt/50 rounded-xl">
+                <MapPin className="h-5 w-5 text-warning" />
+                <div className="text-left">
+                  <div className="text-xs text-text-muted uppercase">Location</div>
+                  <div className="font-semibold text-sm truncate">{event.location || 'TBD'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      {/* Admin Event Initialization */}
+      {isAdmin && challenge.needsInitialization && (
+        <Card variant="gradient" theme="primary" padding="lg">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-4">
+              <UserPlus className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-text-main mb-2">Initialize Event</h2>
+            <p className="text-text-muted">Select 8-35 players to start the event</p>
           </div>
 
-          {/* Header with animated icon */}
-          <div className="text-center mb-8">
-            <div
-              className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-${status.color} to-${status.color}/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300`}
-            >
-              <Calendar className="h-10 w-10 text-white" />
-            </div>
+          <div className="space-y-4">
+            {/* Search */}
+            <Input
+              icon={<Search />}
+              placeholder="Search players by name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              variant="premium"
+            />
 
-            {/* Status Badge */}
-            <div
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-${status.color}/10 border border-${status.color}/20 mb-6`}
-            >
-              <span className="text-2xl">{status.emoji}</span>
-              <span className={`text-sm font-semibold text-${status.color}`}>
-                {status.label} Event
+            {/* Selected Players Count */}
+            <div className="text-center">
+              <span
+                className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
+                  selectedPlayerIds.length >= 8 && selectedPlayerIds.length <= 35
+                    ? 'bg-success/20 text-success'
+                    : 'bg-warning/20 text-warning'
+                }`}
+              >
+                {selectedPlayerIds.length} / 35 players selected
+                {selectedPlayerIds.length < 8 && ' (minimum 8)'}
               </span>
-              {status.label === 'Live' && (
-                <span className={`relative flex h-2 w-2`}>
-                  <span
-                    className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${status.color} opacity-75`}
-                  ></span>
-                  <span
-                    className={`relative inline-flex rounded-full h-2 w-2 bg-${status.color}`}
-                  ></span>
-                </span>
-              )}
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-black text-text-main mb-4">{event.name}</h1>
-          </div>
-
-          {/* Decorative Background Elements */}
-          <div
-            className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-${status.color}/10 to-transparent rounded-full blur-2xl -z-10`}
-          ></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-        </div>
-      </div>
-
-      {/* Event Details */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Target className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              📋 Event Details
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Everything you need to know about this match night
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {/* Date Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/5 border-2 border-primary/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
-                    <Calendar className="h-6 w-6 text-white" />
+            {/* Player Selection Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-96 overflow-y-auto p-2">
+              {filteredPlayers.map((player) => {
+                const isSelected = selectedPlayerIds.includes(player.id || '');
+                return (
+                  <div
+                    key={player.id}
+                    onClick={() => handlePlayerToggle(player.id || '')}
+                    className={`p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      isSelected
+                        ? 'border-primary bg-primary/10 shadow-md'
+                        : 'border-border hover:border-primary/50 bg-surface'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                          isSelected ? 'border-primary bg-primary' : 'border-border'
+                        }`}
+                      >
+                        {isSelected && <CheckCircle className="h-4 w-4 text-white" />}
+                      </div>
+                      <div className="flex-1 text-left">
+                        <div className="font-semibold text-text-main">{player.name}</div>
+                        {player.dupr && (
+                          <div className="text-xs text-text-muted">DUPR: {player.dupr}</div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex-grow">
-                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
-                    Date
-                  </div>
-                  <div className="font-bold text-text-main">
-                    {formatNiceDate(event.startDateTime)}
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
 
-            {/* Time Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-success/10 via-success/5 to-success/5 border-2 border-success/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-gradient-to-br from-success to-success/80 rounded-full flex items-center justify-center shadow-lg">
-                    <Clock className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
-                    Time
-                  </div>
-                  <div className="font-bold text-text-main">
-                    {formatNiceTime(event.startDateTime)}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Location Card */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-warning/10 via-warning/5 to-warning/5 border-2 border-warning/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center shadow-lg">
-                    <MapPin className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-1">
-                    Location
-                  </div>
-                  <div className="font-bold text-text-main truncate">{event.location || 'TBD'}</div>
-                </div>
-              </div>
+            {/* Initialize Button */}
+            <div className="text-center pt-4">
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<Play />}
+                onClick={handleInitializeRound}
+                disabled={
+                  selectedPlayerIds.length < 8 || selectedPlayerIds.length > 35 || isInitializing
+                }
+                loading={isInitializing}
+              >
+                Initialize Round 1
+              </Button>
             </div>
           </div>
-
-          {/* Description */}
-          {'description' in event && typeof event.description === 'string' && (
-            <div className="mt-8 max-w-4xl mx-auto">
-              <div className="bg-surface-alt/50 rounded-2xl border border-border p-6 shadow-lg">
-                <h3 className="text-lg font-bold text-text-main mb-3">Event Description</h3>
-                <p className="text-text-muted leading-relaxed">{event.description}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
-        </div>
-      </div>
-
-      {/* Live Round / Courts */}
-      {showCurrentRound && (
-        <div className="relative overflow-hidden">
-          <div className="bg-gradient-to-br from-success/5 via-surface to-warning/5 rounded-3xl p-8 md:p-12 border border-success/20 shadow-2xl">
-            {/* Header */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-success to-success/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-                <Users className="h-10 w-10 text-white" />
-              </div>
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <h2 className="text-4xl md:text-5xl font-black text-text-main">
-                  🏓 {showLiveBanner ? 'Live Action' : 'Final Results'}
-                </h2>
-                <RoundTabs
-                  current={challenge.currentView}
-                  onSelect={challenge.setCurrentView}
-                  showInitialize={isAdmin}
-                />
-              </div>
-              <p className="text-xl text-text-muted max-w-2xl mx-auto">
-                {showLiveBanner
-                  ? 'Follow the live action on all courts'
-                  : 'Final court assignments and results'}
-              </p>
-            </div>
-
-            {/* Court Cards */}
-            <div className="max-w-6xl mx-auto">
-              <CourtCardsCollapsible
-                courts={challenge.currentRoundViewData?.courts ?? []}
-                players={players}
-                isAdmin={isAdmin}
-                showLiveBanner={showLiveBanner}
-                handleScoreChange={challenge.handleScoreChange}
-              />
-            </div>
-
-            {/* Decorative Background Elements */}
-            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
-            <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          </div>
-        </div>
+        </Card>
       )}
 
-      {/* Final Standings */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-warning/5 via-surface to-text-accent/5 rounded-3xl p-8 md:p-12 border border-warning/20 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Trophy className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              🏆 {isCompleted ? 'Final Standings' : 'Standings'}
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              {isCompleted
-                ? 'Official results from this event'
-                : 'Standings will appear after the event concludes'}
-            </p>
-          </div>
+      {/* Round Navigation */}
+      {!challenge.needsInitialization && (
+        <Card variant="flat" padding="sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {[1, 2, 'standings'].map((stage) => {
+                const isActive = challenge.currentView === stage;
+                const isAvailable =
+                  stage === 1 ||
+                  (stage === 2 && challenge.round1) ||
+                  (stage === 'standings' && challenge.round2);
 
-          {isCompleted ? (
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gradient-to-r from-surface-alt/50 to-surface/50 rounded-2xl border border-border shadow-lg overflow-hidden">
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-text-main mb-4 text-center">
-                    Final Rankings
-                  </h3>
-                  <div className="space-y-3">
-                    {event.standings!.map((pid: string, idx: number) => {
-                      const player = players.find((p) => p.id === pid);
-                      const medalColors = ['text-warning', 'text-text-accent', 'text-bronze'];
-                      const medals = ['🥇', '🥈', '🥉'];
+                return (
+                  <Button
+                    key={stage}
+                    variant={isActive ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => challenge.setCurrentView(stage as any)}
+                    disabled={!isAvailable}
+                  >
+                    {stage === 'standings' ? 'Final Standings' : `Round ${stage}`}
+                  </Button>
+                );
+              })}
+            </div>
+
+            {/* Progress Indicator */}
+            <div className="text-sm text-text-muted">
+              Progress: {challenge.completedMatches}/{challenge.totalMatches} matches (
+              {challenge.progressPercent}%)
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Round Display */}
+      {currentRound && (
+        <div className="space-y-6">
+          {/* Round Header */}
+          <Card variant="gradient" theme="success" padding="md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-success to-success/70 rounded-full flex items-center justify-center">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-text-main">
+                    Round {challenge.currentView} Courts
+                  </h2>
+                  <p className="text-text-muted text-sm">
+                    {currentRound.courts.length} courts • Live scoring enabled
+                  </p>
+                </div>
+              </div>
+
+              {/* Admin Controls */}
+              {isAdmin && (
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    icon={<RotateCcw />}
+                    onClick={challenge.resetAll}
+                  >
+                    Reset All
+                  </Button>
+
+                  {challenge.currentView === 1 && challenge.round1 && (
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      icon={<ArrowRight />}
+                      onClick={handleAdvanceToRoundTwo}
+                      disabled={
+                        !challenge.round1.courts.every((court) =>
+                          court.games.every(
+                            (game) =>
+                              game.team1Score !== undefined && game.team2Score !== undefined,
+                          ),
+                        )
+                      }
+                    >
+                      Advance to Round 2
+                    </Button>
+                  )}
+
+                  {challenge.currentView === 2 && challenge.round2 && (
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      icon={<Trophy />}
+                      onClick={handleFinalizeEvent}
+                      disabled={
+                        !challenge.round2.courts.every((court) =>
+                          court.games.every(
+                            (game) =>
+                              game.team1Score !== undefined && game.team2Score !== undefined,
+                          ),
+                        )
+                      }
+                    >
+                      Finalize Event
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          </Card>
+
+          {/* Courts Grid - Compact & Dense for Maximum Information */}
+          <div className="grid grid-cols-1 gap-3">
+            {currentRound.courts.map((court) => (
+              <Card key={court.id} variant="premium" padding="sm" hover>
+                <div className="space-y-3">
+                  {/* Court Header - Compact */}
+                  <div className="flex items-center justify-between border-b border-border pb-2">
+                    <h3 className="text-xl font-bold text-text-main">Court {court.courtNumber}</h3>
+                    <span className="text-xs px-2 py-1 bg-primary/20 text-primary rounded-lg font-semibold">
+                      {court.games.length} games
+                    </span>
+                  </div>
+
+                  {/* Games - Ultra Compact Layout */}
+                  <div className="space-y-1">
+                    {court.games.map((game, gameIndex) => {
+                      const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
+                      const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
+                      const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
+                      const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
 
                       return (
                         <div
-                          key={pid}
-                          className="flex items-center gap-4 p-4 bg-surface rounded-xl border border-border shadow-sm hover:shadow-md transition-all duration-300"
+                          key={game.id}
+                          className="bg-surface-alt/20 rounded p-2 border border-border/20"
                         >
-                          <div className="flex-shrink-0">
-                            <div
-                              className={`w-12 h-12 bg-gradient-to-br ${
-                                idx < 3
-                                  ? `from-${medalColors[idx].split('-')[1]} to-${
-                                      medalColors[idx].split('-')[1]
-                                    }/80`
-                                  : 'from-surface-alt to-surface-highlight'
-                              } rounded-full flex items-center justify-center shadow-md`}
-                            >
-                              <span className="text-lg font-black text-white">
-                                {idx < 3 ? medals[idx] : `#${idx + 1}`}
-                              </span>
+                          <div className="flex items-center justify-between">
+                            {/* Team 1 - Ultra Compact */}
+                            <div className="flex items-center gap-2 flex-1">
+                              <div className="text-xs font-bold text-text-main min-w-0">
+                                <div className="truncate">{team1Player1?.name || 'P1'}</div>
+                                <div className="truncate">{team1Player2?.name || 'P2'}</div>
+                              </div>
+                              {/* Auto-Save Score Input */}
+                              {editingScore?.gameId === game.id &&
+                              editingScore?.team === 'team1Score' ? (
+                                <input
+                                  type="number"
+                                  defaultValue={game.team1Score || ''}
+                                  onChange={(e) =>
+                                    handleScoreInputChange(game.id!, 'team1Score', e.target.value)
+                                  }
+                                  onBlur={stopEditingScore}
+                                  className="w-10 px-1 py-1 text-sm font-bold border border-primary rounded bg-surface text-center"
+                                  autoFocus
+                                />
+                              ) : (
+                                <div
+                                  className={`w-10 h-6 flex items-center justify-center bg-primary/10 border border-primary/30 rounded text-sm font-black cursor-pointer ${
+                                    isAdmin ? 'hover:bg-primary/20' : ''
+                                  }`}
+                                  onClick={() =>
+                                    isAdmin && startEditingScore(game.id!, 'team1Score')
+                                  }
+                                >
+                                  {game.team1Score ?? '-'}
+                                </div>
+                              )}
                             </div>
-                          </div>
-                          <div className="flex-grow">
-                            <h4
-                              className={`font-bold ${
-                                idx < 3 ? medalColors[idx] : 'text-text-main'
-                              } text-lg`}
-                            >
-                              {player?.name ?? `Player ${pid}`}
-                            </h4>
-                            <p className="text-sm text-text-muted">
-                              {idx === 0
-                                ? 'Champion'
-                                : idx === 1
-                                ? 'Runner-up'
-                                : idx === 2
-                                ? 'Third Place'
-                                : `Position ${idx + 1}`}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <span
-                              className={`text-2xl font-black ${
-                                idx < 3 ? medalColors[idx] : 'text-text-main'
-                              }`}
-                            >
-                              #{idx + 1}
-                            </span>
+
+                            {/* VS - Minimal */}
+                            <div className="mx-2 text-xs font-bold text-text-muted">vs</div>
+
+                            {/* Team 2 - Ultra Compact */}
+                            <div className="flex items-center gap-2 flex-1 justify-end">
+                              {/* Auto-Save Score Input */}
+                              {editingScore?.gameId === game.id &&
+                              editingScore?.team === 'team2Score' ? (
+                                <input
+                                  type="number"
+                                  defaultValue={game.team2Score || ''}
+                                  onChange={(e) =>
+                                    handleScoreInputChange(game.id!, 'team2Score', e.target.value)
+                                  }
+                                  onBlur={stopEditingScore}
+                                  className="w-10 px-1 py-1 text-sm font-bold border border-success rounded bg-surface text-center"
+                                  autoFocus
+                                />
+                              ) : (
+                                <div
+                                  className={`w-10 h-6 flex items-center justify-center bg-success/10 border border-success/30 rounded text-sm font-black cursor-pointer ${
+                                    isAdmin ? 'hover:bg-success/20' : ''
+                                  }`}
+                                  onClick={() =>
+                                    isAdmin && startEditingScore(game.id!, 'team2Score')
+                                  }
+                                >
+                                  {game.team2Score ?? '-'}
+                                </div>
+                              )}
+                              <div className="text-xs font-bold text-text-main min-w-0 text-right">
+                                <div className="truncate">{team2Player1?.name || 'P1'}</div>
+                                <div className="truncate">{team2Player2?.name || 'P2'}</div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="max-w-xl mx-auto text-center p-12">
-              <div className="text-6xl mb-6 opacity-50">{status.emoji}</div>
-              <h3 className="text-2xl font-bold text-text-main mb-4">
-                {isPast ? 'Event In Progress' : 'Event Not Started'}
-              </h3>
-              <p className="text-text-muted">
-                {isPast
-                  ? 'Players are currently competing. Final standings will appear here when the event concludes.'
-                  : 'Check back after the event starts to see live updates and final standings.'}
-              </p>
-            </div>
-          )}
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-text-accent/10 to-transparent rounded-full blur-2xl -z-10"></div>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Admin FAB */}
-      {isAdmin && showLiveBanner && (
-        <div className="fixed bottom-6 right-6 z-50">
-          <button
-            className="bg-gradient-to-r from-primary to-primary-hover text-white rounded-full shadow-2xl p-6 text-2xl hover:scale-110 transition-all duration-300 border-2 border-primary/20"
-            aria-label="Edit Scores"
-            tabIndex={0}
-          >
-            ✏️
-          </button>
-        </div>
+      {/* Final Standings */}
+      {challenge.currentView === 'standings' && event.standings && (
+        <Card variant="gradient" theme="warning" padding="lg">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-4">
+              <Trophy className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-text-main mb-2">Final Standings</h2>
+            <p className="text-text-muted">Official results from this event</p>
+          </div>
+
+          <div className="space-y-3 max-w-lg mx-auto">
+            {event.standings.map((playerId: string, index: number) => {
+              const player = players.find((p) => p.id === playerId);
+              const medalColors = ['warning', 'text-accent', 'bronze'];
+              const medals = ['🥇', '🥈', '🥉'];
+
+              return (
+                <div
+                  key={playerId}
+                  className="flex items-center gap-4 p-4 bg-surface rounded-xl border border-border"
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      index < 3
+                        ? `bg-gradient-to-br from-${medalColors[index]} to-${medalColors[index]}/70 text-white`
+                        : 'bg-surface-alt text-text-main'
+                    }`}
+                  >
+                    <span className="font-bold text-lg">
+                      {index < 3 ? medals[index] : `#${index + 1}`}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-text-main">
+                      {player?.name || `Player ${playerId}`}
+                    </div>
+                    <div className="text-sm text-text-muted">
+                      {index === 0
+                        ? 'Champion'
+                        : index === 1
+                        ? 'Runner-up'
+                        : index === 2
+                        ? 'Third Place'
+                        : `Position ${index + 1}`}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
       )}
     </div>
   );

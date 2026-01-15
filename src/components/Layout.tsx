@@ -160,16 +160,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <span className="font-black text-lg text-text-main">Paddle Up Premier League</span>
             </div>
 
-            {/* Footer Content */}
-            <div className="space-y-2">
-              <p className="text-text-main font-semibold">
-                © {new Date().getFullYear()} Paddle Up Individual Championship League
-              </p>
-              <p className="text-sm text-text-muted max-w-2xl mx-auto leading-relaxed">
-                Competitive Integrity • Merit-Based Rankings • Transparent Scoring
-              </p>
-            </div>
-
             {/* Achievement Badges */}
             <div className="flex items-center justify-center space-x-6 pt-6">
               <div className="flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-xl border border-primary/20">
