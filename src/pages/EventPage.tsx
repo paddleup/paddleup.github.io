@@ -23,11 +23,11 @@ import { getPointsForRank } from '../lib/points';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
-import { 
-  RoundRankingsPanel, 
-  CourtStatsPanel, 
-  MobileScoreInput, 
-  PlayerSearchFilter 
+import {
+  RoundRankingsPanel,
+  CourtStatsPanel,
+  MobileScoreInput,
+  PlayerSearchFilter,
 } from '../components/ui';
 import DetailCard from '../components/ui/DetailCard';
 import TeamRow from '../components/ui/TeamRow';
@@ -49,7 +49,6 @@ const EventPage: React.FC = () => {
 
   // State for player search and highlighting
   const [highlightedPlayerId, setHighlightedPlayerId] = useState<string | null>(null);
-
 
   // Filter and sort players for selection
   const filteredPlayers = useMemo(() => {
@@ -321,15 +320,13 @@ const EventPage: React.FC = () => {
       {/* Player Search */}
       {!challenge.needsInitialization && currentRound && (
         <PlayerSearchFilter
-          players={players.filter(p => 
-            currentRound.courts.some(court => 
-              court.playerIds.includes(p.id || '')
-            )
+          players={players.filter((p) =>
+            currentRound.courts.some((court) => court.playerIds.includes(p.id || '')),
           )}
           onPlayerSelect={(playerId) => {
             setHighlightedPlayerId(playerId);
             // Scroll to the court containing this player
-            const court = currentRound.courts.find(c => c.playerIds.includes(playerId));
+            const court = currentRound.courts.find((c) => c.playerIds.includes(playerId));
             if (court) {
               const courtElement = document.getElementById(`court-${court.id}`);
               if (courtElement) {
@@ -348,17 +345,21 @@ const EventPage: React.FC = () => {
         <div className="space-y-6">
           {/* Round Rankings Panel */}
           {(() => {
-            const playerRankings = calculatePlayerRankings(currentRound.courts, challenge.currentView as 1 | 2);
-            const previousRoundRankings = challenge.currentView === 2 && challenge.round1 
-              ? calculatePlayerRankings(challenge.round1.courts, 1)
-              : undefined;
+            const playerRankings = calculatePlayerRankings(
+              currentRound.courts,
+              challenge.currentView as 1 | 2,
+            );
+            const previousRoundRankings =
+              challenge.currentView === 2 && challenge.round1
+                ? calculatePlayerRankings(challenge.round1.courts, 1)
+                : undefined;
 
             // Only count games for the current round
-            const roundGames = currentRound.courts.flatMap(court =>
-              court.games.filter(g => g.roundNumber === challenge.currentView)
+            const roundGames = currentRound.courts.flatMap((court) =>
+              court.games.filter((g) => g.roundNumber === challenge.currentView),
             );
             const completedRoundGames = roundGames.filter(
-              g => g.team1Score !== undefined && g.team2Score !== undefined
+              (g) => g.team1Score !== undefined && g.team2Score !== undefined,
             ).length;
 
             return (
@@ -446,15 +447,16 @@ const EventPage: React.FC = () => {
           {/* Mobile-Optimized Courts Grid */}
           <div className="grid grid-cols-1 gap-4">
             {currentRound.courts.map((court) => (
-              <CourtCard
-                key={court.id}
-                court={court}
-                players={players}
-                roundNumber={challenge.currentView as 1 | 2}
-                highlightedPlayerId={highlightedPlayerId}
-                isAdmin={isAdmin}
-                handleScoreChange={challenge.handleScoreChange}
-              />
+              <>
+                <CourtCard
+                  court={court}
+                  players={players}
+                  roundNumber={challenge.currentView as 1 | 2}
+                  highlightedPlayerId={highlightedPlayerId}
+                  isAdmin={isAdmin}
+                  handleScoreChange={challenge.handleScoreChange}
+                />
+              </>
             ))}
           </div>
         </div>
@@ -476,9 +478,15 @@ const EventPage: React.FC = () => {
               <table className="w-full">
                 <thead className="bg-surface-alt border-b border-border">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">Position</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">Player</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-text-main uppercase tracking-wider">Points</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">
+                      Position
+                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">
+                      Player
+                    </th>
+                    <th className="px-6 py-4 text-center text-sm font-semibold text-text-main uppercase tracking-wider">
+                      Points
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -521,9 +529,7 @@ const EventPage: React.FC = () => {
                             {player?.name || `Player ${playerId}`}
                           </div>
                           {player?.dupr && (
-                            <div className="text-sm text-text-muted">
-                              DUPR: {player.dupr}
-                            </div>
+                            <div className="text-sm text-text-muted">DUPR: {player.dupr}</div>
                           )}
                         </td>
 
@@ -533,9 +539,7 @@ const EventPage: React.FC = () => {
                             <Plus className="h-5 w-5" />
                             {getPointsForRank(index + 1).toLocaleString()}
                           </div>
-                          <div className="text-sm text-text-muted">
-                            points
-                          </div>
+                          <div className="text-sm text-text-muted">points</div>
                         </td>
                       </tr>
                     );

@@ -72,11 +72,11 @@ export const playerConverter: FirestoreDataConverter<Player> = {
     let imageUrl = data.imageUrl as string | undefined;
 
     // Generate avatar if no image URL is provided
-    if (!imageUrl && name && typeof name === 'string') {
+    if ((import.meta.env.PROD || !imageUrl) && name && typeof name === 'string') {
       imageUrl = generatePlayerAvatarDataUrl({
         playerId: snapshot.id,
         playerName: name,
-        size: 64
+        size: 64,
       });
     }
 

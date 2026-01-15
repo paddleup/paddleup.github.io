@@ -13,86 +13,11 @@ const FormatPage: React.FC = () => {
 
   return (
     <div className="space-y-16 pb-12">
-      {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-surface-alt via-surface to-surface-alt border border-border shadow-lg">
-        <div className="absolute inset-0 bg-gradient-to-r from-text-muted/5 to-primary/5"></div>
-        <div className="relative px-6 py-8 md:px-12 md:py-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-              {/* Icon and Title */}
-              <div className="flex-shrink-0 text-center md:text-left">
-                <div className="text-4xl md:text-5xl mb-2">🏓</div>
-              </div>
-
-              {/* Main Content */}
-              <div className="flex-grow text-center md:text-left">
-                <h1 className="text-2xl md:text-4xl font-black text-text-main mb-2 leading-tight">
-                  Paddle Up Premier League
-                </h1>
-                <div className="text-lg md:text-xl font-bold text-text-accent mb-3">
-                  Season 1 (Competitive)
-                </div>
-                <p className="text-text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-                  First competitive season • DUPR 3.5+ • Two structured rounds • Monthly & seasonal
-                  rankings
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex-shrink-0 flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/schedule"
-                  className="bg-primary text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-primary-hover transition-colors shadow-md"
-                >
-                  Register Tonight
-                </Link>
-                <a
-                  href="https://paddleup.github.io"
-                  className="bg-surface-highlight border border-border text-text-main px-6 py-3 rounded-xl font-semibold text-sm hover:bg-surface-alt transition-colors flex items-center gap-2"
-                >
-                  View Standings
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Subtle decorative elements */}
-        <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-16 h-16 bg-text-accent/5 rounded-full blur-lg -z-10"></div>
-      </div>
-
-      {/* Leaderboard Info Card */}
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-gradient-to-r from-surface to-surface-alt rounded-2xl p-6 border border-border shadow-lg">
-          <div className="flex items-center justify-center gap-3 text-text-main mb-3">
-            <ExternalLink className="h-6 w-6 text-primary" />
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold">Live Leaderboard & Results</span>
-              {/* Live Badge */}
-              <span className="text-xs font-semibold text-success bg-success/10 px-2 py-1 rounded-full border border-success/20 animate-pulse">
-                LIVE
-              </span>
-            </div>
-          </div>
-          <p className="text-text-muted text-center">
-            Track your points, season standings, and all-time rankings in real-time at{' '}
-            <a
-              href="https://paddleup.github.io/#/standings"
-              className="text-primary hover:text-primary-hover font-semibold underline decoration-primary/30 hover:decoration-primary transition-colors"
-            >
-              paddleup.github.io
-            </a>
-          </p>
-        </div>
-      </div>
-
       {/* Season Overview */}
       <PremiumSection primaryColor="warning" secondaryColor="primary">
         <SectionHeader
           icon={Trophy}
-          title="🏅 Season 1 Championship"
+          title="Season 1 Championship"
           subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
           iconColor="warning"
         />
@@ -172,7 +97,7 @@ const FormatPage: React.FC = () => {
       <PremiumSection primaryColor="primary" secondaryColor="success">
         <SectionHeader
           icon={Clock}
-          title="🕖 Nightly Experience"
+          title="Nightly Experience"
           subtitle="Every Sunday brings competitive action with structured rounds and exciting gameplay"
           iconColor="primary"
         />
@@ -513,7 +438,7 @@ const FormatPage: React.FC = () => {
             to="/schedule"
             className="bg-surface border-2 border-primary text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary hover:text-white transition-colors"
           >
-            Register for Tonight
+            Register for an event
           </Link>
         </div>
       </div>

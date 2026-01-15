@@ -154,7 +154,14 @@ const rankPlayersByPerformance = (
     return a.courtNumber - b.courtNumber;
   }
 
-  if (a.wins !== b.wins) return b.wins - a.wins;
+  const getWinRatio = (player: PlayerDetails): number => {
+    const totalGames = player.wins + player.losses;
+    return totalGames === 0 ? 0 : player.wins / totalGames;
+  };
+
+  const winRatioA = getWinRatio(a);
+  const winRatioB = getWinRatio(b);
+  if (winRatioA !== winRatioB) return winRatioB - winRatioA;
   if (a.pointDifferential !== b.pointDifferential) return b.pointDifferential - a.pointDifferential;
   return a.seed - b.seed;
 };
