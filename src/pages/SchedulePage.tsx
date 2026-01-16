@@ -82,7 +82,7 @@ const SchedulePage: React.FC = () => {
             view={view}
             onClick={(e) => {
               if ((e.target as HTMLElement).closest('a,button')) return;
-              window.location.href = `/event/${encodeURIComponent(ev.id)}`;
+              window.location.href = `/#/event/${encodeURIComponent(ev.id)}`;
             }}
           >
             <div className="flex-shrink-0 flex flex-col gap-3 lg:w-48">
@@ -111,7 +111,7 @@ const SchedulePage: React.FC = () => {
                     Register Now
                   </a>
                   <Link
-                    to={`/event/${encodeURIComponent(ev.id)}`}
+                    to={`/#/event/${encodeURIComponent(ev.id)}`}
                     className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-surface-highlight border border-border text-text-main rounded-xl font-semibold hover:bg-surface-alt transition-colors"
                   >
                     Event Details

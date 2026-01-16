@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import StandingsPage from './pages/StandingsPage';
 import FormatPage from './pages/FormatPage';
-import PlayersPage from './pages/PlayersPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
 import SchedulePage from './pages/SchedulePage';
 import AdminPage from './pages/AdminPage';
@@ -17,7 +16,6 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/standings" element={<StandingsPage />} />
         <Route path="/schedule" element={<SchedulePage />} />
-        <Route path="/players" element={<PlayersPage />} />
         <Route path="/player/:id" element={<PlayerProfilePage />} />
         <Route path="/format" element={<FormatPage />} />
         <Route path="/admin" element={<AdminPage />} />

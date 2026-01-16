@@ -32,6 +32,7 @@ import {
 import DetailCard from '../components/ui/DetailCard';
 import TeamRow from '../components/ui/TeamRow';
 import CourtCard from '../components/ui/CourtCard';
+import PremiumSection from '../components/ui/PremiumSection';
 import { formatNiceDate, formatNiceTime } from '../utils/format';
 
 const EventPage: React.FC = () => {
@@ -165,33 +166,35 @@ const EventPage: React.FC = () => {
           <span>Back to Schedule</span>
         </Link>
 
-        <Card variant="premium" padding="lg">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-4">
-              <Calendar className="h-8 w-8 text-white" />
+        <PremiumSection primaryColor="primary" secondaryColor="success">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
+              <Calendar className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-black text-text-main mb-6">{event.name}</h1>
-
-            {/* Event Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              <DetailCard
-                icon={<Calendar className="h-5 w-5 text-primary" />}
-                label="Date"
-                value={formatNiceDate(event.startDateTime)}
-              />
-              <DetailCard
-                icon={<Clock className="h-5 w-5 text-success" />}
-                label="Time"
-                value={formatNiceTime(event.startDateTime)}
-              />
-              <DetailCard
-                icon={<MapPin className="h-5 w-5 text-warning" />}
-                label="Location"
-                value={event.location || 'TBD'}
-              />
-            </div>
+            <h1 className="text-4xl md:text-5xl font-black text-text-main mb-4">{event.name}</h1>
+            <p className="text-xl text-text-muted max-w-2xl mx-auto mb-8">
+              {event.location || 'TBD'} &middot; {formatNiceDate(event.startDateTime)} &middot;{' '}
+              {formatNiceTime(event.startDateTime)}
+            </p>
           </div>
-        </Card>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <DetailCard
+              icon={<Calendar className="h-5 w-5 text-primary" />}
+              label="Date"
+              value={formatNiceDate(event.startDateTime)}
+            />
+            <DetailCard
+              icon={<Clock className="h-5 w-5 text-success" />}
+              label="Time"
+              value={formatNiceTime(event.startDateTime)}
+            />
+            <DetailCard
+              icon={<MapPin className="h-5 w-5 text-warning" />}
+              label="Location"
+              value={event.location || 'TBD'}
+            />
+          </div>
+        </PremiumSection>
       </div>
 
       {/* Admin Event Initialization */}
@@ -284,8 +287,8 @@ const EventPage: React.FC = () => {
 
       {/* Round Navigation */}
       {!challenge.needsInitialization && (
-        <Card variant="flat" padding="sm">
-          <div className="flex items-center justify-between">
+        <PremiumSection primaryColor="primary" secondaryColor="surface">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               {[1, 2, 'standings'].map((stage) => {
                 const isActive = challenge.currentView === stage;
@@ -307,14 +310,12 @@ const EventPage: React.FC = () => {
                 );
               })}
             </div>
-
-            {/* Progress Indicator */}
             <div className="text-sm text-text-muted">
               Progress: {challenge.completedMatches}/{challenge.totalMatches} matches (
               {challenge.progressPercent}%)
             </div>
           </div>
-        </Card>
+        </PremiumSection>
       )}
 
       {/* Player Search */}

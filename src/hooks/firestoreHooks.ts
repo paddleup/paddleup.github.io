@@ -190,12 +190,20 @@ export function useFirestoreEntities<T>(
   return query;
 }
 
-export function useFirestoreCreate<T extends WithOptionalId>(
+/**
+ * Generic Firestore mutation hook for create, update, and delete.
+ * Reduces duplication by sharing optimistic update logic.
+ */
+/**
+ * Internal generic mutation hooks for Firestore CRUD.
+ * Each hook is typed for its operation to avoid union type errors.
+ */
+function useFirestoreCreateMutation<T extends WithOptionalId>(
   collectionName: string,
   converter?: FirestoreDataConverter<T>,
 ) {
   const queryClient = useQueryClient();
-  const mutation = useMutation<string, unknown, T, { previousList?: T[] | undefined }>({
+  return useMutation<string, unknown, T, { previousList?: T[] | undefined }>({
     mutationFn: async (item: T) => {
       const id = await addDocument<T>(collectionName, item, converter);
       return id;
@@ -223,22 +231,16 @@ export function useFirestoreCreate<T extends WithOptionalId>(
       if (newId) queryClient.invalidateQueries({ queryKey: [collectionName, newId] });
     },
   });
-
-  return {
-    create: mutation.mutateAsync,
-    status: mutation.status,
-    error: mutation.error ?? null,
-  };
 }
 
-export function useFirestoreUpdate<T extends WithOptionalId>(
+function useFirestoreUpdateMutation<T extends WithOptionalId>(
   collectionName: string,
   converter?: FirestoreDataConverter<T>,
 ) {
   const queryClient = useQueryClient();
   const handlers = createOptimisticHandlers<T>(queryClient, collectionName);
 
-  const mutation = useMutation<
+  return useMutation<
     void,
     unknown,
     Partial<T>,
@@ -253,17 +255,11 @@ export function useFirestoreUpdate<T extends WithOptionalId>(
     onError: handlers.onError,
     onSettled: handlers.onSettled,
   });
-
-  return {
-    update: mutation.mutateAsync,
-    status: mutation.status,
-    error: mutation.error ?? null,
-  };
 }
 
-export function useFirestoreDelete<T extends WithOptionalId>(collectionName: string) {
+function useFirestoreDeleteMutation<T extends WithOptionalId>(collectionName: string) {
   const queryClient = useQueryClient();
-  const mutation = useMutation<
+  return useMutation<
     void,
     unknown,
     string,
@@ -302,12 +298,40 @@ export function useFirestoreDelete<T extends WithOptionalId>(collectionName: str
         queryClient.invalidateQueries({ queryKey: [collectionName] });
       }
     },
-    onSettled: (_data, _err, id?: string) => {
+    onSettled: (_data: unknown, _err: unknown, id?: string) => {
       if (id) queryClient.invalidateQueries({ queryKey: [collectionName, id] });
       queryClient.invalidateQueries({ queryKey: [collectionName] });
     },
   });
+}
 
+// Replace useFirestoreMutation with typed hooks
+export function useFirestoreCreate<T extends WithOptionalId>(
+  collectionName: string,
+  converter?: FirestoreDataConverter<T>,
+) {
+  const mutation = useFirestoreCreateMutation<T>(collectionName, converter);
+  return {
+    create: mutation.mutateAsync,
+    status: mutation.status,
+    error: mutation.error ?? null,
+  };
+}
+
+export function useFirestoreUpdate<T extends WithOptionalId>(
+  collectionName: string,
+  converter?: FirestoreDataConverter<T>,
+) {
+  const mutation = useFirestoreUpdateMutation<T>(collectionName, converter);
+  return {
+    update: mutation.mutateAsync,
+    status: mutation.status,
+    error: mutation.error ?? null,
+  };
+}
+
+export function useFirestoreDelete<T extends WithOptionalId>(collectionName: string) {
+  const mutation = useFirestoreDeleteMutation<T>(collectionName);
   return {
     remove: mutation.mutateAsync,
     status: mutation.status,

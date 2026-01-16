@@ -16,7 +16,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Standings', href: '/standings', icon: Trophy },
     { name: 'Schedule', href: '/schedule', icon: Calendar },
-    { name: 'Players', href: '/players', icon: Users },
     { name: 'Format', href: '/format', icon: Target },
     { name: 'Admin', href: '/admin', icon: Calculator },
   ];
@@ -24,7 +23,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-background">
       {/* Enhanced Navigation */}
-      <nav className="bg-gradient-to-r from-surface via-surface-alt to-surface text-text-main sticky top-0 z-50 shadow-2xl border-b border-border/50 backdrop-blur-md">
+      <nav className="relative bg-gradient-to-br from-primary/10 via-surface to-surface/80 text-text-main sticky top-0 z-50 rounded-3xl border border-primary/20 shadow-2xl mx-4 mt-4 mb-8 backdrop-blur-md">
+        <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Enhanced Logo */}
@@ -139,12 +140,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </nav>
 
       {/* Enhanced Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="relative">
+          {/* <div className="bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl"> */}
           {children}
-          {/* Subtle background decorative elements */}
-          <div className="fixed top-20 right-10 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl -z-10 pointer-events-none"></div>
-          <div className="fixed bottom-20 left-10 w-40 h-40 bg-gradient-to-tr from-success/5 to-transparent rounded-full blur-3xl -z-10 pointer-events-none"></div>
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
+          {/* </div> */}
         </div>
       </main>
 
