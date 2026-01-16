@@ -39,22 +39,22 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   return (
     <Card className={cn('p-0 overflow-hidden', className)}>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-border">
-          <thead className="bg-surface-highlight">
+        <table className="min-w-full divide-y divide-border rounded-2xl bg-gradient-to-br from-surface/80 to-surface-alt/60 shadow-md">
+          <thead className="bg-gradient-to-r from-primary-light/30 to-surface-highlight/60">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider pl-6">
+              <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider pl-6 rounded-tl-2xl">
                 Rank
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
                 Player
               </th>
               {showPoints && (
-                <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
                   Points
                 </th>
               )}
               {showEvents && (
-                <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider rounded-tr-2xl">
                   Events
                 </th>
               )}
@@ -72,7 +72,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 <tr
                   key={row.playerId}
                   className={cn(
-                    'hover:bg-surface-highlight transition-colors',
+                    'hover:bg-surface-highlight/70 transition-colors',
                     (row.rank || 0) <= 4 ? 'bg-primary-light/10' : '',
                   )}
                 >
@@ -86,7 +86,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                         name={player.name}
                         className="mr-3 group-hover:ring-2 ring-primary transition-all"
                       />
-                      <div className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">
+                      <div className="text-sm font-semibold text-text-main group-hover:text-primary transition-colors">
                         {player.name}
                       </div>
                       {row.rank === 1 && <Trophy className="ml-2 h-4 w-4 text-warning" />}
@@ -94,7 +94,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                   </td>
                   {showPoints && (
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-bold text-text-main">{row.points ?? 0}</div>
+                      <div className="text-sm font-bold text-success">{row.points ?? 0}</div>
                     </td>
                   )}
                   {showEvents && (

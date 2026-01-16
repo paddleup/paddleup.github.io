@@ -442,6 +442,65 @@ const FormatPage: React.FC = () => {
           </Link>
         </div>
       </div>
+      {/* In-depth Rules Section */}
+      <PremiumSection primaryColor="primary" secondaryColor="warning">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
+            📜 Full League Rules & Structure
+          </h2>
+          <p className="text-xl text-text-muted max-w-2xl mx-auto">
+            Everything you need to know about how the Paddle Up Premier League works.
+          </p>
+        </div>
+        <div className="prose prose-invert max-w-3xl mx-auto text-left">
+          <h3>Season Format</h3>
+          <ul>
+            <li>Season runs for 1 month (4 weeks)</li>
+            <li>Two rounds per night, every Sunday 7–10PM</li>
+            <li>Open to DUPR 3.5+ players</li>
+          </ul>
+          <h3>Night Structure</h3>
+          <ul>
+            <li>4–5 players per court, every player partners once per round</li>
+            <li>
+              Scoring: 4-player courts: 3 games to 15, win by 1; 5-player courts: 4 games to 11, win
+              by 1
+            </li>
+            <li>Round 1: Snake draft seeding; Round 2: Ranked by performance</li>
+          </ul>
+          <h3>Points & Standings</h3>
+          <ul>
+            <li>1st: 1000 pts, 2nd: 800, 3rd: 600, 4th: 500, then halves every 3 ranks</li>
+            <li>Points count toward monthly, seasonal, and all-time rankings</li>
+            <li>Top 3 for the season win prizes (see above)</li>
+          </ul>
+          <h3>Promotion & Court Movement</h3>
+          <ul>
+            <li>Round 2 courts assigned by Round 1 results</li>
+            <li>Top finishers move up, others move down or stay</li>
+          </ul>
+          <h3>Attendance & Sub Policy</h3>
+          <ul>
+            <li>
+              Zero tolerance for missed nights (0 points), or 1 grace week per season (admin
+              discretion)
+            </li>
+            <li>Subs must be approved and match DUPR as closely as possible</li>
+          </ul>
+          <h3>Prizes</h3>
+          <ul>
+            <li>1st: Joola Hat + 25 Club Points</li>
+            <li>2nd: Joola Water Bottle + 15 Club Points</li>
+            <li>3rd: Joola Wristbands + 10 Club Points</li>
+          </ul>
+          <h3>
+            See full rules on the Standings page or at{' '}
+            <a href="https://paddleup.github.io" target="_blank" rel="noopener noreferrer">
+              paddleup.github.io
+            </a>
+          </h3>
+        </div>
+      </PremiumSection>
     </div>
   );
 };

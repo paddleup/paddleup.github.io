@@ -6,6 +6,7 @@ import SectionHeader from '../components/ui/SectionHeader';
 import StatsCard from '../components/ui/StatsCard';
 import PlayerAvatar from '../components/ui/PlayerAvatar';
 import FeatureCard from '../components/ui/FeatureCard';
+import TimePeriodSelector from '../components/ui/TimePeriodSelector';
 import { useEvents } from '../hooks/firestoreHooks';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 import { getMonthOptions } from '../lib/dateUtils';
@@ -44,21 +45,11 @@ const PlayersPage: React.FC = () => {
         />
         {/* Time Period Selector */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-4 p-2 bg-surface-alt rounded-2xl border border-border shadow-lg">
-            <span className="text-sm font-semibold text-text-muted px-3">View:</span>
-            <select
-              value={selection}
-              onChange={(e) => setSelection(e.target.value === 'all' ? 'all' : e.target.value)}
-              className="appearance-none bg-primary text-white text-sm font-bold rounded-xl px-4 py-2 border-0 focus:outline-none focus:ring-2 focus:ring-primary/50"
-            >
-              <option value="all">All Time</option>
-              {months.map((m) => (
-                <option key={m.key} value={m.key}>
-                  {m.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <TimePeriodSelector
+            value={selection}
+            options={months}
+            onChange={(v) => setSelection(v === 'all' ? 'all' : v)}
+          />
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatsCard
@@ -113,46 +104,51 @@ const PlayersPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {playerStats.map((player) => (
             <Link key={player.id} to={`/player/${player.id}`} className="block group">
-              <FeatureCard
-                badgeContent={`#${player.rank ?? 0}`}
-                title={player.name}
-                description={
+              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-surface-alt/10 to-success/5 border-2 border-success/20 p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                {/* Player Image */}
+                <div className="relative flex justify-center mb-4">
+                  <img
+                    src={player.imageUrl}
+                    alt={player.name}
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-success shadow-lg group-hover:scale-110 transition-all duration-300"
+                  />
+                  <div className="absolute top-0 right-0 w-10 h-10 bg-gradient-to-br from-warning/80 to-warning/40 rounded-full flex items-center justify-center shadow-lg border-2 border-warning">
+                    <span className="text-lg font-black text-white">#{player.rank ?? 0}</span>
+                  </div>
+                </div>
+                {/* Player Name */}
+                <div className="text-center mb-2">
+                  <h3 className="text-xl font-bold text-text-main truncate">{player.name}</h3>
+                  <div className="text-xs text-text-muted">DUPR {player.dupr ?? 'N/A'}</div>
+                </div>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border text-center">
                   <div>
-                    <PlayerAvatar
-                      imageUrl={player.imageUrl}
-                      name={player.name}
-                      size="lg"
-                      className="mx-auto mb-2"
-                    />
-                    <div className="text-xs text-text-muted mb-1">DUPR {player.dupr ?? 'N/A'}</div>
-                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border text-center">
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
-                          Events
-                        </p>
-                        <p className="font-bold text-sm text-text-main">{player.eventsPlayed}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
-                          Champ Ct
-                        </p>
-                        <div className="flex items-center justify-center gap-1">
-                          <TrendingUp className="h-3 w-3 text-success" />
-                          <p className="font-bold text-sm text-text-main">{player.champWins}</p>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
-                          Rank
-                        </p>
-                        <p className="font-bold text-sm text-text-main">{player.rank ?? '-'}</p>
-                      </div>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Events
+                    </p>
+                    <p className="font-bold text-sm text-text-main">{player.eventsPlayed}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Champ Ct
+                    </p>
+                    <div className="flex items-center justify-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-success" />
+                      <p className="font-bold text-sm text-text-main">{player.champWins}</p>
                     </div>
                   </div>
-                }
-                emoji={player.imageUrl ? undefined : player.name?.charAt(0)}
-                color="surface-alt"
-              />
+                  <div>
+                    <p className="text-[10px] text-text-muted uppercase tracking-wide mb-0.5">
+                      Rank
+                    </p>
+                    <p className="font-bold text-sm text-text-main">{player.rank ?? '-'}</p>
+                  </div>
+                </div>
+                {/* Decorative Background */}
+                <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-success/10 to-transparent rounded-full blur-xl -z-10"></div>
+                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-warning/10 to-transparent rounded-full blur-xl -z-10"></div>
+              </div>
             </Link>
           ))}
         </div>
