@@ -7,7 +7,7 @@ interface RankBadgeProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const ordinal = (n: number) => {
+export const ordinal = (n: number) => {
   if (!n || isNaN(n)) return String(n);
   const v = n % 100;
   if (v >= 11 && v <= 13) return `${n}th`;

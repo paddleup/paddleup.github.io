@@ -27,6 +27,8 @@ interface LeaderboardTableProps {
   showEvents?: boolean;
   showPoints?: boolean;
   className?: string;
+  pointsRenderer?: (row: LeaderboardRow, player: PlayerLike, index: number) => React.ReactNode;
+  rowClassName?: (row: LeaderboardRow, index: number) => string;
 }
 
 const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
@@ -35,11 +37,13 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   showEvents = true,
   showPoints = true,
   className,
+  pointsRenderer,
+  rowClassName,
 }) => {
   return (
     <Card className={cn('p-0 overflow-hidden', className)}>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-border rounded-2xl bg-gradient-to-br from-surface/80 to-surface-alt/60 shadow-md">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full divide-y divide-border rounded-2xl bg-gradient-to-br from-surface/80 to-surface-alt/60 shadow-md">
           <thead className="bg-gradient-to-r from-primary-light/30 to-surface-highlight/60">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider pl-6 rounded-tl-2xl">
@@ -49,7 +53,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 Player
               </th>
               {showPoints && (
-                <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
+                <th className="px-4 py-3 text-center text-xs font-bold text-text-main uppercase tracking-wider">
                   Points
                 </th>
               )}
@@ -61,7 +65,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             </tr>
           </thead>
           <tbody className="bg-surface divide-y divide-border">
-            {data.map((row) => {
+            {data.map((row, index) => {
               const player = players?.find((p) => p.id === row.playerId) || {
                 name: 'Unknown',
                 imageUrl: '',
@@ -73,7 +77,11 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                   key={row.playerId}
                   className={cn(
                     'hover:bg-surface-highlight/70 transition-colors',
-                    (row.rank || 0) <= 4 ? 'bg-primary-light/10' : '',
+                    rowClassName
+                      ? rowClassName(row, index)
+                      : (row.rank || 0) <= 4
+                      ? 'bg-primary-light/10'
+                      : '',
                   )}
                 >
                   <td className="px-4 pl-6 py-4 whitespace-nowrap">
@@ -93,8 +101,12 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                     </Link>
                   </td>
                   {showPoints && (
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-bold text-success">{row.points ?? 0}</div>
+                    <td className="px-4 py-4 whitespace-nowrap text-center">
+                      {pointsRenderer ? (
+                        pointsRenderer(row, player, index)
+                      ) : (
+                        <div className="text-sm font-bold text-success">{row.points ?? 0}</div>
+                      )}
                     </td>
                   )}
                   {showEvents && (

@@ -28,12 +28,15 @@ import {
   CourtStatsPanel,
   MobileScoreInput,
   PlayerSearchFilter,
+  PlayerAvatar,
 } from '../components/ui';
 import DetailCard from '../components/ui/DetailCard';
 import TeamRow from '../components/ui/TeamRow';
 import CourtCard from '../components/ui/CourtCard';
 import PremiumSection from '../components/ui/PremiumSection';
 import { formatNiceDate, formatNiceTime } from '../utils/format';
+import RankBadge, { ordinal } from '../components/ui/RankBadge';
+import LeaderboardTable, { LeaderboardRow } from '../components/LeaderboardTable';
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -172,12 +175,44 @@ const EventPage: React.FC = () => {
               <Calendar className="h-10 w-10 text-white" />
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-text-main mb-4">{event.name}</h1>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto mb-8">
-              {event.location || 'TBD'} &middot; {formatNiceDate(event.startDateTime)} &middot;{' '}
-              {formatNiceTime(event.startDateTime)}
-            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+            {/* Date */}
+            <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/20">
+              <Calendar className="h-5 w-5 text-primary flex-shrink-0" />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                  Date
+                </div>
+                <div className="font-bold text-text-main truncate">
+                  {formatNiceDate(event.startDateTime)}
+                </div>
+              </div>
+            </div>
+            {/* Time */}
+            <div className="flex items-center gap-3 p-3 bg-success/10 rounded-xl border border-success/20">
+              <Clock className="h-5 w-5 text-success flex-shrink-0" />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                  Time
+                </div>
+                <div className="font-bold text-text-main truncate">
+                  {formatNiceTime(event.startDateTime)}
+                </div>
+              </div>
+            </div>
+            {/* Location */}
+            <div className="flex items-center gap-3 p-3 bg-warning/10 rounded-xl border border-warning/20 sm:col-span-2 lg:col-span-1">
+              <MapPin className="h-5 w-5 text-warning flex-shrink-0" />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                  Location
+                </div>
+                <div className="font-bold text-text-main truncate">{event.location ?? 'TBD'}</div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <DetailCard
               icon={<Calendar className="h-5 w-5 text-primary" />}
               label="Date"
@@ -193,7 +228,7 @@ const EventPage: React.FC = () => {
               label="Location"
               value={event.location || 'TBD'}
             />
-          </div>
+          </div> */}
         </PremiumSection>
       </div>
 
@@ -287,35 +322,42 @@ const EventPage: React.FC = () => {
 
       {/* Round Navigation */}
       {!challenge.needsInitialization && (
-        <PremiumSection primaryColor="primary" secondaryColor="surface">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              {[1, 2, 'standings'].map((stage) => {
-                const isActive = challenge.currentView === stage;
-                const isAvailable =
-                  stage === 1 ||
-                  (stage === 2 && challenge.round1) ||
-                  (stage === 'standings' && challenge.round2);
+        <div className="mb-6">
+          {/* <PremiumSection primaryColor="primary" secondaryColor="surface"> */}
+          <button
+            // onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/30 rounded-xl p-4 hover:bg-primary/15 transition-all duration-200"
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                {[1, 2, 'standings'].map((stage) => {
+                  const isActive = challenge.currentView === stage;
+                  const isAvailable =
+                    stage === 1 ||
+                    (stage === 2 && challenge.round1) ||
+                    (stage === 'standings' && challenge.round2);
 
-                return (
-                  <Button
-                    key={stage}
-                    variant={isActive ? 'primary' : 'ghost'}
-                    size="sm"
-                    onClick={() => challenge.setCurrentView(stage as any)}
-                    disabled={!isAvailable}
-                  >
-                    {stage === 'standings' ? 'Final Standings' : `Round ${stage}`}
-                  </Button>
-                );
-              })}
+                  return (
+                    <Button
+                      key={stage}
+                      variant={isActive ? 'primary' : 'ghost'}
+                      size="sm"
+                      onClick={() => challenge.setCurrentView(stage as any)}
+                      disabled={!isAvailable}
+                    >
+                      {stage === 'standings' ? 'Final Standings' : `Round ${stage}`}
+                    </Button>
+                  );
+                })}
+              </div>
+              <div className="text-sm text-text-muted">
+                Progress: {challenge.completedMatches}/{challenge.totalMatches} matches (
+                {challenge.progressPercent}%)
+              </div>
             </div>
-            <div className="text-sm text-text-muted">
-              Progress: {challenge.completedMatches}/{challenge.totalMatches} matches (
-              {challenge.progressPercent}%)
-            </div>
-          </div>
-        </PremiumSection>
+            {/* </PremiumSection> */}
+          </button>
+        </div>
       )}
 
       {/* Player Search */}
@@ -375,16 +417,14 @@ const EventPage: React.FC = () => {
             );
           })()}
           {/* Round Header */}
-          <Card variant="gradient" theme="success" padding="md">
+          <Card variant="gradient" theme="success" padding="sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-success to-success/70 rounded-full flex items-center justify-center">
-                  <Users className="h-6 w-6 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-success to-success/70 rounded-full flex items-center justify-center">
+                  <Users className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-text-main">
-                    Round {challenge.currentView} Courts
-                  </h2>
+                  <h2 className="font-bold text-text-main">Round {challenge.currentView} Courts</h2>
                   <p className="text-text-muted text-sm">
                     {currentRound.courts.length} courts • Live scoring enabled
                   </p>
@@ -448,16 +488,15 @@ const EventPage: React.FC = () => {
           {/* Mobile-Optimized Courts Grid */}
           <div className="grid grid-cols-1 gap-4">
             {currentRound.courts.map((court) => (
-              <>
-                <CourtCard
-                  court={court}
-                  players={players}
-                  roundNumber={challenge.currentView as 1 | 2}
-                  highlightedPlayerId={highlightedPlayerId}
-                  isAdmin={isAdmin}
-                  handleScoreChange={challenge.handleScoreChange}
-                />
-              </>
+              <CourtCard
+                key={court.id}
+                court={court}
+                players={players}
+                roundNumber={challenge.currentView as 1 | 2}
+                highlightedPlayerId={highlightedPlayerId}
+                isAdmin={isAdmin}
+                handleScoreChange={challenge.handleScoreChange}
+              />
             ))}
           </div>
         </div>
@@ -465,91 +504,35 @@ const EventPage: React.FC = () => {
 
       {/* Final Standings */}
       {challenge.currentView === 'standings' && event.standings && (
-        <Card variant="gradient" theme="warning" padding="lg">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-4">
-              <Trophy className="h-8 w-8 text-white" />
+        <LeaderboardTable
+          data={event.standings.map((playerId: string, index: number) => ({
+            playerId,
+            rank: index + 1,
+            points: getPointsForRank(index + 1),
+          }))}
+          players={players}
+          showEvents={false}
+          showPoints={true}
+          className="rounded-xl border border-border"
+          pointsRenderer={(_row: LeaderboardRow, _player, index: number) => (
+            <div className="flex flex-col items-center">
+              <div className="flex items-center justify-center gap-1 text-l font-bold text-success">
+                <Plus className="h-5 w-5" />
+                {getPointsForRank(index + 1).toLocaleString()}
+              </div>
+              <div className="text-sm text-text-muted">points</div>
             </div>
-            <h2 className="text-2xl font-bold text-text-main mb-2">Final Standings</h2>
-            <p className="text-text-muted">Official results from this event</p>
-          </div>
-
-          <div className="bg-surface rounded-xl border border-border overflow-hidden max-w-2xl mx-auto">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-surface-alt border-b border-border">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">
-                      Position
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-text-main uppercase tracking-wider">
-                      Player
-                    </th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-text-main uppercase tracking-wider">
-                      Points
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {event.standings.map((playerId: string, index: number) => {
-                    const player = players.find((p) => p.id === playerId);
-                    const medalColors = ['warning', 'text-accent', 'bronze'];
-                    const medals = ['🥇', '🥈', '🥉'];
-
-                    return (
-                      <tr
-                        key={playerId}
-                        className={`transition-colors ${
-                          index < 3
-                            ? index === 0
-                              ? 'bg-warning/5 hover:bg-warning/10'
-                              : index === 1
-                              ? 'bg-text-accent/5 hover:bg-text-accent/10'
-                              : 'bg-bronze/5 hover:bg-bronze/10'
-                            : 'hover:bg-surface-highlight'
-                        }`}
-                      >
-                        {/* Position Column */}
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                              index < 3
-                                ? `bg-gradient-to-br from-${medalColors[index]} to-${medalColors[index]}/70 text-white`
-                                : 'bg-surface-alt text-text-main'
-                            }`}
-                          >
-                            <span className="font-bold text-lg">
-                              {index < 3 ? medals[index] : `#${index + 1}`}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Player Name Column */}
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-bold text-lg text-text-main">
-                            {player?.name || `Player ${playerId}`}
-                          </div>
-                          {player?.dupr && (
-                            <div className="text-sm text-text-muted">DUPR: {player.dupr}</div>
-                          )}
-                        </td>
-
-                        {/* Points Column */}
-                        <td className="px-6 py-4 whitespace-nowrap text-center">
-                          <div className="flex items-center justify-center gap-1 text-2xl font-bold text-success">
-                            <Plus className="h-5 w-5" />
-                            {getPointsForRank(index + 1).toLocaleString()}
-                          </div>
-                          <div className="text-sm text-text-muted">points</div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </Card>
+          )}
+          rowClassName={(_row: LeaderboardRow, index: number) =>
+            index === 0
+              ? 'bg-warning/5 hover:bg-warning/10'
+              : index === 1
+              ? 'bg-text-accent/5 hover:bg-text-accent/10'
+              : index === 2
+              ? 'bg-bronze/5 hover:bg-bronze/10'
+              : 'hover:bg-surface-highlight'
+          }
+        />
       )}
     </div>
   );

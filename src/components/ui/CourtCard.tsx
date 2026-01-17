@@ -3,6 +3,7 @@ import Card from './Card';
 import CourtStatsPanel from './CourtStatsPanel';
 import TeamRow from './TeamRow';
 import PlayerAvatar from './PlayerAvatar';
+import { ChevronDown } from 'lucide-react';
 import { Player } from '../../types';
 import { calculatePlayerRankings } from '../../lib/challengeEventUtils';
 
@@ -53,7 +54,7 @@ const CourtCard: React.FC<CourtCardProps> = ({
     <div
       key={court.id}
       id={`court-${court.id}`}
-      className={`relative overflow-hidden bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-3xl p-8 border border-primary/20 shadow-2xl ${
+      className={`relative overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-xl p-8 border border-primary/30 ${
         court.playerIds.some((pid: string) => pid === highlightedPlayerId)
           ? 'ring-2 ring-primary/50 bg-primary/5'
           : ''
@@ -69,7 +70,7 @@ const CourtCard: React.FC<CourtCardProps> = ({
         aria-expanded={expanded}
         type="button"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 flex-1">
           <div className="flex items-center gap-3">
             <h3 className="text-2xl font-bold text-text-main">Court {court.courtNumber}</h3>
           </div>
@@ -107,87 +108,119 @@ const CourtCard: React.FC<CourtCardProps> = ({
               ? 'First to 11, win by 1'
               : ''}
           </span>
+          <ChevronDown
+            className={`ml-2 h-6 w-6 text-text-muted transition-transform duration-200 ${
+              expanded ? 'rotate-180' : 'rotate-0'
+            }`}
+            aria-hidden="true"
+          />
         </div>
       </button>
       {expanded && (
         <div className="space-y-4 mt-4">
           {/* Games - Condensed Vertical Stack Layout */}
-          <div className="space-y-4">
+          <div className="space-y-3">
+            {/* Court Stats Panel */}
+            <CourtStatsPanel
+              courtNumber={court.courtNumber}
+              playerStats={courtPlayerStats}
+              players={players}
+              totalGamesForCourt={totalGamesForCourt}
+              completedGamesForCourt={completedGamesForCourt}
+            />
             {court.games.map((game: any, idx: number) => {
               const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
               const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
               const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
               const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
 
-              // Only highlight the winning team in completed matches, no highlight otherwise
-              let team1Highlight = '';
-              let team2Highlight = '';
-              if (typeof game.team1Score === 'number' && typeof game.team2Score === 'number') {
-                if (game.team1Score > game.team2Score) {
-                  team1Highlight = 'bg-success/10';
-                } else if (game.team2Score > game.team1Score) {
-                  team2Highlight = 'bg-success/10';
-                }
-                // No highlight for tie or losing team
-              }
-
               return (
-                <div key={game.id}>
-                  <div className="px-2 pt-1 pb-0">
-                    <span className="text-xs text-text-muted font-semibold tracking-wide uppercase">
+                <>
+                  <div className="mt-7 mb-2 mx-3">
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wide">
                       Game {idx + 1}
                     </span>
                   </div>
-                  <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-surface to-success/5 rounded-2xl p-4 border border-primary/20 shadow">
-                    <div className="space-y-1">
-                      <div
-                        className={`rounded-lg transition-all duration-200 px-4 ${team1Highlight}`}
-                      >
-                        <TeamRow
-                          color="primary"
-                          player1={team1Player1}
-                          player2={team1Player2}
-                          score={game.team1Score}
-                          onScoreChange={(score) =>
-                            handleScoreChange(game.id!, 'team1Score', score)
-                          }
-                          isAdmin={isAdmin}
-                          isEditable={isEditable}
-                        />
+                  <div
+                    key={game.id}
+                    className="border border-border bg-surface rounded-none"
+                    style={{ boxShadow: 'none' }}
+                  >
+                    <div
+                      className={`flex items-center justify-between border-b border-border px-3 py-2 ${
+                        typeof game.team1Score === 'number' &&
+                        typeof game.team2Score === 'number' &&
+                        game.team1Score > game.team2Score
+                          ? 'bg-success/10'
+                          : ''
+                      }`}
+                    >
+                      <div>
+                        <div className="font-medium text-text-main">{team1Player1?.name}</div>
+                        <div className="font-medium text-text-main">{team1Player2?.name}</div>
                       </div>
-                      <div
-                        className={`rounded-lg transition-all duration-200 px-4 ${team2Highlight}`}
-                      >
-                        <TeamRow
-                          color="success"
-                          player1={team2Player1}
-                          player2={team2Player2}
-                          score={game.team2Score}
-                          onScoreChange={(score) =>
-                            handleScoreChange(game.id!, 'team2Score', score)
-                          }
-                          isAdmin={isAdmin}
-                          isEditable={isEditable}
-                        />
-                      </div>
+                      {(() => {
+                        const scoreClass = 'text-black dark:text-white';
+                        return (
+                          <div
+                            className={`text-2xl font-bold text-right min-w-[48px] ${scoreClass}`}
+                          >
+                            {isAdmin && isEditable ? (
+                              <input
+                                type="number"
+                                className="w-12 px-1 py-0.5 border border-border rounded text-center text-lg font-bold"
+                                value={game.team1Score ?? ''}
+                                onChange={(e) =>
+                                  handleScoreChange(game.id!, 'team1Score', Number(e.target.value))
+                                }
+                              />
+                            ) : (
+                              game.team1Score ?? ''
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
-                    {/* Decorative Background Elements */}
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-xl -z-10"></div>
-                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-success/10 to-transparent rounded-full blur-xl -z-10"></div>
+                    <div
+                      className={`flex items-center justify-between px-3 py-2 ${
+                        typeof game.team1Score === 'number' &&
+                        typeof game.team2Score === 'number' &&
+                        game.team2Score > game.team1Score
+                          ? 'bg-success/10'
+                          : ''
+                      }`}
+                    >
+                      <div>
+                        <div className="font-medium text-text-main">{team2Player1?.name}</div>
+                        <div className="font-medium text-text-main">{team2Player2?.name}</div>
+                      </div>
+                      {(() => {
+                        const scoreClass = 'text-black dark:text-white';
+                        return (
+                          <div
+                            className={`text-2xl font-bold text-right min-w-[48px] ${scoreClass}`}
+                          >
+                            {isAdmin && isEditable ? (
+                              <input
+                                type="number"
+                                className="w-12 px-1 py-0.5 border border-border rounded text-center text-lg font-bold"
+                                value={game.team2Score ?? ''}
+                                onChange={(e) =>
+                                  handleScoreChange(game.id!, 'team2Score', Number(e.target.value))
+                                }
+                              />
+                            ) : (
+                              game.team2Score ?? ''
+                            )}
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
-                </div>
+                </>
               );
             })}
           </div>
-
-          {/* Court Stats Panel */}
-          <CourtStatsPanel
-            courtNumber={court.courtNumber}
-            playerStats={courtPlayerStats}
-            players={players}
-            totalGamesForCourt={totalGamesForCourt}
-            completedGamesForCourt={completedGamesForCourt}
-          />
         </div>
       )}
     </div>

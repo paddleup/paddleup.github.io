@@ -1,13 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Trophy,
-  ArrowRight,
-  Users,
-  Calendar,
-  Target,
-  ExternalLink,
-} from 'lucide-react';
+import { Trophy, ArrowRight, Users, Calendar, Target, ExternalLink, Clock } from 'lucide-react';
 // import { players } from '../data/players';
 import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { useEvents, usePlayers } from '../hooks/firestoreHooks';
@@ -15,6 +8,8 @@ import PlayerAvatar from '../components/ui/PlayerAvatar';
 import PremiumSection from '../components/ui/PremiumSection';
 import SectionHeader from '../components/ui/SectionHeader';
 import StatsCard from '../components/ui/StatsCard';
+import { FeatureCard } from '../components/ui';
+import SeasonOverview from '../components/ui/SeasonOverview';
 
 const HomePage: React.FC = () => {
   const { data: challengeEvents = [] } = useEvents();
@@ -195,78 +190,8 @@ const HomePage: React.FC = () => {
         </div>
       </PremiumSection>
 
-      {/* Season Prizes */}
-      <div className="relative overflow-hidden">
-        <div className="bg-gradient-to-br from-warning/5 via-surface to-primary/5 rounded-3xl p-8 md:p-12 border border-warning/20 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-warning to-warning/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300">
-              <Trophy className="h-10 w-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-              Season Rewards
-            </h2>
-            <p className="text-xl text-text-muted max-w-2xl mx-auto">
-              Top performers this season earn Joola gear and Paddle Up club points as rewards for
-              their competitive excellence
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {/* 1st Place */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-warning/20 via-warning/10 to-warning/5 border-2 border-warning/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
-                  <span className="text-2xl font-black text-white">1st</span>
-                </div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Champion</h3>
-                <div className="space-y-2">
-                  <div className="text-lg font-bold text-warning">Joola Hat</div>
-                  <div className="text-2xl font-black text-warning">25</div>
-                  <div className="text-text-muted font-medium">Club Points</div>
-                </div>
-              </div>
-              <div className="text-3xl opacity-50 absolute top-6 right-6">🧢</div>
-            </div>
-
-            {/* 2nd Place */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-text-accent/20 via-text-accent/10 to-text-accent/5 border-2 border-text-accent/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-text-accent to-text-accent/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
-                  <span className="text-2xl font-black text-white">2nd</span>
-                </div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Runner-up</h3>
-                <div className="space-y-2">
-                  <div className="text-lg font-bold text-text-accent">Joola Water Bottle</div>
-                  <div className="text-2xl font-black text-text-accent">15</div>
-                  <div className="text-text-muted font-medium">Club Points</div>
-                </div>
-              </div>
-              <div className="text-3xl opacity-50 absolute top-6 right-6">🍶</div>
-            </div>
-
-            {/* 3rd Place */}
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-bronze/20 via-bronze/10 to-bronze/5 border-2 border-bronze/30 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-bronze to-bronze/80 rounded-full flex items-center justify-center shadow-lg mx-auto mb-4">
-                  <span className="text-2xl font-black text-white">3rd</span>
-                </div>
-                <h3 className="text-xl font-bold text-text-main mb-3">Third Place</h3>
-                <div className="space-y-2">
-                  <div className="text-lg font-bold text-bronze">Joola Wristbands</div>
-                  <div className="text-2xl font-black text-bronze">10</div>
-                  <div className="text-text-muted font-medium">Club Points</div>
-                </div>
-              </div>
-              <div className="text-3xl opacity-50 absolute top-6 right-6">⌚</div>
-            </div>
-          </div>
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-        </div>
-      </div>
+      {/* Season Overview */}
+      <SeasonOverview />
 
       {/* Current Leaders & Next Event */}
       <div className="grid md:grid-cols-2 gap-8">
