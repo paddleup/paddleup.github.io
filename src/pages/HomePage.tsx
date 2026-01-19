@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, ArrowRight, Users, Calendar, Target, ExternalLink, Clock } from 'lucide-react';
 // import { players } from '../data/players';
-import { calculateWeekFinalPositions } from '../lib/leagueUtils';
+// import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import { useEvents, usePlayers } from '../hooks/firestoreHooks';
 import PlayerAvatar from '../components/ui/PlayerAvatar';
 import PremiumSection from '../components/ui/PremiumSection';
 import SectionHeader from '../components/ui/SectionHeader';
 import StatsCard from '../components/ui/StatsCard';
-import { FeatureCard } from '../components/ui';
 import SeasonOverview from '../components/ui/SeasonOverview';
+import { calculateWeekFinalPositions } from '../lib/standings';
 
 const HomePage: React.FC = () => {
   const { data: challengeEvents = [] } = useEvents();

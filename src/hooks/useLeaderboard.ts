@@ -1,9 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { usePlayers, useEvents } from './firestoreHooks';
 import { monthKey } from '../lib/dateUtils';
 import { aggregateStatsFromEvents } from '../lib/standings';
 import { rankItems } from '../lib/utils';
-import { getPointsForRank } from '../lib/leagueUtils';
 
 export const useLeaderboard = (selection: 'all' | string = 'all') => {
   const { data: players = [] } = usePlayers();
