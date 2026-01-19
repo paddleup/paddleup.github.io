@@ -16,11 +16,12 @@ const FormatPage: React.FC = () => {
       {/* Season Overview */}
       <PremiumSection primaryColor="warning" secondaryColor="primary">
         <SectionHeader
-          icon={Trophy}
-          title="Season 1 Championship"
-          subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
+          icon={<Trophy className="h-10 w-10 text-white" />}
           iconColor="warning"
-        />
+          subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
+        >
+          Season 1 Championship
+        </SectionHeader>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Duration Section */}
@@ -96,11 +97,12 @@ const FormatPage: React.FC = () => {
       {/* Nightly Format */}
       <PremiumSection primaryColor="primary" secondaryColor="success">
         <SectionHeader
-          icon={Clock}
-          title="Nightly Experience"
-          subtitle="Every Sunday brings competitive action with structured rounds and exciting gameplay"
+          icon={<Clock className="h-10 w-10 text-white" />}
           iconColor="primary"
-        />
+          subtitle="Every Sunday brings competitive action with structured rounds and exciting gameplay"
+        >
+          Nightly Experience
+        </SectionHeader>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatsCard

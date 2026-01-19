@@ -1,34 +1,35 @@
+// SectionHeader.tsx
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
 
-interface SectionHeaderProps {
-  icon: LucideIcon;
-  title: string;
-  subtitle?: string;
-  iconColor?: string;
+type SectionHeaderProps = {
+  children: React.ReactNode;
   className?: string;
-}
+  as?: 'h1' | 'h2' | 'h3';
+  subtitle?: string;
+  icon?: React.ReactNode;
+  iconColor?: string;
+};
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
-  icon: Icon,
-  title,
-  subtitle,
-  iconColor = 'primary',
+  children,
   className = '',
+  as = 'h2',
+  subtitle,
+  icon,
+  iconColor = 'primary',
 }) => {
+  const Heading = as;
   return (
-    <div className={`text-center mb-12 ${className}`}>
-      <div className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-${iconColor} to-${iconColor}/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300`}>
-        <Icon className="h-10 w-10 text-white" />
-      </div>
-      <h2 className="text-4xl md:text-5xl font-black text-text-main mb-4">
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="text-xl text-text-muted max-w-2xl mx-auto">
-          {subtitle}
-        </p>
+    <div className={`text-center mb-8 ${className}`}>
+      {icon && (
+        <div
+          className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-${iconColor} to-${iconColor}/70 rounded-full shadow-lg mb-6 transform hover:scale-110 transition-all duration-300`}
+        >
+          {icon}
+        </div>
       )}
+      <Heading className="text-2xl md:text-3xl font-black text-text-main mb-2">{children}</Heading>
+      {subtitle && <div className="text-lg text-text-muted max-w-2xl mx-auto">{subtitle}</div>}
     </div>
   );
 };

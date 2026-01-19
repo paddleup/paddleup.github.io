@@ -8,11 +8,12 @@ import { Trophy, Clock } from 'lucide-react';
 const SeasonOverview: React.FC = () => (
   <PremiumSection primaryColor="warning" secondaryColor="primary">
     <SectionHeader
-      icon={Trophy}
-      title="Season 1 Championship"
-      subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
+      icon={<Trophy className="h-10 w-10 text-white" />}
       iconColor="warning"
-    />
+      subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
+    >
+      Season 1 Championship
+    </SectionHeader>
 
     <div className="grid lg:grid-cols-2 gap-12 items-start">
       {/* Duration Section */}

@@ -24,6 +24,7 @@ import Label from '../components/ui/Label';
 import { List, ListItem } from '../components/ui/List';
 import ErrorText from '../components/ui/ErrorText';
 import Button from '../components/ui/Button';
+import SectionHeader from '../components/ui/SectionHeader';
 
 type EventFormProps = {
   isAdmin: boolean;
@@ -308,7 +309,9 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-8">
-      <h1 className="text-2xl font-bold mb-4">Admin</h1>
+      <SectionHeader as="h1" className="mb-4">
+        Admin
+      </SectionHeader>
 
       {user ? (
         <div className="space-y-8">
@@ -318,8 +321,10 @@ const AdminPage: React.FC = () => {
           <p>Admin status: {isAdmin ? 'Yes' : 'No'}</p>
           <Button onClick={handleSignOut}>Sign out</Button>
 
-          <Card className="p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-2">Protected admin area</h2>
+          <Card>
+            <SectionHeader as="h2" className="mb-2">
+              Protected admin area
+            </SectionHeader>
             <p className="text-sm text-gray-600 mb-4">
               You are authenticated and can now access admin-only features.
             </p>
@@ -363,7 +368,9 @@ const AdminPage: React.FC = () => {
           </Card>
 
           <Card className="p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-2">Create Event</h2>
+            <SectionHeader as="h2" className="mb-2">
+              Create Event
+            </SectionHeader>
             <p className="text-sm text-gray-600 mb-4">
               Create a new Event (start date/time is required).
             </p>
@@ -373,12 +380,14 @@ const AdminPage: React.FC = () => {
           </Card>
 
           <Card className="p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-2">Manage Event Standings</h2>
+            <SectionHeader as="h2" className="mb-2">
+              Manage Event Standings
+            </SectionHeader>
             <p className="text-sm text-gray-600 mb-4">
               Select an event, build an ordered standings list of players, and save to the event.
             </p>
 
-            <Card className="p-6">
+            <Card>
               <div className="md:col-span-1">
                 <Label>Event</Label>
                 <Select
@@ -421,7 +430,7 @@ const AdminPage: React.FC = () => {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium">Standings (ordered)</label>
+                <Label>Standings (ordered)</Label>
                 <div className="mt-1 border rounded p-2 bg-white">
                   {standingsList.length === 0 && (
                     <p className="text-sm text-gray-500">
@@ -470,24 +479,26 @@ const AdminPage: React.FC = () => {
                   </List>
 
                   <div className="mt-4 flex items-center space-x-3">
-                    <button
+                    <Button
                       type="button"
                       onClick={handleSaveStandings}
                       disabled={!isAdmin || updateStatus === 'pending' || !selectedEventId}
-                      className="px-6 py-3 bg-green-600 text-white rounded disabled:opacity-50 text-base"
+                      color="success"
+                      className="px-6 py-3 text-base"
                     >
                       {updateStatus === 'pending' ? 'Saving...' : 'Save standings to event'}
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
                       type="button"
                       onClick={() => {
                         setStandingsList([]);
                       }}
-                      className="px-6 py-3 bg-gray-200 rounded text-base"
+                      color="surface"
+                      className="px-6 py-3 text-base"
                     >
                       Clear
-                    </button>
+                    </Button>
                   </div>
 
                   {updateError && (

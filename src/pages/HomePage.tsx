@@ -149,11 +149,12 @@ const HomePage: React.FC = () => {
       {/* League Stats */}
       <PremiumSection primaryColor="primary" secondaryColor="success">
         <SectionHeader
-          icon={Users}
-          title="League Overview"
-          subtitle="Weekly competitive action with structured format and player advancement"
+          icon={<Users className="h-10 w-10 text-white" />}
           iconColor="primary"
-        />
+          subtitle="Weekly competitive action with structured format and player advancement"
+        >
+          League Overview
+        </SectionHeader>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatsCard

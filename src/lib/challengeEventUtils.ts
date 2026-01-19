@@ -154,15 +154,19 @@ const rankPlayersByPerformance = (
     return a.courtNumber - b.courtNumber;
   }
 
-  const getWinRatio = (player: PlayerDetails): number => {
-    const totalGames = player.wins + player.losses;
-    return totalGames === 0 ? 0 : player.wins / totalGames;
-  };
+  if (a.pointWinRate !== b.pointWinRate) {
+    return b.pointWinRate - a.pointWinRate;
+  }
 
-  const winRatioA = getWinRatio(a);
-  const winRatioB = getWinRatio(b);
-  if (winRatioA !== winRatioB) return winRatioB - winRatioA;
-  if (a.pointDifferential !== b.pointDifferential) return b.pointDifferential - a.pointDifferential;
+  // const getWinRatio = (player: PlayerDetails): number => {
+  //   const totalGames = player.wins + player.losses;
+  //   return totalGames === 0 ? 0 : player.wins / totalGames;
+  // };
+
+  // const winRatioA = getWinRatio(a);
+  // const winRatioB = getWinRatio(b);
+  // if (winRatioA !== winRatioB) return winRatioB - winRatioA;
+  // if (a.pointDifferential !== b.pointDifferential) return b.pointDifferential - a.pointDifferential;
   return a.seed - b.seed;
 };
 
@@ -173,6 +177,11 @@ export type PlayerDetails = Partial<Player> & {
   courtNumber: number;
   wins: number;
   losses: number;
+  pointsEarned: number;
+  pointsAgainst: number;
+
+  pointWinRate: number;
+
   pointDifferential: number;
   seed: number;
 
@@ -202,6 +211,9 @@ export function calculatePlayerRankings(
       wins: 0,
       losses: 0,
       pointDifferential: 0,
+      pointsEarned: 0,
+      pointsAgainst: 0,
+      pointWinRate: 0,
       seed: draws[courtIndex].seeds[index],
 
       roundPlace: 0,
@@ -221,6 +233,10 @@ export function calculatePlayerRankings(
         const wonGame = score > opponentScore || (score === opponentScore && isTeamA);
         player.wins += wonGame ? 1 : 0;
         player.losses += wonGame ? 0 : 1;
+        player.pointsEarned += score;
+        player.pointsAgainst += opponentScore;
+        const totalPoints = score + opponentScore;
+        player.pointWinRate = totalPoints === 0 ? 0 : player.pointsEarned / totalPoints;
         player.pointDifferential += score - opponentScore;
       };
 
