@@ -16,7 +16,7 @@ const PremiumSection: React.FC<PremiumSectionProps> = ({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div
-        className={`bg-gradient-to-br from-${primaryColor}/10 via-${primaryColor}/5 to-${secondaryColor}/10 rounded-xl p-4 md:p-8 border border-${primaryColor}/30`}
+        className={`bg-gradient-to-br from-${primaryColor}/10 via-surface/5 to-${secondaryColor}/10 rounded-xl p-4 md:p-8 border border-${primaryColor}/20`}
       >
         {children}
 

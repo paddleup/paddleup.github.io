@@ -18,10 +18,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`group relative overflow-hidden rounded-2xl bg-gradient-to-r from-${color}/20 via-${color}/10 to-${color}/5 border-2 border-${color}/30 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${className}`}>
+    <div
+      className={`group relative overflow-hidden rounded-2xl bg-gradient-to-r from-${color}/20 via-${color}/10 to-${color}/5 border-2 border-${color}/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${className}`}
+    >
       <div className="flex items-center gap-4">
         <div className="flex-shrink-0">
-          <div className={`w-16 h-16 bg-gradient-to-br from-${color} to-${color}/80 rounded-full flex items-center justify-center shadow-lg`}>
+          <div
+            className={`w-16 h-16 bg-gradient-to-br from-${color} to-${color}/80 rounded-full flex items-center justify-center shadow-lg`}
+          >
             <span className="text-2xl font-black text-white">{badgeContent}</span>
           </div>
         </div>

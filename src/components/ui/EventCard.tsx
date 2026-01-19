@@ -1,5 +1,7 @@
 // EventCard.tsx
 import React from 'react';
+import PremiumSection from './PremiumSection';
+import InfoCard from './InfoCard';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 
 export interface EventCardProps {
@@ -28,14 +30,12 @@ const formatNiceTime = (d?: Date | null) =>
   d ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '';
 
 const EventCard: React.FC<EventCardProps> = ({ event, view, onClick, children }) => (
-  <div
-    className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/5 via-surface to-success/5 border border-primary/20 p-8 md:p-12 shadow-2xl hover:shadow-2xl transition-all duration-300 hover:border-primary/50 cursor-pointer"
-    onClick={onClick}
+  <PremiumSection
+    primaryColor="primary"
+    secondaryColor="success"
+    className="group rounded-3xl p-8 md:p-12 shadow-2xl hover:shadow-2xl transition-all duration-300 hover:border-primary/50 cursor-pointer"
   >
-    <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
+    <div className="flex flex-col md:flex-row gap-8 md:gap-12" onClick={onClick}>
       {/* Event Details */}
       <div className="flex-grow">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
@@ -60,46 +60,31 @@ const EventCard: React.FC<EventCardProps> = ({ event, view, onClick, children })
         </div>
         {/* Event Info Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-          {/* Date */}
-          <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/20">
-            <Calendar className="h-5 w-5 text-primary flex-shrink-0" />
-            <div className="min-w-0">
-              <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
-                Date
-              </div>
-              <div className="font-bold text-text-main truncate">
-                {formatNiceDate(event.startDateTime)}
-              </div>
-            </div>
-          </div>
-          {/* Time */}
-          <div className="flex items-center gap-3 p-3 bg-success/10 rounded-xl border border-success/20">
-            <Clock className="h-5 w-5 text-success flex-shrink-0" />
-            <div className="min-w-0">
-              <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
-                Time
-              </div>
-              <div className="font-bold text-text-main truncate">
-                {formatNiceTime(event.startDateTime)}
-              </div>
-            </div>
-          </div>
-          {/* Location */}
-          <div className="flex items-center gap-3 p-3 bg-warning/10 rounded-xl border border-warning/20 sm:col-span-2 lg:col-span-1">
-            <MapPin className="h-5 w-5 text-warning flex-shrink-0" />
-            <div className="min-w-0">
-              <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">
-                Location
-              </div>
-              <div className="font-bold text-text-main truncate">{event.location ?? 'TBD'}</div>
-            </div>
-          </div>
+          <InfoCard
+            icon={<Calendar className="h-5 w-5" />}
+            label="Date"
+            value={formatNiceDate(event.startDateTime)}
+            color="primary"
+          />
+          <InfoCard
+            icon={<Clock className="h-5 w-5" />}
+            label="Time"
+            value={formatNiceTime(event.startDateTime)}
+            color="success"
+          />
+          <InfoCard
+            icon={<MapPin className="h-5 w-5" />}
+            label="Location"
+            value={event.location ?? 'TBD'}
+            color="warning"
+            className="sm:col-span-2 lg:col-span-1"
+          />
         </div>
       </div>
       {/* Actions or children */}
       {children}
     </div>
-  </div>
+  </PremiumSection>
 );
 
 export default EventCard;
