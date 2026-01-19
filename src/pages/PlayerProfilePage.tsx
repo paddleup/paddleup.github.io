@@ -1,12 +1,11 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-// import { players } from '../data/players';
-import { calculateWeekFinalPositions } from '../lib/leagueUtils';
 import PlayerHistoryCardList from '../components/PlayerHistoryCardList';
 import Card from '../components/ui/Card';
 import RankBadge from '../components/ui/RankBadge';
 import { Trophy, TrendingUp, Calendar, Activity, ArrowLeft } from 'lucide-react';
 import { useEvents, usePlayersRealtime } from '../hooks/firestoreHooks';
+import { calculateWeekFinalPositions } from '../lib/standings';
 
 const PlayerProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

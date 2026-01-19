@@ -18,6 +18,12 @@ import {
 } from '../hooks/firestoreHooks';
 import type { Player, Event as EventModel } from '../types';
 import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
+import Select from '../components/ui/Select';
+import Label from '../components/ui/Label';
+import { List, ListItem } from '../components/ui/List';
+import ErrorText from '../components/ui/ErrorText';
+import Button from '../components/ui/Button';
 
 type EventFormProps = {
   isAdmin: boolean;
@@ -88,110 +94,67 @@ const EventForm: React.FC<EventFormProps> = ({ isAdmin }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-3 max-w-md">
       <div>
-        <label className="block text-sm font-medium">Event name</label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-          required
-        />
+        <Label>Event name</Label>
+        <Input value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Start date</label>
-        <input
+        <Label>Start date</Label>
+        <Input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Start time (optional)</label>
-        <input
-          type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>Start time (optional)</Label>
+        <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">End date (optional)</label>
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>End date (optional)</Label>
+        <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">End time (optional)</label>
-        <input
-          type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>End time (optional)</Label>
+        <Input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Location (optional)</label>
-        <input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>Location (optional)</Label>
+        <Input value={location} onChange={(e) => setLocation(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Status (optional)</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as any)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        >
+        <Label>Status (optional)</Label>
+        <Select value={status} onChange={(e) => setStatus(e.target.value as any)}>
           <option value="">(none)</option>
           <option value="open">open</option>
           <option value="closed">closed</option>
           <option value="cancelled">cancelled</option>
-        </select>
+        </Select>
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Label (optional)</label>
-        <input
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>Label (optional)</Label>
+        <Input value={label} onChange={(e) => setLabel(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Link (optional)</label>
-        <input
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
-          className="mt-1 block w-full border rounded px-2 py-1"
-        />
+        <Label>Link (optional)</Label>
+        <Input value={link} onChange={(e) => setLink(e.target.value)} />
       </div>
 
       <div>
-        <button
-          type="submit"
-          disabled={!isAdmin || createStatus === 'pending'}
-          className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
-        >
+        <Button type="submit" disabled={!isAdmin || createStatus === 'pending'} color="success">
           {createStatus === 'pending' ? 'Creating...' : 'Create event'}
-        </button>
+        </Button>
       </div>
 
-      {createError && (
-        <p className="text-sm text-red-600">Error creating event: {String(createError)}</p>
-      )}
+      {createError && <ErrorText>Error creating event: {String(createError)}</ErrorText>}
     </form>
   );
 };
@@ -353,12 +316,7 @@ const AdminPage: React.FC = () => {
             Signed in as <strong>{user.displayName ?? user.email}</strong>
           </p>
           <p>Admin status: {isAdmin ? 'Yes' : 'No'}</p>
-          <button
-            onClick={handleSignOut}
-            className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300"
-          >
-            Sign out
-          </button>
+          <Button onClick={handleSignOut}>Sign out</Button>
 
           <Card className="p-6 mb-6">
             <h2 className="text-lg font-semibold mb-2">Protected admin area</h2>
@@ -376,47 +334,31 @@ const AdminPage: React.FC = () => {
           <Card className="p-6 mb-6">
             <form onSubmit={handleCreate} className="space-y-3">
               <div>
-                <label className="block text-sm font-medium">Name</label>
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full border rounded px-2 py-1"
-                  required
-                />
+                <Label>Name</Label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
 
               <div>
-                <label className="block text-sm font-medium">DUPR (optional)</label>
-                <input
-                  value={dupr}
-                  onChange={(e) => setDupr(e.target.value)}
-                  className="mt-1 block w-full border rounded px-2 py-1"
-                  inputMode="decimal"
-                />
+                <Label>DUPR (optional)</Label>
+                <Input value={dupr} onChange={(e) => setDupr(e.target.value)} inputMode="decimal" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium">Image URL (optional)</label>
-                <input
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  className="mt-1 block w-full border rounded px-2 py-1"
-                />
+                <Label>Image URL (optional)</Label>
+                <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
               </div>
 
               <div>
-                <button
+                <Button
                   type="submit"
                   disabled={!isAdmin || createStatus === 'pending'}
-                  className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                  color="success"
                 >
                   {createStatus === 'pending' ? 'Adding...' : 'Add player'}
-                </button>
+                </Button>
               </div>
 
-              {createError && (
-                <p className="text-sm text-red-600">Error creating player: {String(createError)}</p>
-              )}
+              {createError && <ErrorText>Error creating player: {String(createError)}</ErrorText>}
             </form>
           </Card>
 
@@ -438,11 +380,10 @@ const AdminPage: React.FC = () => {
 
             <Card className="p-6">
               <div className="md:col-span-1">
-                <label className="block text-sm font-medium">Event</label>
-                <select
+                <Label>Event</Label>
+                <Select
                   value={selectedEventId ?? ''}
                   onChange={(e) => setSelectedEventId(e.target.value || undefined)}
-                  className="mt-1 block w-full border rounded px-2 py-1"
                 >
                   <option value="">(select an event)</option>
                   {events.map((ev: any) => (
@@ -450,28 +391,31 @@ const AdminPage: React.FC = () => {
                       {ev.name ?? ev.id}
                     </option>
                   ))}
-                </select>
+                </Select>
 
                 <div className="mt-4">
-                  <label className="block text-sm font-medium">Players</label>
+                  <Label>Players</Label>
                   <div className="mt-1 max-h-56 overflow-auto border rounded p-1">
                     {players.length === 0 && (
                       <p className="text-sm text-gray-500">No players found.</p>
                     )}
-                    {players.map((p: any) => (
-                      <div key={p.id} className="flex items-center justify-between px-1 py-2">
-                        <div className="text-base">{p.name}</div>
-                        <div>
-                          <button
-                            type="button"
-                            onClick={() => addPlayerToStandings(p.id)}
-                            className="px-4 py-2 bg-blue-600 text-white rounded text-base"
-                          >
-                            Add
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                    <List>
+                      {players.map((p: any) => (
+                        <ListItem key={p.id}>
+                          <div className="text-base">{p.name}</div>
+                          <div>
+                            <Button
+                              type="button"
+                              color="primary"
+                              size="sm"
+                              onClick={() => addPlayerToStandings(p.id)}
+                            >
+                              Add
+                            </Button>
+                          </div>
+                        </ListItem>
+                      ))}
+                    </List>
                   </div>
                 </div>
               </div>
@@ -485,48 +429,45 @@ const AdminPage: React.FC = () => {
                     </p>
                   )}
 
-                  <ul>
+                  <List>
                     {standingsList.map((pid, idx) => {
                       const p = players.find((x: any) => x.id === pid);
                       return (
-                        <li
-                          key={`${pid}-${idx}`}
-                          className="flex items-center justify-between py-2 border-b"
-                        >
+                        <ListItem key={`${pid}-${idx}`}>
                           <div className="flex items-center space-x-3">
                             <div className="text-sm font-medium">{idx + 1}.</div>
                             <div className="text-sm">{p ? p.name : pid}</div>
                           </div>
-
                           <div className="flex items-center space-x-2">
-                            <button
+                            <Button
                               type="button"
+                              size="sm"
                               onClick={() => moveUp(idx)}
                               disabled={idx === 0}
-                              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 text-base"
                             >
                               ↑
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                               type="button"
+                              size="sm"
                               onClick={() => moveDown(idx)}
                               disabled={idx === standingsList.length - 1}
-                              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 text-base"
                             >
                               ↓
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                               type="button"
+                              color="error"
+                              size="sm"
                               onClick={() => removeFromStandings(idx)}
-                              className="px-4 py-2 bg-red-600 text-white rounded text-base"
                             >
                               Remove
-                            </button>
+                            </Button>
                           </div>
-                        </li>
+                        </ListItem>
                       );
                     })}
-                  </ul>
+                  </List>
 
                   <div className="mt-4 flex items-center space-x-3">
                     <button
@@ -560,12 +501,9 @@ const AdminPage: React.FC = () => {
       ) : (
         <div>
           <p className="mb-4">Sign in with a Google account to access admin features.</p>
-          <button
-            onClick={handleSignIn}
-            className="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
+          <Button color="primary" onClick={handleSignIn}>
             Sign in with Google
-          </button>
+          </Button>
         </div>
       )}
     </div>
