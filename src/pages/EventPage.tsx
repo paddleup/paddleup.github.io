@@ -246,11 +246,9 @@ const EventPage: React.FC = () => {
           <div className="space-y-4">
             {/* Search */}
             <Input
-              icon={<Search />}
               placeholder="Search players by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              variant="premium"
             />
 
             {/* Selected Players Count */}

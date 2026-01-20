@@ -25,11 +25,12 @@ const StandingsPage: React.FC = () => {
       <PremiumSection primaryColor="primary" secondaryColor="success">
         {/* Header */}
         <SectionHeader
-          icon={Target}
-          title="Standings"
+          icon={<Target className="h-10 w-10 text-white" />}
           subtitle="Complete standings with detailed statistics for all players"
           className="mb-8"
-        />
+        >
+          Standings
+        </SectionHeader>
         {/* Time Period Selector */}
         <div className="flex justify-center mb-8">
           <TimePeriodSelector
