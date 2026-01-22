@@ -1,8 +1,8 @@
 // src/components/ui/SeasonOverview.tsx
 import React from 'react';
-import PremiumSection from './PremiumSection';
-import SectionHeader from './SectionHeader';
-import FeatureCard from './FeatureCard';
+import PremiumSection from '../components/ui/PremiumSection';
+import SectionHeader from '../components/ui/SectionHeader';
+import FeatureCard from '../components/ui/FeatureCard';
 import { Trophy, Clock } from 'lucide-react';
 
 const SeasonOverview: React.FC = () => (
