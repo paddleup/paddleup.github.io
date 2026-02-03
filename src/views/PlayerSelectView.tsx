@@ -36,7 +36,7 @@ const PlayerSelectView: React.FC<PlayerSelectViewProps> = ({
         value={value}
         onChange={(e) => onInputChange(e.target.value)}
         onFocus={onFocus}
-        className="w-full rounded-md bg-surface-highlight border-border text-text-main shadow-sm focus:border-primary focus:ring-primary border p-2 text-sm pr-8 placeholder:text-text-muted"
+        className="w-full rounded-lg bg-surface-highlight border-border text-text-main shadow-sm focus:border-primary focus:ring-primary border p-2 text-sm pr-8 placeholder:text-text-muted"
       />
       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-text-muted pointer-events-none">
         {isOpen ? <Search className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -44,7 +44,7 @@ const PlayerSelectView: React.FC<PlayerSelectViewProps> = ({
     </div>
 
     {isOpen && filteredPlayers.length > 0 && (
-      <div className="absolute z-10 w-full mt-1 bg-surface-highlight border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+      <div className="absolute z-10 w-full mt-1 bg-surface-highlight border border-border rounded-lg shadow-lg max-h-60 overflow-auto">
         {filteredPlayers.map((p: Player) => (
           <Button
             key={p.id}

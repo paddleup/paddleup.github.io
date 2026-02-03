@@ -1,18 +1,25 @@
-/* eslint-disable react/prop-types */
-// src/components/ui/Label.tsx
 import React from 'react';
+import { cn } from '../../lib/utils';
 
-export type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+}
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
-  ({ className = '', ...props }, ref) => (
-    <label
-      ref={ref}
-      className={`block text-sm font-medium text-text-main mb-1 ${className}`}
-      {...props}
-    />
-  ),
+  ({ className, required, children, ...props }, ref) => {
+    return (
+      <label
+        ref={ref}
+        className={cn('text-sm font-medium text-fg', className)}
+        {...props}
+      >
+        {children}
+        {required && <span className="ml-1 text-error">*</span>}
+      </label>
+    );
+  }
 );
 
 Label.displayName = 'Label';
+
 export default Label;

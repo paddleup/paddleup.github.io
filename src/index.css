@@ -1,175 +1,157 @@
 @import "tailwindcss";
 
+/* ============================================
+   PADDLE UP — MINIMAL DESIGN SYSTEM
+   Inspired by Linear/Notion
+   ============================================ */
+
 @theme {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-alt: var(--surface-alt);
-  --color-surface-highlight: var(--surface-highlight);
+  /* Background */
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-bg-muted: var(--bg-muted);
   
-  --color-text-main: var(--text-main);
-  --color-text-muted: var(--text-muted);
-  --color-text-accent: var(--text-accent);
+  /* Foreground */
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
   
+  /* Border */
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-primary-light: var(--primary-light);
+  /* Accent */
+  --color-accent: var(--accent);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-muted: var(--accent-muted);
   
+  /* Semantic */
   --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
   --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
   --color-error: var(--error);
-  --color-bronze: var(--bronze);
+  --color-error-subtle: var(--error-subtle);
 }
 
-/* Preserve CSS variables for runtime theming and to map Tailwind colors to CSS variables */
-/* for now disable light mode*/
+/* ============================================
+   LIGHT THEME (Default)
+   Modern, vibrant sports aesthetic
+   ============================================ */
 :root {
-  /* Light Theme (High Contrast & Vibrant) */
-  --background: #E5E7EB;  /* Gray 200 - Much darker background for strong contrast */
-  --surface: #FFFFFF;     /* Pure white - Maximum contrast against gray background */
-  --surface-alt: #F3F4F6; /* Gray 100 - Light alternative surface */
-  --surface-highlight: #E5E7EB; /* Gray 200 - Clear hover states */
-
-  --text-main: #111827;   /* Gray 900 - Maximum black contrast */
-  --text-muted: #374151;  /* Gray 700 - Strong muted text, still readable */
-  --text-accent: #7C3AED; /* Violet 600 - Bold, vibrant accent */
-
-  --border: #9CA3AF;      /* Gray 400 - Strong, visible borders */
-
-  --primary: #2563EB;     /* Blue 600 - Bold, confident blue */
-  --primary-hover: #1D4ED8; /* Blue 700 - Strong hover feedback */
-  --primary-light: rgba(37, 99, 235, 0.12); /* More visible primary tint */
-
-  --success: #059669;     /* Emerald 600 - Bold, successful green */
-  --warning: #D97706;     /* Amber 600 - Bold, attention-grabbing orange */
-  --error: #DC2626;       /* Red 600 - Strong, clear error red */
-  --bronze: #EA580C;      /* Orange 600 - Rich, warm bronze */
-
-  font-family: 'Inter', sans-serif;
+  /* Cool slate background with subtle blue undertone - fresh and modern */
+  --bg: #f8fafc;
+  --bg-subtle: #ffffff;
+  --bg-muted: #e2e8f0;
+  
+  /* Deep slate text for readability with personality */
+  --fg: #0f172a;
+  --fg-muted: #475569;
+  --fg-subtle: #94a3b8;
+  
+  /* Crisp borders with slight blue tint */
+  --border: #cbd5e1;
+  --border-strong: #94a3b8;
+  
+  /* Vibrant teal/cyan accent - energetic and sporty */
+  --accent: #0891b2;
+  --accent-subtle: #e0f7fa;
+  --accent-muted: #22d3ee;
+  
+  /* Vivid semantic colors */
+  --success: #059669;
+  --success-subtle: #d1fae5;
+  --warning: #f59e0b;
+  --warning-subtle: #fef3c7;
+  --error: #e11d48;
+  --error-subtle: #ffe4e6;
+  
+  color-scheme: light;
 }
 
-/* @media (prefers-color-scheme: dark) { */
-  :root {
-    /* Dark Theme (Refined - Deep Space) */
-    --background: #020617; /* Slate 950 - Richer, deeper black/blue */
-    --surface: #0F172A;    /* Slate 900 - Dark cards */
-    --surface-alt: #1E293B; /* Slate 800 - Secondary areas */
-    --surface-highlight: #334155; /* Slate 700 - Hover states */
+/* ============================================
+   DARK THEME — Deep Neptune Blue
+   ============================================ */
+[data-theme="dark"] {
+  /* Deep blue Neptune theme - oceanic and calming */
+  --bg: #0a1628;
+  --bg-subtle: #111f38;
+  --bg-muted: #1a2d4d;
+  
+  --fg: #f1f5f9;
+  --fg-muted: #94a3b8;
+  --fg-subtle: #64748b;
+  
+  --border: #1e3a5f;
+  --border-strong: #2d4a6f;
+  
+  /* Cyan/teal accent — complements the blue */
+  --accent: #22d3ee;
+  --accent-subtle: #164e63;
+  --accent-muted: #06b6d4;
+  
+  --success: #4ade80;
+  --success-subtle: #14532d;
+  --warning: #fbbf24;
+  --warning-subtle: #713f12;
+  --error: #f87171;
+  --error-subtle: #7f1d1d;
+  
+  color-scheme: dark;
+}
 
-    --text-main: #F8FAFC;   /* Slate 50 - Bright white text */
-    --text-muted: #94A3B8;  /* Slate 400 - Muted text */
-    --text-accent: #818CF8; /* Indigo 400 - Soft accent for gradients */
-
-    --border: #1E293B;      /* Slate 800 - Subtle borders */
-
-    --primary: #38BDF8;     /* Sky 400 - Bright, glowing blue */
-    --primary-hover: #7DD3FC; /* Sky 300 */
-    --primary-light: rgba(56, 189, 248, 0.15); /* Glowing tint */
-
-    --success: #4ADE80;     /* Green 400 - Vibrant on dark */
-    --warning: #FACC15;     /* Yellow 400 - Vibrant on dark */
-    --error: #F87171;       /* Red 400 - Vibrant on dark */
-    --bronze: #FB923C;      /* Orange 400 */
+/* System preference detection (default behavior) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Deep blue Neptune theme - oceanic and calming */
+    --bg: #0a1628;
+    --bg-subtle: #111f38;
+    --bg-muted: #1a2d4d;
+    
+    --fg: #f1f5f9;
+    --fg-muted: #94a3b8;
+    --fg-subtle: #64748b;
+    
+    --border: #1e3a5f;
+    --border-strong: #2d4a6f;
+    
+    --accent: #22d3ee;
+    --accent-subtle: #164e63;
+    --accent-muted: #06b6d4;
+    
+    --success: #4ade80;
+    --success-subtle: #14532d;
+    --warning: #fbbf24;
+    --warning-subtle: #713f12;
+    --error: #f87171;
+    --error-subtle: #7f1d1d;
+    
+    color-scheme: dark;
   }
-/* } */
+}
 
-/* Base page styles using Tailwind-mapped color tokens (defined in tailwind.config.cjs) */
+/* ============================================
+   BASE STYLES
+   ============================================ */
 body {
-  background-color: var(--background);
-  color: var(--text-main);
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Heading fonts */
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
-/* Utility font helpers kept for components */
-.font-oswald {
-  font-family: 'Oswald', sans-serif;
-}
-
-.font-teko {
-  font-family: 'Teko', sans-serif;
-}
-
-/* Enhanced light mode shadows and depth */
-@media (prefers-color-scheme: light), (not (prefers-color-scheme: dark)) {
-  /* Dramatic shadows for light mode */
-  .shadow-sm {
-    box-shadow: 0 2px 8px 0 rgb(17 24 39 / 0.15), 0 1px 3px 0 rgb(17 24 39 / 0.1);
-  }
-  
-  .shadow-lg {
-    box-shadow: 0 16px 24px -4px rgb(17 24 39 / 0.25), 0 8px 16px -8px rgb(17 24 39 / 0.15);
-  }
-  
-  .shadow-xl {
-    box-shadow: 0 24px 48px -12px rgb(17 24 39 / 0.30), 0 16px 32px -16px rgb(17 24 39 / 0.20);
-  }
-  
-  .shadow-2xl {
-    box-shadow: 
-      0 32px 64px -12px rgb(17 24 39 / 0.35), 
-      0 0 0 1px rgb(156 163 175 / 0.2),
-      inset 0 1px 0 0 rgb(255 255 255 / 0.8);
-  }
-  
-  /* Dramatic colored shadows for light mode */
-  .shadow-primary\/20 {
-    box-shadow: 
-      0 16px 32px -8px rgb(37 99 235 / 0.35), 
-      0 8px 16px -8px rgb(37 99 235 / 0.25);
-  }
-  
-  .shadow-primary\/30 {
-    box-shadow: 
-      0 20px 40px -8px rgb(37 99 235 / 0.4), 
-      0 8px 16px -8px rgb(37 99 235 / 0.3);
-  }
-  
-  .shadow-success\/20 {
-    box-shadow: 
-      0 16px 32px -8px rgb(5 150 105 / 0.35), 
-      0 8px 16px -8px rgb(5 150 105 / 0.25);
-  }
-  
-  .shadow-warning\/20 {
-    box-shadow: 
-      0 16px 32px -8px rgb(217 119 6 / 0.35), 
-      0 8px 16px -8px rgb(217 119 6 / 0.25);
-  }
-  
-  /* Enhanced background patterns for light mode */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgb(37 99 235 / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgb(5 150 105 / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgb(217 119 6 / 0.03) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-  }
-  
-  /* Enhanced card depth */
-  .rounded-3xl,
-  .rounded-2xl {
-    border: 1px solid rgb(156 163 175 / 0.3);
-  }
-  
-  /* Light mode specific enhancements */
-  .bg-surface {
-    background: linear-gradient(135deg, #FFFFFF 0%, #FEFEFE 100%);
-  }
-  
-  .bg-surface-alt {
-    background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
-  }
+/* ============================================
+   UTILITIES
+   ============================================ */
+.text-balance {
+  text-wrap: balance;
 }

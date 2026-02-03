@@ -1,8 +1,9 @@
-// TypeScript
 import React from 'react';
-import { ChevronDown, ChevronUp, Trophy, ArrowUp, ArrowDown } from 'lucide-react';
+import { ChevronDown, ChevronUp, Trophy } from 'lucide-react';
+import { Card, CardContent, Badge } from '../components/ui';
 import { Player } from '../types';
 import { PlayerDetails } from '../lib/challengeEventUtils';
+import { cn } from '../lib/utils';
 
 interface RoundRankingsPanelViewProps {
   roundNumber: number;
@@ -13,9 +14,7 @@ interface RoundRankingsPanelViewProps {
   isExpanded: boolean;
   onToggleExpand: () => void;
   completionPercentage: number;
-  getMovementIndicator: (currentRank: number, playerId: string) => React.ReactNode;
   formatWinPercentage: (wins: number, losses: number) => string;
-  previousRoundRankings?: PlayerDetails[];
 }
 
 const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
@@ -27,174 +26,149 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
   isExpanded,
   onToggleExpand,
   completionPercentage,
-  getMovementIndicator,
   formatWinPercentage,
-  previousRoundRankings,
 }) => (
-  <div className="mb-6">
-    <button
-      onClick={onToggleExpand}
-      className="w-full bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/30 rounded-xl p-4 hover:bg-primary/15 transition-all duration-200"
-    >
-      <div className="flex items-center justify-between">
+  <Card>
+    <CardContent>
+      {/* Header */}
+      <button
+        type="button"
+        onClick={onToggleExpand}
+        className="w-full flex items-center justify-between text-left"
+      >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center">
-            <Trophy className="h-5 w-5 text-white" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-warning-subtle">
+            <Trophy className="h-5 w-5 text-warning" />
           </div>
-          <div className="text-left">
-            <h3 className="font-bold text-text-main">Round {roundNumber} Rankings</h3>
-            <p className="text-sm text-text-muted">
+          <div>
+            <h3 className="font-semibold text-fg">Round {roundNumber} Rankings</h3>
+            <p className="text-sm text-fg-muted">
               {completedGames}/{totalGames} games ({completionPercentage}%)
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-text-muted">{isExpanded ? 'Hide' : 'Show'} Rankings</span>
+          <Badge variant={completedGames === totalGames ? 'success' : 'default'}>
+            {isExpanded ? 'Hide' : 'Show'}
+          </Badge>
           {isExpanded ? (
-            <ChevronUp className="h-5 w-5 text-text-muted" />
+            <ChevronUp className="h-5 w-5 text-fg-muted" />
           ) : (
-            <ChevronDown className="h-5 w-5 text-text-muted" />
+            <ChevronDown className="h-5 w-5 text-fg-muted" />
           )}
         </div>
-      </div>
-    </button>
+      </button>
 
-    {isExpanded && (
-      <div className="mt-3 bg-surface rounded-xl border border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-surface-alt border-b border-border">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Rank
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Player
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Court
-                </th>
-                {roundNumber === 1 && (
-                  <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                    Projected Next Court
-                  </th>
-                )}
-                <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  W-L
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Win %
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Diff
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Movement
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {playerRankings.map((playerStats, index) => {
-                const player = players.find((p) => p.id === playerStats.id);
-                const rank = index + 1;
-                return (
-                  <tr
-                    key={playerStats.id}
-                    className={`transition-colors ${
-                      rank <= 3
-                        ? rank === 1
-                          ? 'bg-warning/5 hover:bg-warning/10'
-                          : rank === 2
-                          ? 'bg-text-accent/5 hover:bg-text-accent/10'
-                          : 'bg-bronze/5 hover:bg-bronze/10'
-                        : 'hover:bg-surface-highlight'
-                    }`}
-                  >
-                    {/* Rank Column */}
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                          rank === 1
-                            ? 'bg-gradient-to-br from-warning to-warning/70 text-white'
-                            : rank === 2
-                            ? 'bg-gradient-to-br from-text-accent to-text-accent/70 text-white'
-                            : rank === 3
-                            ? 'bg-gradient-to-br from-bronze to-bronze/70 text-white'
-                            : 'bg-surface-alt text-text-main'
-                        }`}
-                      >
-                        {rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank}
-                      </div>
-                    </td>
+      {/* Expanded Table */}
+      {isExpanded && (
+        <div className="mt-4 rounded-md border border-border overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-bg-muted border-b border-border">
+                  <th className="px-3 py-2 text-left font-medium text-fg-muted">Rank</th>
+                  <th className="px-3 py-2 text-left font-medium text-fg-muted">Player</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">Court</th>
+                  {roundNumber === 1 && (
+                    <th className="px-3 py-2 text-center font-medium text-fg-muted">Next Court</th>
+                  )}
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">W-L</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">Win %</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">Diff</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {playerRankings.map((playerStats, index) => {
+                  const player = players.find((p) => p.id === playerStats.id);
+                  const rank = index + 1;
 
-                    {/* Player Name Column */}
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="font-semibold text-text-main">
-                        {player?.name || `Player ${playerStats.id}`}
-                      </div>
-                      <div className="text-xs text-text-muted">Seed #{playerStats.seed}</div>
-                    </td>
+                  return (
+                    <tr
+                      key={playerStats.id}
+                      className={cn(
+                        'transition-colors hover:bg-bg-subtle',
+                        rank === 1 && 'bg-warning-subtle',
+                        rank === 2 && 'bg-bg-muted',
+                        rank === 3 && 'bg-bg-subtle'
+                      )}
+                    >
+                      {/* Rank */}
+                      <td className="px-3 py-2">
+                        <div
+                          className={cn(
+                            'flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold',
+                            rank === 1 && 'bg-warning text-white',
+                            rank === 2 && 'bg-fg-muted text-white',
+                            rank === 3 && 'bg-fg-subtle text-white',
+                            rank > 3 && 'bg-bg-muted text-fg-muted'
+                          )}
+                        >
+                          {rank}
+                        </div>
+                      </td>
 
-                    {/* Court Column */}
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
-                      <span className="text-sm font-medium text-text-main">
-                        {playerStats.courtNumber}
-                      </span>
-                    </td>
-                    {/* Projected Next Court (Round 1 only) */}
-                    {roundNumber === 1 && (
-                      <td className="px-4 py-3 whitespace-nowrap text-center">
-                        <span className="text-sm font-medium text-text-accent">
-                          {typeof playerStats.nextCourt === 'number' && playerStats.nextCourt > 0
-                            ? playerStats.nextCourt
-                            : '-'}
+                      {/* Player */}
+                      <td className="px-3 py-2">
+                        <div className="font-medium text-fg">
+                          {player?.name || `Player ${playerStats.id}`}
+                        </div>
+                        <div className="text-xs text-fg-muted">Seed #{playerStats.seed}</div>
+                      </td>
+
+                      {/* Court */}
+                      <td className="px-3 py-2 text-center">
+                        <span className="font-medium text-fg">{playerStats.courtNumber}</span>
+                      </td>
+
+                      {/* Projected Next Court (Round 1 only) */}
+                      {roundNumber === 1 && (
+                        <td className="px-3 py-2 text-center">
+                          <span className="font-medium text-accent">
+                            {typeof playerStats.nextCourt === 'number' && playerStats.nextCourt > 0
+                              ? playerStats.nextCourt
+                              : '-'}
+                          </span>
+                        </td>
+                      )}
+
+                      {/* W-L */}
+                      <td className="px-3 py-2 text-center">
+                        <span className="font-medium text-fg">
+                          {playerStats.wins}-{playerStats.losses}
                         </span>
                       </td>
-                    )}
 
-                    {/* Win-Loss Column */}
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
-                      <span className="text-sm font-semibold text-text-main">
-                        {playerStats.wins}-{playerStats.losses}
-                      </span>
-                    </td>
+                      {/* Win % */}
+                      <td className="px-3 py-2 text-center">
+                        <span className="text-fg-muted">
+                          {formatWinPercentage(playerStats.wins, playerStats.losses)}
+                        </span>
+                      </td>
 
-                    {/* Win Percentage Column */}
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
-                      <span className="text-sm font-medium text-text-main">
-                        {formatWinPercentage(playerStats.wins, playerStats.losses)}
-                      </span>
-                    </td>
-
-                    {/* Point Differential Column */}
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
-                      <span
-                        className={`text-sm font-semibold ${
-                          playerStats.pointDifferential > 0
-                            ? 'text-success'
-                            : playerStats.pointDifferential < 0
-                            ? 'text-error'
-                            : 'text-text-muted'
-                        }`}
-                      >
-                        {playerStats.pointDifferential > 0 ? '+' : ''}
-                        {playerStats.pointDifferential}
-                      </span>
-                    </td>
-
-                    {/* Movement Column (Both rounds) */}
-                    <td className="px-4 py-3 whitespace-nowrap text-center">
-                      {getMovementIndicator(rank, playerStats.id)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      {/* Diff */}
+                      <td className="px-3 py-2 text-center">
+                        <span
+                          className={cn(
+                            'font-medium',
+                            playerStats.pointDifferential > 0 && 'text-success',
+                            playerStats.pointDifferential < 0 && 'text-error',
+                            playerStats.pointDifferential === 0 && 'text-fg-muted'
+                          )}
+                        >
+                          {playerStats.pointDifferential > 0 ? '+' : ''}
+                          {playerStats.pointDifferential}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
+      )}
+    </CardContent>
+  </Card>
 );
 
 export default RoundRankingsPanelView;

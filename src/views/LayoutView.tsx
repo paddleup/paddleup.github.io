@@ -1,8 +1,7 @@
-// TypeScript
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, X, Menu, Target, Users } from 'lucide-react';
-import Button from '../components/ui/Button';
+import { Trophy, X, Menu } from 'lucide-react';
+import { Button, ThemeToggle } from '../components/ui';
 import { cn } from '../lib/utils';
 
 interface NavigationItem {
@@ -26,89 +25,65 @@ const LayoutView: React.FC<LayoutViewProps> = ({
   navigation,
   children,
 }) => (
-  <div className="min-h-screen bg-background">
-    {/* Enhanced Navigation */}
-    <nav className="relative bg-gradient-to-br from-primary/10 via-surface to-surface/80 text-text-main sticky top-0 z-50 rounded-3xl border border-primary/20 shadow-2xl mx-4 mt-4 mb-8 backdrop-blur-md">
-      <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Enhanced Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-warning rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-                <div className="relative w-10 h-10 bg-gradient-to-br from-primary to-warning rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                  <Trophy className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <div>
-                <span className="font-black text-xl tracking-tight bg-gradient-to-r from-primary to-warning bg-clip-text text-transparent group-hover:from-warning group-hover:to-primary transition-all duration-300">
-                  Paddle Up
-                </span>
-                <div className="text-xs text-text-muted font-semibold tracking-wider uppercase">
-                  Premier League
-                </div>
-              </div>
-            </Link>
-          </div>
+  <div className="min-h-screen bg-bg">
+    {/* Navigation */}
+    <nav className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-sm">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="flex h-14 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
+              <Trophy className="h-4 w-4 text-white" />
+            </div>
+            <div className="hidden sm:block">
+              <span className="font-semibold text-fg">Paddle Up</span>
+              <span className="ml-1 text-fg-muted">League</span>
+            </div>
+          </Link>
 
-          {/* Enhanced Desktop Menu */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-1">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                const isActive = locationPathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={cn(
-                      'px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center space-x-2 group relative overflow-hidden',
-                      isActive
-                        ? 'bg-gradient-to-r from-primary to-primary-hover text-white shadow-lg shadow-primary/30 scale-105'
-                        : 'text-text-muted hover:bg-surface-highlight hover:text-text-main hover:shadow-md hover:scale-105',
-                    )}
-                  >
-                    <Icon
-                      className={cn(
-                        'h-4 w-4 transition-transform duration-300',
-                        isActive ? 'text-white' : 'group-hover:scale-110',
-                      )}
-                    />
-                    <span>{item.name}</span>
-                    {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-warning/10 blur-xl -z-10"></div>
-                    )}
-                  </Link>
-                );
-              })}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:gap-1">
+            {navigation.map((item) => {
+              const isActive = locationPathname === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={cn(
+                    'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-bg-subtle text-fg'
+                      : 'text-fg-muted hover:bg-bg-subtle hover:text-fg',
+                  )}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+            <div className="ml-2 border-l border-border pl-2">
+              <ThemeToggle />
             </div>
           </div>
 
-          {/* Enhanced Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile menu button */}
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <Button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
               variant="ghost"
               size="sm"
-              className="relative overflow-hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
             >
-              <div className="relative z-10">
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </div>
-              {isMenuOpen && (
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-warning/20 blur-sm"></div>
-              )}
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Enhanced Mobile Menu */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3 bg-gradient-to-br from-surface via-surface-alt to-surface border-t border-border/50 shadow-xl">
+        <div className="border-t border-border md:hidden">
+          <div className="space-y-1 px-4 py-3">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = locationPathname === item.href;
@@ -118,24 +93,14 @@ const LayoutView: React.FC<LayoutViewProps> = ({
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
-                    'block px-4 py-3 rounded-xl text-base font-bold flex items-center space-x-3 transition-all duration-300 group relative overflow-hidden',
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-gradient-to-r from-primary to-primary-hover text-white shadow-lg shadow-primary/30'
-                      : 'text-text-muted hover:bg-surface-highlight hover:text-text-main hover:shadow-md hover:scale-[1.02]',
+                      ? 'bg-bg-subtle text-fg'
+                      : 'text-fg-muted hover:bg-bg-subtle hover:text-fg',
                   )}
                 >
-                  <Icon
-                    className={cn(
-                      'h-5 w-5 transition-transform duration-300',
-                      isActive ? 'text-white' : 'group-hover:scale-110',
-                    )}
-                  />
-                  <span>{item.name}</span>
-                  {isActive && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                    </div>
-                  )}
+                  <Icon className="h-4 w-4" />
+                  {item.name}
                 </Link>
               );
             })}
@@ -144,49 +109,24 @@ const LayoutView: React.FC<LayoutViewProps> = ({
       )}
     </nav>
 
-    {/* Enhanced Main Content */}
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="relative">
-        {children}
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-success/10 to-transparent rounded-full blur-2xl -z-10"></div>
-      </div>
-    </main>
+    {/* Main Content */}
+    <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
 
-    {/* Enhanced Footer */}
-    <footer className="relative overflow-hidden bg-gradient-to-br from-surface via-surface-alt to-surface text-text-muted py-12 mt-auto border-t border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4">
-          {/* Footer Logo */}
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-warning/20 rounded-full flex items-center justify-center">
-              <Trophy className="h-5 w-5 text-primary" />
-            </div>
-            <span className="font-black text-lg text-text-main">Paddle Up Premier League</span>
+    {/* Footer */}
+    <footer className="mt-auto border-t border-border">
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="flex items-center gap-2 text-sm text-fg-muted">
+            <Trophy className="h-4 w-4" />
+            <span>Paddle Up Premier League</span>
           </div>
-
-          {/* Achievement Badges */}
-          <div className="flex items-center justify-center space-x-6 pt-6">
-            <div className="flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-xl border border-primary/20">
-              <Trophy className="h-4 w-4 text-primary" />
-              <span className="text-xs font-semibold text-primary">Premier League</span>
-            </div>
-            <div className="flex items-center space-x-2 px-4 py-2 bg-success/10 rounded-xl border border-success/20">
-              <Target className="h-4 w-4 text-success" />
-              <span className="text-xs font-semibold text-success">3.5+ DUPR</span>
-            </div>
-            <div className="flex items-center space-x-2 px-4 py-2 bg-warning/10 rounded-xl border border-warning/20">
-              <Users className="h-4 w-4 text-warning" />
-              <span className="text-xs font-semibold text-warning">Elite Players</span>
-            </div>
+          <div className="flex items-center gap-4 text-sm text-fg-subtle">
+            <span>3.5+ DUPR</span>
+            <span>•</span>
+            <span>Sundays 7-10 PM</span>
           </div>
         </div>
       </div>
-
-      {/* Footer Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-warning/10 to-transparent rounded-full blur-2xl -z-10"></div>
     </footer>
   </div>
 );

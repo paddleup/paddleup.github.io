@@ -1,7 +1,8 @@
-// TypeScript
 import React from 'react';
-import { Search, X, User } from 'lucide-react';
+import { Search, X } from 'lucide-react';
+import { Avatar } from '../components/ui';
 import { Player } from '../types';
+import { cn } from '../lib/utils';
 
 interface PlayerSearchFilterViewProps {
   searchTerm: string;
@@ -24,42 +25,49 @@ const PlayerSearchFilterView: React.FC<PlayerSearchFilterViewProps> = ({
   filteredPlayers,
   onPlayerClick,
 }) => (
-  <div className={`relative ${className}`}>
+  <div className={cn('relative', className)}>
+    {/* Search Input */}
     <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-muted" />
       <input
         type="text"
         value={searchTerm}
         onChange={(e) => onInputChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full h-12 pl-12 pr-12 bg-surface border-2 border-border rounded-xl text-text-main placeholder-text-muted focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+        className="w-full h-10 pl-10 pr-10 rounded-md border border-border bg-bg-subtle text-fg placeholder:text-fg-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors"
       />
-      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-text-muted" />
       {searchTerm && (
         <button
+          type="button"
           onClick={onClear}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-surface-alt rounded-full flex items-center justify-center hover:bg-surface-highlight transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full bg-bg-muted hover:bg-bg text-fg-muted hover:text-fg transition-colors"
         >
-          <X className="h-4 w-4 text-text-muted" />
+          <X className="h-3 w-3" />
         </button>
       )}
     </div>
 
     {/* Search Results Dropdown */}
     {isOpen && filteredPlayers.length > 0 && (
-      <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-surface border-2 border-border rounded-xl shadow-xl max-h-64 overflow-y-auto">
-        <div className="p-2">
+      <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border border-border bg-bg-subtle shadow-lg max-h-64 overflow-y-auto">
+        <div className="py-1">
           {filteredPlayers.map((player) => (
             <button
               key={player.id}
+              type="button"
               onClick={() => onPlayerClick(player.id || '')}
-              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-surface-highlight transition-colors text-left"
+              className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-bg-muted transition-colors"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-primary" />
-              </div>
+              <Avatar
+                src={player.imageUrl}
+                alt={player.name}
+                size="sm"
+              />
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-text-main truncate">{player.name}</div>
-                {player.dupr && <div className="text-sm text-text-muted">DUPR: {player.dupr}</div>}
+                <div className="font-medium text-fg truncate">{player.name}</div>
+                {player.dupr && (
+                  <div className="text-xs text-fg-muted">DUPR: {player.dupr}</div>
+                )}
               </div>
             </button>
           ))}
@@ -69,8 +77,10 @@ const PlayerSearchFilterView: React.FC<PlayerSearchFilterViewProps> = ({
 
     {/* No Results */}
     {isOpen && searchTerm && filteredPlayers.length === 0 && (
-      <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-surface border-2 border-border rounded-xl shadow-xl p-4 text-center">
-        <div className="text-text-muted">No players found matching &ldquo;{searchTerm}&rdquo;</div>
+      <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border border-border bg-bg-subtle shadow-lg p-4 text-center">
+      <p className="text-sm text-fg-muted">
+        No players found matching &ldquo;{searchTerm}&rdquo;
+      </p>
       </div>
     )}
   </div>
