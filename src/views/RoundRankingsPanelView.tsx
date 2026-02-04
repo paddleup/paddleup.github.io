@@ -14,7 +14,6 @@ interface RoundRankingsPanelViewProps {
   isExpanded: boolean;
   onToggleExpand: () => void;
   completionPercentage: number;
-  formatWinPercentage: (wins: number, losses: number) => string;
 }
 
 const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
@@ -26,7 +25,6 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
   isExpanded,
   onToggleExpand,
   completionPercentage,
-  formatWinPercentage,
 }) => (
   <Card>
     <CardContent>
@@ -72,8 +70,9 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
                   {roundNumber === 1 && (
                     <th className="px-3 py-2 text-center font-medium text-fg-muted">Next Court</th>
                   )}
-                  <th className="px-3 py-2 text-center font-medium text-fg-muted">W-L</th>
-                  <th className="px-3 py-2 text-center font-medium text-fg-muted">Win %</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">Pt Win %</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">PF</th>
+                  <th className="px-3 py-2 text-center font-medium text-fg-muted">PA</th>
                   <th className="px-3 py-2 text-center font-medium text-fg-muted">Diff</th>
                 </tr>
               </thead>
@@ -89,7 +88,7 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
                         'transition-colors hover:bg-bg-subtle',
                         rank === 1 && 'bg-warning-subtle',
                         rank === 2 && 'bg-bg-muted',
-                        rank === 3 && 'bg-bg-subtle'
+                        rank === 3 && 'bg-bg-subtle',
                       )}
                     >
                       {/* Rank */}
@@ -100,7 +99,7 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
                             rank === 1 && 'bg-warning text-white',
                             rank === 2 && 'bg-fg-muted text-white',
                             rank === 3 && 'bg-fg-subtle text-white',
-                            rank > 3 && 'bg-bg-muted text-fg-muted'
+                            rank > 3 && 'bg-bg-muted text-fg-muted',
                           )}
                         >
                           {rank}
@@ -131,18 +130,21 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
                         </td>
                       )}
 
-                      {/* W-L */}
+                      {/* Point Win Rate % */}
                       <td className="px-3 py-2 text-center">
                         <span className="font-medium text-fg">
-                          {playerStats.wins}-{playerStats.losses}
+                          {(playerStats.pointWinRate * 100).toFixed(0)}%
                         </span>
                       </td>
 
-                      {/* Win % */}
+                      {/* Points For */}
                       <td className="px-3 py-2 text-center">
-                        <span className="text-fg-muted">
-                          {formatWinPercentage(playerStats.wins, playerStats.losses)}
-                        </span>
+                        <span className="text-fg-muted">{playerStats.pointsEarned}</span>
+                      </td>
+
+                      {/* Points Against */}
+                      <td className="px-3 py-2 text-center">
+                        <span className="text-fg-muted">{playerStats.pointsAgainst}</span>
                       </td>
 
                       {/* Diff */}
@@ -152,7 +154,7 @@ const RoundRankingsPanelView: React.FC<RoundRankingsPanelViewProps> = ({
                             'font-medium',
                             playerStats.pointDifferential > 0 && 'text-success',
                             playerStats.pointDifferential < 0 && 'text-error',
-                            playerStats.pointDifferential === 0 && 'text-fg-muted'
+                            playerStats.pointDifferential === 0 && 'text-fg-muted',
                           )}
                         >
                           {playerStats.pointDifferential > 0 ? '+' : ''}

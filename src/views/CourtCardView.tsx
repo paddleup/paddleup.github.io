@@ -37,10 +37,7 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
   const isHighlighted = court.playerIds.some((pid: string) => pid === highlightedPlayerId);
 
   return (
-    <Card
-      id={`court-${court.id}`}
-      className={cn(isHighlighted && 'ring-2 ring-accent')}
-    >
+    <Card id={`court-${court.id}`} className={cn(isHighlighted && 'ring-2 ring-accent')}>
       <CardContent>
         {/* Header */}
         <button
@@ -60,10 +57,10 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
                 <span>•</span>
                 <span>
                   {court.playerIds.length === 4
-                    ? 'First to 15'
+                    ? 'First to 15, win by 1'
                     : court.playerIds.length === 5
-                      ? 'First to 11'
-                      : ''}
+                    ? 'First to 11, win by 1'
+                    : ''}
                 </span>
               </div>
             </div>
@@ -90,10 +87,7 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
 
             {/* Expand Icon */}
             <ChevronDown
-              className={cn(
-                'h-5 w-5 text-fg-muted transition-transform',
-                expanded && 'rotate-180'
-              )}
+              className={cn('h-5 w-5 text-fg-muted transition-transform', expanded && 'rotate-180')}
             />
           </div>
         </button>
@@ -108,25 +102,30 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
               </div>
               <div className="divide-y divide-border">
                 {courtPlayerStats.map((stat: any) => {
-                  const player = players.find((p) => p.id === stat.playerId);
+                  const player = players.find((p) => p.id === stat.id);
                   return (
-                    <div
-                      key={stat.playerId}
-                      className="flex items-center justify-between px-3 py-2"
-                    >
+                    <div key={stat.id} className="flex items-center justify-between px-3 py-2">
                       <div className="flex items-center gap-2">
-                        <Avatar
-                          src={player?.imageUrl}
-                          alt={player?.name || ''}
-                          size="sm"
-                        />
+                        <Avatar src={player?.imageUrl} alt={player?.name || ''} size="sm" />
                         <span className="text-sm font-medium text-fg">{player?.name}</span>
                       </div>
                       <div className="flex items-center gap-3 text-sm">
-                        <span className="text-success">{stat.wins}W</span>
-                        <span className="text-error">{stat.losses}L</span>
+                        <span className="font-medium text-fg">
+                          {Math.round(stat.pointWinRate * 100)}%
+                        </span>
                         <span className="text-fg-muted">
-                          +{stat.pointsFor} / -{stat.pointsAgainst}
+                          {stat.pointsEarned}-{stat.pointsAgainst}
+                        </span>
+                        <span
+                          className={cn(
+                            'font-medium',
+                            stat.pointDifferential > 0 && 'text-success',
+                            stat.pointDifferential < 0 && 'text-error',
+                            stat.pointDifferential === 0 && 'text-fg-muted',
+                          )}
+                        >
+                          {stat.pointDifferential > 0 ? '+' : ''}
+                          {stat.pointDifferential}
                         </span>
                       </div>
                     </div>
@@ -162,7 +161,7 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
                     <div
                       className={cn(
                         'flex items-center justify-between px-3 py-2 border-b border-border',
-                        team1Won && 'bg-success-subtle'
+                        team1Won && 'bg-success-subtle',
                       )}
                     >
                       <div className="space-y-0.5">
@@ -191,7 +190,7 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
                     <div
                       className={cn(
                         'flex items-center justify-between px-3 py-2',
-                        team2Won && 'bg-success-subtle'
+                        team2Won && 'bg-success-subtle',
                       )}
                     >
                       <div className="space-y-0.5">

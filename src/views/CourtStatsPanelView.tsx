@@ -13,7 +13,6 @@ interface CourtStatsPanelViewProps {
   isExpanded: boolean;
   onToggleExpand: () => void;
   completionPercentage: number;
-  formatWinPercentage: (wins: number, losses: number) => string;
 }
 
 const CourtStatsPanelView: React.FC<CourtStatsPanelViewProps> = ({
@@ -25,7 +24,6 @@ const CourtStatsPanelView: React.FC<CourtStatsPanelViewProps> = ({
   isExpanded,
   onToggleExpand,
   completionPercentage,
-  formatWinPercentage,
 }) => (
   <div className="mt-3">
     <button
@@ -68,10 +66,13 @@ const CourtStatsPanelView: React.FC<CourtStatsPanelViewProps> = ({
                   Player
                 </th>
                 <th className="px-3 py-2 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  W-L
+                  Pt Win %
                 </th>
                 <th className="px-3 py-2 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
-                  Win %
+                  PF
+                </th>
+                <th className="px-3 py-2 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
+                  PA
                 </th>
                 <th className="px-3 py-2 text-center text-xs font-semibold text-text-main uppercase tracking-wider">
                   Diff
@@ -117,17 +118,24 @@ const CourtStatsPanelView: React.FC<CourtStatsPanelViewProps> = ({
                       )}
                     </td>
 
-                    {/* Win-Loss Column */}
+                    {/* Point Win Rate % Column */}
                     <td className="px-3 py-2 whitespace-nowrap text-center">
                       <span className="text-sm font-semibold text-text-main">
-                        {playerStats.wins}-{playerStats.losses}
+                        {(playerStats.pointWinRate * 100).toFixed(0)}%
                       </span>
                     </td>
 
-                    {/* Win Percentage Column */}
+                    {/* Points For Column */}
                     <td className="px-3 py-2 whitespace-nowrap text-center">
                       <span className="text-sm font-medium text-text-main">
-                        {formatWinPercentage(playerStats.wins, playerStats.losses)}
+                        {playerStats.pointsEarned}
+                      </span>
+                    </td>
+
+                    {/* Points Against Column */}
+                    <td className="px-3 py-2 whitespace-nowrap text-center">
+                      <span className="text-sm font-medium text-text-main">
+                        {playerStats.pointsAgainst}
                       </span>
                     </td>
 

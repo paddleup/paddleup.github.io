@@ -22,12 +22,6 @@ const RoundRankingsPanel: React.FC<RoundRankingsPanelProps> = ({
 
   const completionPercentage = totalGames > 0 ? Math.round((completedGames / totalGames) * 100) : 0;
 
-  const formatWinPercentage = (wins: number, losses: number) => {
-    const total = wins + losses;
-    if (total === 0) return '0%';
-    return `${Math.round((wins / total) * 100)}%`;
-  };
-
   return (
     <RoundRankingsPanelView
       roundNumber={roundNumber}
@@ -38,7 +32,6 @@ const RoundRankingsPanel: React.FC<RoundRankingsPanelProps> = ({
       isExpanded={isExpanded}
       onToggleExpand={() => setIsExpanded((v) => !v)}
       completionPercentage={completionPercentage}
-      formatWinPercentage={formatWinPercentage}
     />
   );
 };

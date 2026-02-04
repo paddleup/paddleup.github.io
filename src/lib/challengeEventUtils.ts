@@ -158,15 +158,6 @@ const rankPlayersByPerformance = (
     return b.pointWinRate - a.pointWinRate;
   }
 
-  // const getWinRatio = (player: PlayerDetails): number => {
-  //   const totalGames = player.wins + player.losses;
-  //   return totalGames === 0 ? 0 : player.wins / totalGames;
-  // };
-
-  // const winRatioA = getWinRatio(a);
-  // const winRatioB = getWinRatio(b);
-  // if (winRatioA !== winRatioB) return winRatioB - winRatioA;
-  // if (a.pointDifferential !== b.pointDifferential) return b.pointDifferential - a.pointDifferential;
   return a.seed - b.seed;
 };
 
@@ -235,9 +226,10 @@ export function calculatePlayerRankings(
         player.losses += wonGame ? 0 : 1;
         player.pointsEarned += score;
         player.pointsAgainst += opponentScore;
-        const totalPoints = score + opponentScore;
-        player.pointWinRate = totalPoints === 0 ? 0 : player.pointsEarned / totalPoints;
         player.pointDifferential += score - opponentScore;
+        // Calculate point win rate using accumulated totals across all games
+        const totalPoints = player.pointsEarned + player.pointsAgainst;
+        player.pointWinRate = totalPoints === 0 ? 0 : player.pointsEarned / totalPoints;
       };
 
       const team1Player1 = players.find((p) => p.id === team1.player1Id)!;

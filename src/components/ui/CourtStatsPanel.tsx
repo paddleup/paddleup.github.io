@@ -24,12 +24,6 @@ const CourtStatsPanel: React.FC<CourtStatsPanelProps> = ({
   const completionPercentage =
     totalGamesForCourt > 0 ? Math.round((completedGamesForCourt / totalGamesForCourt) * 100) : 0;
 
-  const formatWinPercentage = (wins: number, losses: number) => {
-    const total = wins + losses;
-    if (total === 0) return '0%';
-    return `${Math.round((wins / total) * 100)}%`;
-  };
-
   // Sort players by performance on this court
   const sortedPlayerStats = [...playerStats].sort((a, b) => {
     if (a.wins !== b.wins) return b.wins - a.wins;
@@ -48,7 +42,6 @@ const CourtStatsPanel: React.FC<CourtStatsPanelProps> = ({
       isExpanded={isExpanded}
       onToggleExpand={() => setIsExpanded((v) => !v)}
       completionPercentage={completionPercentage}
-      formatWinPercentage={formatWinPercentage}
     />
   );
 };
