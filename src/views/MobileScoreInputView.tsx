@@ -1,5 +1,4 @@
-// TypeScript
-import React, { RefObject } from 'react';
+import React from 'react';
 import { Edit3 } from 'lucide-react';
 
 interface MobileScoreInputViewProps {
@@ -29,7 +28,7 @@ const MobileScoreInputView: React.FC<MobileScoreInputViewProps> = ({
   inputRef,
   onStartEdit,
   onSave,
-  onCancel,
+  onCancel: _onCancel,
   onTempValueChange,
   onKeyPress,
 }) => {
@@ -74,7 +73,7 @@ const MobileScoreInputView: React.FC<MobileScoreInputViewProps> = ({
       disabled={!isAdmin || disabled}
       className={`min-w-[2.5rem] h-8 px-2 flex items-center justify-center ${colors.bg} border-2 ${
         colors.border
-      } rounded-md text-lg font-black transition-all duration-200 ${
+      } rounded-lg text-lg font-black transition-all duration-200 ${
         isAdmin && !disabled ? `${colors.hover} cursor-pointer active:scale-95` : 'cursor-default'
       }`}
     >

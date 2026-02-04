@@ -1,90 +1,84 @@
-// src/components/ui/SeasonOverview.tsx
 import React from 'react';
-import PremiumSection from '../components/ui/PremiumSection';
-import SectionHeader from '../components/ui/SectionHeader';
-import FeatureCard from '../components/ui/FeatureCard';
-import { Trophy, Clock } from 'lucide-react';
+import { Card, CardContent, Heading, Badge } from '../components/ui';
+import { Trophy, Clock, Award } from 'lucide-react';
 
 const SeasonOverview: React.FC = () => (
-  <PremiumSection primaryColor="warning" secondaryColor="primary">
-    <SectionHeader
-      icon={<Trophy className="h-10 w-10 text-white" />}
-      iconColor="warning"
-      subtitle="Compete for exclusive prizes and eternal glory in our inaugural competitive season"
-    >
+  <div className="space-y-6">
+    <Heading as="h2" description="Compete for exclusive prizes in our inaugural competitive season">
       Season 1 Championship
-    </SectionHeader>
+    </Heading>
 
-    <div className="grid lg:grid-cols-2 gap-12 items-start">
+    <div className="grid gap-6 lg:grid-cols-2">
       {/* Duration Section */}
-      <div className="text-center lg:text-left">
-        <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8 border border-primary/20 shadow-lg">
-          <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
-            <Clock className="h-8 w-8 text-primary" />
-            <h3 className="text-2xl font-bold text-text-main">Season Duration</h3>
-          </div>
-          <div className="space-y-4">
-            <div className="text-center lg:text-left">
-              <div className="text-4xl font-black text-primary mb-2">4</div>
-              <div className="text-xl font-semibold text-text-main">Weeks of Competition</div>
-              <div className="text-text-muted mt-2">Every Sunday • 7PM-10PM</div>
+      <Card>
+        <CardContent>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-subtle">
+              <Clock className="h-5 w-5 text-accent" />
             </div>
+            <h3 className="text-lg font-semibold text-fg">Season Duration</h3>
           </div>
-        </div>
-      </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-fg">4 Weeks</div>
+            <p className="text-fg-muted">Every Sunday • 7PM-10PM</p>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Prizes Section */}
-      <div>
-        <h3 className="text-2xl font-bold text-text-main mb-6 text-center lg:text-left">
-          Championship Rewards
-        </h3>
-        <p className="text-text-muted mb-6 text-center lg:text-left">
-          Top 3 finishers earn exclusive Joola gear and club points:
-        </p>
+      <Card>
+        <CardContent>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning-subtle">
+              <Trophy className="h-5 w-5 text-warning" />
+            </div>
+            <h3 className="text-lg font-semibold text-fg">Championship Rewards</h3>
+          </div>
+          <p className="mb-4 text-sm text-fg-muted">
+            Top 3 finishers earn exclusive Joola gear and club points:
+          </p>
 
-        <div className="space-y-4">
-          <FeatureCard
-            badgeContent="1st"
-            title="Champion"
-            description={
-              <>
-                <span className="font-semibold text-warning">Joola Hat</span> +
-                <span className="font-semibold text-primary ml-1">25 Club Points</span>
-              </>
-            }
-            emoji="🧢"
-            color="warning"
-          />
+          <div className="space-y-3">
+            {/* 1st Place */}
+            <div className="flex items-center justify-between rounded-lg border border-border p-3">
+              <div className="flex items-center gap-3">
+                <Badge variant="warning">1st</Badge>
+                <div>
+                  <div className="font-medium text-fg">Champion</div>
+                  <div className="text-sm text-fg-muted">Joola Hat + 25 Club Points</div>
+                </div>
+              </div>
+              <Award className="h-5 w-5 text-warning" />
+            </div>
 
-          <FeatureCard
-            badgeContent="2nd"
-            title="Runner-up"
-            description={
-              <>
-                <span className="font-semibold text-text-accent">Joola Water Bottle</span> +
-                <span className="font-semibold text-primary ml-1">15 Club Points</span>
-              </>
-            }
-            emoji="🍶"
-            color="text-accent"
-          />
+            {/* 2nd Place */}
+            <div className="flex items-center justify-between rounded-lg border border-border p-3">
+              <div className="flex items-center gap-3">
+                <Badge variant="default">2nd</Badge>
+                <div>
+                  <div className="font-medium text-fg">Runner-up</div>
+                  <div className="text-sm text-fg-muted">Joola Water Bottle + 15 Club Points</div>
+                </div>
+              </div>
+              <Award className="h-5 w-5 text-fg-subtle" />
+            </div>
 
-          <FeatureCard
-            badgeContent="3rd"
-            title="Third Place"
-            description={
-              <>
-                <span className="font-semibold text-bronze">Joola Wristbands</span> +
-                <span className="font-semibold text-primary ml-1">10 Club Points</span>
-              </>
-            }
-            emoji="⌚"
-            color="bronze"
-          />
-        </div>
-      </div>
+            {/* 3rd Place */}
+            <div className="flex items-center justify-between rounded-lg border border-border p-3">
+              <div className="flex items-center gap-3">
+                <Badge variant="default">3rd</Badge>
+                <div>
+                  <div className="font-medium text-fg">Third Place</div>
+                  <div className="text-sm text-fg-muted">Joola Wristbands + 10 Club Points</div>
+                </div>
+              </div>
+              <Award className="h-5 w-5 text-fg-subtle" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
-  </PremiumSection>
+  </div>
 );
 
 export default SeasonOverview;

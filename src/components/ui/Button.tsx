@@ -1,24 +1,25 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-import { ButtonProps as BaseButtonProps } from './types';
 
-type ButtonProps = BaseButtonProps & {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'ghost' | 'premium';
+type ButtonVariant = 'default' | 'primary' | 'secondary' | 'ghost' | 'destructive';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
-  loading?: boolean;
-  children: React.ReactNode;
-};
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = 'primary',
+      variant = 'default',
       size = 'md',
+      loading,
       icon,
       iconPosition = 'left',
-      loading = false,
       className,
       children,
       disabled,
@@ -26,78 +27,50 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const base =
-      'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed';
-
-    const variants: Record<string, string> = {
-      primary:
-        'bg-primary text-white hover:bg-primary-hover focus:ring-primary/50 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:scale-105',
-      secondary:
-        'bg-surface-highlight text-text-main border-2 border-border hover:border-primary/50 hover:bg-surface-alt focus:ring-primary/30 shadow-lg hover:shadow-xl',
-      success:
-        'bg-success text-white hover:bg-success/90 focus:ring-success/50 shadow-lg shadow-success/20 hover:shadow-xl hover:shadow-success/30 hover:scale-105',
-      warning:
-        'bg-warning text-white hover:bg-warning/90 focus:ring-warning/50 shadow-lg shadow-warning/20 hover:shadow-xl hover:shadow-warning/30 hover:scale-105',
-      error:
-        'bg-error text-white hover:bg-error/90 focus:ring-error/50 shadow-lg shadow-error/20 hover:shadow-xl hover:shadow-error/30 hover:scale-105',
-      ghost:
-        'bg-transparent text-text-main hover:bg-surface-highlight border-2 border-transparent hover:border-border focus:ring-primary/30',
-      premium:
-        'bg-gradient-to-r from-primary to-primary-hover text-white hover:from-primary-hover hover:to-primary focus:ring-primary/50 shadow-2xl hover:shadow-3xl transform hover:scale-110',
+    const variants: Record<ButtonVariant, string> = {
+      default: 'bg-bg-subtle border border-border text-fg hover:bg-bg-muted',
+      primary: 'bg-accent text-white hover:opacity-90',
+      secondary: 'bg-bg-muted border border-border text-fg hover:bg-bg-subtle',
+      ghost: 'text-fg hover:bg-bg-subtle',
+      destructive: 'bg-error text-white hover:opacity-90',
     };
 
-    const sizes: Record<string, string> = {
-      sm: 'px-3 py-2 text-sm gap-2 min-h-[2.25rem]',
-      md: 'px-4 py-3 text-base gap-2 min-h-[2.75rem]',
-      lg: 'px-6 py-4 text-lg gap-3 min-h-[3.25rem]',
-      xl: 'px-8 py-5 text-xl gap-3 min-h-[3.75rem]',
-    };
-
-    const iconSizes: Record<string, string> = {
-      sm: 'h-4 w-4',
-      md: 'h-5 w-5',
-      lg: 'h-6 w-6',
-      xl: 'h-7 w-7',
-    };
-
-    const LoadingSpinner = () => (
-      <div
-        className={cn(
-          'animate-spin rounded-full border-2 border-current border-t-transparent',
-          iconSizes[size],
-        )}
-      />
-    );
-
-    const renderIcon = () => {
-      if (loading) return <LoadingSpinner />;
-      if (!icon) return null;
-
-      if (React.isValidElement(icon)) {
-        const existingClassName = (icon.props as any)?.className || '';
-        return React.cloneElement(icon, {
-          className: cn(iconSizes[size], existingClassName),
-        } as any);
-      }
-
-      return icon;
+    const sizes: Record<ButtonSize, string> = {
+      sm: 'h-8 px-3 text-sm',
+      md: 'h-10 px-4 text-sm',
+      lg: 'h-12 px-6 text-base',
     };
 
     return (
       <button
         ref={ref}
         className={cn(
-          base,
-          variants[variant] ?? variants.primary,
-          sizes[size] ?? sizes.md,
+          'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+          'disabled:pointer-events-none disabled:opacity-50',
+          variants[variant],
+          sizes[size],
           className,
         )}
         disabled={disabled || loading}
         {...props}
       >
-        {iconPosition === 'left' && renderIcon()}
-        {loading ? 'Loading...' : children}
-        {iconPosition === 'right' && renderIcon()}
+        {loading ? (
+          <svg
+            className="h-4 w-4 animate-spin"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
+          </svg>
+        ) : (
+          icon && iconPosition === 'left' && <span className="shrink-0">{icon}</span>
+        )}
+        {children}
+        {!loading && icon && iconPosition === 'right' && <span className="shrink-0">{icon}</span>}
       </button>
     );
   },

@@ -1,10 +1,8 @@
-// TypeScript
 import React from 'react';
-import PremiumSection from '../components/ui/PremiumSection';
-import PlayerAvatar from '../components/ui/PlayerAvatar';
-import CourtStatsPanel from '../components/ui/CourtStatsPanel';
 import { ChevronDown } from 'lucide-react';
+import { Card, CardContent, Badge, Avatar } from '../components/ui';
 import { Player } from '../types';
+import { cn } from '../lib/utils';
 
 interface CourtCardViewProps {
   court: any;
@@ -35,168 +33,197 @@ const CourtCardView: React.FC<CourtCardViewProps> = ({
   isEditable,
   courtPlayerStats,
   players,
-}) => (
-  <PremiumSection
-    primaryColor="primary"
-    secondaryColor="success"
-    className={`rounded-xl p-8 ${
-      court.playerIds.some((pid: string) => pid === highlightedPlayerId)
-        ? 'ring-2 ring-primary/50 bg-primary/5'
-        : ''
-    }`}
-  >
-    <div id={`court-${court.id}`}>
-      {/* Collapsible Header */}
-      <button
-        className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 focus:outline-none"
-        onClick={onToggleExpand}
-        aria-expanded={expanded}
-        type="button"
-      >
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 flex-1">
-          <div className="flex items-center gap-3">
-            <h3 className="text-2xl font-bold text-text-main">Court {court.courtNumber}</h3>
-          </div>
-          <div className="flex flex-wrap gap-1 mt-1 sm:mt-0">
-            {courtPlayers.map((player: Player | undefined) =>
-              player ? (
-                <span
-                  key={player.id + '-name'}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-text-muted bg-surface-alt px-2 py-0.5 rounded"
-                >
-                  <PlayerAvatar
-                    imageUrl={player.imageUrl}
-                    name={player.name}
-                    size="sm"
-                    border={false}
-                    className="ring-1 ring-surface"
-                  />
-                  {player.name}
-                </span>
-              ) : null,
-            )}
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm px-3 py-1 bg-primary/20 text-primary rounded-lg font-semibold">
-            {completedGamesForCourt}/{totalGamesForCourt} games
-          </span>
-          <span className="text-sm px-3 py-1 bg-success/20 text-success rounded-lg font-semibold">
-            {court.playerIds.length} players
-          </span>
-          <span className="text-xs px-2 py-1 bg-surface-alt text-text-muted rounded font-medium border border-border">
-            {court.playerIds.length === 4
-              ? 'First to 15, win by 1'
-              : court.playerIds.length === 5
-              ? 'First to 11, win by 1'
-              : ''}
-          </span>
-          <ChevronDown
-            className={`ml-2 h-6 w-6 text-text-muted transition-transform duration-200 ${
-              expanded ? 'rotate-180' : 'rotate-0'
-            }`}
-            aria-hidden="true"
-          />
-        </div>
-      </button>
-      {expanded && (
-        <div className="space-y-4 mt-4">
-          {/* Games - Condensed Vertical Stack Layout */}
-          <div className="space-y-3">
-            {/* Court Stats Panel */}
-            <CourtStatsPanel
-              courtNumber={court.courtNumber}
-              playerStats={courtPlayerStats}
-              players={players}
-              totalGamesForCourt={totalGamesForCourt}
-              completedGamesForCourt={completedGamesForCourt}
-            />
-            {court.games.map((game: any, idx: number) => {
-              const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
-              const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
-              const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
-              const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
+}) => {
+  const isHighlighted = court.playerIds.some((pid: string) => pid === highlightedPlayerId);
 
-              return (
-                <React.Fragment key={game.id}>
-                  <div className="mt-7 mb-2 mx-3">
-                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wide">
-                      Game {idx + 1}
-                    </span>
-                  </div>
-                  <div
-                    className="border border-border bg-surface rounded-none"
-                    style={{ boxShadow: 'none' }}
-                  >
+  return (
+    <Card
+      id={`court-${court.id}`}
+      className={cn(isHighlighted && 'ring-2 ring-accent')}
+    >
+      <CardContent>
+        {/* Header */}
+        <button
+          type="button"
+          className="w-full flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-left"
+          onClick={onToggleExpand}
+          aria-expanded={expanded}
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent-subtle">
+              <span className="text-lg font-bold text-accent">{court.courtNumber}</span>
+            </div>
+            <div>
+              <h3 className="font-semibold text-fg">Court {court.courtNumber}</h3>
+              <div className="flex items-center gap-2 text-xs text-fg-muted">
+                <span>{court.playerIds.length} players</span>
+                <span>•</span>
+                <span>
+                  {court.playerIds.length === 4
+                    ? 'First to 15'
+                    : court.playerIds.length === 5
+                      ? 'First to 11'
+                      : ''}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Player Avatars */}
+            <div className="flex -space-x-2">
+              {courtPlayers.slice(0, 5).map((player) => (
+                <Avatar
+                  key={player.id}
+                  src={player.imageUrl}
+                  alt={player.name}
+                  size="sm"
+                  className="border-2 border-bg-subtle"
+                />
+              ))}
+            </div>
+
+            {/* Progress Badge */}
+            <Badge variant={completedGamesForCourt === totalGamesForCourt ? 'success' : 'default'}>
+              {completedGamesForCourt}/{totalGamesForCourt} games
+            </Badge>
+
+            {/* Expand Icon */}
+            <ChevronDown
+              className={cn(
+                'h-5 w-5 text-fg-muted transition-transform',
+                expanded && 'rotate-180'
+              )}
+            />
+          </div>
+        </button>
+
+        {/* Expanded Content */}
+        {expanded && (
+          <div className="mt-4 space-y-4">
+            {/* Player Stats Summary */}
+            <div className="rounded-md border border-border overflow-hidden">
+              <div className="bg-bg-muted px-3 py-2 text-xs font-medium text-fg-muted">
+                Player Stats
+              </div>
+              <div className="divide-y divide-border">
+                {courtPlayerStats.map((stat: any) => {
+                  const player = players.find((p) => p.id === stat.playerId);
+                  return (
                     <div
-                      className={`flex items-center justify-between border-b border-border px-3 py-2 ${
-                        typeof game.team1Score === 'number' &&
-                        typeof game.team2Score === 'number' &&
-                        game.team1Score > game.team2Score
-                          ? 'bg-success/10'
-                          : ''
-                      }`}
+                      key={stat.playerId}
+                      className="flex items-center justify-between px-3 py-2"
                     >
-                      <div>
-                        <div className="font-medium text-text-main">{team1Player1?.name}</div>
-                        <div className="font-medium text-text-main">{team1Player2?.name}</div>
+                      <div className="flex items-center gap-2">
+                        <Avatar
+                          src={player?.imageUrl}
+                          alt={player?.name || ''}
+                          size="sm"
+                        />
+                        <span className="text-sm font-medium text-fg">{player?.name}</span>
                       </div>
-                      <div
-                        className={`text-2xl font-bold text-right min-w-[48px] text-black dark:text-white`}
-                      >
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="text-success">{stat.wins}W</span>
+                        <span className="text-error">{stat.losses}L</span>
+                        <span className="text-fg-muted">
+                          +{stat.pointsFor} / -{stat.pointsAgainst}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Games */}
+            <div className="space-y-3">
+              {court.games.map((game: any, idx: number) => {
+                const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
+                const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
+                const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
+                const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
+
+                const team1Won =
+                  typeof game.team1Score === 'number' &&
+                  typeof game.team2Score === 'number' &&
+                  game.team1Score > game.team2Score;
+                const team2Won =
+                  typeof game.team1Score === 'number' &&
+                  typeof game.team2Score === 'number' &&
+                  game.team2Score > game.team1Score;
+
+                return (
+                  <div key={game.id} className="rounded-md border border-border overflow-hidden">
+                    <div className="bg-bg-muted px-3 py-1.5 text-xs font-medium text-fg-muted">
+                      Game {idx + 1}
+                    </div>
+
+                    {/* Team 1 */}
+                    <div
+                      className={cn(
+                        'flex items-center justify-between px-3 py-2 border-b border-border',
+                        team1Won && 'bg-success-subtle'
+                      )}
+                    >
+                      <div className="space-y-0.5">
+                        <div className="text-sm font-medium text-fg">{team1Player1?.name}</div>
+                        <div className="text-sm font-medium text-fg">{team1Player2?.name}</div>
+                      </div>
+                      <div className="text-right">
                         {isAdmin && isEditable ? (
                           <input
                             type="number"
-                            className="w-12 px-1 py-0.5 border border-border rounded text-center text-lg font-bold"
+                            className="w-14 rounded border border-border bg-bg px-2 py-1 text-center text-lg font-bold text-fg"
                             value={game.team1Score ?? ''}
                             onChange={(e) =>
                               handleScoreChange(game.id!, 'team1Score', Number(e.target.value))
                             }
                           />
                         ) : (
-                          game.team1Score ?? ''
+                          <span className="text-xl font-bold text-fg">
+                            {game.team1Score ?? '-'}
+                          </span>
                         )}
                       </div>
                     </div>
+
+                    {/* Team 2 */}
                     <div
-                      className={`flex items-center justify-between px-3 py-2 ${
-                        typeof game.team1Score === 'number' &&
-                        typeof game.team2Score === 'number' &&
-                        game.team2Score > game.team1Score
-                          ? 'bg-success/10'
-                          : ''
-                      }`}
+                      className={cn(
+                        'flex items-center justify-between px-3 py-2',
+                        team2Won && 'bg-success-subtle'
+                      )}
                     >
-                      <div>
-                        <div className="font-medium text-text-main">{team2Player1?.name}</div>
-                        <div className="font-medium text-text-main">{team2Player2?.name}</div>
+                      <div className="space-y-0.5">
+                        <div className="text-sm font-medium text-fg">{team2Player1?.name}</div>
+                        <div className="text-sm font-medium text-fg">{team2Player2?.name}</div>
                       </div>
-                      <div
-                        className={`text-2xl font-bold text-right min-w-[48px] text-black dark:text-white`}
-                      >
+                      <div className="text-right">
                         {isAdmin && isEditable ? (
                           <input
                             type="number"
-                            className="w-12 px-1 py-0.5 border border-border rounded text-center text-lg font-bold"
+                            className="w-14 rounded border border-border bg-bg px-2 py-1 text-center text-lg font-bold text-fg"
                             value={game.team2Score ?? ''}
                             onChange={(e) =>
                               handleScoreChange(game.id!, 'team2Score', Number(e.target.value))
                             }
                           />
                         ) : (
-                          game.team2Score ?? ''
+                          <span className="text-xl font-bold text-fg">
+                            {game.team2Score ?? '-'}
+                          </span>
                         )}
                       </div>
                     </div>
                   </div>
-                </React.Fragment>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  </PremiumSection>
-);
+        )}
+      </CardContent>
+    </Card>
+  );
+};
 
 export default CourtCardView;

@@ -2,81 +2,29 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  variant?: 'default' | 'premium' | 'gradient' | 'outlined' | 'flat' | 'stat' | 'info';
-  hover?: boolean;
-  padding?: 'sm' | 'md' | 'lg' | 'xl';
-  theme?: 'primary' | 'success' | 'warning' | 'error' | 'text-accent' | 'bronze';
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  /** @deprecated Use className for custom styling instead */
+  variant?: string;
+  /** @deprecated Use className for custom styling instead */
+  theme?: string;
 }
 
+const paddingMap: Record<NonNullable<CardProps['padding']>, string> = {
+  none: '',
+  sm: 'p-3',
+  md: 'p-4',
+  lg: 'p-6',
+  xl: 'p-8',
+};
+
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  (
-    {
-      children,
-      className,
-      variant = 'default',
-      hover = false,
-      padding = 'md',
-      theme = 'primary',
-      ...props
-    },
-    ref,
-  ) => {
-    const base = 'rounded-xl border transition-all duration-300';
-
-    const paddings: Record<string, string> = {
-      sm: 'p-4',
-      md: 'p-6',
-      lg: 'p-8',
-      xl: 'p-12',
-    };
-
-    const themes: Record<string, { bg: string; border: string }> = {
-      primary: { bg: 'from-primary/10 to-primary/5', border: 'border-primary/20' },
-      success: { bg: 'from-success/10 to-success/5', border: 'border-success/20' },
-      warning: { bg: 'from-warning/10 to-warning/5', border: 'border-warning/20' },
-      error: { bg: 'from-error/10 to-error/5', border: 'border-error/20' },
-      'text-accent': {
-        bg: 'from-text-accent/10 to-text-accent/5',
-        border: 'border-text-accent/20',
-      },
-      bronze: { bg: 'from-bronze/10 to-bronze/5', border: 'border-bronze/20' },
-    };
-
-    const variants: Record<string, string> = {
-      default: 'bg-surface border-border shadow-sm',
-
-      premium: `bg-gradient-to-br from-surface via-surface-alt to-surface border-border shadow-2xl ${
-        hover ? 'hover:shadow-3xl hover:scale-[1.02] hover:border-primary/50' : ''
-      }`,
-
-      gradient: `bg-gradient-to-br ${themes[theme].bg} ${themes[theme].border} shadow-lg ${
-        hover ? 'hover:shadow-xl hover:scale-[1.02]' : ''
-      }`,
-
-      outlined: 'bg-transparent border-border hover:border-primary/50',
-
-      flat: 'bg-surface-alt border-transparent shadow-none',
-
-      stat: `bg-gradient-to-br ${themes[theme].bg} border-2 ${themes[theme].border} shadow-lg ${
-        hover ? 'hover:shadow-xl hover:scale-105' : ''
-      }`,
-
-      info: `bg-gradient-to-r ${themes[theme].bg} border-2 ${themes[theme].border} shadow-lg ${
-        hover ? 'hover:shadow-xl hover:scale-[1.02]' : ''
-      }`,
-    };
-
-    const hoverEffects = hover ? 'cursor-pointer group' : '';
-
+  ({ className, padding = 'lg', children, variant: _variant, theme: _theme, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          base,
-          variants[variant] ?? variants.default,
-          paddings[padding],
-          hoverEffects,
+          'rounded-lg border border-border bg-bg-subtle',
+          paddingMap[padding],
           className,
         )}
         {...props}
@@ -89,4 +37,48 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
+/* Card Header */
+const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col gap-1.5 pb-4', className)} {...props} />
+  ),
+);
+CardHeader.displayName = 'CardHeader';
+
+/* Card Title */
+interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  as?: 'h1' | 'h2' | 'h3' | 'h4';
+}
+
+const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, as: Tag = 'h3', ...props }, ref) => (
+    <Tag ref={ref} className={cn('text-lg font-semibold text-fg', className)} {...props} />
+  ),
+);
+CardTitle.displayName = 'CardTitle';
+
+/* Card Description */
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p ref={ref} className={cn('text-sm text-fg-muted', className)} {...props} />
+));
+CardDescription.displayName = 'CardDescription';
+
+/* Card Content */
+const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => <div ref={ref} className={cn('', className)} {...props} />,
+);
+CardContent.displayName = 'CardContent';
+
+/* Card Footer */
+const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex items-center pt-4', className)} {...props} />
+  ),
+);
+CardFooter.displayName = 'CardFooter';
+
 export default Card;
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter };

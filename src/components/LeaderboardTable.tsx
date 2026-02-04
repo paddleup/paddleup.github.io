@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy } from 'lucide-react';
-import Card from './ui/Card';
-import PlayerAvatar from './ui/PlayerAvatar';
-import RankBadge from './ui/RankBadge';
+import { Avatar } from './ui';
 import { cn } from '../lib/utils';
 
 // Flexible player type to avoid mismatches between models and UI types
@@ -41,76 +39,95 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   rowClassName,
 }) => {
   return (
-    <Card className={cn('p-0 overflow-hidden', className)}>
-      <div className="overflow-x-auto w-full">
-        <table className="w-full divide-y divide-border rounded-2xl bg-gradient-to-br from-surface/80 to-surface-alt/60 shadow-md">
-          <thead className="bg-gradient-to-r from-primary-light/30 to-surface-highlight/60">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider pl-6 rounded-tl-2xl">
-                Rank
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider">
-                Player
-              </th>
+    <div className={cn('overflow-hidden rounded-md border border-border', className)}>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-bg-muted border-b border-border">
+              <th className="px-4 py-3 text-left font-medium text-fg-muted">Rank</th>
+              <th className="px-4 py-3 text-left font-medium text-fg-muted">Player</th>
               {showPoints && (
-                <th className="px-4 py-3 text-center text-xs font-bold text-text-main uppercase tracking-wider">
-                  Points
-                </th>
+                <th className="px-4 py-3 text-center font-medium text-fg-muted">Points</th>
               )}
               {showEvents && (
-                <th className="px-4 py-3 text-left text-xs font-bold text-text-main uppercase tracking-wider rounded-tr-2xl">
-                  Events
-                </th>
+                <th className="px-4 py-3 text-center font-medium text-fg-muted">Events</th>
               )}
             </tr>
           </thead>
-          <tbody className="bg-surface divide-y divide-border">
+          <tbody className="divide-y divide-border">
             {data.map((row, index) => {
               const player = players?.find((p) => p.id === row.playerId) || {
                 name: 'Unknown',
                 imageUrl: '',
                 id: 'unknown',
               };
+              const rank = row.rank ?? index + 1;
 
               return (
                 <tr
                   key={row.playerId}
                   className={cn(
-                    'hover:bg-surface-highlight/70 transition-colors',
+                    'transition-colors hover:bg-bg-subtle',
                     rowClassName
                       ? rowClassName(row, index)
-                      : (row.rank || 0) <= 4
-                      ? 'bg-primary-light/10'
-                      : '',
+                      : rank === 1
+                        ? 'bg-warning-subtle'
+                        : rank === 2
+                          ? 'bg-bg-muted'
+                          : rank === 3
+                            ? 'bg-bg-subtle'
+                            : ''
                   )}
                 >
-                  <td className="px-4 pl-6 py-4 whitespace-nowrap">
-                    <RankBadge rank={row.rank ?? 0} />
+                  {/* Rank */}
+                  <td className="px-4 py-3">
+                    <div
+                      className={cn(
+                        'flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold',
+                        rank === 1 && 'bg-warning text-white',
+                        rank === 2 && 'bg-fg-muted text-white',
+                        rank === 3 && 'bg-fg-subtle text-white',
+                        rank > 3 && 'bg-bg-muted text-fg-muted'
+                      )}
+                    >
+                      {rank}
+                    </div>
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap">
-                    <Link to={`/player/${row.playerId}`} className="flex items-center group">
-                      <PlayerAvatar
-                        imageUrl={player.imageUrl}
-                        name={player.name}
-                        className="mr-3 group-hover:ring-2 ring-primary transition-all"
+
+                  {/* Player */}
+                  <td className="px-4 py-3">
+                    <Link
+                      to={`/player/${row.playerId}`}
+                      className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                    >
+                      <Avatar
+                        src={player.imageUrl}
+                        alt={player.name}
+                        size="sm"
                       />
-                      <div className="text-sm font-semibold text-text-main group-hover:text-primary transition-colors">
-                        {player.name}
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-fg">{player.name}</span>
+                        {rank === 1 && <Trophy className="h-4 w-4 text-warning" />}
                       </div>
-                      {row.rank === 1 && <Trophy className="ml-2 h-4 w-4 text-warning" />}
                     </Link>
                   </td>
+
+                  {/* Points */}
                   {showPoints && (
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
+                    <td className="px-4 py-3 text-center">
                       {pointsRenderer ? (
                         pointsRenderer(row, player, index)
                       ) : (
-                        <div className="text-sm font-bold text-success">{row.points ?? 0}</div>
+                        <span className="font-semibold text-success">
+                          {(row.points ?? 0).toLocaleString()}
+                        </span>
                       )}
                     </td>
                   )}
+
+                  {/* Events */}
                   {showEvents && (
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-text-muted">
+                    <td className="px-4 py-3 text-center text-fg-muted">
                       {row.eventsPlayed ?? 0}
                     </td>
                   )}
@@ -120,7 +137,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
           </tbody>
         </table>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import CourtCardView from '../../views/CourtCardView';
 import { Player } from '../../types';
 import { calculatePlayerRankings } from '../../lib/challengeEventUtils';
+import { usePlayers } from '../../hooks/firestoreHooks';
 
 interface CourtCardProps {
   court: any;
-  players: Player[];
+  players?: Player[];
   roundNumber: 1 | 2;
   highlightedPlayerId?: string | null;
   isAdmin: boolean;
@@ -15,13 +16,15 @@ interface CourtCardProps {
 
 const CourtCard: React.FC<CourtCardProps> = ({
   court,
-  players,
+  players: _playersProp,
   roundNumber,
   highlightedPlayerId,
   isAdmin,
   handleScoreChange,
 }) => {
   const [expanded, setExpanded] = useState(true);
+
+  const { data: players = [] } = usePlayers();
 
   const courtPlayerStats = calculatePlayerRankings([court], roundNumber);
 

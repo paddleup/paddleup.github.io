@@ -17,8 +17,8 @@ const tierTones: Record<string, string> = {
 
 const sizeClasses: Record<string, string> = {
   xs: 'px-2 py-0.5 text-[10px] rounded',
-  sm: 'px-2.5 py-0.5 text-xs rounded-md',
-  md: 'px-3 py-0.5 text-sm rounded-md',
+  sm: 'px-2.5 py-0.5 text-xs rounded-lg',
+  md: 'px-3 py-0.5 text-sm rounded-lg',
 };
 
 export default function TierPill({ tierId, size = 'sm', className }: TierPillProps) {
