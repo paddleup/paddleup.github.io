@@ -27,14 +27,16 @@ const FormatPageView: React.FC = () => {
                 <Calendar className="w-4 h-4 text-slate-400" />
                 <span className="text-slate-600 dark:text-slate-400">Duration</span>
               </div>
-              <span className="font-medium text-slate-900 dark:text-slate-100">4 Weeks</span>
+              <span className="font-medium text-slate-900 dark:text-slate-100">Feb - Apr 2026</span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-slate-400" />
                 <span className="text-slate-600 dark:text-slate-400">Schedule</span>
               </div>
-              <span className="font-medium text-slate-900 dark:text-slate-100">Sundays 7-10 PM</span>
+              <span className="font-medium text-slate-900 dark:text-slate-100">
+                Sundays 7-10 PM
+              </span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
@@ -79,7 +81,9 @@ const FormatPageView: React.FC = () => {
                 </span>
                 <span className="font-medium text-slate-900 dark:text-slate-100">Second Place</span>
               </div>
-              <span className="text-sm text-slate-600 dark:text-slate-400">Joola Bottle + 15 pts</span>
+              <span className="text-sm text-slate-600 dark:text-slate-400">
+                Joola Bottle + 15 pts
+              </span>
             </div>
           </Card>
           <Card>
@@ -90,7 +94,9 @@ const FormatPageView: React.FC = () => {
                 </span>
                 <span className="font-medium text-slate-900 dark:text-slate-100">Third Place</span>
               </div>
-              <span className="text-sm text-slate-600 dark:text-slate-400">Wristbands + 10 pts</span>
+              <span className="text-sm text-slate-600 dark:text-slate-400">
+                Wristbands + 10 pts
+              </span>
             </div>
           </Card>
         </div>
@@ -105,17 +111,23 @@ const FormatPageView: React.FC = () => {
           <div className="space-y-4">
             <div className="text-center pb-4 border-b border-slate-100 dark:border-slate-800">
               <Users className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">4-5 Players</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                4-5 Players
+              </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">per court</div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
-                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">2 Rounds</div>
+                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  2 Rounds
+                </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">per night</div>
               </div>
               <div>
-                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">Rotating</div>
+                <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  Rotating
+                </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">partners</div>
               </div>
             </div>
@@ -123,11 +135,15 @@ const FormatPageView: React.FC = () => {
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600 dark:text-slate-400">4 Players</span>
-                <span className="font-medium text-slate-900 dark:text-slate-100">3 games to 15</span>
+                <span className="font-medium text-slate-900 dark:text-slate-100">
+                  3 games to 15
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600 dark:text-slate-400">5 Players</span>
-                <span className="font-medium text-slate-900 dark:text-slate-100">4 games to 11</span>
+                <span className="font-medium text-slate-900 dark:text-slate-100">
+                  4 games to 11
+                </span>
               </div>
             </div>
           </div>
@@ -146,7 +162,9 @@ const FormatPageView: React.FC = () => {
                 1
               </span>
               <div>
-                <div className="font-medium text-slate-900 dark:text-slate-100 mb-1">Initial Seeding</div>
+                <div className="font-medium text-slate-900 dark:text-slate-100 mb-1">
+                  Initial Seeding
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400">
                   Snake draft based on previous results (random for week 1)
                 </div>
@@ -159,7 +177,9 @@ const FormatPageView: React.FC = () => {
                 2
               </span>
               <div>
-                <div className="font-medium text-slate-900 dark:text-slate-100 mb-1">Ranked Courts</div>
+                <div className="font-medium text-slate-900 dark:text-slate-100 mb-1">
+                  Ranked Courts
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400">
                   Top Round 1 finishers → Court 1, next group → Court 2, etc.
                 </div>
@@ -207,7 +227,8 @@ const FormatPageView: React.FC = () => {
           </div>
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              All positions earn points. Points count toward monthly, seasonal, and all-time rankings.
+              All positions earn points. Points count toward monthly, seasonal, and all-time
+              rankings.
             </p>
           </div>
         </Card>
