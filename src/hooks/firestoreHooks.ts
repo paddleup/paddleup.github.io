@@ -11,6 +11,7 @@ import {
 import { db } from '../lib/firebase';
 import {
   getDocById,
+  getDocByField,
   setDocument,
   getCollectionPaginated,
   addDocument,
@@ -629,6 +630,27 @@ export const {
   useEntitiesRealtime: useEventsRealtime,
   useEntityRealtime: useEventRealtime,
 } = createEntityHooks<Event>('events', eventConverter);
+
+/**
+ * Fetch an event by its eventCode (short URL-friendly code).
+ * Falls back to fetching by document ID if eventCode lookup fails.
+ */
+export function useEventByCode(eventCode: string | undefined) {
+  return useQuery<Event | null>({
+    queryKey: ['events', 'byCode', eventCode],
+    queryFn: async () => {
+      if (!eventCode) return null;
+      // First try to find by eventCode field
+      const byCode = await getDocByField<Event>('events', 'eventCode', eventCode, eventConverter);
+      if (byCode) return byCode;
+      // Fallback: try to fetch by document ID (for backwards compatibility)
+      const byId = await getDocById<Event>('events', eventCode, eventConverter);
+      return byId;
+    },
+    enabled: Boolean(eventCode),
+    staleTime: 1000 * 60,
+  });
+}
 
 export const {
   useEntity: useCourtForEvent,

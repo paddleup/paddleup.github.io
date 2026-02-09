@@ -1,64 +1,85 @@
 import React from 'react';
-import { cn } from '../../lib/utils';
+import { generatePlayerAvatarDataUrl } from '../../lib/avatarGenerator';
 
-type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
+type AvatarSize = 'small' | 'default' | 'large';
 
-interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
-  src?: string;
+interface AvatarProps {
+  /** URL of the user's profile photo */
+  src?: string | null;
+  /** Alternative prop name for photo URL (alias for src) */
+  photoUrl?: string | null;
+  /** User ID for generating deterministic avatar when no photo */
+  userId?: string;
+  /** User's display name for initials on generated avatar */
+  displayName?: string | null;
+  /** Alt text for the avatar image */
   alt?: string;
-  fallback?: string;
+  /** Size variant */
   size?: AvatarSize;
+  /** Additional CSS classes */
+  className?: string;
 }
 
-const sizeMap: Record<AvatarSize, string> = {
-  sm: 'h-8 w-8 text-xs',
-  md: 'h-10 w-10 text-sm',
-  lg: 'h-12 w-12 text-base',
-  xl: 'h-16 w-16 text-lg',
+const sizeStyles: Record<AvatarSize, string> = {
+  small: 'w-8 h-8',
+  default: 'w-10 h-10',
+  large: 'w-16 h-16',
 };
 
-const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
-  ({ src, alt, fallback, size = 'md', className, ...props }, ref) => {
-    const [hasError, setHasError] = React.useState(false);
+// SVG sizes for generating avatars at appropriate resolution
+const svgSizes: Record<AvatarSize, number> = {
+  small: 32,
+  default: 40,
+  large: 64,
+};
 
-    const initials = React.useMemo(() => {
-      if (fallback) return fallback.slice(0, 2).toUpperCase();
-      if (alt) {
-        return alt
-          .split(' ')
-          .map((word) => word[0])
-          .join('')
-          .slice(0, 2)
-          .toUpperCase();
-      }
-      return '?';
-    }, [fallback, alt]);
-
+export function Avatar({ 
+  src, 
+  photoUrl,
+  userId, 
+  displayName,
+  alt = 'User', 
+  size = 'default', 
+  className = '' 
+}: AvatarProps) {
+  // Use src or photoUrl (photoUrl is an alias for src)
+  const imageUrl = src || photoUrl;
+  
+  // If there's a photo URL, use it
+  if (imageUrl) {
     return (
-      <div
-        ref={ref}
-        className={cn(
-          'relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-bg-muted',
-          sizeMap[size],
-          className
-        )}
-        {...props}
-      >
-        {src && !hasError ? (
-          <img
-            src={src}
-            alt={alt || ''}
-            className="h-full w-full object-cover"
-            onError={() => setHasError(true)}
-          />
-        ) : (
-          <span className="font-medium text-fg-muted">{initials}</span>
-        )}
-      </div>
+      <img
+        src={imageUrl}
+        alt={alt}
+        className={`
+          ${sizeStyles[size]}
+          rounded-full object-cover
+          bg-slate-100 dark:bg-slate-800
+          ${className}
+        `}
+      />
     );
   }
-);
 
-Avatar.displayName = 'Avatar';
+  // Generate deterministic avatar based on user ID with initials
+  const effectiveUserId = userId || 'default-user';
+  const generatedSrc = generatePlayerAvatarDataUrl({
+    playerId: effectiveUserId,
+    playerName: displayName || alt,
+    size: svgSizes[size],
+  });
+
+  return (
+    <img
+      src={generatedSrc}
+      alt={alt}
+      className={`
+        ${sizeStyles[size]}
+        rounded-full
+        ${className}
+      `}
+    />
+  );
+}
 
 export default Avatar;

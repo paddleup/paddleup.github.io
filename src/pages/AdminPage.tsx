@@ -10,6 +10,7 @@ import {
 import { useAdmin } from '../hooks/useAdmin';
 import {
   useCreatePlayer,
+  useCreateEvent,
   useEvents,
   usePlayers,
   useEvent,
@@ -24,6 +25,7 @@ const AdminPage: React.FC = () => {
   const { isAdmin } = useAdmin();
 
   const { create, status: createStatus, error: createError } = useCreatePlayer();
+  const { create: createEvent, status: createEventStatus, error: createEventError } = useCreateEvent();
 
   // Events / players for standings editing
   const eventsQuery = useEvents();
@@ -105,6 +107,50 @@ const AdminPage: React.FC = () => {
   const [dupr, setDupr] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
 
+  // Event creation form state
+  const [eventName, setEventName] = useState<string>('');
+  const [eventCode, setEventCode] = useState<string>('');
+  const [eventDate, setEventDate] = useState<string>('');
+  const [eventTime, setEventTime] = useState<string>('19:00');
+  const [eventLocation, setEventLocation] = useState<string>('');
+  const [courtReserveUrl, setCourtReserveUrl] = useState<string>('');
+
+  const handleCreateEvent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isAdmin) {
+      alert('You are not authorized to create events.');
+      return;
+    }
+
+    try {
+      // Combine date and time into a Date object
+      const dateTimeStr = `${eventDate}T${eventTime}`;
+      const startDateTime = new Date(dateTimeStr);
+
+      const event = {
+        name: eventName.trim(),
+        eventCode: eventCode.trim().toLowerCase().replace(/\s+/g, '-'),
+        startDateTime,
+        location: eventLocation.trim() || undefined,
+        courtReserveUrl: courtReserveUrl.trim() || undefined,
+        status: 'upcoming' as const,
+        createdAt: new Date(),
+      };
+
+      await createEvent(event as any);
+      setEventName('');
+      setEventCode('');
+      setEventDate('');
+      setEventTime('19:00');
+      setEventLocation('');
+      setCourtReserveUrl('');
+      alert('Event created successfully.');
+    } catch (err) {
+      console.error('Create event failed', err);
+      alert('Failed to create event. See console for details.');
+    }
+  };
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAdmin) {
@@ -185,6 +231,22 @@ const AdminPage: React.FC = () => {
       handleSaveStandings={handleSaveStandings}
       updateStatus={updateStatus}
       updateError={updateError}
+      // Event creation props
+      eventName={eventName}
+      setEventName={setEventName}
+      eventCode={eventCode}
+      setEventCode={setEventCode}
+      eventDate={eventDate}
+      setEventDate={setEventDate}
+      eventTime={eventTime}
+      setEventTime={setEventTime}
+      eventLocation={eventLocation}
+      setEventLocation={setEventLocation}
+      courtReserveUrl={courtReserveUrl}
+      setCourtReserveUrl={setCourtReserveUrl}
+      handleCreateEvent={handleCreateEvent}
+      createEventStatus={createEventStatus}
+      createEventError={createEventError}
     />
   );
 };

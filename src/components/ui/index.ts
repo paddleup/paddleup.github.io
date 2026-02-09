@@ -10,6 +10,7 @@ export { default as Stat, StatGroup } from './Stat';
 export { default as Badge } from './Badge';
 export { default as Avatar } from './Avatar';
 export { default as List, ListItem } from './List';
+export { default as EmptyState } from './EmptyState';
 
 // Forms
 export { default as Button } from './Button';
@@ -17,6 +18,9 @@ export { default as Input } from './Input';
 export { default as Select } from './Select';
 export { default as Label } from './Label';
 export { default as ErrorText } from './ErrorText';
+
+// Feedback
+export { default as Spinner, PageSpinner } from './Spinner';
 
 // Theme
 export { default as ThemeToggle } from './ThemeToggle';

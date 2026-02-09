@@ -8,11 +8,11 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantMap: Record<BadgeVariant, string> = {
-  default: 'bg-bg-muted text-fg-muted',
-  success: 'bg-success-subtle text-success',
-  warning: 'bg-warning-subtle text-warning',
-  error: 'bg-error-subtle text-error',
-  accent: 'bg-accent-subtle text-accent',
+  default: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
+  success: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+  warning: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+  accent: 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400',
 };
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
@@ -21,7 +21,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       <span
         ref={ref}
         className={cn(
-          'inline-flex items-center rounded-lg px-2 py-0.5 text-xs font-medium',
+          'inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium',
           variantMap[variant],
           className,
         )}

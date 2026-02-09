@@ -3,10 +3,6 @@ import { cn } from '../../lib/utils';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  /** @deprecated Use className for custom styling instead */
-  variant?: string;
-  /** @deprecated Use className for custom styling instead */
-  theme?: string;
 }
 
 const paddingMap: Record<NonNullable<CardProps['padding']>, string> = {
@@ -18,12 +14,12 @@ const paddingMap: Record<NonNullable<CardProps['padding']>, string> = {
 };
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, padding = 'lg', children, variant: _variant, theme: _theme, ...props }, ref) => {
+  ({ className, padding = 'md', children, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          'rounded-lg border border-border bg-bg-subtle',
+          'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg',
           paddingMap[padding],
           className,
         )}
@@ -52,7 +48,11 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
 
 const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, as: Tag = 'h3', ...props }, ref) => (
-    <Tag ref={ref} className={cn('text-lg font-semibold text-fg', className)} {...props} />
+    <Tag
+      ref={ref}
+      className={cn('text-lg font-semibold text-slate-900 dark:text-slate-100', className)}
+      {...props}
+    />
   ),
 );
 CardTitle.displayName = 'CardTitle';
@@ -62,7 +62,11 @@ const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn('text-sm text-fg-muted', className)} {...props} />
+  <p
+    ref={ref}
+    className={cn('text-sm text-slate-500 dark:text-slate-400', className)}
+    {...props}
+  />
 ));
 CardDescription.displayName = 'CardDescription';
 

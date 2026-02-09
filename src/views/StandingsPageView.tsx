@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Trophy } from 'lucide-react';
-import LeaderboardTable from '../components/LeaderboardTable';
-import { Card, CardContent, Heading, Select } from '../components/ui';
+import { Card, Avatar, Select, EmptyState } from '../components/ui';
 
 type StandingsPageViewProps = {
   selection: string;
@@ -19,49 +19,94 @@ const StandingsPageView: React.FC<StandingsPageViewProps> = ({
   players,
 }) => (
   <div className="space-y-6">
-    {/* Header */}
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <Heading as="h1" description="Complete standings with detailed statistics for all players">
-        Standings
-      </Heading>
-
-      {/* Time Period Selector */}
-      <div className="flex items-center gap-3">
-        <label htmlFor="period" className="text-sm font-medium text-fg-muted">
-          Period:
-        </label>
-        <Select
-          id="period"
-          value={selection}
-          onChange={(e) => setSelection(e.target.value)}
-          className="min-w-[160px]"
-        >
-          {months.map((month) => (
-            <option key={month.value} value={month.value}>
-              {month.label}
-            </option>
-          ))}
-        </Select>
-      </div>
+    {/* Period Selector */}
+    <div className="flex items-center justify-between">
+      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+        {leaderboard.length} Players
+      </span>
+      <Select
+        value={selection}
+        onChange={(e) => setSelection(e.target.value)}
+        className="min-w-[140px]"
+      >
+        {months.map((month) => (
+          <option key={month.value} value={month.value}>
+            {month.label}
+          </option>
+        ))}
+      </Select>
     </div>
 
     {/* Leaderboard */}
     {leaderboard.length > 0 ? (
-      <Card padding="none">
-        <CardContent>
-          <LeaderboardTable data={leaderboard} players={players} />
-        </CardContent>
+      <Card>
+        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+          {leaderboard.map((entry: any, index: number) => {
+            const player = players.find((p) => p.id === entry.playerId) || {
+              name: 'Unknown',
+              imageUrl: '',
+              id: 'unknown',
+            };
+            const rank = index + 1;
+            
+            return (
+              <Link
+                key={entry.playerId}
+                to={`/player/${entry.playerId}`}
+                className="flex items-center justify-between py-3 -mx-4 px-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors first:pt-0 last:pb-0"
+              >
+                <div className="flex items-center gap-3">
+                  {/* Rank Badge */}
+                  <span
+                    className={`
+                      flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold
+                      ${rank === 1 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' : ''}
+                      ${rank === 2 ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300' : ''}
+                      ${rank === 3 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' : ''}
+                      ${rank > 3 ? 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' : ''}
+                    `}
+                  >
+                    {rank}
+                  </span>
+                  
+                  {/* Avatar & Name */}
+                  <Avatar
+                    src={player.imageUrl}
+                    displayName={player.name}
+                    userId={player.id}
+                    alt={player.name}
+                    size="default"
+                  />
+                  <div>
+                    <span className="font-medium text-slate-900 dark:text-slate-100 block">
+                      {player.name}
+                    </span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {entry.events || 0} events
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Points */}
+                <div className="text-right">
+                  <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                    {entry.points}
+                  </span>
+                  <span className="block text-xs text-slate-500 dark:text-slate-400">
+                    points
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </Card>
     ) : (
-      <Card className="text-center">
-        <CardContent className="py-12">
-          <Trophy className="mx-auto mb-4 h-12 w-12 text-fg-subtle" />
-          <h2 className="text-xl font-semibold text-fg mb-2">No Standings Yet</h2>
-          <p className="text-fg-muted">
-            Standings will appear here once events have been completed.
-          </p>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Trophy}
+        title="No Standings Yet"
+        description="Standings will appear here once events have been completed"
+      />
     )}
   </div>
 );

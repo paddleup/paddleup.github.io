@@ -1,32 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import {
-  ChevronLeft,
   Calendar,
   MapPin,
   Trophy,
-  Users,
-  UserPlus,
   Play,
   ArrowRight,
   CheckCircle,
-  RotateCcw,
   Plus,
   Clock,
+  Search,
+  Target,
 } from 'lucide-react';
-import {
-  Button,
-  Card,
-  CardContent,
-  Input,
-  Heading,
-  Badge,
-  RoundRankingsPanel,
-  PlayerSearchFilter,
-} from '../components/ui';
-import CourtCard from '../components/ui/CourtCard';
+import { Button, Card, Input, Badge, Avatar, EmptyState, Spinner } from '../components/ui';
 import { formatNiceDate, formatNiceTime } from '../utils/format';
-import LeaderboardTable, { LeaderboardRow } from '../components/LeaderboardTable';
 
 type EventPageProps = {
   event: any;
@@ -39,13 +24,13 @@ type EventPageProps = {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   isInitializing: boolean;
   highlightedPlayerId: string | null;
-  setHighlightedPlayerId: React.Dispatch<React.SetStateAction<string | null>>;
+  setHighlightedPlayerId?: React.Dispatch<React.SetStateAction<string | null>>;
   filteredPlayers: any[];
   handlePlayerToggle: (playerId: string) => void;
   handleInitializeRound: () => void;
   handleAdvanceToRoundTwo: () => void;
   handleFinalizeEvent: () => void;
-  calculatePlayerRankings: (courts: any[], roundNumber: 1 | 2) => any[];
+  calculatePlayerRankings?: (courts: any[], roundNumber: 1 | 2) => any[];
   getPointsForRank: (rank: number, halfEvery?: 2 | 3 | 5) => number;
 };
 
@@ -60,26 +45,20 @@ const EventPageView: React.FC<EventPageProps> = ({
   setSearchTerm,
   isInitializing,
   highlightedPlayerId,
-  setHighlightedPlayerId,
+  setHighlightedPlayerId: _setHighlightedPlayerId,
   filteredPlayers,
   handlePlayerToggle,
   handleInitializeRound,
   handleAdvanceToRoundTwo,
   handleFinalizeEvent,
-  calculatePlayerRankings,
+  calculatePlayerRankings: _calculatePlayerRankings,
   getPointsForRank,
 }) => {
   // Loading state
   if (eventLoading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
-        <Card className="max-w-md text-center">
-          <CardContent className="py-12">
-            <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-border border-t-accent"></div>
-            <h2 className="text-xl font-semibold text-fg mb-2">Loading Event</h2>
-            <p className="text-fg-muted">Please wait while we fetch the event details...</p>
-          </CardContent>
-        </Card>
+      <div className="flex min-h-[300px] items-center justify-center">
+        <Spinner size="large" />
       </div>
     );
   }
@@ -87,28 +66,15 @@ const EventPageView: React.FC<EventPageProps> = ({
   // Event not found
   if (!event) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
-        <Card className="max-w-lg text-center">
-          <CardContent className="py-12">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-error-subtle">
-              <span className="text-2xl">❌</span>
-            </div>
-            <h1 className="text-2xl font-bold text-fg mb-2">Event Not Found</h1>
-            <p className="text-fg-muted mb-6">
-              The event ID{' '}
-              <code className="rounded bg-bg-muted px-2 py-1 font-mono text-sm">
-                {challenge?.eventId || '(empty)'}
-              </code>{' '}
-              does not match any scheduled event.
-            </p>
-            <Link to="/schedule">
-              <Button variant="primary" icon={<ChevronLeft className="h-4 w-4" />}>
-                Back to Schedule
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
+      <EmptyState
+        icon={Calendar}
+        title="Event Not Found"
+        description="This event doesn't exist or has been removed"
+        action={{
+          label: 'View Schedule',
+          onClick: () => window.location.href = '/schedule',
+        }}
+      />
     );
   }
 
@@ -116,93 +82,61 @@ const EventPageView: React.FC<EventPageProps> = ({
     challenge.currentView === 1
       ? challenge.round1
       : challenge.currentView === 2
-      ? challenge.round2
-      : null;
+        ? challenge.round2
+        : null;
 
   return (
     <div className="space-y-6">
-      {/* Back Link */}
-      <Link
-        to="/schedule"
-        className="inline-flex items-center gap-2 text-sm text-fg-muted hover:text-fg transition-colors"
-      >
-        <ChevronLeft className="h-4 w-4" />
-        Back to Schedule
-      </Link>
-
       {/* Event Header */}
       <Card>
-        <CardContent>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent-subtle">
-              <Calendar className="h-6 w-6 text-accent" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-fg">{event.name}</h1>
-            </div>
+        <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          {event.name}
+        </h1>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 text-sm">
+            <Calendar className="w-4 h-4 text-slate-400" />
+            <span className="text-slate-600 dark:text-slate-400">
+              {formatNiceDate(event.startDateTime)}
+            </span>
           </div>
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="flex items-center gap-3 rounded-lg border border-border p-3">
-              <Calendar className="h-4 w-4 text-fg-muted" />
-              <div>
-                <div className="text-xs text-fg-muted">Date</div>
-                <div className="font-medium text-fg">{formatNiceDate(event.startDateTime)}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 rounded-lg border border-border p-3">
-              <Clock className="h-4 w-4 text-fg-muted" />
-              <div>
-                <div className="text-xs text-fg-muted">Time</div>
-                <div className="font-medium text-fg">{formatNiceTime(event.startDateTime)}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 rounded-lg border border-border p-3">
-              <MapPin className="h-4 w-4 text-fg-muted" />
-              <div>
-                <div className="text-xs text-fg-muted">Location</div>
-                <div className="font-medium text-fg">{event.location ?? 'TBD'}</div>
-              </div>
-            </div>
+          <div className="flex items-center gap-3 text-sm">
+            <Clock className="w-4 h-4 text-slate-400" />
+            <span className="text-slate-600 dark:text-slate-400">
+              {formatNiceTime(event.startDateTime)}
+            </span>
           </div>
-        </CardContent>
+          {event.location && (
+            <div className="flex items-center gap-3 text-sm">
+              <MapPin className="w-4 h-4 text-slate-400" />
+              <span className="text-slate-600 dark:text-slate-400">{event.location}</span>
+            </div>
+          )}
+        </div>
       </Card>
 
       {/* Admin Event Initialization */}
       {isAdmin && challenge.needsInitialization && (
-        <Card>
-          <CardContent>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-subtle">
-                <UserPlus className="h-5 w-5 text-accent" />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold text-fg">Initialize Event</h2>
-                <p className="text-sm text-fg-muted">Select 8-35 players to start</p>
-              </div>
-            </div>
-
+        <section>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
+            Initialize Event
+          </h2>
+          <Card>
             <div className="space-y-4">
               <Input
-                placeholder="Search players by name..."
+                placeholder="Search players..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                icon={<Search className="w-4 h-4" />}
               />
 
-              <div className="text-center">
-                <Badge
-                  variant={
-                    selectedPlayerIds.length >= 8 && selectedPlayerIds.length <= 35
-                      ? 'success'
-                      : 'warning'
-                  }
-                >
-                  {selectedPlayerIds.length} / 35 players selected
-                  {selectedPlayerIds.length < 8 && ' (minimum 8)'}
+              <div className="text-center py-2">
+                <Badge variant={selectedPlayerIds.length >= 8 ? 'success' : 'warning'}>
+                  {selectedPlayerIds.length} players selected
+                  {selectedPlayerIds.length < 8 && ' (min 8)'}
                 </Badge>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 max-h-80 overflow-y-auto">
+              <div className="grid gap-2 sm:grid-cols-2 max-h-64 overflow-y-auto">
                 {filteredPlayers.map((player) => {
                   const isSelected = selectedPlayerIds.includes(player.id || '');
                   return (
@@ -212,251 +146,291 @@ const EventPageView: React.FC<EventPageProps> = ({
                       onClick={() => handlePlayerToggle(player.id || '')}
                       className={`flex items-center gap-3 rounded-lg border p-3 text-left transition-colors ${
                         isSelected
-                          ? 'border-accent bg-accent-subtle'
-                          : 'border-border hover:bg-bg-subtle'
+                          ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20'
+                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
                       <div
-                        className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                          isSelected ? 'border-accent bg-accent' : 'border-border'
+                        className={`flex h-5 w-5 items-center justify-center rounded-full ${
+                          isSelected
+                            ? 'bg-primary-600'
+                            : 'border-2 border-slate-300 dark:border-slate-600'
                         }`}
                       >
                         {isSelected && <CheckCircle className="h-3 w-3 text-white" />}
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="font-medium text-fg truncate">{player.name}</div>
-                        {player.dupr && (
-                          <div className="text-xs text-fg-muted">DUPR: {player.dupr}</div>
-                        )}
-                      </div>
+                      <span className="font-medium text-slate-900 dark:text-slate-100 truncate">
+                        {player.name}
+                      </span>
                     </button>
                   );
                 })}
               </div>
 
-              <div className="text-center pt-4">
-                <Button
-                  variant="primary"
-                  icon={<Play className="h-4 w-4" />}
-                  onClick={handleInitializeRound}
-                  disabled={
-                    selectedPlayerIds.length < 8 || selectedPlayerIds.length > 35 || isInitializing
-                  }
-                  loading={isInitializing}
-                >
-                  Initialize Round 1
-                </Button>
-              </div>
+              <Button
+                className="w-full"
+                onClick={handleInitializeRound}
+                disabled={selectedPlayerIds.length < 8 || selectedPlayerIds.length > 35 || isInitializing}
+                loading={isInitializing}
+              >
+                <Play className="w-4 h-4" />
+                Start Round 1
+              </Button>
             </div>
-          </CardContent>
-        </Card>
+          </Card>
+        </section>
       )}
 
       {/* Round Navigation */}
       {!challenge.needsInitialization && (
-        <Card padding="sm">
-          <CardContent>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-2">
-                {[1, 2, 'standings'].map((stage) => {
-                  const isActive = challenge.currentView === stage;
-                  const isAvailable =
-                    stage === 1 ||
-                    (stage === 2 && challenge.round1) ||
-                    (stage === 'standings' && challenge.round2);
-
-                  return (
-                    <Button
-                      key={String(stage)}
-                      variant={isActive ? 'primary' : 'ghost'}
-                      size="sm"
-                      onClick={() => challenge.setCurrentView(stage as any)}
-                      disabled={!isAvailable}
-                    >
-                      {stage === 'standings' ? 'Final Standings' : `Round ${stage}`}
-                    </Button>
-                  );
-                })}
-              </div>
-              <div className="text-sm text-fg-muted">
-                {challenge.completedMatches}/{challenge.totalMatches} matches (
-                {challenge.progressPercent}%)
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Player Search */}
-      {!challenge.needsInitialization && currentRound && (
-        <PlayerSearchFilter
-          players={players.filter((p) =>
-            currentRound.courts.some((court: any) => court.playerIds.includes(p.id || '')),
-          )}
-          onPlayerSelect={(playerId) => {
-            setHighlightedPlayerId(playerId);
-            const court = currentRound.courts.find((c: any) => c.playerIds.includes(playerId));
-            if (court) {
-              const courtElement = document.getElementById(`court-${court.id}`);
-              courtElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-          }}
-          onClear={() => setHighlightedPlayerId(null)}
-          placeholder="Find a player on the courts..."
-          className="mb-4"
-        />
-      )}
-
-      {/* Round Display */}
-      {currentRound && (
-        <div className="space-y-4">
-          {/* Round Rankings Panel */}
-          {(() => {
-            const playerRankings = calculatePlayerRankings(
-              currentRound.courts,
-              challenge.currentView as 1 | 2,
-            );
-
-            const roundGames = currentRound.courts.flatMap((court: any) =>
-              court.games.filter((g: any) => g.roundNumber === challenge.currentView),
-            );
-            const completedRoundGames = roundGames.filter(
-              (g: any) => g.team1Score !== undefined && g.team2Score !== undefined,
-            ).length;
+        <div className="flex items-center rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-1">
+          {[1, 2, 'standings'].map((stage) => {
+            const isActive = challenge.currentView === stage;
+            const isAvailable =
+              stage === 1 ||
+              (stage === 2 && challenge.round1) ||
+              (stage === 'standings' && challenge.round2);
 
             return (
-              <RoundRankingsPanel
-                roundNumber={challenge.currentView as number}
-                playerRankings={playerRankings}
-                players={players}
-                completedGames={completedRoundGames}
-                totalGames={roundGames.length}
-              />
+              <button
+                key={String(stage)}
+                type="button"
+                onClick={() => challenge.setCurrentView(stage as any)}
+                disabled={!isAvailable}
+                className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors disabled:opacity-50 ${
+                  isActive
+                    ? 'bg-primary-600 text-white dark:bg-primary-500'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                }`}
+              >
+                {stage === 'standings' ? 'Results' : `Round ${stage}`}
+              </button>
             );
-          })()}
+          })}
+        </div>
+      )}
 
-          {/* Round Header with Admin Controls */}
-          <Card padding="sm">
-            <CardContent>
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-success-subtle">
-                    <Users className="h-4 w-4 text-success" />
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-fg">Round {challenge.currentView} Courts</h2>
-                    <p className="text-sm text-fg-muted">{currentRound.courts.length} courts</p>
-                  </div>
-                </div>
+      {/* Progress */}
+      {!challenge.needsInitialization && currentRound && (
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-slate-600 dark:text-slate-400">
+            {challenge.completedMatches} of {challenge.totalMatches} matches
+          </span>
+          <span className="font-medium text-slate-900 dark:text-slate-100">
+            {challenge.progressPercent}%
+          </span>
+        </div>
+      )}
 
-                {isAdmin && (
-                  <div className="flex gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      icon={<RotateCcw className="h-4 w-4" />}
-                      onClick={challenge.resetAll}
-                    >
-                      Reset
-                    </Button>
-
-                    {challenge.currentView === 1 && challenge.round1 && (
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        icon={<ArrowRight className="h-4 w-4" />}
-                        iconPosition="right"
-                        onClick={handleAdvanceToRoundTwo}
-                        disabled={
-                          !challenge.round1.courts.every((court: any) =>
-                            court.games.every(
-                              (game: any) =>
-                                game.team1Score !== undefined && game.team2Score !== undefined,
-                            ),
-                          )
-                        }
-                      >
-                        Advance to Round 2
-                      </Button>
-                    )}
-
-                    {challenge.currentView === 2 && challenge.round2 && (
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        icon={<Trophy className="h-4 w-4" />}
-                        onClick={handleFinalizeEvent}
-                        disabled={
-                          !challenge.round2.courts.every((court: any) =>
-                            court.games.every(
-                              (game: any) =>
-                                game.team1Score !== undefined && game.team2Score !== undefined,
-                            ),
-                          )
-                        }
-                      >
-                        Finalize Event
-                      </Button>
-                    )}
-                  </div>
+      {/* Courts Display */}
+      {currentRound && (
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              Round {challenge.currentView} Courts
+            </h2>
+            {isAdmin && (
+              <div className="flex gap-2">
+                {challenge.currentView === 1 && (
+                  <Button
+                    size="small"
+                    onClick={handleAdvanceToRoundTwo}
+                    disabled={challenge.progressPercent < 100}
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                    Round 2
+                  </Button>
+                )}
+                {challenge.currentView === 2 && (
+                  <Button
+                    size="small"
+                    onClick={handleFinalizeEvent}
+                    disabled={challenge.progressPercent < 100}
+                  >
+                    <Trophy className="w-4 h-4" />
+                    Finalize
+                  </Button>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
 
-          {/* Courts Grid */}
-          <div className="grid gap-4">
-            {currentRound.courts.map((court: any) => (
-              <CourtCard
-                key={court.id}
-                court={court}
-                players={players}
-                roundNumber={challenge.currentView as 1 | 2}
-                highlightedPlayerId={highlightedPlayerId}
-                isAdmin={isAdmin}
-                handleScoreChange={challenge.handleScoreChange}
-              />
+          <div className="space-y-4">
+            {currentRound.courts.map((court: any, courtIndex: number) => (
+              <Card key={court.id} id={`court-${court.id}`}>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                    Court {courtIndex + 1}
+                  </h3>
+                  <Badge>{court.playerIds.length} players</Badge>
+                </div>
+                
+                {/* Game format indicator */}
+                <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+                  <Target className="w-3 h-3" />
+                  {court.playerIds.length === 5 ? (
+                    <span>First to 11, win by 1</span>
+                  ) : (
+                    <span>First to 15, win by 1</span>
+                  )}
+                </div>
+
+                {/* Players on this court */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {court.playerIds.map((playerId: string) => {
+                    const player = players.find((p) => p.id === playerId);
+                    return (
+                      <div
+                        key={playerId}
+                        className={`flex items-center gap-2 rounded-lg px-2 py-1 text-sm ${
+                          highlightedPlayerId === playerId
+                            ? 'bg-primary-100 dark:bg-primary-900/30'
+                            : 'bg-slate-100 dark:bg-slate-800'
+                        }`}
+                      >
+                        <Avatar
+                          src={player?.imageUrl}
+                          displayName={player?.name}
+                          userId={playerId}
+                          size="small"
+                        />
+                        <span className="text-slate-700 dark:text-slate-300">
+                          {player?.name || 'Unknown'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Games */}
+                <div className="space-y-2">
+                  {court.games
+                    .filter((g: any) => g.roundNumber === challenge.currentView)
+                    .map((game: any, gameIndex: number) => {
+                      const team1Player1 = players.find((p) => p.id === game.team1.player1Id);
+                      const team1Player2 = players.find((p) => p.id === game.team1.player2Id);
+                      const team2Player1 = players.find((p) => p.id === game.team2.player1Id);
+                      const team2Player2 = players.find((p) => p.id === game.team2.player2Id);
+                      const _hasScore = game.team1Score !== undefined && game.team2Score !== undefined;
+
+                      return (
+                        <div
+                          key={game.id || gameIndex}
+                          className="rounded-lg border border-slate-200 dark:border-slate-700 p-3"
+                        >
+                          <div className="flex items-center justify-between">
+                            {/* Team 1 */}
+                            <div className="flex-1 text-right pr-3">
+                              <div className="text-sm text-slate-700 dark:text-slate-300">
+                                {team1Player1?.name?.split(' ')[0]} &amp; {team1Player2?.name?.split(' ')[0]}
+                              </div>
+                            </div>
+
+                            {/* Score */}
+                            <div className="flex items-center gap-2 px-3">
+                              {isAdmin ? (
+                                <>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    max="21"
+                                    className="w-12 h-8 text-center rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                                    value={game.team1Score ?? ''}
+                                    onChange={(e) =>
+                                      challenge.handleScoreChange(game.id, 'team1Score', parseInt(e.target.value) || 0)
+                                    }
+                                  />
+                                  <span className="text-slate-400">-</span>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    max="21"
+                                    className="w-12 h-8 text-center rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                                    value={game.team2Score ?? ''}
+                                    onChange={(e) =>
+                                      challenge.handleScoreChange(game.id, 'team2Score', parseInt(e.target.value) || 0)
+                                    }
+                                  />
+                                </>
+                              ) : (
+                                <span className="font-bold text-slate-900 dark:text-slate-100">
+                                  {game.team1Score ?? '-'} - {game.team2Score ?? '-'}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Team 2 */}
+                            <div className="flex-1 text-left pl-3">
+                              <div className="text-sm text-slate-700 dark:text-slate-300">
+                                {team2Player1?.name?.split(' ')[0]} &amp; {team2Player2?.name?.split(' ')[0]}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </Card>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Final Standings */}
       {challenge.currentView === 'standings' && event.standings && (
-        <Card>
-          <CardContent>
-            <Heading as="h2">Final Standings</Heading>
-            <LeaderboardTable
-              data={event.standings.map((playerId: string, index: number) => ({
-                playerId,
-                rank: index + 1,
-                points: getPointsForRank(index + 1),
-              }))}
-              players={players}
-              showEvents={false}
-              showPoints={true}
-              className="rounded-lg border border-border"
-              pointsRenderer={(_row: LeaderboardRow, _player, index: number) => (
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-1 font-semibold text-success">
-                    <Plus className="h-4 w-4" />
-                    {getPointsForRank(index + 1).toLocaleString()}
+        <section>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
+            Final Standings
+          </h2>
+          <Card>
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              {event.standings.map((playerId: string, index: number) => {
+                const player = players.find((p) => p.id === playerId);
+                const rank = index + 1;
+                const points = getPointsForRank(rank);
+
+                return (
+                  <div
+                    key={playerId}
+                    className="flex items-center justify-between py-3 -mx-4 px-4 first:pt-0 last:pb-0"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold ${
+                          rank === 1
+                            ? 'bg-amber-200 dark:bg-amber-800 text-amber-700 dark:text-amber-300'
+                            : rank === 2
+                              ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                              : rank === 3
+                                ? 'bg-orange-200 dark:bg-orange-800/50 text-orange-700 dark:text-orange-300'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                        }`}
+                      >
+                        {rank}
+                      </span>
+                      <Avatar
+                        src={player?.imageUrl}
+                        displayName={player?.name}
+                        userId={playerId}
+                        size="default"
+                      />
+                      <span className="font-medium text-slate-900 dark:text-slate-100">
+                        {player?.name || 'Unknown'}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold text-lg">
+                        <Plus className="w-4 h-4" />
+                        {points.toLocaleString()}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">points</div>
+                    </div>
                   </div>
-                  <div className="text-xs text-fg-muted">points</div>
-                </div>
-              )}
-              rowClassName={(_row: LeaderboardRow, index: number) =>
-                index === 0
-                  ? 'bg-warning-subtle'
-                  : index === 1
-                  ? 'bg-bg-muted'
-                  : index === 2
-                  ? 'bg-bg-subtle'
-                  : ''
-              }
-            />
-          </CardContent>
-        </Card>
+                );
+              })}
+            </div>
+          </Card>
+        </section>
       )}
     </div>
   );

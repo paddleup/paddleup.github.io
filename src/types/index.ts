@@ -50,10 +50,12 @@ export type ChallengeEventStage = z.infer<typeof ChallengeEventStageSchema>;
 
 export const EventSchema = z.object({
   id: z.string(),
+  eventCode: z.string().optional(), // Short, URL-friendly code (e.g., "wk1-jan26")
   name: z.string(),
   startDateTime: z.date(),
   location: z.string().optional(),
   link: z.string().optional(),
+  courtReserveUrl: z.string().optional(), // Link to CourtReserve registration
   ongoingStage: ChallengeEventStageSchema.optional(),
   standings: z.array(z.string()).optional(), // Array of player IDs in final rank order
 });

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEvent, usePlayers } from '../hooks/firestoreHooks';
+import { useEventByCode, usePlayers } from '../hooks/firestoreHooks';
 import { useAdmin } from '../hooks/useAdmin';
 import { useChallengeEvent } from '../hooks/useChallengeEvent';
 import { calculatePlayerRankings } from '../lib/challengeEventUtils';
@@ -8,12 +8,13 @@ import { getPointsForRank } from '../lib/points';
 import EventPageView from '../views/EventPageView';
 
 const EventPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const decodedId = id ? decodeURIComponent(id) : '';
-  const { data: event, isLoading: eventLoading } = useEvent(decodedId);
+  const { eventCode } = useParams<{ eventCode: string }>();
+  const decodedCode = eventCode ? decodeURIComponent(eventCode) : '';
+  const { data: event, isLoading: eventLoading } = useEventByCode(decodedCode);
   const { data: players = [] } = usePlayers();
   const { isAdmin } = useAdmin();
-  const challenge = useChallengeEvent(decodedId);
+  // useChallengeEvent needs the Firestore document ID, which we get from the fetched event
+  const challenge = useChallengeEvent(event?.id);
 
   // State for player selection
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([]);

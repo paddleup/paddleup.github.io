@@ -152,10 +152,12 @@ export const eventConverter: FirestoreDataConverter<Event> = {
 
     const parsed = {
       id: snapshot.id,
+      eventCode: data.eventCode as string | undefined,
       name: data.name,
       startDateTime: startDateTime,
       location: data.location,
       link: data.link,
+      courtReserveUrl: data.courtReserveUrl as string | undefined,
       standings: Array.isArray(data.standings)
         ? (data.standings as unknown[]).map(String)
         : undefined,

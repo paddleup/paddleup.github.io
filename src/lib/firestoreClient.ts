@@ -25,6 +25,7 @@ import {
   Transaction,
   Firestore,
   deleteDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { PageResult } from '../types';
@@ -194,4 +195,21 @@ export async function withTransaction<T>(fn: (tx: Transaction) => Promise<T>): P
   return runTransaction(db, async (tx: Transaction) => {
     return fn(tx);
   });
+}
+
+/**
+ * Query a collection by a field value.
+ * Returns the first matching document or null.
+ */
+export async function getDocByField<T>(
+  collectionPath: string,
+  fieldName: string,
+  fieldValue: string,
+  converter?: FirestoreDataConverter<T>,
+): Promise<T | null> {
+  const col = collectionRef<T>(db, collectionPath, converter) as CollectionReference<T>;
+  const q = query(col as any, where(fieldName, '==', fieldValue), limit(1));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  return snap.docs[0].data() as T;
 }
