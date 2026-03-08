@@ -36,13 +36,24 @@ export const CATEGORIES: Category[] = [
 
 const categories = categoryData as Record<string, string[]>;
 
-// Build a reverse lookup: player name → set of category slugs
+// Cascading: 60+ players also appear in 50+, and 50+ players also appear in overall
+const CASCADE: Record<string, string[]> = {
+  'mens-60': ['mens-50', 'mens-overall'],
+  'mens-50': ['mens-overall'],
+  'womens-60': ['womens-50', 'womens-overall'],
+  'womens-50': ['womens-overall'],
+};
+
+// Build a reverse lookup: player name → set of category slugs (with cascading applied)
 function buildPlayerCategoryMap(): Map<string, Set<string>> {
   const map = new Map<string, Set<string>>();
   for (const [slug, names] of Object.entries(categories)) {
+    const inherited = CASCADE[slug] ?? [];
     for (const name of names) {
       if (!map.has(name)) map.set(name, new Set());
-      map.get(name)!.add(slug);
+      const set = map.get(name)!;
+      set.add(slug);
+      for (const parent of inherited) set.add(parent);
     }
   }
   return map;
