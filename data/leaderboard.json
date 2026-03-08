@@ -1,0 +1,1946 @@
+{
+  "scrapedAt": "2026-03-08T23:03:39.679Z",
+  "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
+  "players": [
+    {
+      "name": "Paige Reque",
+      "points": 292
+    },
+    {
+      "name": "Kevin Reque",
+      "points": 210
+    },
+    {
+      "name": "Nick Borger",
+      "points": 175
+    },
+    {
+      "name": "Chase Blickhan",
+      "points": 171
+    },
+    {
+      "name": "Kayleigh Trokey",
+      "points": 164
+    },
+    {
+      "name": "Garrett Hallemeier",
+      "points": 155
+    },
+    {
+      "name": "Bryce Gamache",
+      "points": 142
+    },
+    {
+      "name": "Mary Kruse",
+      "points": 140
+    },
+    {
+      "name": "Jon Richert",
+      "points": 138
+    },
+    {
+      "name": "Jon Harris",
+      "points": 133
+    },
+    {
+      "name": "Brett Mell",
+      "points": 125
+    },
+    {
+      "name": "Carter Smith",
+      "points": 111
+    },
+    {
+      "name": "Mandy Windham",
+      "points": 105
+    },
+    {
+      "name": "Devory Newsome",
+      "points": 87
+    },
+    {
+      "name": "Kim Faron",
+      "points": 83
+    },
+    {
+      "name": "Linda Griesenauer",
+      "points": 82
+    },
+    {
+      "name": "Krissy Dickey",
+      "points": 80
+    },
+    {
+      "name": "Dee Eaton",
+      "points": 74
+    },
+    {
+      "name": "Carolyn Wilkinson",
+      "points": 71
+    },
+    {
+      "name": "Matt Stoddard",
+      "points": 71
+    },
+    {
+      "name": "Matt Landolt",
+      "points": 68
+    },
+    {
+      "name": "Jill Clark",
+      "points": 65
+    },
+    {
+      "name": "Kathy Allen",
+      "points": 64
+    },
+    {
+      "name": "Ann Wieman",
+      "points": 62
+    },
+    {
+      "name": "Carrie Blackburn",
+      "points": 62
+    },
+    {
+      "name": "Bryan Willey",
+      "points": 60
+    },
+    {
+      "name": "Jadon Wing",
+      "points": 60
+    },
+    {
+      "name": "John Paden",
+      "points": 60
+    },
+    {
+      "name": "Ricky Hasan",
+      "points": 58
+    },
+    {
+      "name": "Laura Friese",
+      "points": 55
+    },
+    {
+      "name": "Jessica Kelting",
+      "points": 52
+    },
+    {
+      "name": "Chuck Kuehl",
+      "points": 51
+    },
+    {
+      "name": "Preston Behlmann",
+      "points": 51
+    },
+    {
+      "name": "Sarah Bathe",
+      "points": 51
+    },
+    {
+      "name": "Brian Willey",
+      "points": 50
+    },
+    {
+      "name": "Claire Petersen",
+      "points": 50
+    },
+    {
+      "name": "Dina Dougherty",
+      "points": 50
+    },
+    {
+      "name": "Drew Koester",
+      "points": 50
+    },
+    {
+      "name": "Erin Goodwin",
+      "points": 50
+    },
+    {
+      "name": "Lauren Mangano",
+      "points": 50
+    },
+    {
+      "name": "Michela Rangel",
+      "points": 50
+    },
+    {
+      "name": "Libby Liston",
+      "points": 49
+    },
+    {
+      "name": "Mat Sevilla",
+      "points": 48
+    },
+    {
+      "name": "Amy Kreklow",
+      "points": 45
+    },
+    {
+      "name": "Bekah Ola",
+      "points": 45
+    },
+    {
+      "name": "Blake Huskey",
+      "points": 45
+    },
+    {
+      "name": "Colby Rinehart",
+      "points": 45
+    },
+    {
+      "name": "Derek Dallas",
+      "points": 45
+    },
+    {
+      "name": "Kyle Laramie",
+      "points": 45
+    },
+    {
+      "name": "Tobi Ola",
+      "points": 45
+    },
+    {
+      "name": "Missy Kirksey",
+      "points": 44
+    },
+    {
+      "name": "Sarah Hill",
+      "points": 42
+    },
+    {
+      "name": "Anne Dennison",
+      "points": 41
+    },
+    {
+      "name": "Amanda Burgesen",
+      "points": 40
+    },
+    {
+      "name": "Dani Roberts",
+      "points": 40
+    },
+    {
+      "name": "Brett Taylor",
+      "points": 39
+    },
+    {
+      "name": "Brooks Toth",
+      "points": 38
+    },
+    {
+      "name": "Denise Wunderlich",
+      "points": 38
+    },
+    {
+      "name": "Lotfi El-Haw",
+      "points": 38
+    },
+    {
+      "name": "Pamela Feeler",
+      "points": 35
+    },
+    {
+      "name": "Scott Maschmann",
+      "points": 35
+    },
+    {
+      "name": "Dawn Tegeler",
+      "points": 32
+    },
+    {
+      "name": "Jennifer Tillman",
+      "points": 31
+    },
+    {
+      "name": "Amy Smith",
+      "points": 30
+    },
+    {
+      "name": "Eduardo Gomez",
+      "points": 30
+    },
+    {
+      "name": "Keith Fletcher",
+      "points": 30
+    },
+    {
+      "name": "Kelly Richert",
+      "points": 30
+    },
+    {
+      "name": "Shayna Whitaker",
+      "points": 30
+    },
+    {
+      "name": "Sierra Braun",
+      "points": 30
+    },
+    {
+      "name": "Tara Fesser",
+      "points": 30
+    },
+    {
+      "name": "Logan Boyher",
+      "points": 28
+    },
+    {
+      "name": "Matthew Hultman",
+      "points": 28
+    },
+    {
+      "name": "Sean Liston",
+      "points": 28
+    },
+    {
+      "name": "Lisa Havens",
+      "points": 27
+    },
+    {
+      "name": "Andrew Chekadanov",
+      "points": 25
+    },
+    {
+      "name": "Gino D\"Alessio",
+      "points": 25
+    },
+    {
+      "name": "Mark Wong",
+      "points": 25
+    },
+    {
+      "name": "Marsala Haave",
+      "points": 25
+    },
+    {
+      "name": "Max Ruvinov",
+      "points": 25
+    },
+    {
+      "name": "Brian Romine",
+      "points": 24
+    },
+    {
+      "name": "Diane McCane",
+      "points": 23
+    },
+    {
+      "name": "Tina Ingrim",
+      "points": 23
+    },
+    {
+      "name": "Whitney Durham",
+      "points": 23
+    },
+    {
+      "name": "Caleb Fall",
+      "points": 20
+    },
+    {
+      "name": "Derick Lopez",
+      "points": 20
+    },
+    {
+      "name": "Mary Graves",
+      "points": 20
+    },
+    {
+      "name": "Sonya Diel",
+      "points": 20
+    },
+    {
+      "name": "Matt Fleming",
+      "points": 19
+    },
+    {
+      "name": "Becca Hawkins",
+      "points": 17
+    },
+    {
+      "name": "Sherry Allen",
+      "points": 17
+    },
+    {
+      "name": "Mike Berry",
+      "points": 16
+    },
+    {
+      "name": "Tracie Heck",
+      "points": 16
+    },
+    {
+      "name": "Adam Witzig",
+      "points": 15
+    },
+    {
+      "name": "Dave Kreklow",
+      "points": 15
+    },
+    {
+      "name": "Joe Bacon",
+      "points": 15
+    },
+    {
+      "name": "John Cometa",
+      "points": 15
+    },
+    {
+      "name": "Kat Roesnberger",
+      "points": 15
+    },
+    {
+      "name": "Kenny Higgins",
+      "points": 15
+    },
+    {
+      "name": "Nathan Dallas",
+      "points": 15
+    },
+    {
+      "name": "Shelby Namen",
+      "points": 15
+    },
+    {
+      "name": "Tim Witzig",
+      "points": 15
+    },
+    {
+      "name": "Kristie Reidelberger",
+      "points": 14
+    },
+    {
+      "name": "Sarah Kaiser",
+      "points": 14
+    },
+    {
+      "name": "Jenny Zingg",
+      "points": 12
+    },
+    {
+      "name": "Nancy Provin",
+      "points": 12
+    },
+    {
+      "name": "Victoria Wheeler",
+      "points": 12
+    },
+    {
+      "name": "Cheryl Dubois",
+      "points": 11
+    },
+    {
+      "name": "Alayna Hosna",
+      "points": 10
+    },
+    {
+      "name": "Amy Holtrop",
+      "points": 10
+    },
+    {
+      "name": "Bradley Donley",
+      "points": 10
+    },
+    {
+      "name": "Brett Zimmer",
+      "points": 10
+    },
+    {
+      "name": "Carissa Roller",
+      "points": 10
+    },
+    {
+      "name": "Chris Miles",
+      "points": 10
+    },
+    {
+      "name": "Evan Price",
+      "points": 10
+    },
+    {
+      "name": "Jennifer Disko",
+      "points": 10
+    },
+    {
+      "name": "Jennifer Duong",
+      "points": 10
+    },
+    {
+      "name": "Logan Justice",
+      "points": 10
+    },
+    {
+      "name": "Mary Ann Hollander",
+      "points": 10
+    },
+    {
+      "name": "Matt Jansen",
+      "points": 10
+    },
+    {
+      "name": "Preston Langlois",
+      "points": 10
+    },
+    {
+      "name": "Ryan Niedermayer",
+      "points": 10
+    },
+    {
+      "name": "Ryan Rizzo",
+      "points": 10
+    },
+    {
+      "name": "Shiva Garimella",
+      "points": 10
+    },
+    {
+      "name": "Shu Zhang",
+      "points": 10
+    },
+    {
+      "name": "Terry Allan",
+      "points": 10
+    },
+    {
+      "name": "Angela Lamb",
+      "points": 9
+    },
+    {
+      "name": "Lori Schneider",
+      "points": 9
+    },
+    {
+      "name": "Brandi Hallemeier",
+      "points": 8
+    },
+    {
+      "name": "Marie Jenkins",
+      "points": 8
+    },
+    {
+      "name": "Shaun Schnurbusch",
+      "points": 8
+    },
+    {
+      "name": "Alison Barnes",
+      "points": 7
+    },
+    {
+      "name": "Stacey Forshee",
+      "points": 6
+    },
+    {
+      "name": "Barry Zhang",
+      "points": 5
+    },
+    {
+      "name": "Cody Voney",
+      "points": 5
+    },
+    {
+      "name": "Flor DeLuca",
+      "points": 5
+    },
+    {
+      "name": "Justin Xu",
+      "points": 5
+    },
+    {
+      "name": "Kyle Pingsterhaus",
+      "points": 5
+    },
+    {
+      "name": "Lindsay Anderson",
+      "points": 5
+    },
+    {
+      "name": "Rachel Loeb",
+      "points": 5
+    },
+    {
+      "name": "Trevor Malone",
+      "points": 5
+    },
+    {
+      "name": "Tye Malone",
+      "points": 5
+    },
+    {
+      "name": "Gregg Gevers",
+      "points": 4
+    },
+    {
+      "name": "Katie Zingg",
+      "points": 4
+    },
+    {
+      "name": "Matthew Trokey",
+      "points": 4
+    },
+    {
+      "name": "Noal Presley",
+      "points": 4
+    },
+    {
+      "name": "Robyn Jones",
+      "points": 4
+    },
+    {
+      "name": "Cole Gorman",
+      "points": 3
+    },
+    {
+      "name": "Ken Trokey",
+      "points": 3
+    },
+    {
+      "name": "Lisa Debo",
+      "points": 3
+    },
+    {
+      "name": "Orlando Paez",
+      "points": 3
+    },
+    {
+      "name": "Damian Fay",
+      "points": 2
+    },
+    {
+      "name": "Kelly Pfeiffer",
+      "points": 2
+    },
+    {
+      "name": "Kevin Roach",
+      "points": 2
+    },
+    {
+      "name": "Michelle Burns",
+      "points": 2
+    },
+    {
+      "name": "John Tuason",
+      "points": 1
+    },
+    {
+      "name": "Joyce Pratt",
+      "points": 1
+    },
+    {
+      "name": "Ryan Groeller",
+      "points": 1
+    },
+    {
+      "name": "Alex Hoffmeister",
+      "points": 0
+    },
+    {
+      "name": "Alex Roth",
+      "points": 0
+    },
+    {
+      "name": "Allen Bradley",
+      "points": 0
+    },
+    {
+      "name": "Amy Roberson",
+      "points": 0
+    },
+    {
+      "name": "Andrew Lanson",
+      "points": 0
+    },
+    {
+      "name": "Andrew Urshan",
+      "points": 0
+    },
+    {
+      "name": "Andy Blickhan",
+      "points": 0
+    },
+    {
+      "name": "Anna Dornquast",
+      "points": 0
+    },
+    {
+      "name": "Anna Girdwood",
+      "points": 0
+    },
+    {
+      "name": "Austin Lin",
+      "points": 0
+    },
+    {
+      "name": "Belinda Reany",
+      "points": 0
+    },
+    {
+      "name": "Betty Baggett",
+      "points": 0
+    },
+    {
+      "name": "Blaine Armbruster",
+      "points": 0
+    },
+    {
+      "name": "Blake Klostermann",
+      "points": 0
+    },
+    {
+      "name": "Blakely Mayhall",
+      "points": 0
+    },
+    {
+      "name": "Bo Williams",
+      "points": 0
+    },
+    {
+      "name": "Brad Hoekenga",
+      "points": 0
+    },
+    {
+      "name": "Brenda Alexander",
+      "points": 0
+    },
+    {
+      "name": "Brennen Nabholz",
+      "points": 0
+    },
+    {
+      "name": "Brent Fridley",
+      "points": 0
+    },
+    {
+      "name": "Brett Eckman",
+      "points": 0
+    },
+    {
+      "name": "Brian Garner",
+      "points": 0
+    },
+    {
+      "name": "Brian Hennessy",
+      "points": 0
+    },
+    {
+      "name": "Brian Jenkins",
+      "points": 0
+    },
+    {
+      "name": "Brian Landry",
+      "points": 0
+    },
+    {
+      "name": "Brittney Rufkahr",
+      "points": 0
+    },
+    {
+      "name": "Caleb Boudinot",
+      "points": 0
+    },
+    {
+      "name": "Carl Daffron",
+      "points": 0
+    },
+    {
+      "name": "Carrie Litz",
+      "points": 0
+    },
+    {
+      "name": "Carrie Medelman",
+      "points": 0
+    },
+    {
+      "name": "Casey Morrison",
+      "points": 0
+    },
+    {
+      "name": "Chad Banks",
+      "points": 0
+    },
+    {
+      "name": "Chance Lyell",
+      "points": 0
+    },
+    {
+      "name": "Chris Barth",
+      "points": 0
+    },
+    {
+      "name": "Chris Bodmer",
+      "points": 0
+    },
+    {
+      "name": "Chris Bullock",
+      "points": 0
+    },
+    {
+      "name": "Chris Doss",
+      "points": 0
+    },
+    {
+      "name": "Chris Goff",
+      "points": 0
+    },
+    {
+      "name": "Chris Guccione",
+      "points": 0
+    },
+    {
+      "name": "Chris Hawkins",
+      "points": 0
+    },
+    {
+      "name": "Chris Lofgren",
+      "points": 0
+    },
+    {
+      "name": "Chris Morgan",
+      "points": 0
+    },
+    {
+      "name": "Chris Swenson",
+      "points": 0
+    },
+    {
+      "name": "Chris Thompson",
+      "points": 0
+    },
+    {
+      "name": "Chris Thomson",
+      "points": 0
+    },
+    {
+      "name": "Christy Markovitz",
+      "points": 0
+    },
+    {
+      "name": "Chuck Josar",
+      "points": 0
+    },
+    {
+      "name": "Chuck Walker",
+      "points": 0
+    },
+    {
+      "name": "Cindy Cheely",
+      "points": 0
+    },
+    {
+      "name": "Cindy Hickman",
+      "points": 0
+    },
+    {
+      "name": "Claire Barnard",
+      "points": 0
+    },
+    {
+      "name": "Clayton Richey",
+      "points": 0
+    },
+    {
+      "name": "Colette Wilhelm",
+      "points": 0
+    },
+    {
+      "name": "Collin Turnbeaugh",
+      "points": 0
+    },
+    {
+      "name": "Connor White",
+      "points": 0
+    },
+    {
+      "name": "Craig Sims",
+      "points": 0
+    },
+    {
+      "name": "Cristin Ziegler",
+      "points": 0
+    },
+    {
+      "name": "Crystal Harriss",
+      "points": 0
+    },
+    {
+      "name": "Curtis Rogers",
+      "points": 0
+    },
+    {
+      "name": "Dan Keylon",
+      "points": 0
+    },
+    {
+      "name": "Dan Kruse",
+      "points": 0
+    },
+    {
+      "name": "Dan Langford",
+      "points": 0
+    },
+    {
+      "name": "Dan Merrifield",
+      "points": 0
+    },
+    {
+      "name": "Dan Salter",
+      "points": 0
+    },
+    {
+      "name": "Dan Serbin",
+      "points": 0
+    },
+    {
+      "name": "Dan Toohey",
+      "points": 0
+    },
+    {
+      "name": "Dana Liberton",
+      "points": 0
+    },
+    {
+      "name": "Danielle Roberts",
+      "points": 0
+    },
+    {
+      "name": "Danny Raney",
+      "points": 0
+    },
+    {
+      "name": "Dave Marty",
+      "points": 0
+    },
+    {
+      "name": "Dave Stiedemann",
+      "points": 0
+    },
+    {
+      "name": "David Anderson",
+      "points": 0
+    },
+    {
+      "name": "Dean Kelly",
+      "points": 0
+    },
+    {
+      "name": "Deb Petty",
+      "points": 0
+    },
+    {
+      "name": "Debbie Keathley",
+      "points": 0
+    },
+    {
+      "name": "Debbie Knowlton",
+      "points": 0
+    },
+    {
+      "name": "Debbie Teson",
+      "points": 0
+    },
+    {
+      "name": "Deeni Alexander",
+      "points": 0
+    },
+    {
+      "name": "Dennis Muesig",
+      "points": 0
+    },
+    {
+      "name": "Derek Lopez",
+      "points": 0
+    },
+    {
+      "name": "Derek Schaub",
+      "points": 0
+    },
+    {
+      "name": "Devin Hori",
+      "points": 0
+    },
+    {
+      "name": "Devon Woody",
+      "points": 0
+    },
+    {
+      "name": "Diana Amann",
+      "points": 0
+    },
+    {
+      "name": "Diego Ramirez",
+      "points": 0
+    },
+    {
+      "name": "Douglas Griesenauer",
+      "points": 0
+    },
+    {
+      "name": "Drew Tustin",
+      "points": 0
+    },
+    {
+      "name": "Duane Muntzing",
+      "points": 0
+    },
+    {
+      "name": "Ed Campbell",
+      "points": 0
+    },
+    {
+      "name": "Ed Howell",
+      "points": 0
+    },
+    {
+      "name": "Edgar Nelson",
+      "points": 0
+    },
+    {
+      "name": "Elaine Powers",
+      "points": 0
+    },
+    {
+      "name": "Elisa Stiers",
+      "points": 0
+    },
+    {
+      "name": "Elizabeth Dahle",
+      "points": 0
+    },
+    {
+      "name": "Elizabeth McGowan",
+      "points": 0
+    },
+    {
+      "name": "Emily Kosztowny",
+      "points": 0
+    },
+    {
+      "name": "Eric Bain",
+      "points": 0
+    },
+    {
+      "name": "Eric Kappelmann",
+      "points": 0
+    },
+    {
+      "name": "Eric Rose",
+      "points": 0
+    },
+    {
+      "name": "Erin Smith",
+      "points": 0
+    },
+    {
+      "name": "Evan Roller",
+      "points": 0
+    },
+    {
+      "name": "Fernando Molina",
+      "points": 0
+    },
+    {
+      "name": "Frank Fanizza",
+      "points": 0
+    },
+    {
+      "name": "Garret Smugala",
+      "points": 0
+    },
+    {
+      "name": "Garrett Moore",
+      "points": 0
+    },
+    {
+      "name": "Garrett Smugala",
+      "points": 0
+    },
+    {
+      "name": "Gavin Ball",
+      "points": 0
+    },
+    {
+      "name": "Gene Markham",
+      "points": 0
+    },
+    {
+      "name": "Geoff Hodgkins",
+      "points": 0
+    },
+    {
+      "name": "George Baker",
+      "points": 0
+    },
+    {
+      "name": "Gouse Ahamed Shaik",
+      "points": 0
+    },
+    {
+      "name": "Grace Gevers",
+      "points": 0
+    },
+    {
+      "name": "Greg Benenati",
+      "points": 0
+    },
+    {
+      "name": "Greg Langston",
+      "points": 0
+    },
+    {
+      "name": "Greg Ott",
+      "points": 0
+    },
+    {
+      "name": "HarryWallace",
+      "points": 0
+    },
+    {
+      "name": "Haruko Senseney",
+      "points": 0
+    },
+    {
+      "name": "Heather Borman",
+      "points": 0
+    },
+    {
+      "name": "Ian Barnard",
+      "points": 0
+    },
+    {
+      "name": "Isaiah Wing",
+      "points": 0
+    },
+    {
+      "name": "Jacqueline Ball",
+      "points": 0
+    },
+    {
+      "name": "Jake Haltiner",
+      "points": 0
+    },
+    {
+      "name": "James Denniger",
+      "points": 0
+    },
+    {
+      "name": "James Seidel",
+      "points": 0
+    },
+    {
+      "name": "Jan Anderson",
+      "points": 0
+    },
+    {
+      "name": "Janelle Higggins",
+      "points": 0
+    },
+    {
+      "name": "Janet Eubanks",
+      "points": 0
+    },
+    {
+      "name": "Janice Bolton",
+      "points": 0
+    },
+    {
+      "name": "Jarrod Penrod",
+      "points": 0
+    },
+    {
+      "name": "Jason Disko",
+      "points": 0
+    },
+    {
+      "name": "Jason Dude",
+      "points": 0
+    },
+    {
+      "name": "Jason Jones",
+      "points": 0
+    },
+    {
+      "name": "Jason Kaus",
+      "points": 0
+    },
+    {
+      "name": "Jason Rule",
+      "points": 0
+    },
+    {
+      "name": "Jason Schneider",
+      "points": 0
+    },
+    {
+      "name": "Jay Blanquart",
+      "points": 0
+    },
+    {
+      "name": "Jeff Bee",
+      "points": 0
+    },
+    {
+      "name": "Jeff Mauser",
+      "points": 0
+    },
+    {
+      "name": "Jeff Metherd",
+      "points": 0
+    },
+    {
+      "name": "Jeffrey Long",
+      "points": 0
+    },
+    {
+      "name": "Jeffrey Schorsch",
+      "points": 0
+    },
+    {
+      "name": "Jeffro Carrico",
+      "points": 0
+    },
+    {
+      "name": "Jenn Doering",
+      "points": 0
+    },
+    {
+      "name": "Jenn Kelley",
+      "points": 0
+    },
+    {
+      "name": "Jenny Lee",
+      "points": 0
+    },
+    {
+      "name": "Jenny Rogers",
+      "points": 0
+    },
+    {
+      "name": "Jeremy Rose",
+      "points": 0
+    },
+    {
+      "name": "Jessica Schroeder",
+      "points": 0
+    },
+    {
+      "name": "Jim Denniger",
+      "points": 0
+    },
+    {
+      "name": "Jim Rable",
+      "points": 0
+    },
+    {
+      "name": "Jo Rushing",
+      "points": 0
+    },
+    {
+      "name": "Jodi Kruse",
+      "points": 0
+    },
+    {
+      "name": "Joe Henthorn",
+      "points": 0
+    },
+    {
+      "name": "Joe Segneri",
+      "points": 0
+    },
+    {
+      "name": "Joe Sigman",
+      "points": 0
+    },
+    {
+      "name": "Joel Reed",
+      "points": 0
+    },
+    {
+      "name": "John Church",
+      "points": 0
+    },
+    {
+      "name": "John Creason",
+      "points": 0
+    },
+    {
+      "name": "John Finnegan",
+      "points": 0
+    },
+    {
+      "name": "John Fogerty",
+      "points": 0
+    },
+    {
+      "name": "John Harte",
+      "points": 0
+    },
+    {
+      "name": "John O'Keefe",
+      "points": 0
+    },
+    {
+      "name": "Johnny Truong",
+      "points": 0
+    },
+    {
+      "name": "Jon Manocchio",
+      "points": 0
+    },
+    {
+      "name": "Jon Pisoni",
+      "points": 0
+    },
+    {
+      "name": "Jon Pittner",
+      "points": 0
+    },
+    {
+      "name": "Jon Travetto",
+      "points": 0
+    },
+    {
+      "name": "Jonathan Ly",
+      "points": 0
+    },
+    {
+      "name": "Jonathan Pittner",
+      "points": 0
+    },
+    {
+      "name": "Jonnell Patton",
+      "points": 0
+    },
+    {
+      "name": "Jordan Benoist",
+      "points": 0
+    },
+    {
+      "name": "Josh Feather",
+      "points": 0
+    },
+    {
+      "name": "Josh Link",
+      "points": 0
+    },
+    {
+      "name": "Josiah Bradford",
+      "points": 0
+    },
+    {
+      "name": "Josiah Marzano",
+      "points": 0
+    },
+    {
+      "name": "Karen Hill",
+      "points": 0
+    },
+    {
+      "name": "Karen Young",
+      "points": 0
+    },
+    {
+      "name": "Karlie Bizelli",
+      "points": 0
+    },
+    {
+      "name": "Kasandra Gehrke",
+      "points": 0
+    },
+    {
+      "name": "Kate Rable",
+      "points": 0
+    },
+    {
+      "name": "Kathy McMahill",
+      "points": 0
+    },
+    {
+      "name": "Kelly Roller",
+      "points": 0
+    },
+    {
+      "name": "Kelsey Glassmaker",
+      "points": 0
+    },
+    {
+      "name": "Kevin Ashley",
+      "points": 0
+    },
+    {
+      "name": "Kevin Folkl",
+      "points": 0
+    },
+    {
+      "name": "Kevin Hennessy",
+      "points": 0
+    },
+    {
+      "name": "Kevin Markovitz",
+      "points": 0
+    },
+    {
+      "name": "Kim Lake",
+      "points": 0
+    },
+    {
+      "name": "Kim Penrod",
+      "points": 0
+    },
+    {
+      "name": "Kim Sparkman",
+      "points": 0
+    },
+    {
+      "name": "Kimberly Lake",
+      "points": 0
+    },
+    {
+      "name": "Kimberly Smith",
+      "points": 0
+    },
+    {
+      "name": "Kirk Schaaf",
+      "points": 0
+    },
+    {
+      "name": "Kom Divanbeigi",
+      "points": 0
+    },
+    {
+      "name": "Kristen Roberts",
+      "points": 0
+    },
+    {
+      "name": "Kristie Rosenberger",
+      "points": 0
+    },
+    {
+      "name": "Kurt Schneider",
+      "points": 0
+    },
+    {
+      "name": "Kyle Gottuso",
+      "points": 0
+    },
+    {
+      "name": "Kyle Weaver",
+      "points": 0
+    },
+    {
+      "name": "Kylie Faron",
+      "points": 0
+    },
+    {
+      "name": "Larry Laramie",
+      "points": 0
+    },
+    {
+      "name": "Larry Wilhelm",
+      "points": 0
+    },
+    {
+      "name": "Laura Fletcher",
+      "points": 0
+    },
+    {
+      "name": "Laura Link",
+      "points": 0
+    },
+    {
+      "name": "Laura Miles",
+      "points": 0
+    },
+    {
+      "name": "Laura Swindler",
+      "points": 0
+    },
+    {
+      "name": "Lawrence Wang",
+      "points": 0
+    },
+    {
+      "name": "Leann Davenport",
+      "points": 0
+    },
+    {
+      "name": "Lilly Grelle",
+      "points": 0
+    },
+    {
+      "name": "Lisa Lucido",
+      "points": 0
+    },
+    {
+      "name": "Liz Stefl",
+      "points": 0
+    },
+    {
+      "name": "Lola Vaughan",
+      "points": 0
+    },
+    {
+      "name": "Lonnie Neckermann",
+      "points": 0
+    },
+    {
+      "name": "Lori Gibson",
+      "points": 0
+    },
+    {
+      "name": "Louis Wallace",
+      "points": 0
+    },
+    {
+      "name": "Maggie Corrigan",
+      "points": 0
+    },
+    {
+      "name": "Malcolm Keegan",
+      "points": 0
+    },
+    {
+      "name": "Marcus Dinora",
+      "points": 0
+    },
+    {
+      "name": "Marian Mitchell",
+      "points": 0
+    },
+    {
+      "name": "Mariana Ahring",
+      "points": 0
+    },
+    {
+      "name": "Marianna Justice",
+      "points": 0
+    },
+    {
+      "name": "Mark Swan",
+      "points": 0
+    },
+    {
+      "name": "Martha Davis-Goldstein",
+      "points": 0
+    },
+    {
+      "name": "Mary Finkes",
+      "points": 0
+    },
+    {
+      "name": "Mary Perkins",
+      "points": 0
+    },
+    {
+      "name": "Mary Swenson",
+      "points": 0
+    },
+    {
+      "name": "Mason Tolle",
+      "points": 0
+    },
+    {
+      "name": "Matt Benoist",
+      "points": 0
+    },
+    {
+      "name": "Matt Bischof",
+      "points": 0
+    },
+    {
+      "name": "Matt Bremer",
+      "points": 0
+    },
+    {
+      "name": "Matt Goodwin",
+      "points": 0
+    },
+    {
+      "name": "Matt Menendez",
+      "points": 0
+    },
+    {
+      "name": "Matt Morgan",
+      "points": 0
+    },
+    {
+      "name": "Matt Penberthy",
+      "points": 0
+    },
+    {
+      "name": "Matthew Jansen",
+      "points": 0
+    },
+    {
+      "name": "Matthew Manhart",
+      "points": 0
+    },
+    {
+      "name": "Melissa Armbruster",
+      "points": 0
+    },
+    {
+      "name": "Melissa Curley",
+      "points": 0
+    },
+    {
+      "name": "Michael Beavers",
+      "points": 0
+    },
+    {
+      "name": "Michael Coates",
+      "points": 0
+    },
+    {
+      "name": "Michael Rieck",
+      "points": 0
+    },
+    {
+      "name": "Michael Scharf",
+      "points": 0
+    },
+    {
+      "name": "Michelle Beattie",
+      "points": 0
+    },
+    {
+      "name": "Michelle Bess",
+      "points": 0
+    },
+    {
+      "name": "Michelle Switzer",
+      "points": 0
+    },
+    {
+      "name": "Michelle Woods",
+      "points": 0
+    },
+    {
+      "name": "Mike Bunch",
+      "points": 0
+    },
+    {
+      "name": "Mike Gourley",
+      "points": 0
+    },
+    {
+      "name": "Mike Murphy",
+      "points": 0
+    },
+    {
+      "name": "Mike Owen",
+      "points": 0
+    },
+    {
+      "name": "Mike Rivolta",
+      "points": 0
+    },
+    {
+      "name": "Mike Williams",
+      "points": 0
+    },
+    {
+      "name": "Mimi Holder",
+      "points": 0
+    },
+    {
+      "name": "Mitchell Stille",
+      "points": 0
+    },
+    {
+      "name": "Monika Ray",
+      "points": 0
+    },
+    {
+      "name": "Nancy Fezzi",
+      "points": 0
+    },
+    {
+      "name": "Natalie Stagoski",
+      "points": 0
+    },
+    {
+      "name": "Neil Scognamiglio",
+      "points": 0
+    },
+    {
+      "name": "Niall Torricelli",
+      "points": 0
+    },
+    {
+      "name": "Nick Breeding",
+      "points": 0
+    },
+    {
+      "name": "Nick Brown",
+      "points": 0
+    },
+    {
+      "name": "Nick Parry",
+      "points": 0
+    },
+    {
+      "name": "Nick Rangel",
+      "points": 0
+    },
+    {
+      "name": "Nicole Rosner",
+      "points": 0
+    },
+    {
+      "name": "Otto Etzel",
+      "points": 0
+    },
+    {
+      "name": "Owen Miller",
+      "points": 0
+    },
+    {
+      "name": "Parker Maue",
+      "points": 0
+    },
+    {
+      "name": "Pat Alexander",
+      "points": 0
+    },
+    {
+      "name": "Patricia Rule",
+      "points": 0
+    },
+    {
+      "name": "Patty Nelson",
+      "points": 0
+    },
+    {
+      "name": "Paul Kirksey",
+      "points": 0
+    },
+    {
+      "name": "Pei-Yu Lai",
+      "points": 0
+    },
+    {
+      "name": "Peter Thorn",
+      "points": 0
+    },
+    {
+      "name": "Rachel Krieb",
+      "points": 0
+    },
+    {
+      "name": "Rachel Laramie",
+      "points": 0
+    },
+    {
+      "name": "Rachel Martin",
+      "points": 0
+    },
+    {
+      "name": "Ramakrishna Korrapati",
+      "points": 0
+    },
+    {
+      "name": "Randy Penberthy",
+      "points": 0
+    },
+    {
+      "name": "Ray Howard",
+      "points": 0
+    },
+    {
+      "name": "Renessa Drainer",
+      "points": 0
+    },
+    {
+      "name": "Rich Perkins",
+      "points": 0
+    },
+    {
+      "name": "Robert Billing",
+      "points": 0
+    },
+    {
+      "name": "Robert Harper",
+      "points": 0
+    },
+    {
+      "name": "Robert Willard",
+      "points": 0
+    },
+    {
+      "name": "Robyn Gevers",
+      "points": 0
+    },
+    {
+      "name": "Roxanne Hutson",
+      "points": 0
+    },
+    {
+      "name": "Ruko Senseney",
+      "points": 0
+    },
+    {
+      "name": "Ryan Anderson",
+      "points": 0
+    },
+    {
+      "name": "Ryan Brecken",
+      "points": 0
+    },
+    {
+      "name": "Ryan Daffron",
+      "points": 0
+    },
+    {
+      "name": "Ryan Iffrig",
+      "points": 0
+    },
+    {
+      "name": "Ryan Murphy",
+      "points": 0
+    },
+    {
+      "name": "Sam Arcobasso",
+      "points": 0
+    },
+    {
+      "name": "Sam Ray",
+      "points": 0
+    },
+    {
+      "name": "Sandra Brinker",
+      "points": 0
+    },
+    {
+      "name": "Sandra Gauding",
+      "points": 0
+    },
+    {
+      "name": "Sara Donley",
+      "points": 0
+    },
+    {
+      "name": "Sarah Downey",
+      "points": 0
+    },
+    {
+      "name": "Scott Ratliff",
+      "points": 0
+    },
+    {
+      "name": "Sean Mahon",
+      "points": 0
+    },
+    {
+      "name": "Seymour Mitchell",
+      "points": 0
+    },
+    {
+      "name": "Shawn Bowers",
+      "points": 0
+    },
+    {
+      "name": "Shawn Doane",
+      "points": 0
+    },
+    {
+      "name": "Sohini Sengupta",
+      "points": 0
+    },
+    {
+      "name": "Stephen Benedict",
+      "points": 0
+    },
+    {
+      "name": "Stephen Martines",
+      "points": 0
+    },
+    {
+      "name": "Steve Dubois",
+      "points": 0
+    },
+    {
+      "name": "Steve Opfer",
+      "points": 0
+    },
+    {
+      "name": "Steve Randazzo",
+      "points": 0
+    },
+    {
+      "name": "Steve Teson",
+      "points": 0
+    },
+    {
+      "name": "Steve Thompson",
+      "points": 0
+    },
+    {
+      "name": "Suzanne Fillion",
+      "points": 0
+    },
+    {
+      "name": "Taylor Prevette",
+      "points": 0
+    },
+    {
+      "name": "Tim Donovan",
+      "points": 0
+    },
+    {
+      "name": "Tim Goble",
+      "points": 0
+    },
+    {
+      "name": "Tim Howell",
+      "points": 0
+    },
+    {
+      "name": "Tim Lake",
+      "points": 0
+    },
+    {
+      "name": "Tim Stiers",
+      "points": 0
+    },
+    {
+      "name": "TJ Slattery",
+      "points": 0
+    },
+    {
+      "name": "Todd Penrod",
+      "points": 0
+    },
+    {
+      "name": "Todd Wahl",
+      "points": 0
+    },
+    {
+      "name": "Tom Obremski",
+      "points": 0
+    },
+    {
+      "name": "Trevor Wolfe",
+      "points": 0
+    },
+    {
+      "name": "Tyler Benoist",
+      "points": 0
+    },
+    {
+      "name": "Wayne Brinker",
+      "points": 0
+    },
+    {
+      "name": "Wes Woods",
+      "points": 0
+    },
+    {
+      "name": "Yuriy Frolov",
+      "points": 0
+    },
+    {
+      "name": "Zac Kosztowny",
+      "points": 0
+    }
+  ]
+}
