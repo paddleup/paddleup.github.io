@@ -1,50 +1,88 @@
-import { useMemo } from 'react';
-import { usePlayers, useEvents } from './firestoreHooks';
-import { monthKey } from '../lib/dateUtils';
-import { aggregateStatsFromEvents } from '../lib/standings';
-import { rankItems } from '../lib/utils';
+import { useState, useEffect } from 'react';
+import categoryData from '../data/categories.json';
 
-export const useLeaderboard = (selection: 'all' | string = 'all') => {
-  const { data: players = [] } = usePlayers();
-  const { data: events = [] } = useEvents();
+export interface Player {
+  name: string;
+  points: number;
+}
 
-  return useMemo(() => {
-    // 1. Filter events based on selection (all or specific month)
-    const filtered = events.filter((ev) => {
-      // Only events with standings
-      const hasStandings = Array.isArray(ev.standings) && ev.standings.length > 0;
-      if (!hasStandings) return false;
+export interface LeaderboardData {
+  scrapedAt: string;
+  source: string;
+  players: Player[];
+}
 
-      if (selection === 'all') return true;
-      return monthKey(ev.startDateTime) === selection;
+export type CategorySlug =
+  | 'mens-overall'
+  | 'womens-overall'
+  | 'mens-50'
+  | 'womens-50'
+  | 'mens-60'
+  | 'womens-60';
+
+export interface Category {
+  slug: CategorySlug;
+  label: string;
+}
+
+export const CATEGORIES: Category[] = [
+  { slug: 'mens-overall', label: "Men's Overall" },
+  { slug: 'womens-overall', label: "Women's Overall" },
+  { slug: 'mens-50', label: "Men's 50+" },
+  { slug: 'womens-50', label: "Women's 50+" },
+  { slug: 'mens-60', label: "Men's 60+" },
+  { slug: 'womens-60', label: "Women's 60+" },
+];
+
+const categories = categoryData as Record<string, string[]>;
+
+// Build a reverse lookup: player name → set of category slugs
+function buildPlayerCategoryMap(): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>();
+  for (const [slug, names] of Object.entries(categories)) {
+    for (const name of names) {
+      if (!map.has(name)) map.set(name, new Set());
+      map.get(name)!.add(slug);
+    }
+  }
+  return map;
+}
+
+const playerCategoryMap = buildPlayerCategoryMap();
+
+export function useLeaderboard() {
+  const [data, setData] = useState<LeaderboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}data/leaderboard.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json: LeaderboardData) => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  function getPlayersForCategory(slug: CategorySlug): Player[] {
+    if (!data) return [];
+    return data.players.filter((p) => {
+      const cats = playerCategoryMap.get(p.name);
+      return cats?.has(slug);
     });
+  }
 
-    // 2. Aggregate stats
-    const agg = aggregateStatsFromEvents(filtered);
+  function getLeader(slug: CategorySlug): Player | null {
+    const players = getPlayersForCategory(slug);
+    return players[0] ?? null;
+  }
 
-    // 3. Convert to array and sort
-    const rows = Array.from(agg.entries()).map(([playerId, v]) => ({
-      playerId,
-      points: v.points,
-      eventsPlayed: v.events,
-      champWins: v.champWins,
-    }));
-
-    rows.sort((a, b) => b.points - a.points);
-
-    // 4. Assign ranks
-    const rankedRows = rankItems(rows, (r) => r.points);
-
-    // 5. Merge with player details
-    return rankedRows.map((r) => {
-      const p = players.find((pl) => pl.id === r.playerId);
-      return {
-        ...r,
-        name: p?.name || 'Unknown',
-        imageUrl: p?.imageUrl || '',
-        dupr: p?.dupr,
-        id: r.playerId,
-      };
-    });
-  }, [events, players, selection]);
-};
+  return { data, loading, error, getPlayersForCategory, getLeader };
+}
