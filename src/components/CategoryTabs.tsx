@@ -1,6 +1,4 @@
-import { Crown } from 'lucide-react';
 import type { CategorySlug, Category } from '../hooks/useLeaderboard';
-import { useLeaderboard } from '../hooks/useLeaderboard';
 
 interface CategoryTabsProps {
   categories: Category[];
@@ -9,40 +7,26 @@ interface CategoryTabsProps {
 }
 
 export default function CategoryTabs({ categories, selected, onSelect }: CategoryTabsProps) {
-  const { getLeader } = useLeaderboard();
-
   return (
-    <nav className="w-full overflow-x-auto scrollbar-hide py-2">
-      <div className="flex gap-2 md:gap-3 min-w-max px-4 md:px-0 md:justify-center">
+    <nav className="w-full overflow-x-auto scrollbar-hide">
+      <div className="flex gap-1 min-w-max px-4 md:px-0 md:justify-center border-b border-slate-200 dark:border-slate-700">
         {categories.map((cat) => {
           const isActive = cat.slug === selected;
-          const leader = getLeader(cat.slug);
-
           return (
             <button
               key={cat.slug}
               onClick={() => onSelect(cat.slug)}
               className={`
-                flex flex-col items-center px-4 py-2.5 rounded-xl text-sm font-medium
-                transition-all duration-200 whitespace-nowrap cursor-pointer
+                px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer
+                border-b-2 -mb-px
                 ${
                   isActive
-                    ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/25'
-                    : 'bg-slate-800/60 text-slate-300 border border-slate-700 hover:border-amber-500/50 hover:text-white'
+                    ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
                 }
               `}
             >
-              <span className="font-semibold">{cat.label}</span>
-              {leader && (
-                <span
-                  className={`text-xs mt-0.5 flex items-center gap-1 ${
-                    isActive ? 'text-slate-800' : 'text-slate-500'
-                  }`}
-                >
-                  <Crown className="w-3 h-3" />
-                  {leader.name}
-                </span>
-              )}
+              {cat.label}
             </button>
           );
         })}

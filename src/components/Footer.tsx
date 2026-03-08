@@ -14,7 +14,7 @@ export default function Footer({ scrapedAt }: FooterProps) {
     : null;
 
   return (
-    <footer className="mt-16 pb-8 text-center text-sm text-slate-500 space-y-1">
+    <footer className="mt-16 pb-8 text-center text-sm text-slate-400 dark:text-slate-500 space-y-1">
       {formatted && <p>Data updated: {formatted}</p>}
       <p>
         Data from{' '}
@@ -22,7 +22,7 @@ export default function Footer({ scrapedAt }: FooterProps) {
           href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-amber-500/70 hover:text-amber-400 underline underline-offset-2"
+          className="text-emerald-600 dark:text-emerald-400 hover:underline underline-offset-2"
         >
           QuickScores
         </a>
@@ -32,7 +32,7 @@ export default function Footer({ scrapedAt }: FooterProps) {
           href="https://www.paddleuppickleballclub.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-amber-500/70 hover:text-amber-400 underline underline-offset-2"
+          className="text-emerald-600 dark:text-emerald-400 hover:underline underline-offset-2"
         >
           paddleuppickleballclub.com
         </a>
