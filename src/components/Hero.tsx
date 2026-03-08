@@ -19,7 +19,7 @@ export default function Hero({ leader, categoryLabel }: HeroProps) {
     <section className="py-10 md:py-14 flex flex-col items-center justify-center text-center">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm px-8 py-8 md:px-12 md:py-10 max-w-md w-full">
         <div className="flex items-center justify-center gap-2 mb-1">
-          <Trophy className="w-5 h-5 text-emerald-500" />
+          <Trophy className="w-5 h-5 text-accent-500" />
           <span className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
             {categoryLabel}
           </span>
@@ -28,7 +28,7 @@ export default function Hero({ leader, categoryLabel }: HeroProps) {
           {leader.name}
         </h2>
         <div className="inline-flex items-baseline gap-1.5">
-          <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{leader.points}</span>
+          <span className="text-3xl font-bold text-accent-600 dark:text-accent-400">{leader.points}</span>
           <span className="text-sm text-slate-400 font-medium">pts</span>
         </div>
       </div>

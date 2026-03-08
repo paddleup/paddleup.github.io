@@ -21,7 +21,7 @@ export default function CategoryTabs({ categories, selected, onSelect }: Categor
                 border-b-2 -mb-px
                 ${
                   isActive
-                    ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                    ? 'border-accent-500 text-accent-600 dark:text-accent-400'
                     : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
                 }
               `}

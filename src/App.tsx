@@ -24,7 +24,7 @@ export default function App() {
             <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               Paddle Up Pickleball Club
             </h1>
-            <p className="text-emerald-600 dark:text-emerald-400 text-sm md:text-base font-medium">
+            <p className="text-accent-600 dark:text-accent-400 text-sm md:text-base font-medium">
               St. Louis Club Championship
             </p>
           </div>
@@ -35,7 +35,7 @@ export default function App() {
       <main className="max-w-4xl mx-auto px-4">
         {loading && (
           <div className="flex items-center justify-center py-32">
-            <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-accent-500 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
 

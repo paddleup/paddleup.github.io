@@ -49,7 +49,7 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
       </span>
 
       {/* Points */}
-      <span className={`text-right font-semibold ${isTop3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
+      <span className={`text-right font-semibold ${isTop3 ? 'text-accent-600 dark:text-accent-400' : 'text-slate-500 dark:text-slate-400'}`}>
         {player.points}
       </span>
     </div>

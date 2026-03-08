@@ -4,7 +4,7 @@ type Theme = 'system' | 'light' | 'dark';
 
 function getStoredTheme(): Theme {
   if (typeof window === 'undefined') return 'system';
-  return (localStorage.getItem('theme') as Theme) ?? 'system';
+  return (localStorage.getItem('theme') as Theme) ?? 'light';
 }
 
 function applyTheme(theme: Theme) {

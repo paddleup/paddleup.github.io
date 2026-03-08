@@ -6,10 +6,10 @@
   --color-gold: #FFD700;
   --color-silver: #A8A8A8;
   --color-bronze: #CD7F32;
-  --color-emerald-400: #34d399;
-  --color-emerald-500: #10b981;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
+  --color-accent-400: #3b82f6;
+  --color-accent-500: #0047a3;
+  --color-accent-600: #002659;
+  --color-accent-700: #001d45;
 }
 
 html {
