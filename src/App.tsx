@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLeaderboard, CATEGORIES } from './hooks/useLeaderboard';
 import type { CategorySlug } from './hooks/useLeaderboard';
-import Hero from './components/Hero';
 import CategoryTabs from './components/CategoryTabs';
 import LeaderboardTable from './components/LeaderboardTable';
 import Footer from './components/Footer';
@@ -9,11 +8,9 @@ import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
   const [selected, setSelected] = useState<CategorySlug>('overall');
-  const { data, loading, error, getPlayersForCategory, getLeader } = useLeaderboard();
+  const { data, loading, error, getPlayersForCategory } = useLeaderboard();
 
-  const currentCategory = CATEGORIES.find((c) => c.slug === selected)!;
   const players = getPlayersForCategory(selected);
-  const leader = getLeader(selected);
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
@@ -22,7 +19,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-4 py-4 md:py-5 flex items-center justify-between">
           <div>
             <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Paddle Up Pickleball Club
+              Paddle Up Club Leaderboard
             </h1>
             <p className="text-accent-600 dark:text-accent-400 text-sm md:text-base font-medium">
               St. Louis Club Championship
@@ -32,7 +29,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4">
+      <main className="max-w-4xl mx-auto px-4 pt-6">
         {loading && (
           <div className="flex items-center justify-center py-32">
             <div className="w-8 h-8 border-2 border-accent-500 border-t-transparent rounded-full animate-spin" />
@@ -48,8 +45,6 @@ export default function App() {
 
         {data && (
           <>
-            <Hero leader={leader} categoryLabel={currentCategory.label} />
-
             <div className="mb-8">
               <CategoryTabs
                 categories={CATEGORIES}
