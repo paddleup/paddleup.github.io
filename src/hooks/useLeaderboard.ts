@@ -13,6 +13,7 @@ export interface LeaderboardData {
 }
 
 export type CategorySlug =
+  | 'overall'
   | 'mens-overall'
   | 'womens-overall'
   | 'mens-50'
@@ -26,6 +27,7 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
+  { slug: 'overall', label: 'Overall' },
   { slug: 'mens-overall', label: "Men's Overall" },
   { slug: 'womens-overall', label: "Women's Overall" },
   { slug: 'mens-50', label: "Men's 50+" },
@@ -84,6 +86,7 @@ export function useLeaderboard() {
 
   function getPlayersForCategory(slug: CategorySlug): Player[] {
     if (!data) return [];
+    if (slug === 'overall') return data.players;
     return data.players.filter((p) => {
       const cats = playerCategoryMap.get(p.name);
       return cats?.has(slug);

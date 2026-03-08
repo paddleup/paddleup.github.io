@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
-  const [selected, setSelected] = useState<CategorySlug>('mens-overall');
+  const [selected, setSelected] = useState<CategorySlug>('overall');
   const { data, loading, error, getPlayersForCategory, getLeader } = useLeaderboard();
 
   const currentCategory = CATEGORIES.find((c) => c.slug === selected)!;
