@@ -40,26 +40,12 @@ function toSlug(gender: Gender, age: AgeGroup): CategorySlug {
   return `${gender}-${age}` as CategorySlug;
 }
 
-function segmentBtn(active: boolean, position: 'first' | 'middle' | 'last') {
-  const rounded =
-    position === 'first'
-      ? 'rounded-l-lg'
-      : position === 'last'
-        ? 'rounded-r-lg'
-        : '';
-  const border = position !== 'first' ? 'border-l border-slate-200 dark:border-slate-600' : '';
-
-  return `relative px-5 py-2 text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${rounded} ${border} ${
+function chip(active: boolean) {
+  return `px-6 py-2.5 text-base font-medium rounded-full transition-all cursor-pointer whitespace-nowrap border ${
     active
-      ? 'bg-accent-500 text-white shadow-sm z-10 border-transparent'
-      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+      ? 'bg-accent-500/15 text-accent-600 dark:text-accent-400 border-accent-500 dark:border-accent-400 shadow-sm'
+      : 'bg-transparent text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-300'
   }`;
-}
-
-function getPosition(index: number, total: number): 'first' | 'middle' | 'last' {
-  if (index === 0) return 'first';
-  if (index === total - 1) return 'last';
-  return 'middle';
 }
 
 export default function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
@@ -76,12 +62,12 @@ export default function CategoryFilter({ selected, onSelect }: CategoryFilterPro
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Gender selector */}
-      <div className="inline-flex rounded-lg shadow-sm border border-slate-200 dark:border-slate-600 overflow-hidden">
-        {GENDERS.map((g, i) => (
+      <div className="flex gap-3">
+        {GENDERS.map((g) => (
           <button
             key={g.value}
             onClick={() => handleGender(g.value)}
-            className={segmentBtn(gender === g.value, getPosition(i, GENDERS.length))}
+            className={chip(gender === g.value)}
           >
             {g.label}
           </button>
@@ -89,12 +75,12 @@ export default function CategoryFilter({ selected, onSelect }: CategoryFilterPro
       </div>
 
       {/* Age group selector */}
-      <div className="inline-flex rounded-lg shadow-sm border border-slate-200 dark:border-slate-600 overflow-hidden">
-        {AGE_GROUPS.map((a, i) => (
+      <div className="flex gap-3">
+        {AGE_GROUPS.map((a) => (
           <button
             key={a.value}
             onClick={() => handleAge(a.value)}
-            className={segmentBtn(age === a.value, getPosition(i, AGE_GROUPS.length))}
+            className={chip(age === a.value)}
           >
             {a.label}
           </button>

@@ -73,23 +73,24 @@ export function useLeaderboard() {
 
   function getPlayersForCategory(slug: CategorySlug): Player[] {
     if (!data) return [];
-    if (slug === 'overall') return data.players;
+    const hasPoints = (p: Player) => p.points > 0;
+    if (slug === 'overall') return data.players.filter(hasPoints);
     // Combined gender views: show players from both men's and women's for an age group
     if (slug === 'all-50') {
       return data.players.filter((p) => {
         const cats = playerCategoryMap.get(p.name);
-        return cats?.has('mens-50') || cats?.has('womens-50');
+        return hasPoints(p) && (cats?.has('mens-50') || cats?.has('womens-50'));
       });
     }
     if (slug === 'all-60') {
       return data.players.filter((p) => {
         const cats = playerCategoryMap.get(p.name);
-        return cats?.has('mens-60') || cats?.has('womens-60');
+        return hasPoints(p) && (cats?.has('mens-60') || cats?.has('womens-60'));
       });
     }
     return data.players.filter((p) => {
       const cats = playerCategoryMap.get(p.name);
-      return cats?.has(slug);
+      return hasPoints(p) && cats?.has(slug);
     });
   }
 
