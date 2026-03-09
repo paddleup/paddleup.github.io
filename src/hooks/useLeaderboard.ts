@@ -19,24 +19,11 @@ export type CategorySlug =
   | 'mens-50'
   | 'womens-50'
   | 'mens-60'
-  | 'womens-60';
+  | 'womens-60'
+  | 'all-50'
+  | 'all-60';
 
-export interface Category {
-  slug: CategorySlug;
-  label: string;
-}
-
-export const CATEGORIES: Category[] = [
-  { slug: 'overall', label: 'Overall' },
-  { slug: 'mens-overall', label: "Men's Overall" },
-  { slug: 'womens-overall', label: "Women's Overall" },
-  { slug: 'mens-50', label: "Men's 50+" },
-  { slug: 'womens-50', label: "Women's 50+" },
-  { slug: 'mens-60', label: "Men's 60+" },
-  { slug: 'womens-60', label: "Women's 60+" },
-];
-
-const categories = categoryData as Record<string, string[]>;
+const categories= categoryData as Record<string, string[]>;
 
 // Cascading: 60+ players also appear in 50+, and 50+ players also appear in overall
 const CASCADE: Record<string, string[]> = {
@@ -87,6 +74,19 @@ export function useLeaderboard() {
   function getPlayersForCategory(slug: CategorySlug): Player[] {
     if (!data) return [];
     if (slug === 'overall') return data.players;
+    // Combined gender views: show players from both men's and women's for an age group
+    if (slug === 'all-50') {
+      return data.players.filter((p) => {
+        const cats = playerCategoryMap.get(p.name);
+        return cats?.has('mens-50') || cats?.has('womens-50');
+      });
+    }
+    if (slug === 'all-60') {
+      return data.players.filter((p) => {
+        const cats = playerCategoryMap.get(p.name);
+        return cats?.has('mens-60') || cats?.has('womens-60');
+      });
+    }
     return data.players.filter((p) => {
       const cats = playerCategoryMap.get(p.name);
       return cats?.has(slug);

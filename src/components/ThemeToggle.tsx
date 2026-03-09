@@ -12,8 +12,7 @@ export default function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100
-                 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800
+      className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/15
                  transition-colors cursor-pointer"
     >
       <Icon className="w-5 h-5" />

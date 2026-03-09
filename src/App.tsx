@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useLeaderboard, CATEGORIES } from './hooks/useLeaderboard';
+import { useLeaderboard } from './hooks/useLeaderboard';
 import type { CategorySlug } from './hooks/useLeaderboard';
-import CategoryTabs from './components/CategoryTabs';
+import CategoryFilter from './components/CategoryFilter';
 import LeaderboardTable from './components/LeaderboardTable';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
+import PaddleUpLogo from './components/PaddleUpLogo';
 
 export default function App() {
   const [selected, setSelected] = useState<CategorySlug>('overall');
@@ -15,16 +16,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
       {/* Header */}
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 py-4 md:py-5 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Paddle Up Club Leaderboard
-            </h1>
-            <p className="text-accent-600 dark:text-accent-400 text-sm md:text-base font-medium">
-              St. Louis Club Championship
-            </p>
-          </div>
+      <header className="bg-accent-500 dark:bg-accent-700">
+        <div className="max-w-4xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <PaddleUpLogo className="h-8 md:h-10 w-auto" />
           <ThemeToggle />
         </div>
       </header>
@@ -45,12 +39,12 @@ export default function App() {
 
         {data && (
           <>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 text-center">
+              Leaderboard
+            </h2>
+
             <div className="mb-8">
-              <CategoryTabs
-                categories={CATEGORIES}
-                selected={selected}
-                onSelect={setSelected}
-              />
+              <CategoryFilter selected={selected} onSelect={setSelected} />
             </div>
 
             <LeaderboardTable players={players} />
