@@ -1,7 +1,6 @@
 import type { CategorySlug } from '../hooks/useLeaderboard';
 
 type Gender = 'all' | 'mens' | 'womens';
-type AgeGroup = 'overall' | '50' | '60';
 
 interface CategoryFilterProps {
   selected: CategorySlug;
@@ -14,30 +13,22 @@ const GENDERS: { value: Gender; label: string }[] = [
   { value: 'womens', label: "Women's" },
 ];
 
-const AGE_GROUPS: { value: AgeGroup; label: string }[] = [
-  { value: 'overall', label: 'Overall' },
-  { value: '50', label: '50+' },
-  { value: '60', label: '60+' },
+const AGE_GROUPS: { slug: string; label: string }[] = [
+  { slug: 'overall', label: 'Overall' },
+  { slug: '50', label: '50+' },
+  { slug: '60', label: '60+' },
 ];
 
-function parseSlug(slug: CategorySlug): { gender: Gender; age: AgeGroup } {
-  if (slug === 'overall') return { gender: 'all', age: 'overall' };
-  if (slug === 'all-50') return { gender: 'all', age: '50' };
-  if (slug === 'all-60') return { gender: 'all', age: '60' };
-  const [g, a] = slug.split('-') as [string, string];
-  return {
-    gender: g as Gender,
-    age: a === 'overall' ? 'overall' : (a as AgeGroup),
-  };
+function getGender(slug: CategorySlug): Gender {
+  if (slug.startsWith('mens')) return 'mens';
+  if (slug.startsWith('womens')) return 'womens';
+  return 'all';
 }
 
-function toSlug(gender: Gender, age: AgeGroup): CategorySlug {
-  if (gender === 'all') {
-    if (age === '50') return 'all-50';
-    if (age === '60') return 'all-60';
-    return 'overall';
-  }
-  return `${gender}-${age}` as CategorySlug;
+function getAge(slug: CategorySlug): string {
+  if (slug.endsWith('-50')) return '50';
+  if (slug.endsWith('-60')) return '60';
+  return 'overall';
 }
 
 function chip(active: boolean) {
@@ -49,20 +40,24 @@ function chip(active: boolean) {
 }
 
 export default function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
-  const { gender, age } = parseSlug(selected);
+  const gender = getGender(selected);
+  const age = getAge(selected);
 
   const handleGender = (g: Gender) => {
-    onSelect(toSlug(g, age));
+    if (g === 'all') {
+      onSelect('overall');
+    } else {
+      onSelect(`${g}-overall` as CategorySlug);
+    }
   };
 
-  const handleAge = (a: AgeGroup) => {
-    onSelect(toSlug(gender, a));
+  const handleAge = (a: string) => {
+    onSelect(`${gender}-${a}` as CategorySlug);
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {/* Gender selector */}
-      <div className="flex gap-3">
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-wrap justify-center gap-3">
         {GENDERS.map((g) => (
           <button
             key={g.value}
@@ -74,18 +69,19 @@ export default function CategoryFilter({ selected, onSelect }: CategoryFilterPro
         ))}
       </div>
 
-      {/* Age group selector */}
-      <div className="flex gap-3">
-        {AGE_GROUPS.map((a) => (
-          <button
-            key={a.value}
-            onClick={() => handleAge(a.value)}
-            className={chip(age === a.value)}
-          >
-            {a.label}
-          </button>
-        ))}
-      </div>
+      {gender !== 'all' && (
+        <div className="flex flex-wrap justify-center gap-3">
+          {AGE_GROUPS.map((a) => (
+            <button
+              key={a.slug}
+              onClick={() => handleAge(a.slug)}
+              className={chip(age === a.slug)}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
