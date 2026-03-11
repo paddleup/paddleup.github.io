@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-03-11T06:58:11.131Z",
+  "scrapedAt": "2026-03-11T23:57:07.967Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -51,7 +51,7 @@
       "points": 111
     },
     {
-      "name": "Mandy Windham",
+      "name": "50 - Mandy Windham",
       "points": 105
     },
     {
@@ -59,11 +59,11 @@
       "points": 87
     },
     {
-      "name": "Kim Faron",
+      "name": "50 - Kim Faron",
       "points": 83
     },
     {
-      "name": "Linda Griesenauer",
+      "name": "50 - Linda Griesenauer",
       "points": 82
     },
     {
@@ -71,15 +71,15 @@
       "points": 80
     },
     {
-      "name": "Dee Eaton",
+      "name": "50 - Dee Eaton",
       "points": 74
     },
     {
-      "name": "Carolyn Wilkinson",
+      "name": "50 - Carolyn Wilkinson",
       "points": 71
     },
     {
-      "name": "Matt Stoddard",
+      "name": "50 - Matt Stoddard",
       "points": 71
     },
     {
@@ -91,15 +91,15 @@
       "points": 65
     },
     {
-      "name": "Kathy Allen",
+      "name": "50 - Kathy Allen",
       "points": 64
     },
     {
-      "name": "Ann Wieman",
+      "name": "50 - Ann Wieman",
       "points": 62
     },
     {
-      "name": "Carrie Blackburn",
+      "name": "50 - Carrie Blackburn",
       "points": 62
     },
     {
@@ -119,12 +119,16 @@
       "points": 58
     },
     {
-      "name": "Laura Friese",
+      "name": "50 - Laura Friese",
       "points": 55
     },
     {
-      "name": "Jessica Kelting",
+      "name": "50 - Jessica Kelting",
       "points": 52
+    },
+    {
+      "name": "50 - Sarah Bathe",
+      "points": 51
     },
     {
       "name": "Chuck Kuehl",
@@ -135,8 +139,8 @@
       "points": 51
     },
     {
-      "name": "Sarah Bathe",
-      "points": 51
+      "name": "50 - Dina Dougherty",
+      "points": 50
     },
     {
       "name": "Brian Willey",
@@ -144,10 +148,6 @@
     },
     {
       "name": "Claire Petersen",
-      "points": 50
-    },
-    {
-      "name": "Dina Dougherty",
       "points": 50
     },
     {
@@ -203,15 +203,15 @@
       "points": 45
     },
     {
-      "name": "Missy Kirksey",
+      "name": "50 - Missy Kirksey",
       "points": 44
     },
     {
-      "name": "Sarah Hill",
+      "name": "50 - Sarah Hill",
       "points": 42
     },
     {
-      "name": "Anne Dennison",
+      "name": "50 - Anne Dennison",
       "points": 41
     },
     {
@@ -227,11 +227,11 @@
       "points": 39
     },
     {
-      "name": "Brooks Toth",
+      "name": "60 - Denise Wunderlich",
       "points": 38
     },
     {
-      "name": "Denise Wunderlich",
+      "name": "Brooks Toth",
       "points": 38
     },
     {
@@ -239,7 +239,7 @@
       "points": 38
     },
     {
-      "name": "Pamela Feeler",
+      "name": "50 - Pamela Feeler",
       "points": 35
     },
     {
@@ -247,12 +247,20 @@
       "points": 35
     },
     {
-      "name": "Dawn Tegeler",
+      "name": "50 - Dawn Tegeler",
       "points": 32
     },
     {
-      "name": "Jennifer Tillman",
+      "name": "50 - Jennifer Tillman",
       "points": 31
+    },
+    {
+      "name": "50 - Keith Fletcher",
+      "points": 30
+    },
+    {
+      "name": "50 - Tara Fesser",
+      "points": 30
     },
     {
       "name": "Amy Smith",
@@ -260,10 +268,6 @@
     },
     {
       "name": "Eduardo Gomez",
-      "points": 30
-    },
-    {
-      "name": "Keith Fletcher",
       "points": 30
     },
     {
@@ -279,10 +283,6 @@
       "points": 30
     },
     {
-      "name": "Tara Fesser",
-      "points": 30
-    },
-    {
       "name": "Logan Boyher",
       "points": 28
     },
@@ -295,7 +295,7 @@
       "points": 28
     },
     {
-      "name": "Lisa Havens",
+      "name": "50 - Lisa Havens",
       "points": 27
     },
     {
@@ -323,16 +323,24 @@
       "points": 24
     },
     {
+      "name": "50 - Tina Ingrim",
+      "points": 23
+    },
+    {
+      "name": "50 - Whitney Durham",
+      "points": 23
+    },
+    {
       "name": "Diane McCane",
       "points": 23
     },
     {
-      "name": "Tina Ingrim",
-      "points": 23
+      "name": "50 - Sonya Diel",
+      "points": 20
     },
     {
-      "name": "Whitney Durham",
-      "points": 23
+      "name": "60 - Mary Graves",
+      "points": 20
     },
     {
       "name": "Caleb Fall",
@@ -343,47 +351,43 @@
       "points": 20
     },
     {
-      "name": "Mary Graves",
-      "points": 20
-    },
-    {
-      "name": "Sonya Diel",
-      "points": 20
-    },
-    {
       "name": "Matt Fleming",
       "points": 19
+    },
+    {
+      "name": "50 - Sherry Allen",
+      "points": 17
     },
     {
       "name": "Becca Hawkins",
       "points": 17
     },
     {
-      "name": "Sherry Allen",
-      "points": 17
+      "name": "50 - Tracie Heck",
+      "points": 16
     },
     {
       "name": "Mike Berry",
       "points": 16
     },
     {
-      "name": "Tracie Heck",
-      "points": 16
+      "name": "50 - Dave Kreklow",
+      "points": 15
+    },
+    {
+      "name": "50 - Joe Bacon",
+      "points": 15
+    },
+    {
+      "name": "50 - John Cometa",
+      "points": 15
+    },
+    {
+      "name": "60 - Tim Witzig",
+      "points": 15
     },
     {
       "name": "Adam Witzig",
-      "points": 15
-    },
-    {
-      "name": "Dave Kreklow",
-      "points": 15
-    },
-    {
-      "name": "Joe Bacon",
-      "points": 15
-    },
-    {
-      "name": "John Cometa",
       "points": 15
     },
     {
@@ -403,39 +407,47 @@
       "points": 15
     },
     {
-      "name": "Tim Witzig",
-      "points": 15
-    },
-    {
-      "name": "Kristie Reidelberger",
+      "name": "50 - Kristie Reidelberger",
       "points": 14
     },
     {
-      "name": "Sarah Kaiser",
+      "name": "50 - Sarah Kaiser",
       "points": 14
     },
     {
-      "name": "Jenny Zingg",
+      "name": "50 - Jenny Zingg",
       "points": 12
     },
     {
-      "name": "Nancy Provin",
+      "name": "50 - Nancy Provin",
       "points": 12
     },
     {
-      "name": "Victoria Wheeler",
+      "name": "50 - Victoria Wheeler",
       "points": 12
     },
     {
-      "name": "Cheryl Dubois",
+      "name": "60 - Cheryl Dubois",
       "points": 11
     },
     {
-      "name": "Alayna Hosna",
+      "name": "50 - Amy Holtrop",
       "points": 10
     },
     {
-      "name": "Amy Holtrop",
+      "name": "50 - Chris Miles",
+      "points": 10
+    },
+    {
+      "name": "50 - Shu Zhang",
+      "points": 10
+    },
+    {
+      "name": "60 - Mary Ann Hollander",
+      "points": 10
+    },
+    {
+      "name": "Alayna Hosna",
       "points": 10
     },
     {
@@ -448,10 +460,6 @@
     },
     {
       "name": "Carissa Roller",
-      "points": 10
-    },
-    {
-      "name": "Chris Miles",
       "points": 10
     },
     {
@@ -468,10 +476,6 @@
     },
     {
       "name": "Logan Justice",
-      "points": 10
-    },
-    {
-      "name": "Mary Ann Hollander",
       "points": 10
     },
     {
@@ -495,27 +499,23 @@
       "points": 10
     },
     {
-      "name": "Shu Zhang",
-      "points": 10
-    },
-    {
       "name": "Terry Allan",
       "points": 10
     },
     {
-      "name": "Angela Lamb",
+      "name": "50 - Angela Lamb",
       "points": 9
     },
     {
-      "name": "Lori Schneider",
+      "name": "50 - Lori Schneider",
       "points": 9
     },
     {
-      "name": "Brandi Hallemeier",
+      "name": "50 - Marie Jenkins",
       "points": 8
     },
     {
-      "name": "Marie Jenkins",
+      "name": "Brandi Hallemeier",
       "points": 8
     },
     {
@@ -523,11 +523,11 @@
       "points": 8
     },
     {
-      "name": "Alison Barnes",
+      "name": "50 - Alison Barnes",
       "points": 7
     },
     {
-      "name": "Stacey Forshee",
+      "name": "50 - Stacey Forshee",
       "points": 6
     },
     {
@@ -567,7 +567,15 @@
       "points": 5
     },
     {
-      "name": "Gregg Gevers",
+      "name": "50 - Gregg Gevers",
+      "points": 4
+    },
+    {
+      "name": "50 - Noal Presley",
+      "points": 4
+    },
+    {
+      "name": "50 - Robyn Jones",
       "points": 4
     },
     {
@@ -579,35 +587,31 @@
       "points": 4
     },
     {
-      "name": "Noal Presley",
-      "points": 4
+      "name": "50 - Ken Trokey",
+      "points": 3
     },
     {
-      "name": "Robyn Jones",
-      "points": 4
+      "name": "50 - Orlando Paez",
+      "points": 3
+    },
+    {
+      "name": "60 - Lisa Debo",
+      "points": 3
     },
     {
       "name": "Cole Gorman",
       "points": 3
     },
     {
-      "name": "Ken Trokey",
-      "points": 3
-    },
-    {
-      "name": "Lisa Debo",
-      "points": 3
-    },
-    {
-      "name": "Orlando Paez",
-      "points": 3
-    },
-    {
-      "name": "Damian Fay",
+      "name": "50 - Damian Fay",
       "points": 2
     },
     {
-      "name": "Kelly Pfeiffer",
+      "name": "50 - Kelly Pfeiffer",
+      "points": 2
+    },
+    {
+      "name": "50 - Michelle Burns",
       "points": 2
     },
     {
@@ -615,20 +619,20 @@
       "points": 2
     },
     {
-      "name": "Michelle Burns",
-      "points": 2
+      "name": "60 - Joyce Pratt",
+      "points": 1
     },
     {
       "name": "John Tuason",
       "points": 1
     },
     {
-      "name": "Joyce Pratt",
+      "name": "Ryan Groeller",
       "points": 1
     },
     {
-      "name": "Ryan Groeller",
-      "points": 1
+      "name": "50 - Kristie Rosenberger",
+      "points": 0
     },
     {
       "name": "Alex Hoffmeister",
@@ -1408,10 +1412,6 @@
     },
     {
       "name": "Kristen Roberts",
-      "points": 0
-    },
-    {
-      "name": "Kristie Rosenberger",
       "points": 0
     },
     {
