@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLeaderboard } from './hooks/useLeaderboard';
+import { useAdmin } from './hooks/useAdmin';
 import type { CategorySlug } from './hooks/useLeaderboard';
 import CategoryFilter from './components/CategoryFilter';
 import LeaderboardTable from './components/LeaderboardTable';
@@ -9,7 +10,8 @@ import PaddleUpLogo from './components/PaddleUpLogo';
 
 export default function App() {
   const [selected, setSelected] = useState<CategorySlug>('overall');
-  const { data, loading, error, getPlayersForCategory } = useLeaderboard();
+  const { data, loading, error, getPlayersForCategory, unclassifiedCount } = useLeaderboard();
+  const { isAdmin } = useAdmin();
 
   const players = getPlayersForCategory(selected);
 
@@ -44,10 +46,10 @@ export default function App() {
             </h2>
 
             <div className="mb-8">
-              <CategoryFilter selected={selected} onSelect={setSelected} />
+              <CategoryFilter selected={selected} onSelect={setSelected} unclassifiedCount={unclassifiedCount} isAdmin={isAdmin} />
             </div>
 
-            <LeaderboardTable players={players} />
+            <LeaderboardTable players={players} isAdmin={isAdmin} />
 
             <Footer scrapedAt={data.scrapedAt} />
           </>

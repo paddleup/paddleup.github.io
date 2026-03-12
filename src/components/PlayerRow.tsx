@@ -3,6 +3,7 @@ import type { Player } from '../hooks/useLeaderboard';
 interface PlayerRowProps {
   player: Player;
   rank: number;
+  isAdmin: boolean;
 }
 
 function getRankBadge(rank: number) {
@@ -18,9 +19,10 @@ function getRankBadge(rank: number) {
   }
 }
 
-export default function PlayerRow({ player, rank }: PlayerRowProps) {
+export default function PlayerRow({ player, rank, isAdmin }: PlayerRowProps) {
   const badge = getRankBadge(rank);
   const isTop3 = rank <= 3;
+  const showUnclassified = isAdmin && player.gender === null;
 
   return (
     <div
@@ -45,7 +47,10 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
 
       {/* Name */}
       <span className={`font-medium ${isTop3 ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-        {player.name}
+        {player.displayName}
+        {showUnclassified && (
+          <span className="ml-1.5 text-amber-500 dark:text-amber-400 text-xs" title="Unclassified — needs gender/age tag">⚠️</span>
+        )}
       </span>
 
       {/* Points */}

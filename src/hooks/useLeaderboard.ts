@@ -1,9 +1,22 @@
-import { useState, useEffect } from 'react';
-import categoryData from '../data/categories.json';
+import { useState, useEffect, useMemo } from 'react';
 
 export interface Player {
   name: string;
+  displayName: string;
+  gender: 'M' | 'F' | null;
+  ageGroup: 50 | 60 | null;
   points: number;
+}
+
+interface RawPlayer {
+  name: string;
+  points: number;
+}
+
+interface RawLeaderboardData {
+  scrapedAt: string;
+  source: string;
+  players: RawPlayer[];
 }
 
 export interface LeaderboardData {
@@ -19,34 +32,51 @@ export type CategorySlug =
   | 'mens-50'
   | 'womens-50'
   | 'mens-60'
-  | 'womens-60';
+  | 'womens-60'
+  | 'unclassified';
 
-const categories= categoryData as Record<string, string[]>;
+const NAME_RE = /^(.+?)\s+-\s+(M|F)(?:\s+(50|60))?$/;
 
-// Cascading: 60+ players also appear in 50+, and 50+ players also appear in overall
-const CASCADE: Record<string, string[]> = {
-  'mens-60': ['mens-50', 'mens-overall'],
-  'mens-50': ['mens-overall'],
-  'womens-60': ['womens-50', 'womens-overall'],
-  'womens-50': ['womens-overall'],
-};
-
-// Build a reverse lookup: player name → set of category slugs (with cascading applied)
-function buildPlayerCategoryMap(): Map<string, Set<string>> {
-  const map = new Map<string, Set<string>>();
-  for (const [slug, names] of Object.entries(categories)) {
-    const inherited = CASCADE[slug] ?? [];
-    for (const name of names) {
-      if (!map.has(name)) map.set(name, new Set());
-      const set = map.get(name)!;
-      set.add(slug);
-      for (const parent of inherited) set.add(parent);
-    }
+function parsePlayer(raw: RawPlayer): Player {
+  const match = raw.name.match(NAME_RE);
+  if (match) {
+    return {
+      name: raw.name,
+      displayName: match[1].trim(),
+      gender: match[2] as 'M' | 'F',
+      ageGroup: match[3] ? (parseInt(match[3]) as 50 | 60) : null,
+      points: raw.points,
+    };
   }
-  return map;
+  return {
+    name: raw.name,
+    displayName: raw.name,
+    gender: null,
+    ageGroup: null,
+    points: raw.points,
+  };
 }
 
-const playerCategoryMap = buildPlayerCategoryMap();
+function matchesCategory(player: Player, slug: CategorySlug): boolean {
+  switch (slug) {
+    case 'overall':
+      return true;
+    case 'unclassified':
+      return player.gender === null;
+    case 'mens-overall':
+      return player.gender === 'M';
+    case 'womens-overall':
+      return player.gender === 'F';
+    case 'mens-50':
+      return player.gender === 'M' && player.ageGroup != null && player.ageGroup >= 50;
+    case 'womens-50':
+      return player.gender === 'F' && player.ageGroup != null && player.ageGroup >= 50;
+    case 'mens-60':
+      return player.gender === 'M' && player.ageGroup === 60;
+    case 'womens-60':
+      return player.gender === 'F' && player.ageGroup === 60;
+  }
+}
 
 export function useLeaderboard() {
   const [data, setData] = useState<LeaderboardData | null>(null);
@@ -59,8 +89,12 @@ export function useLeaderboard() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((json: LeaderboardData) => {
-        setData(json);
+      .then((json: RawLeaderboardData) => {
+        setData({
+          scrapedAt: json.scrapedAt,
+          source: json.source,
+          players: json.players.map(parsePlayer),
+        });
         setLoading(false);
       })
       .catch((err) => {
@@ -69,14 +103,14 @@ export function useLeaderboard() {
       });
   }, []);
 
+  const unclassifiedCount = useMemo(
+    () => data?.players.filter((p) => p.gender === null && p.points > 0).length ?? 0,
+    [data],
+  );
+
   function getPlayersForCategory(slug: CategorySlug): Player[] {
     if (!data) return [];
-    const hasPoints = (p: Player) => p.points > 0;
-    if (slug === 'overall') return data.players.filter(hasPoints);
-    return data.players.filter((p) => {
-      const cats = playerCategoryMap.get(p.name);
-      return hasPoints(p) && cats?.has(slug);
-    });
+    return data.players.filter((p) => p.points > 0 && matchesCategory(p, slug));
   }
 
   function getLeader(slug: CategorySlug): Player | null {
@@ -84,5 +118,5 @@ export function useLeaderboard() {
     return players[0] ?? null;
   }
 
-  return { data, loading, error, getPlayersForCategory, getLeader };
+  return { data, loading, error, getPlayersForCategory, getLeader, unclassifiedCount };
 }

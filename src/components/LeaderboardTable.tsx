@@ -3,13 +3,14 @@ import PlayerRow from './PlayerRow';
 
 interface LeaderboardTableProps {
   players: Player[];
+  isAdmin: boolean;
 }
 
-export default function LeaderboardTable({ players }: LeaderboardTableProps) {
+export default function LeaderboardTable({ players, isAdmin }: LeaderboardTableProps) {
   if (players.length === 0) {
     return (
       <div className="text-center py-12 text-slate-400">
-        No players in this category yet. Update categories.json to assign players.
+        No players in this category yet.
       </div>
     );
   }
@@ -26,7 +27,7 @@ export default function LeaderboardTable({ players }: LeaderboardTableProps) {
 
         <div>
           {players.map((player, index) => (
-            <PlayerRow key={player.name} player={player} rank={index + 1} />
+            <PlayerRow key={player.name} player={player} rank={index + 1} isAdmin={isAdmin} />
           ))}
         </div>
       </div>
