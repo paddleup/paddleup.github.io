@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-03-11T23:57:07.967Z",
+  "scrapedAt": "2026-03-12T06:59:35.640Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -55,16 +55,16 @@
       "points": 105
     },
     {
-      "name": "Devory Newsome",
-      "points": 87
-    },
-    {
       "name": "50 - Kim Faron",
-      "points": 83
+      "points": 88
     },
     {
       "name": "50 - Linda Griesenauer",
-      "points": 82
+      "points": 88
+    },
+    {
+      "name": "Devory Newsome",
+      "points": 87
     },
     {
       "name": "Krissy Dickey",
@@ -87,6 +87,10 @@
       "points": 68
     },
     {
+      "name": "50 - Carrie Blackburn",
+      "points": 65
+    },
+    {
       "name": "Jill Clark",
       "points": 65
     },
@@ -96,10 +100,6 @@
     },
     {
       "name": "50 - Ann Wieman",
-      "points": 62
-    },
-    {
-      "name": "50 - Carrie Blackburn",
       "points": 62
     },
     {
@@ -115,12 +115,12 @@
       "points": 60
     },
     {
-      "name": "Ricky Hasan",
+      "name": "50 - Laura Friese",
       "points": 58
     },
     {
-      "name": "50 - Laura Friese",
-      "points": 55
+      "name": "Ricky Hasan",
+      "points": 58
     },
     {
       "name": "50 - Jessica Kelting",
@@ -175,6 +175,14 @@
       "points": 48
     },
     {
+      "name": "50 - Anne Dennison",
+      "points": 45
+    },
+    {
+      "name": "50 - Missy Kirksey",
+      "points": 45
+    },
+    {
       "name": "Amy Kreklow",
       "points": 45
     },
@@ -203,16 +211,8 @@
       "points": 45
     },
     {
-      "name": "50 - Missy Kirksey",
-      "points": 44
-    },
-    {
       "name": "50 - Sarah Hill",
       "points": 42
-    },
-    {
-      "name": "50 - Anne Dennison",
-      "points": 41
     },
     {
       "name": "Amanda Burgesen",
@@ -227,6 +227,10 @@
       "points": 39
     },
     {
+      "name": "50 - Pamela Feeler",
+      "points": 38
+    },
+    {
       "name": "60 - Denise Wunderlich",
       "points": 38
     },
@@ -237,10 +241,6 @@
     {
       "name": "Lotfi El-Haw",
       "points": 38
-    },
-    {
-      "name": "50 - Pamela Feeler",
-      "points": 35
     },
     {
       "name": "Scott Maschmann",
