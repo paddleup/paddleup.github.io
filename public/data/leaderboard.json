@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-03-12T06:59:35.640Z",
+  "scrapedAt": "2026-03-12T19:06:26.947Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -51,15 +51,15 @@
       "points": 111
     },
     {
-      "name": "50 - Mandy Windham",
+      "name": "Mandy Windham - F 50",
       "points": 105
     },
     {
-      "name": "50 - Kim Faron",
+      "name": "Kim Faron - F 50",
       "points": 88
     },
     {
-      "name": "50 - Linda Griesenauer",
+      "name": "Linda Griesenauer - F 50",
       "points": 88
     },
     {
@@ -71,15 +71,15 @@
       "points": 80
     },
     {
-      "name": "50 - Dee Eaton",
+      "name": "Dee Eaton - F 50",
       "points": 74
     },
     {
-      "name": "50 - Carolyn Wilkinson",
+      "name": "Carolyn Wilkinson - F 50",
       "points": 71
     },
     {
-      "name": "50 - Matt Stoddard",
+      "name": "Matt Stoddard - M 50",
       "points": 71
     },
     {
@@ -87,7 +87,7 @@
       "points": 68
     },
     {
-      "name": "50 - Carrie Blackburn",
+      "name": "Carrie Blackburn - F 50",
       "points": 65
     },
     {
@@ -95,11 +95,11 @@
       "points": 65
     },
     {
-      "name": "50 - Kathy Allen",
+      "name": "Kathy Allen - F 50",
       "points": 64
     },
     {
-      "name": "50 - Ann Wieman",
+      "name": "Ann Wieman - F 50",
       "points": 62
     },
     {
@@ -115,7 +115,7 @@
       "points": 60
     },
     {
-      "name": "50 - Laura Friese",
+      "name": "Laura Friese - F 50",
       "points": 58
     },
     {
@@ -123,12 +123,8 @@
       "points": 58
     },
     {
-      "name": "50 - Jessica Kelting",
+      "name": "Jessica Kelting - F 50",
       "points": 52
-    },
-    {
-      "name": "50 - Sarah Bathe",
-      "points": 51
     },
     {
       "name": "Chuck Kuehl",
@@ -139,8 +135,8 @@
       "points": 51
     },
     {
-      "name": "50 - Dina Dougherty",
-      "points": 50
+      "name": "Sarah Bathe - F 50",
+      "points": 51
     },
     {
       "name": "Brian Willey",
@@ -148,6 +144,10 @@
     },
     {
       "name": "Claire Petersen",
+      "points": 50
+    },
+    {
+      "name": "Dina Dougherty - F 50",
       "points": 50
     },
     {
@@ -175,15 +175,11 @@
       "points": 48
     },
     {
-      "name": "50 - Anne Dennison",
-      "points": 45
-    },
-    {
-      "name": "50 - Missy Kirksey",
-      "points": 45
-    },
-    {
       "name": "Amy Kreklow",
+      "points": 45
+    },
+    {
+      "name": "Anne Dennison - F 50",
       "points": 45
     },
     {
@@ -207,11 +203,15 @@
       "points": 45
     },
     {
+      "name": "Missy Kirksey - F 50",
+      "points": 45
+    },
+    {
       "name": "Tobi Ola",
       "points": 45
     },
     {
-      "name": "50 - Sarah Hill",
+      "name": "Sarah Hill - F 50",
       "points": 42
     },
     {
@@ -227,19 +227,19 @@
       "points": 39
     },
     {
-      "name": "50 - Pamela Feeler",
-      "points": 38
-    },
-    {
-      "name": "60 - Denise Wunderlich",
-      "points": 38
-    },
-    {
       "name": "Brooks Toth",
       "points": 38
     },
     {
-      "name": "Lotfi El-Haw",
+      "name": "Denise Wunderlich - F 60",
+      "points": 38
+    },
+    {
+      "name": "Lotfi El-Haw - M",
+      "points": 38
+    },
+    {
+      "name": "Pamela Feeler - F 50",
       "points": 38
     },
     {
@@ -247,20 +247,12 @@
       "points": 35
     },
     {
-      "name": "50 - Dawn Tegeler",
+      "name": "Dawn Tegeler - F 50",
       "points": 32
     },
     {
-      "name": "50 - Jennifer Tillman",
+      "name": "Jennifer Tillman - F 50",
       "points": 31
-    },
-    {
-      "name": "50 - Keith Fletcher",
-      "points": 30
-    },
-    {
-      "name": "50 - Tara Fesser",
-      "points": 30
     },
     {
       "name": "Amy Smith",
@@ -268,6 +260,10 @@
     },
     {
       "name": "Eduardo Gomez",
+      "points": 30
+    },
+    {
+      "name": "Keith Fletcher - M 50",
       "points": 30
     },
     {
@@ -283,6 +279,10 @@
       "points": 30
     },
     {
+      "name": "Tara Fesser - F 50",
+      "points": 30
+    },
+    {
       "name": "Logan Boyher",
       "points": 28
     },
@@ -295,7 +295,7 @@
       "points": 28
     },
     {
-      "name": "50 - Lisa Havens",
+      "name": "Lisa Havens - F 50",
       "points": 27
     },
     {
@@ -323,24 +323,16 @@
       "points": 24
     },
     {
-      "name": "50 - Tina Ingrim",
-      "points": 23
-    },
-    {
-      "name": "50 - Whitney Durham",
-      "points": 23
-    },
-    {
       "name": "Diane McCane",
       "points": 23
     },
     {
-      "name": "50 - Sonya Diel",
-      "points": 20
+      "name": "Tina Ingrim - F 50",
+      "points": 23
     },
     {
-      "name": "60 - Mary Graves",
-      "points": 20
+      "name": "Whitney Durham - F 50",
+      "points": 23
     },
     {
       "name": "Caleb Fall",
@@ -351,43 +343,47 @@
       "points": 20
     },
     {
-      "name": "Matt Fleming",
-      "points": 19
+      "name": "Mary Graves - F 60",
+      "points": 20
     },
     {
-      "name": "50 - Sherry Allen",
-      "points": 17
+      "name": "Sonya Diel - F 50",
+      "points": 20
+    },
+    {
+      "name": "Matt Fleming",
+      "points": 19
     },
     {
       "name": "Becca Hawkins",
       "points": 17
     },
     {
-      "name": "50 - Tracie Heck",
-      "points": 16
+      "name": "Sherry Allen - F 50",
+      "points": 17
     },
     {
       "name": "Mike Berry",
       "points": 16
     },
     {
-      "name": "50 - Dave Kreklow",
-      "points": 15
-    },
-    {
-      "name": "50 - Joe Bacon",
-      "points": 15
-    },
-    {
-      "name": "50 - John Cometa",
-      "points": 15
-    },
-    {
-      "name": "60 - Tim Witzig",
-      "points": 15
+      "name": "Tracie Heck - F 50",
+      "points": 16
     },
     {
       "name": "Adam Witzig",
+      "points": 15
+    },
+    {
+      "name": "Dave Kreklow - M 50",
+      "points": 15
+    },
+    {
+      "name": "Joe Bacon - M 50",
+      "points": 15
+    },
+    {
+      "name": "John Cometa - M 50",
       "points": 15
     },
     {
@@ -407,47 +403,39 @@
       "points": 15
     },
     {
-      "name": "50 - Kristie Reidelberger",
+      "name": "Tim Witzig - M 60",
+      "points": 15
+    },
+    {
+      "name": "Kristie Reidelberger - F 50",
       "points": 14
     },
     {
-      "name": "50 - Sarah Kaiser",
+      "name": "Sarah Kaiser - F 50",
       "points": 14
     },
     {
-      "name": "50 - Jenny Zingg",
+      "name": "Jenny Zingg - F 50",
       "points": 12
     },
     {
-      "name": "50 - Nancy Provin",
+      "name": "Nancy Provin - F 50",
       "points": 12
     },
     {
-      "name": "50 - Victoria Wheeler",
+      "name": "Victoria Wheeler - F 50",
       "points": 12
     },
     {
-      "name": "60 - Cheryl Dubois",
+      "name": "Cheryl Dubois - F 60",
       "points": 11
     },
     {
-      "name": "50 - Amy Holtrop",
-      "points": 10
-    },
-    {
-      "name": "50 - Chris Miles",
-      "points": 10
-    },
-    {
-      "name": "50 - Shu Zhang",
-      "points": 10
-    },
-    {
-      "name": "60 - Mary Ann Hollander",
-      "points": 10
-    },
-    {
       "name": "Alayna Hosna",
+      "points": 10
+    },
+    {
+      "name": "Amy Holtrop - F 50",
       "points": 10
     },
     {
@@ -460,6 +448,10 @@
     },
     {
       "name": "Carissa Roller",
+      "points": 10
+    },
+    {
+      "name": "Chris Miles - M 50",
       "points": 10
     },
     {
@@ -476,6 +468,10 @@
     },
     {
       "name": "Logan Justice",
+      "points": 10
+    },
+    {
+      "name": "Mary Ann Hollander - F 60",
       "points": 10
     },
     {
@@ -499,23 +495,27 @@
       "points": 10
     },
     {
+      "name": "Shu Zhang - F 50",
+      "points": 10
+    },
+    {
       "name": "Terry Allan",
       "points": 10
     },
     {
-      "name": "50 - Angela Lamb",
+      "name": "Angela Lamb - F 50",
       "points": 9
     },
     {
-      "name": "50 - Lori Schneider",
+      "name": "Lori Schneider",
       "points": 9
-    },
-    {
-      "name": "50 - Marie Jenkins",
-      "points": 8
     },
     {
       "name": "Brandi Hallemeier",
+      "points": 8
+    },
+    {
+      "name": "Marie Jenkins - F 50",
       "points": 8
     },
     {
@@ -523,11 +523,11 @@
       "points": 8
     },
     {
-      "name": "50 - Alison Barnes",
+      "name": "Alison Barnes- F 50",
       "points": 7
     },
     {
-      "name": "50 - Stacey Forshee",
+      "name": "Stacey Forshee - F 50",
       "points": 6
     },
     {
@@ -539,7 +539,7 @@
       "points": 5
     },
     {
-      "name": "Flor DeLuca",
+      "name": "Flor DeLuca - F",
       "points": 5
     },
     {
@@ -567,15 +567,7 @@
       "points": 5
     },
     {
-      "name": "50 - Gregg Gevers",
-      "points": 4
-    },
-    {
-      "name": "50 - Noal Presley",
-      "points": 4
-    },
-    {
-      "name": "50 - Robyn Jones",
+      "name": "Gregg Gevers - M 50",
       "points": 4
     },
     {
@@ -587,31 +579,35 @@
       "points": 4
     },
     {
-      "name": "50 - Ken Trokey",
-      "points": 3
+      "name": "Noal Presley - M 50",
+      "points": 4
     },
     {
-      "name": "50 - Orlando Paez",
-      "points": 3
-    },
-    {
-      "name": "60 - Lisa Debo",
-      "points": 3
+      "name": "Robyn Jones - F 50",
+      "points": 4
     },
     {
       "name": "Cole Gorman",
       "points": 3
     },
     {
-      "name": "50 - Damian Fay",
+      "name": "Ken Trokey - M 50",
+      "points": 3
+    },
+    {
+      "name": "Lisa Debo - F 60",
+      "points": 3
+    },
+    {
+      "name": "Orlando Paez - M 50",
+      "points": 3
+    },
+    {
+      "name": "Damian Fay - M 50",
       "points": 2
     },
     {
-      "name": "50 - Kelly Pfeiffer",
-      "points": 2
-    },
-    {
-      "name": "50 - Michelle Burns",
+      "name": "Kelly Pfeiffer - F 50",
       "points": 2
     },
     {
@@ -619,20 +615,20 @@
       "points": 2
     },
     {
-      "name": "60 - Joyce Pratt",
-      "points": 1
+      "name": "Michelle Burns - F 50",
+      "points": 2
     },
     {
       "name": "John Tuason",
       "points": 1
     },
     {
-      "name": "Ryan Groeller",
+      "name": "Joyce Pratt - F 60",
       "points": 1
     },
     {
-      "name": "50 - Kristie Rosenberger",
-      "points": 0
+      "name": "Ryan Groeller",
+      "points": 1
     },
     {
       "name": "Alex Hoffmeister",
@@ -739,7 +735,7 @@
       "points": 0
     },
     {
-      "name": "Caleb Boudinot",
+      "name": "Caleb Boudinot - M",
       "points": 0
     },
     {
@@ -1111,7 +1107,7 @@
       "points": 0
     },
     {
-      "name": "Isaiah Wing",
+      "name": "Isaiah Wing - M",
       "points": 0
     },
     {
@@ -1147,7 +1143,7 @@
       "points": 0
     },
     {
-      "name": "Jarrod Penrod",
+      "name": "Jarrod Penrod - M",
       "points": 0
     },
     {
@@ -1175,7 +1171,7 @@
       "points": 0
     },
     {
-      "name": "Jay Blanquart",
+      "name": "Jay Blanquart - M",
       "points": 0
     },
     {
@@ -1207,7 +1203,7 @@
       "points": 0
     },
     {
-      "name": "Jenn Kelley",
+      "name": "Jenn Kelley - F",
       "points": 0
     },
     {
@@ -1319,7 +1315,7 @@
       "points": 0
     },
     {
-      "name": "Josh Feather",
+      "name": "Josh Feather - M",
       "points": 0
     },
     {
@@ -1399,7 +1395,7 @@
       "points": 0
     },
     {
-      "name": "Kimberly Smith",
+      "name": "Kimberly Smith - F",
       "points": 0
     },
     {
@@ -1412,6 +1408,10 @@
     },
     {
       "name": "Kristen Roberts",
+      "points": 0
+    },
+    {
+      "name": "Kristie Rosenberger - F 50",
       "points": 0
     },
     {
@@ -1439,7 +1439,7 @@
       "points": 0
     },
     {
-      "name": "Laura Fletcher",
+      "name": "Laura Fletcher - F",
       "points": 0
     },
     {
@@ -1491,7 +1491,7 @@
       "points": 0
     },
     {
-      "name": "Maggie Corrigan",
+      "name": "Maggie Corrigan - F",
       "points": 0
     },
     {
