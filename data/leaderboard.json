@@ -1,25 +1,25 @@
 {
-  "scrapedAt": "2026-03-12T19:06:26.947Z",
+  "scrapedAt": "2026-03-13T06:58:26.524Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
-      "name": "Paige Reque",
+      "name": "Paige Reque - F",
       "points": 292
     },
     {
-      "name": "Kevin Reque",
+      "name": "Kevin Reque - M",
       "points": 210
     },
     {
-      "name": "Nick Borger",
+      "name": "Nick Borger - M",
       "points": 175
     },
     {
-      "name": "Chase Blickhan",
+      "name": "Chase Blickhan - M",
       "points": 171
     },
     {
-      "name": "Kayleigh Trokey",
+      "name": "Kayleigh Trokey - F",
       "points": 164
     },
     {
@@ -27,11 +27,11 @@
       "points": 155
     },
     {
-      "name": "Bryce Gamache",
+      "name": "Bryce Gamache - M",
       "points": 142
     },
     {
-      "name": "Mary Kruse",
+      "name": "Mary Kruse - F",
       "points": 140
     },
     {
@@ -43,11 +43,11 @@
       "points": 133
     },
     {
-      "name": "Brett Mell",
+      "name": "Brett Mell - M",
       "points": 125
     },
     {
-      "name": "Carter Smith",
+      "name": "Carter Smith - M",
       "points": 111
     },
     {
@@ -67,7 +67,7 @@
       "points": 87
     },
     {
-      "name": "Krissy Dickey",
+      "name": "Krissy Dickey - F",
       "points": 80
     },
     {
@@ -83,7 +83,7 @@
       "points": 71
     },
     {
-      "name": "Matt Landolt",
+      "name": "Matt Landolt - M",
       "points": 68
     },
     {
@@ -91,7 +91,7 @@
       "points": 65
     },
     {
-      "name": "Jill Clark",
+      "name": "Jill Clark - F",
       "points": 65
     },
     {
@@ -103,7 +103,7 @@
       "points": 62
     },
     {
-      "name": "Bryan Willey",
+      "name": "Bryan Willey - M",
       "points": 60
     },
     {
@@ -119,7 +119,7 @@
       "points": 58
     },
     {
-      "name": "Ricky Hasan",
+      "name": "Ricky Hasan - M",
       "points": 58
     },
     {
@@ -131,7 +131,7 @@
       "points": 51
     },
     {
-      "name": "Preston Behlmann",
+      "name": "Preston Behlmann - M",
       "points": 51
     },
     {
@@ -139,7 +139,7 @@
       "points": 51
     },
     {
-      "name": "Brian Willey",
+      "name": "Brian Willey - M",
       "points": 50
     },
     {
@@ -163,19 +163,19 @@
       "points": 50
     },
     {
-      "name": "Michela Rangel",
+      "name": "Michela Rangel - F",
       "points": 50
     },
     {
-      "name": "Libby Liston",
+      "name": "Libby Liston - F",
       "points": 49
     },
     {
-      "name": "Mat Sevilla",
+      "name": "Mat Sevilla - M",
       "points": 48
     },
     {
-      "name": "Amy Kreklow",
+      "name": "Amy Kreklow - F",
       "points": 45
     },
     {
@@ -183,11 +183,11 @@
       "points": 45
     },
     {
-      "name": "Bekah Ola",
+      "name": "Bekah Ola - F",
       "points": 45
     },
     {
-      "name": "Blake Huskey",
+      "name": "Blake Huskey - M",
       "points": 45
     },
     {
@@ -199,7 +199,7 @@
       "points": 45
     },
     {
-      "name": "Kyle Laramie",
+      "name": "Kyle Laramie - M",
       "points": 45
     },
     {
@@ -207,7 +207,7 @@
       "points": 45
     },
     {
-      "name": "Tobi Ola",
+      "name": "Tobi Ola - M",
       "points": 45
     },
     {
@@ -215,7 +215,7 @@
       "points": 42
     },
     {
-      "name": "Amanda Burgesen",
+      "name": "Amanda Burgesen - F",
       "points": 40
     },
     {
@@ -223,11 +223,11 @@
       "points": 40
     },
     {
-      "name": "Brett Taylor",
+      "name": "Brett Taylor - M",
       "points": 39
     },
     {
-      "name": "Brooks Toth",
+      "name": "Brooks Toth - M",
       "points": 38
     },
     {
@@ -255,7 +255,7 @@
       "points": 31
     },
     {
-      "name": "Amy Smith",
+      "name": "Amy Smith - F",
       "points": 30
     },
     {
@@ -267,15 +267,15 @@
       "points": 30
     },
     {
-      "name": "Kelly Richert",
+      "name": "Kelly Richert - F",
       "points": 30
     },
     {
-      "name": "Shayna Whitaker",
+      "name": "Shayna Whitaker - F",
       "points": 30
     },
     {
-      "name": "Sierra Braun",
+      "name": "Sierra Braun - F",
       "points": 30
     },
     {
@@ -287,11 +287,11 @@
       "points": 28
     },
     {
-      "name": "Matthew Hultman",
+      "name": "Matthew Hultman - M",
       "points": 28
     },
     {
-      "name": "Sean Liston",
+      "name": "Sean Liston - M",
       "points": 28
     },
     {
@@ -299,7 +299,7 @@
       "points": 27
     },
     {
-      "name": "Andrew Chekadanov",
+      "name": "Andrew Chekadanov - M",
       "points": 25
     },
     {
@@ -307,19 +307,19 @@
       "points": 25
     },
     {
-      "name": "Mark Wong",
+      "name": "Mark Wong - M",
       "points": 25
     },
     {
-      "name": "Marsala Haave",
+      "name": "Marsala Haave - F",
       "points": 25
     },
     {
-      "name": "Max Ruvinov",
+      "name": "Max Ruvinov - M",
       "points": 25
     },
     {
-      "name": "Brian Romine",
+      "name": "Brian Romine - M",
       "points": 24
     },
     {
@@ -335,7 +335,7 @@
       "points": 23
     },
     {
-      "name": "Caleb Fall",
+      "name": "Caleb Fall - M",
       "points": 20
     },
     {
@@ -351,11 +351,11 @@
       "points": 20
     },
     {
-      "name": "Matt Fleming",
+      "name": "Matt Fleming - M",
       "points": 19
     },
     {
-      "name": "Becca Hawkins",
+      "name": "Becca Hawkins - F",
       "points": 17
     },
     {
@@ -363,7 +363,7 @@
       "points": 17
     },
     {
-      "name": "Mike Berry",
+      "name": "Mike Berry - M",
       "points": 16
     },
     {
@@ -371,7 +371,7 @@
       "points": 16
     },
     {
-      "name": "Adam Witzig",
+      "name": "Adam Witzig - M",
       "points": 15
     },
     {
@@ -387,15 +387,15 @@
       "points": 15
     },
     {
-      "name": "Kat Roesnberger",
+      "name": "Kat Roesnberger - F",
       "points": 15
     },
     {
-      "name": "Kenny Higgins",
+      "name": "Kenny Higgins - M",
       "points": 15
     },
     {
-      "name": "Nathan Dallas",
+      "name": "Nathan Dallas - M",
       "points": 15
     },
     {
@@ -431,7 +431,7 @@
       "points": 11
     },
     {
-      "name": "Alayna Hosna",
+      "name": "Alayna Hosna - F",
       "points": 10
     },
     {
@@ -443,7 +443,7 @@
       "points": 10
     },
     {
-      "name": "Brett Zimmer",
+      "name": "Brett Zimmer - M",
       "points": 10
     },
     {
@@ -459,15 +459,15 @@
       "points": 10
     },
     {
-      "name": "Jennifer Disko",
+      "name": "Jennifer Disko - F",
       "points": 10
     },
     {
-      "name": "Jennifer Duong",
+      "name": "Jennifer Duong - F",
       "points": 10
     },
     {
-      "name": "Logan Justice",
+      "name": "Logan Justice - F",
       "points": 10
     },
     {
@@ -479,11 +479,11 @@
       "points": 10
     },
     {
-      "name": "Preston Langlois",
+      "name": "Preston Langlois - M",
       "points": 10
     },
     {
-      "name": "Ryan Niedermayer",
+      "name": "Ryan Niedermayer - M",
       "points": 10
     },
     {
@@ -491,7 +491,7 @@
       "points": 10
     },
     {
-      "name": "Shiva Garimella",
+      "name": "Shiva Garimella - M",
       "points": 10
     },
     {
@@ -507,7 +507,7 @@
       "points": 9
     },
     {
-      "name": "Lori Schneider",
+      "name": "Lori Schneider - F",
       "points": 9
     },
     {
@@ -523,7 +523,7 @@
       "points": 8
     },
     {
-      "name": "Alison Barnes- F 50",
+      "name": "Alison Barnes - F 50",
       "points": 7
     },
     {
@@ -531,7 +531,7 @@
       "points": 6
     },
     {
-      "name": "Barry Zhang",
+      "name": "Barry Zhang - M",
       "points": 5
     },
     {
@@ -547,7 +547,7 @@
       "points": 5
     },
     {
-      "name": "Kyle Pingsterhaus",
+      "name": "Kyle Pingsterhaus - M",
       "points": 5
     },
     {
@@ -559,7 +559,7 @@
       "points": 5
     },
     {
-      "name": "Trevor Malone",
+      "name": "Trevor Malone - M",
       "points": 5
     },
     {
@@ -571,11 +571,11 @@
       "points": 4
     },
     {
-      "name": "Katie Zingg",
+      "name": "Katie Zingg - F",
       "points": 4
     },
     {
-      "name": "Matthew Trokey",
+      "name": "Matthew Trokey - M",
       "points": 4
     },
     {
@@ -611,7 +611,7 @@
       "points": 2
     },
     {
-      "name": "Kevin Roach",
+      "name": "Kevin Roach - M",
       "points": 2
     },
     {
@@ -627,7 +627,7 @@
       "points": 1
     },
     {
-      "name": "Ryan Groeller",
+      "name": "Ryan Groeller - M",
       "points": 1
     },
     {
@@ -643,31 +643,31 @@
       "points": 0
     },
     {
-      "name": "Amy Roberson",
+      "name": "Amy Roberson - F",
       "points": 0
     },
     {
-      "name": "Andrew Lanson",
+      "name": "Andrew Lanson - M",
       "points": 0
     },
     {
-      "name": "Andrew Urshan",
+      "name": "Andrew Urshan - M",
       "points": 0
     },
     {
-      "name": "Andy Blickhan",
+      "name": "Andy Blickhan - M",
       "points": 0
     },
     {
-      "name": "Anna Dornquast",
+      "name": "Anna Dornquast - F",
       "points": 0
     },
     {
-      "name": "Anna Girdwood",
+      "name": "Anna Girdwood - F",
       "points": 0
     },
     {
-      "name": "Austin Lin",
+      "name": "Austin Lin - M",
       "points": 0
     },
     {
@@ -683,7 +683,7 @@
       "points": 0
     },
     {
-      "name": "Blake Klostermann",
+      "name": "Blake Klostermann - M",
       "points": 0
     },
     {
@@ -695,7 +695,7 @@
       "points": 0
     },
     {
-      "name": "Brad Hoekenga",
+      "name": "Brad Hoekenga - M",
       "points": 0
     },
     {
@@ -703,35 +703,35 @@
       "points": 0
     },
     {
-      "name": "Brennen Nabholz",
+      "name": "Brennen Nabholz - M",
       "points": 0
     },
     {
-      "name": "Brent Fridley",
+      "name": "Brent Fridley - M",
       "points": 0
     },
     {
-      "name": "Brett Eckman",
+      "name": "Brett Eckman - M",
       "points": 0
     },
     {
-      "name": "Brian Garner",
+      "name": "Brian Garner - M",
       "points": 0
     },
     {
-      "name": "Brian Hennessy",
+      "name": "Brian Hennessy - M",
       "points": 0
     },
     {
-      "name": "Brian Jenkins",
+      "name": "Brian Jenkins - M",
       "points": 0
     },
     {
-      "name": "Brian Landry",
+      "name": "Brian Landry - M",
       "points": 0
     },
     {
-      "name": "Brittney Rufkahr",
+      "name": "Brittney Rufkahr - F",
       "points": 0
     },
     {
@@ -739,7 +739,7 @@
       "points": 0
     },
     {
-      "name": "Carl Daffron",
+      "name": "Carl Daffron - M",
       "points": 0
     },
     {
@@ -755,7 +755,7 @@
       "points": 0
     },
     {
-      "name": "Chad Banks",
+      "name": "Chad Banks - M",
       "points": 0
     },
     {
@@ -763,19 +763,19 @@
       "points": 0
     },
     {
-      "name": "Chris Barth",
+      "name": "Chris Barth - M",
       "points": 0
     },
     {
-      "name": "Chris Bodmer",
+      "name": "Chris Bodmer - M",
       "points": 0
     },
     {
-      "name": "Chris Bullock",
+      "name": "Chris Bullock - M",
       "points": 0
     },
     {
-      "name": "Chris Doss",
+      "name": "Chris Doss - M",
       "points": 0
     },
     {
@@ -791,11 +791,11 @@
       "points": 0
     },
     {
-      "name": "Chris Lofgren",
+      "name": "Chris Lofgren - M",
       "points": 0
     },
     {
-      "name": "Chris Morgan",
+      "name": "Chris Morgan - M",
       "points": 0
     },
     {
@@ -1331,7 +1331,7 @@
       "points": 0
     },
     {
-      "name": "Karen Hill",
+      "name": "Karen Hill - F",
       "points": 0
     },
     {
@@ -1343,7 +1343,7 @@
       "points": 0
     },
     {
-      "name": "Kasandra Gehrke",
+      "name": "Kasandra Gehrke - F",
       "points": 0
     },
     {
@@ -1355,7 +1355,7 @@
       "points": 0
     },
     {
-      "name": "Kelly Roller",
+      "name": "Kelly Roller - F",
       "points": 0
     },
     {
@@ -1363,7 +1363,7 @@
       "points": 0
     },
     {
-      "name": "Kevin Ashley",
+      "name": "Kevin Ashley - M",
       "points": 0
     },
     {
@@ -1379,19 +1379,19 @@
       "points": 0
     },
     {
-      "name": "Kim Lake",
+      "name": "Kim Lake - F",
       "points": 0
     },
     {
-      "name": "Kim Penrod",
+      "name": "Kim Penrod - F",
       "points": 0
     },
     {
-      "name": "Kim Sparkman",
+      "name": "Kim Sparkman - F",
       "points": 0
     },
     {
-      "name": "Kimberly Lake",
+      "name": "Kimberly Lake - F",
       "points": 0
     },
     {
@@ -1399,11 +1399,11 @@
       "points": 0
     },
     {
-      "name": "Kirk Schaaf",
+      "name": "Kirk Schaaf - M",
       "points": 0
     },
     {
-      "name": "Kom Divanbeigi",
+      "name": "Kom Divanbeigi - M",
       "points": 0
     },
     {
@@ -1423,7 +1423,7 @@
       "points": 0
     },
     {
-      "name": "Kyle Weaver",
+      "name": "Kyle Weaver - M",
       "points": 0
     },
     {
@@ -1463,7 +1463,7 @@
       "points": 0
     },
     {
-      "name": "Lilly Grelle",
+      "name": "Lilly Grelle - F",
       "points": 0
     },
     {
@@ -1487,7 +1487,7 @@
       "points": 0
     },
     {
-      "name": "Louis Wallace",
+      "name": "Louis Wallace - M",
       "points": 0
     },
     {
@@ -1507,11 +1507,11 @@
       "points": 0
     },
     {
-      "name": "Mariana Ahring",
+      "name": "Mariana Ahring - F",
       "points": 0
     },
     {
-      "name": "Marianna Justice",
+      "name": "Marianna Justice - F",
       "points": 0
     },
     {
@@ -1519,27 +1519,27 @@
       "points": 0
     },
     {
-      "name": "Martha Davis-Goldstein",
+      "name": "Martha Davis-Goldstein - F",
       "points": 0
     },
     {
-      "name": "Mary Finkes",
+      "name": "Mary Finkes - F",
       "points": 0
     },
     {
-      "name": "Mary Perkins",
+      "name": "Mary Perkins - F",
       "points": 0
     },
     {
-      "name": "Mary Swenson",
+      "name": "Mary Swenson - F",
       "points": 0
     },
     {
-      "name": "Mason Tolle",
+      "name": "Mason Tolle - M",
       "points": 0
     },
     {
-      "name": "Matt Benoist",
+      "name": "Matt Benoist - M",
       "points": 0
     },
     {
@@ -1551,7 +1551,7 @@
       "points": 0
     },
     {
-      "name": "Matt Goodwin",
+      "name": "Matt Goodwin - M",
       "points": 0
     },
     {
@@ -1575,11 +1575,11 @@
       "points": 0
     },
     {
-      "name": "Melissa Armbruster",
+      "name": "Melissa Armbruster - F",
       "points": 0
     },
     {
-      "name": "Melissa Curley",
+      "name": "Melissa Curley - F",
       "points": 0
     },
     {
@@ -1595,15 +1595,15 @@
       "points": 0
     },
     {
-      "name": "Michael Scharf",
+      "name": "Michael Scharf - M",
       "points": 0
     },
     {
-      "name": "Michelle Beattie",
+      "name": "Michelle Beattie - F",
       "points": 0
     },
     {
-      "name": "Michelle Bess",
+      "name": "Michelle Bess - F",
       "points": 0
     },
     {
@@ -1647,11 +1647,11 @@
       "points": 0
     },
     {
-      "name": "Monika Ray",
+      "name": "Monika Ray - F",
       "points": 0
     },
     {
-      "name": "Nancy Fezzi",
+      "name": "Nancy Fezzi - F",
       "points": 0
     },
     {
@@ -1663,11 +1663,11 @@
       "points": 0
     },
     {
-      "name": "Niall Torricelli",
+      "name": "Niall Torricelli - M",
       "points": 0
     },
     {
-      "name": "Nick Breeding",
+      "name": "Nick Breeding - M",
       "points": 0
     },
     {
@@ -1679,7 +1679,7 @@
       "points": 0
     },
     {
-      "name": "Nick Rangel",
+      "name": "Nick Rangel - M",
       "points": 0
     },
     {
@@ -1695,7 +1695,7 @@
       "points": 0
     },
     {
-      "name": "Parker Maue",
+      "name": "Parker Maue - M",
       "points": 0
     },
     {
@@ -1727,7 +1727,7 @@
       "points": 0
     },
     {
-      "name": "Rachel Laramie",
+      "name": "Rachel Laramie - F",
       "points": 0
     },
     {
@@ -1747,7 +1747,7 @@
       "points": 0
     },
     {
-      "name": "Renessa Drainer",
+      "name": "Renessa Drainer - F",
       "points": 0
     },
     {
@@ -1755,7 +1755,7 @@
       "points": 0
     },
     {
-      "name": "Robert Billing",
+      "name": "Robert Billing - M",
       "points": 0
     },
     {
@@ -1803,7 +1803,7 @@
       "points": 0
     },
     {
-      "name": "Sam Ray",
+      "name": "Sam Ray - F",
       "points": 0
     },
     {
@@ -1891,11 +1891,11 @@
       "points": 0
     },
     {
-      "name": "Tim Howell",
+      "name": "Tim Howell - M",
       "points": 0
     },
     {
-      "name": "Tim Lake",
+      "name": "Tim Lake - M 60",
       "points": 0
     },
     {
@@ -1911,7 +1911,7 @@
       "points": 0
     },
     {
-      "name": "Todd Wahl",
+      "name": "Todd Wahl - M",
       "points": 0
     },
     {
