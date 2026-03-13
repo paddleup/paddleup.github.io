@@ -41,7 +41,7 @@ export default function App() {
 
         {data && (
           <>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 text-center">
+            <h2 className="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white mb-6 text-center">
               2025-2026 Club Point Leaders
             </h2>
 
