@@ -1,10 +1,14 @@
 {
-  "scrapedAt": "2026-03-26T07:13:21.402Z",
+  "scrapedAt": "2026-03-27T07:12:23.862Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
       "name": "Paige Reque - F",
       "points": 292
+    },
+    {
+      "name": "Brett Mell - M",
+      "points": 225
     },
     {
       "name": "Kevin Reque - M",
@@ -41,10 +45,6 @@
     {
       "name": "Jon Harris - M",
       "points": 133
-    },
-    {
-      "name": "Brett Mell - M",
-      "points": 125
     },
     {
       "name": "Carter Smith - M",
