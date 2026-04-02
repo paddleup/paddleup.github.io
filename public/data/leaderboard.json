@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-04-01T07:25:05.053Z",
+  "scrapedAt": "2026-04-02T07:17:00.531Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -56,23 +56,23 @@
     },
     {
       "name": "Linda Griesenauer - F 50",
-      "points": 93
+      "points": 97
     },
     {
       "name": "Kim Faron - F 50",
-      "points": 91
+      "points": 96
     },
     {
       "name": "Devory Newsome - M",
       "points": 87
     },
     {
-      "name": "Krissy Dickey - F",
-      "points": 80
+      "name": "Dee Eaton - F 50",
+      "points": 81
     },
     {
-      "name": "Dee Eaton - F 50",
-      "points": 77
+      "name": "Krissy Dickey - F",
+      "points": 80
     },
     {
       "name": "Carolyn Wilkinson - F 50",
@@ -83,12 +83,12 @@
       "points": 71
     },
     {
-      "name": "Matt Landolt - M",
+      "name": "Carrie Blackburn - F 50",
       "points": 68
     },
     {
-      "name": "Carrie Blackburn - F 50",
-      "points": 65
+      "name": "Matt Landolt - M",
+      "points": 68
     },
     {
       "name": "Jill Clark - F",
@@ -100,6 +100,10 @@
     },
     {
       "name": "Ann Wieman - F 50",
+      "points": 62
+    },
+    {
+      "name": "Laura Friese - F 50",
       "points": 62
     },
     {
@@ -115,7 +119,7 @@
       "points": 60
     },
     {
-      "name": "Laura Friese - F 50",
+      "name": "Jessica Kelting - F 50",
       "points": 58
     },
     {
@@ -123,8 +127,8 @@
       "points": 58
     },
     {
-      "name": "Jessica Kelting - F 50",
-      "points": 52
+      "name": "Sarah Bathe - F 50",
+      "points": 55
     },
     {
       "name": "Chuck Kuehl - M",
@@ -132,10 +136,6 @@
     },
     {
       "name": "Preston Behlmann - M",
-      "points": 51
-    },
-    {
-      "name": "Sarah Bathe - F 50",
       "points": 51
     },
     {
@@ -175,6 +175,10 @@
       "points": 48
     },
     {
+      "name": "Missy Kirksey - F 50",
+      "points": 48
+    },
+    {
       "name": "Amy Kreklow - F",
       "points": 45
     },
@@ -200,10 +204,6 @@
     },
     {
       "name": "Kyle Laramie - M",
-      "points": 45
-    },
-    {
-      "name": "Missy Kirksey - F 50",
       "points": 45
     },
     {
@@ -243,16 +243,16 @@
       "points": 38
     },
     {
+      "name": "Jennifer Tillman - F 50",
+      "points": 36
+    },
+    {
       "name": "Dawn Tegeler - F 50",
       "points": 35
     },
     {
       "name": "Scott Maschmann",
       "points": 35
-    },
-    {
-      "name": "Jennifer Tillman - F 50",
-      "points": 31
     },
     {
       "name": "Amy Smith - F",
@@ -415,6 +415,10 @@
       "points": 14
     },
     {
+      "name": "Mary Ann Hollander - F 60",
+      "points": 13
+    },
+    {
       "name": "Jenny Zingg - F 50",
       "points": 12
     },
@@ -471,7 +475,7 @@
       "points": 10
     },
     {
-      "name": "Mary Ann Hollander - F 60",
+      "name": "Lori Schneider - F",
       "points": 10
     },
     {
@@ -504,10 +508,6 @@
     },
     {
       "name": "Angela Lamb - F 50",
-      "points": 9
-    },
-    {
-      "name": "Lori Schneider - F",
       "points": 9
     },
     {
