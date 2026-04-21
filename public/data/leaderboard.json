@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-04-20T08:12:33.291Z",
+  "scrapedAt": "2026-04-21T07:56:02.377Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -7,24 +7,32 @@
       "points": 292
     },
     {
+      "name": "Kevin Reque - M",
+      "points": 230
+    },
+    {
       "name": "Brett Mell - M",
       "points": 225
     },
     {
-      "name": "Kevin Reque - M",
-      "points": 210
-    },
-    {
       "name": "Nick Borger - M",
-      "points": 175
+      "points": 205
     },
     {
       "name": "Chase Blickhan - M",
-      "points": 171
+      "points": 201
+    },
+    {
+      "name": "Mary Kruse - F",
+      "points": 180
     },
     {
       "name": "Kayleigh Trokey - F",
       "points": 164
+    },
+    {
+      "name": "Jon Harris - M",
+      "points": 163
     },
     {
       "name": "Garrett Hallemeier - M",
@@ -35,24 +43,32 @@
       "points": 142
     },
     {
-      "name": "Mary Kruse - F",
-      "points": 140
-    },
-    {
       "name": "Jon Richert - M",
       "points": 138
     },
     {
-      "name": "Jon Harris - M",
-      "points": 133
+      "name": "Mandy Windham - F 50",
+      "points": 125
+    },
+    {
+      "name": "Devory Newsome - M",
+      "points": 117
     },
     {
       "name": "Carter Smith - M",
       "points": 111
     },
     {
-      "name": "Mandy Windham - F 50",
+      "name": "Colby Rinehart - M",
       "points": 105
+    },
+    {
+      "name": "Preston Behlmann - M",
+      "points": 105
+    },
+    {
+      "name": "Matt Landolt - M",
+      "points": 98
     },
     {
       "name": "Linda Griesenauer - F 50",
@@ -63,8 +79,8 @@
       "points": 96
     },
     {
-      "name": "Devory Newsome - M",
-      "points": 87
+      "name": "John Paden - M",
+      "points": 90
     },
     {
       "name": "Dee Eaton - F 50",
@@ -73,6 +89,10 @@
     {
       "name": "Krissy Dickey - F",
       "points": 80
+    },
+    {
+      "name": "Matthew Hultman - M",
+      "points": 78
     },
     {
       "name": "Carolyn Wilkinson - F 50",
@@ -84,10 +104,6 @@
     },
     {
       "name": "Carrie Blackburn - F 50",
-      "points": 68
-    },
-    {
-      "name": "Matt Landolt - M",
       "points": 68
     },
     {
@@ -115,8 +131,8 @@
       "points": 60
     },
     {
-      "name": "John Paden - M",
-      "points": 60
+      "name": "Libby Liston - F",
+      "points": 59
     },
     {
       "name": "Jessica Kelting - F 50",
@@ -132,10 +148,6 @@
     },
     {
       "name": "Chuck Kuehl - M",
-      "points": 51
-    },
-    {
-      "name": "Preston Behlmann - M",
       "points": 51
     },
     {
@@ -167,8 +179,12 @@
       "points": 50
     },
     {
-      "name": "Libby Liston - F",
-      "points": 49
+      "name": "Shiva Garimella - M",
+      "points": 50
+    },
+    {
+      "name": "Tara Fesser - F 50",
+      "points": 50
     },
     {
       "name": "Mat Sevilla - M",
@@ -176,6 +192,10 @@
     },
     {
       "name": "Missy Kirksey - F 50",
+      "points": 48
+    },
+    {
+      "name": "Sean Liston - M",
       "points": 48
     },
     {
@@ -192,10 +212,6 @@
     },
     {
       "name": "Blake Huskey - M",
-      "points": 45
-    },
-    {
-      "name": "Colby Rinehart - M",
       "points": 45
     },
     {
@@ -220,6 +236,10 @@
     },
     {
       "name": "Dani Roberts",
+      "points": 40
+    },
+    {
+      "name": "Logan Justice - F",
       "points": 40
     },
     {
@@ -251,11 +271,19 @@
       "points": 35
     },
     {
+      "name": "Lindsay Anderson",
+      "points": 35
+    },
+    {
       "name": "Scott Maschmann",
       "points": 35
     },
     {
       "name": "Amy Smith - F",
+      "points": 30
+    },
+    {
+      "name": "Andy Blickhan - M",
       "points": 30
     },
     {
@@ -271,6 +299,10 @@
       "points": 30
     },
     {
+      "name": "Preston Langlois - M",
+      "points": 30
+    },
+    {
       "name": "Shayna Whitaker - F",
       "points": 30
     },
@@ -279,20 +311,12 @@
       "points": 30
     },
     {
-      "name": "Tara Fesser - F 50",
-      "points": 30
-    },
-    {
       "name": "Logan Boyher",
       "points": 28
     },
     {
-      "name": "Matthew Hultman - M",
-      "points": 28
-    },
-    {
-      "name": "Sean Liston - M",
-      "points": 28
+      "name": "Becca Hawkins - F",
+      "points": 27
     },
     {
       "name": "Lisa Havens - F 50",
@@ -355,10 +379,6 @@
       "points": 19
     },
     {
-      "name": "Becca Hawkins - F",
-      "points": 17
-    },
-    {
       "name": "Sherry Allen - F 50",
       "points": 17
     },
@@ -411,6 +431,10 @@
       "points": 14
     },
     {
+      "name": "Matthew Trokey - M",
+      "points": 14
+    },
+    {
       "name": "Sarah Kaiser - F 50",
       "points": 14
     },
@@ -455,6 +479,10 @@
       "points": 10
     },
     {
+      "name": "Chris Doss - M",
+      "points": 10
+    },
+    {
       "name": "Chris Miles - M 50",
       "points": 10
     },
@@ -471,10 +499,6 @@
       "points": 10
     },
     {
-      "name": "Logan Justice - F",
-      "points": 10
-    },
-    {
       "name": "Lori Schneider - F",
       "points": 10
     },
@@ -483,19 +507,11 @@
       "points": 10
     },
     {
-      "name": "Preston Langlois - M",
-      "points": 10
-    },
-    {
       "name": "Ryan Niedermayer - M",
       "points": 10
     },
     {
       "name": "Ryan Rizzo",
-      "points": 10
-    },
-    {
-      "name": "Shiva Garimella - M",
       "points": 10
     },
     {
@@ -551,10 +567,6 @@
       "points": 5
     },
     {
-      "name": "Lindsay Anderson",
-      "points": 5
-    },
-    {
       "name": "Rachel Loeb",
       "points": 5
     },
@@ -572,10 +584,6 @@
     },
     {
       "name": "Katie Zingg - F",
-      "points": 4
-    },
-    {
-      "name": "Matthew Trokey - M",
       "points": 4
     },
     {
@@ -652,10 +660,6 @@
     },
     {
       "name": "Andrew Urshan - M",
-      "points": 0
-    },
-    {
-      "name": "Andy Blickhan - M",
       "points": 0
     },
     {
@@ -772,10 +776,6 @@
     },
     {
       "name": "Chris Bullock - M",
-      "points": 0
-    },
-    {
-      "name": "Chris Doss - M",
       "points": 0
     },
     {
