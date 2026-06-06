@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-06-05T09:54:52.331Z",
+  "scrapedAt": "2026-06-06T08:35:39.446Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -51,12 +51,24 @@
       "points": 125
     },
     {
+      "name": "Linda Griesenauer - F 50",
+      "points": 124
+    },
+    {
+      "name": "Kim Faron - F 50",
+      "points": 120
+    },
+    {
       "name": "Devory Newsome - M",
       "points": 117
     },
     {
       "name": "Carter Smith - M",
       "points": 111
+    },
+    {
+      "name": "Dee Eaton - F 50",
+      "points": 107
     },
     {
       "name": "Colby Rinehart - M",
@@ -71,39 +83,39 @@
       "points": 98
     },
     {
-      "name": "Linda Griesenauer - F 50",
-      "points": 97
-    },
-    {
-      "name": "Kim Faron - F 50",
-      "points": 96
-    },
-    {
       "name": "John Paden - M",
       "points": 90
     },
     {
-      "name": "Dee Eaton - F 50",
-      "points": 81
+      "name": "Carolyn Wilkinson - F 50",
+      "points": 86
+    },
+    {
+      "name": "Carrie Blackburn - F 50",
+      "points": 84
     },
     {
       "name": "Krissy Dickey - F",
       "points": 80
     },
     {
+      "name": "Laura Friese - F 50",
+      "points": 78
+    },
+    {
       "name": "Matthew Hultman - M",
       "points": 78
     },
     {
-      "name": "Carolyn Wilkinson - F 50",
-      "points": 73
+      "name": "Ann Wieman - F 50",
+      "points": 74
     },
     {
       "name": "Matt Stoddard - M 50",
       "points": 71
     },
     {
-      "name": "Carrie Blackburn - F 50",
+      "name": "Kathy Allen - F 50",
       "points": 68
     },
     {
@@ -111,16 +123,8 @@
       "points": 65
     },
     {
-      "name": "Kathy Allen - F 50",
+      "name": "Jessica Kelting - F 50",
       "points": 64
-    },
-    {
-      "name": "Ann Wieman - F 50",
-      "points": 62
-    },
-    {
-      "name": "Laura Friese - F 50",
-      "points": 62
     },
     {
       "name": "Bryan Willey - M",
@@ -131,24 +135,28 @@
       "points": 60
     },
     {
-      "name": "Libby Liston - F",
-      "points": 59
+      "name": "Sarah Bathe - F 50",
+      "points": 60
     },
     {
-      "name": "Jessica Kelting - F 50",
-      "points": 58
+      "name": "Libby Liston - F",
+      "points": 59
     },
     {
       "name": "Ricky Hasan - M",
       "points": 58
     },
     {
-      "name": "Sarah Bathe - F 50",
-      "points": 55
+      "name": "Amy Kreklow - F",
+      "points": 56
     },
     {
       "name": "Chuck Kuehl - M",
       "points": 51
+    },
+    {
+      "name": "Anne Dennison - F 50",
+      "points": 50
     },
     {
       "name": "Brian Willey - M",
@@ -179,6 +187,10 @@
       "points": 50
     },
     {
+      "name": "Missy Kirksey - F 50",
+      "points": 50
+    },
+    {
       "name": "Shiva Garimella - M",
       "points": 50
     },
@@ -187,11 +199,11 @@
       "points": 50
     },
     {
-      "name": "Mat Sevilla - M",
+      "name": "Dawn Tegeler - F 50",
       "points": 48
     },
     {
-      "name": "Missy Kirksey - F 50",
+      "name": "Mat Sevilla - M",
       "points": 48
     },
     {
@@ -199,12 +211,8 @@
       "points": 48
     },
     {
-      "name": "Amy Kreklow - F",
-      "points": 45
-    },
-    {
-      "name": "Anne Dennison - F 50",
-      "points": 45
+      "name": "Jennifer Tillman - F 50",
+      "points": 46
     },
     {
       "name": "Bekah Ola - F",
@@ -263,20 +271,16 @@
       "points": 38
     },
     {
-      "name": "Jennifer Tillman - F 50",
-      "points": 36
-    },
-    {
-      "name": "Dawn Tegeler - F 50",
-      "points": 35
-    },
-    {
       "name": "Lindsay Anderson",
       "points": 35
     },
     {
       "name": "Scott Maschmann",
       "points": 35
+    },
+    {
+      "name": "Lisa Havens - F 50",
+      "points": 31
     },
     {
       "name": "Amy Smith - F",
@@ -319,10 +323,6 @@
       "points": 27
     },
     {
-      "name": "Lisa Havens - F 50",
-      "points": 27
-    },
-    {
       "name": "Andrew Chekadanov - M",
       "points": 25
     },
@@ -351,6 +351,10 @@
       "points": 23
     },
     {
+      "name": "Sherry Allen - F 50",
+      "points": 23
+    },
+    {
       "name": "Tina Ingrim - F 50",
       "points": 23
     },
@@ -359,11 +363,19 @@
       "points": 23
     },
     {
+      "name": "Lori Schneider - F",
+      "points": 21
+    },
+    {
       "name": "Caleb Fall - M",
       "points": 20
     },
     {
       "name": "Derick Lopez",
+      "points": 20
+    },
+    {
+      "name": "Mary Ann Hollander - F 60",
       "points": 20
     },
     {
@@ -379,8 +391,8 @@
       "points": 19
     },
     {
-      "name": "Sherry Allen - F 50",
-      "points": 17
+      "name": "Jenny Zingg - F 50",
+      "points": 18
     },
     {
       "name": "Mike Berry - M",
@@ -439,14 +451,6 @@
       "points": 14
     },
     {
-      "name": "Mary Ann Hollander - F 60",
-      "points": 13
-    },
-    {
-      "name": "Jenny Zingg - F 50",
-      "points": 12
-    },
-    {
       "name": "Nancy Provin - F 50",
       "points": 12
     },
@@ -499,10 +503,6 @@
       "points": 10
     },
     {
-      "name": "Lori Schneider - F",
-      "points": 10
-    },
-    {
       "name": "Matt Jansen",
       "points": 10
     },
@@ -528,6 +528,10 @@
     },
     {
       "name": "Brandi Hallemeier",
+      "points": 8
+    },
+    {
+      "name": "Callie Daniels - F 50",
       "points": 8
     },
     {
