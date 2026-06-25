@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-06-24T09:34:07.785Z",
+  "scrapedAt": "2026-06-25T09:25:35.294Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -47,16 +47,16 @@
       "points": 138
     },
     {
+      "name": "Linda Griesenauer - F 50",
+      "points": 128
+    },
+    {
       "name": "Mandy Windham - F 50",
       "points": 125
     },
     {
-      "name": "Linda Griesenauer - F 50",
-      "points": 124
-    },
-    {
       "name": "Kim Faron - F 50",
-      "points": 120
+      "points": 122
     },
     {
       "name": "Devory Newsome - M",
@@ -68,7 +68,7 @@
     },
     {
       "name": "Dee Eaton - F 50",
-      "points": 107
+      "points": 110
     },
     {
       "name": "Colby Rinehart - M",
@@ -83,24 +83,24 @@
       "points": 98
     },
     {
+      "name": "Carolyn Wilkinson - F 50",
+      "points": 90
+    },
+    {
       "name": "John Paden - M",
       "points": 90
     },
     {
-      "name": "Carolyn Wilkinson - F 50",
-      "points": 86
+      "name": "Carrie Blackburn - F 50",
+      "points": 87
     },
     {
-      "name": "Carrie Blackburn - F 50",
-      "points": 84
+      "name": "Laura Friese - F 50",
+      "points": 82
     },
     {
       "name": "Krissy Dickey - F",
       "points": 80
-    },
-    {
-      "name": "Laura Friese - F 50",
-      "points": 78
     },
     {
       "name": "Matthew Hultman - M",
@@ -148,10 +148,14 @@
     },
     {
       "name": "Amy Kreklow - F",
-      "points": 56
+      "points": 57
     },
     {
       "name": "Chuck Kuehl - M",
+      "points": 51
+    },
+    {
+      "name": "Dawn Tegeler - F 50",
       "points": 51
     },
     {
@@ -197,10 +201,6 @@
     {
       "name": "Tara Fesser - F 50",
       "points": 50
-    },
-    {
-      "name": "Dawn Tegeler - F 50",
-      "points": 48
     },
     {
       "name": "Mat Sevilla - M",
@@ -347,6 +347,10 @@
       "points": 24
     },
     {
+      "name": "Mary Ann Hollander - F 60",
+      "points": 24
+    },
+    {
       "name": "Diane McCane",
       "points": 23
     },
@@ -372,10 +376,6 @@
     },
     {
       "name": "Derick Lopez",
-      "points": 20
-    },
-    {
-      "name": "Mary Ann Hollander - F 60",
       "points": 20
     },
     {
