@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-07-01T09:51:34.714Z",
+  "scrapedAt": "2026-07-02T09:15:41.522Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -40,27 +40,27 @@
     },
     {
       "name": "Linda Griesenauer - F 50",
-      "points": 146
+      "points": 151
+    },
+    {
+      "name": "Kim Faron - F 50",
+      "points": 144
     },
     {
       "name": "Bryce Gamache - M",
       "points": 142
     },
     {
-      "name": "Kim Faron - F 50",
-      "points": 141
-    },
-    {
       "name": "Jon Richert - M",
       "points": 138
     },
     {
-      "name": "Mandy Windham - F 50",
-      "points": 125
+      "name": "Dee Eaton - F 50",
+      "points": 129
     },
     {
-      "name": "Dee Eaton - F 50",
-      "points": 122
+      "name": "Mandy Windham - F 50",
+      "points": 125
     },
     {
       "name": "Devory Newsome - M",
@@ -68,11 +68,15 @@
     },
     {
       "name": "Carolyn Wilkinson - F 50",
-      "points": 113
+      "points": 116
     },
     {
       "name": "Carter Smith - M",
       "points": 111
+    },
+    {
+      "name": "Carrie Blackburn - F 50",
+      "points": 105
     },
     {
       "name": "Colby Rinehart - M",
@@ -83,16 +87,12 @@
       "points": 105
     },
     {
-      "name": "Carrie Blackburn - F 50",
-      "points": 102
-    },
-    {
       "name": "Matt Landolt - M",
       "points": 98
     },
     {
       "name": "Laura Friese - F 50",
-      "points": 95
+      "points": 96
     },
     {
       "name": "John Paden - M",
@@ -127,6 +127,10 @@
       "points": 65
     },
     {
+      "name": "Sarah Bathe - F 50",
+      "points": 65
+    },
+    {
       "name": "Amy Kreklow - F",
       "points": 60
     },
@@ -136,10 +140,6 @@
     },
     {
       "name": "Jadon Wing - M",
-      "points": 60
-    },
-    {
-      "name": "Sarah Bathe - F 50",
       "points": 60
     },
     {
@@ -263,6 +263,10 @@
       "points": 40
     },
     {
+      "name": "Lisa Havens - F 50",
+      "points": 40
+    },
+    {
       "name": "Logan Justice - F",
       "points": 40
     },
@@ -285,10 +289,6 @@
     {
       "name": "Lotfi El-Haw - M",
       "points": 38
-    },
-    {
-      "name": "Lisa Havens - F 50",
-      "points": 36
     },
     {
       "name": "Lindsay Anderson",
