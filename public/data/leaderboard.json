@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-07-16T08:16:42.474Z",
+  "scrapedAt": "2026-07-19T08:21:54.649Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -123,11 +123,19 @@
       "points": 71
     },
     {
+      "name": "Bekah Ola - F",
+      "points": 70
+    },
+    {
       "name": "Jill Clark - F",
       "points": 65
     },
     {
       "name": "Sarah Bathe - F 50",
+      "points": 65
+    },
+    {
+      "name": "Tobi Ola - M",
       "points": 65
     },
     {
@@ -156,10 +164,6 @@
     },
     {
       "name": "Anne Dennison - F 50",
-      "points": 55
-    },
-    {
-      "name": "Bekah Ola - F",
       "points": 55
     },
     {
@@ -204,10 +208,6 @@
     },
     {
       "name": "Tara Fesser - F 50",
-      "points": 50
-    },
-    {
-      "name": "Tobi Ola - M",
       "points": 50
     },
     {
