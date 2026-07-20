@@ -1,34 +1,54 @@
 {
-  "scrapedAt": "2026-07-19T08:21:54.649Z",
+  "scrapedAt": "2026-07-20T09:17:29.957Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
-      "name": "Paige Reque - F",
-      "points": 322
+      "name": "Kayleigh Trokey - F",
+      "points": 374
     },
     {
-      "name": "Kevin Reque - M",
-      "points": 230
+      "name": "Paige Reque - F",
+      "points": 352
     },
     {
       "name": "Brett Mell - M",
-      "points": 225
+      "points": 305
+    },
+    {
+      "name": "Chase Blickhan - M",
+      "points": 301
+    },
+    {
+      "name": "Kevin Reque - M",
+      "points": 270
+    },
+    {
+      "name": "Tobi Ola - M",
+      "points": 235
     },
     {
       "name": "Nick Borger - M",
       "points": 220
     },
     {
-      "name": "Kayleigh Trokey - F",
-      "points": 204
-    },
-    {
-      "name": "Chase Blickhan - M",
-      "points": 201
-    },
-    {
       "name": "Mary Kruse - F",
-      "points": 185
+      "points": 215
+    },
+    {
+      "name": "Kelly Richert - F",
+      "points": 198
+    },
+    {
+      "name": "Tara Fesser - F 50",
+      "points": 183
+    },
+    {
+      "name": "Jon Richert - M",
+      "points": 168
+    },
+    {
+      "name": "Preston Behlmann - M",
+      "points": 165
     },
     {
       "name": "Jon Harris - M",
@@ -37,6 +57,14 @@
     {
       "name": "Linda Griesenauer - F 50",
       "points": 158
+    },
+    {
+      "name": "Devory Newsome - M",
+      "points": 157
+    },
+    {
+      "name": "Colby Rinehart - M",
+      "points": 155
     },
     {
       "name": "Garrett Hallemeier - M",
@@ -51,8 +79,8 @@
       "points": 142
     },
     {
-      "name": "Jon Richert - M",
-      "points": 138
+      "name": "Carter Smith - M",
+      "points": 141
     },
     {
       "name": "Dee Eaton - F 50",
@@ -63,31 +91,47 @@
       "points": 125
     },
     {
-      "name": "Devory Newsome - M",
-      "points": 117
+      "name": "Becca Hawkins - F",
+      "points": 122
+    },
+    {
+      "name": "Bekah Ola - F",
+      "points": 120
+    },
+    {
+      "name": "Dina Dougherty - F 50",
+      "points": 120
+    },
+    {
+      "name": "John Paden - M",
+      "points": 120
+    },
+    {
+      "name": "Brooks Toth - M",
+      "points": 118
     },
     {
       "name": "Carolyn Wilkinson - F 50",
       "points": 116
     },
     {
-      "name": "Carter Smith - M",
-      "points": 111
+      "name": "Sean Liston - M",
+      "points": 108
     },
     {
       "name": "Carrie Blackburn - F 50",
       "points": 105
     },
     {
-      "name": "Colby Rinehart - M",
-      "points": 105
-    },
-    {
-      "name": "Preston Behlmann - M",
-      "points": 105
+      "name": "Matt Stoddard - M 50",
+      "points": 101
     },
     {
       "name": "Matt Landolt - M",
+      "points": 98
+    },
+    {
+      "name": "Ricky Hasan - M",
       "points": 98
     },
     {
@@ -95,12 +139,28 @@
       "points": 96
     },
     {
-      "name": "John Paden - M",
+      "name": "Bryan Willey - M",
       "points": 90
+    },
+    {
+      "name": "Jo Rushing",
+      "points": 90
+    },
+    {
+      "name": "Whitney Durham - F 50",
+      "points": 84
+    },
+    {
+      "name": "Andy Blickhan - M",
+      "points": 80
     },
     {
       "name": "Krissy Dickey - F",
       "points": 80
+    },
+    {
+      "name": "Libby Liston - F",
+      "points": 79
     },
     {
       "name": "Ann Wieman - F 50",
@@ -111,23 +171,43 @@
       "points": 78
     },
     {
+      "name": "Mat Sevilla - M",
+      "points": 78
+    },
+    {
       "name": "Matthew Hultman - M",
       "points": 78
+    },
+    {
+      "name": "Scott Maschmann",
+      "points": 75
     },
     {
       "name": "Kathy Allen - F 50",
       "points": 73
     },
     {
-      "name": "Matt Stoddard - M 50",
-      "points": 71
-    },
-    {
-      "name": "Bekah Ola - F",
+      "name": "Sarah Gibson - F",
       "points": 70
     },
     {
+      "name": "Winchester Dermody - M",
+      "points": 70
+    },
+    {
+      "name": "Amy Smith - F",
+      "points": 65
+    },
+    {
       "name": "Jill Clark - F",
+      "points": 65
+    },
+    {
+      "name": "John Cometa - M 50",
+      "points": 65
+    },
+    {
+      "name": "Preston Langlois - M",
       "points": 65
     },
     {
@@ -135,15 +215,7 @@
       "points": 65
     },
     {
-      "name": "Tobi Ola - M",
-      "points": 65
-    },
-    {
       "name": "Amy Kreklow - F",
-      "points": 60
-    },
-    {
-      "name": "Bryan Willey - M",
       "points": 60
     },
     {
@@ -151,12 +223,12 @@
       "points": 60
     },
     {
-      "name": "Libby Liston - F",
-      "points": 59
+      "name": "Ruby Pfeil - F",
+      "points": 60
     },
     {
-      "name": "Ricky Hasan - M",
-      "points": 58
+      "name": "Sierra Braun - F",
+      "points": 60
     },
     {
       "name": "Dawn Tegeler - F 50",
@@ -167,7 +239,23 @@
       "points": 55
     },
     {
+      "name": "Duane Muntzing",
+      "points": 55
+    },
+    {
+      "name": "Flor DeLuca - F",
+      "points": 55
+    },
+    {
+      "name": "Ken Trokey - M 50",
+      "points": 53
+    },
+    {
       "name": "Missy Kirksey - F 50",
+      "points": 53
+    },
+    {
+      "name": "Orlando Paez - M 50",
       "points": 53
     },
     {
@@ -183,7 +271,7 @@
       "points": 50
     },
     {
-      "name": "Dina Dougherty - F 50",
+      "name": "Devon Woody",
       "points": 50
     },
     {
@@ -207,15 +295,15 @@
       "points": 50
     },
     {
-      "name": "Tara Fesser - F 50",
+      "name": "Sonya Diel - F 50",
       "points": 50
     },
     {
-      "name": "Mat Sevilla - M",
-      "points": 48
+      "name": "Mary Graves - F 60",
+      "points": 49
     },
     {
-      "name": "Sean Liston - M",
+      "name": "Marie Jenkins - F 50",
       "points": 48
     },
     {
@@ -235,20 +323,12 @@
       "points": 45
     },
     {
-      "name": "Kelly Richert - F",
-      "points": 45
-    },
-    {
       "name": "Kyle Laramie - M",
       "points": 45
     },
     {
-      "name": "Preston Langlois - M",
-      "points": 45
-    },
-    {
-      "name": "Becca Hawkins - F",
-      "points": 42
+      "name": "Brian Romine - M",
+      "points": 44
     },
     {
       "name": "Sarah Hill - F 50",
@@ -279,8 +359,8 @@
       "points": 39
     },
     {
-      "name": "Brooks Toth - M",
-      "points": 38
+      "name": "Janet Eubanks",
+      "points": 39
     },
     {
       "name": "Denise Wunderlich - F 60",
@@ -295,20 +375,12 @@
       "points": 35
     },
     {
-      "name": "Scott Maschmann",
-      "points": 35
+      "name": "Laura Swindler",
+      "points": 33
     },
     {
       "name": "Mary Ann Hollander - F 60",
       "points": 31
-    },
-    {
-      "name": "Amy Smith - F",
-      "points": 30
-    },
-    {
-      "name": "Andy Blickhan - M",
-      "points": 30
     },
     {
       "name": "Eduardo Gomez",
@@ -319,12 +391,8 @@
       "points": 30
     },
     {
-      "name": "Sarah Gibson - F",
-      "points": 30
-    },
-    {
-      "name": "Sierra Braun - F",
-      "points": 30
+      "name": "Callie Daniels - F 50",
+      "points": 29
     },
     {
       "name": "Logan Boyher",
@@ -340,6 +408,10 @@
     },
     {
       "name": "Gino D\"Alessio",
+      "points": 25
+    },
+    {
+      "name": "Lori Gibson",
       "points": 25
     },
     {
@@ -367,10 +439,6 @@
       "points": 25
     },
     {
-      "name": "Brian Romine - M",
-      "points": 24
-    },
-    {
       "name": "Diane McCane",
       "points": 23
     },
@@ -383,10 +451,6 @@
       "points": 23
     },
     {
-      "name": "Whitney Durham - F 50",
-      "points": 23
-    },
-    {
       "name": "Caleb Fall - M",
       "points": 20
     },
@@ -395,27 +459,11 @@
       "points": 20
     },
     {
-      "name": "Mary Graves - F 60",
-      "points": 20
-    },
-    {
       "name": "Mike Scharf - M",
       "points": 20
     },
     {
-      "name": "Ruby Pfeil - F",
-      "points": 20
-    },
-    {
       "name": "Ryan Niedermayer - M",
-      "points": 20
-    },
-    {
-      "name": "Sonya Diel - F 50",
-      "points": 20
-    },
-    {
-      "name": "Winchester Dermody - M",
       "points": 20
     },
     {
@@ -425,6 +473,10 @@
     {
       "name": "Jenny Zingg - F 50",
       "points": 18
+    },
+    {
+      "name": "Lisa Lucido",
+      "points": 17
     },
     {
       "name": "Tracie Heck - F 50",
@@ -459,10 +511,6 @@
       "points": 15
     },
     {
-      "name": "Duane Muntzing",
-      "points": 15
-    },
-    {
       "name": "Hunter Basnight - M",
       "points": 15
     },
@@ -475,11 +523,11 @@
       "points": 15
     },
     {
-      "name": "John Cometa - M 50",
+      "name": "Kat Roesnberger - F",
       "points": 15
     },
     {
-      "name": "Kat Roesnberger - F",
+      "name": "Kelly Pfeiffer - F 50",
       "points": 15
     },
     {
@@ -599,6 +647,10 @@
       "points": 10
     },
     {
+      "name": "Robyn Gevers",
+      "points": 10
+    },
+    {
       "name": "Ryan Rizzo",
       "points": 10
     },
@@ -627,14 +679,6 @@
       "points": 8
     },
     {
-      "name": "Callie Daniels - F 50",
-      "points": 8
-    },
-    {
-      "name": "Marie Jenkins - F 50",
-      "points": 8
-    },
-    {
       "name": "Shaun Schnurbusch",
       "points": 8
     },
@@ -660,10 +704,6 @@
     },
     {
       "name": "Erick Mock - M 50",
-      "points": 5
-    },
-    {
-      "name": "Flor DeLuca - F",
       "points": 5
     },
     {
@@ -739,15 +779,7 @@
       "points": 3
     },
     {
-      "name": "Ken Trokey - M 50",
-      "points": 3
-    },
-    {
       "name": "Lisa Debo - F 60",
-      "points": 3
-    },
-    {
-      "name": "Orlando Paez - M 50",
       "points": 3
     },
     {
@@ -756,10 +788,6 @@
     },
     {
       "name": "Damian Fay - M 50",
-      "points": 2
-    },
-    {
-      "name": "Kelly Pfeiffer - F 50",
       "points": 2
     },
     {
