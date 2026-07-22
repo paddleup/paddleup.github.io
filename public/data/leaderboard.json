@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-07-21T08:31:42.515Z",
+  "scrapedAt": "2026-07-22T08:31:42.939Z",
   "source": "https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825",
   "players": [
     {
@@ -39,6 +39,10 @@
       "points": 198
     },
     {
+      "name": "Linda Griesenauer - F 50",
+      "points": 188
+    },
+    {
       "name": "Tara Fesser - F 50",
       "points": 183
     },
@@ -53,10 +57,6 @@
     {
       "name": "Jon Harris - M",
       "points": 163
-    },
-    {
-      "name": "Linda Griesenauer - F 50",
-      "points": 158
     },
     {
       "name": "Devory Newsome - M",
