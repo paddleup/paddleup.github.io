@@ -5,7 +5,7 @@
 ```bash
 npm run dev        # Vite dev server at localhost:5173
 npm run build      # Production build to dist/
-npm run scrape     # Fetch latest leaderboard data from QuickScores → public/data/leaderboard.json
+npm run scrape     # Fetch latest ranking data from the KOTC Google Sheet → public/data/leaderboard.json
 npm run lint       # ESLint
 npm run lint:fix   # ESLint auto-fix
 npm run format     # Prettier (src/**/*.{ts,tsx,js,jsx,json,md})
@@ -15,21 +15,15 @@ Run `npm run scrape` before `npm run dev` if `public/data/leaderboard.json` does
 
 ## Architecture
 
-This is a **static React SPA** (React 19, Vite 7, TypeScript) deployed to GitHub Pages that displays pickleball club leaderboard standings.
+This is a **static React SPA** (React 19, Vite 7, TypeScript) deployed to GitHub Pages that displays King of the Court (KOTC) pickleball league rankings.
 
-**Data pipeline:** A Node.js scraper (`scripts/scrape.mjs`) fetches HTML from QuickScores, parses the standings table with cheerio, and writes `public/data/leaderboard.json`. A GitHub Actions workflow (`scrape.yml`) runs this daily and commits the updated JSON. The React app fetches this static JSON at runtime — there is no backend or API.
+**Data pipeline:** A Node.js scraper (`scripts/scrape.mjs`) reads the published KOTC Google Sheet. It parses the tab menu to map each ranking tab name to its `gid`, fetches each tab's published HTML table (`.../pubhtml/sheet?gid=<gid>`) with cheerio, and writes `public/data/leaderboard.json`. A GitHub Actions workflow (`scrape.yml`) runs this daily and commits the updated JSON. The React app fetches this static JSON at runtime — there is no backend or API. The rankings are already computed in the sheet; the app only displays them.
 
-**Player name convention:** Players are categorized by **name suffixes** in the QuickScores source data, not by a separate config file. The `useLeaderboard` hook parses names with the regex `/^(.+?)\s+-\s+(M|F)(?:\s+(50|60))?$/`:
-- `"Kevin Reque - M"` → Men's Overall
-- `"Jane Doe - F 50"` → Women's 50+ (cascades to Women's Overall)
-- `"John Smith - M 60"` → Men's 60+ (cascades to 50+ and Overall)
-- `"Some Player"` (no suffix) → Unclassified
+**Views:** The sheet has three ranking tabs that map to site views: `Current Month` → `current-month`, `Past 30 Days` → `past-30-days`, `All Time` → `all-time` (the `RankingView` type). Default view is Current Month. If a sheet tab is renamed, update the `VIEWS` map in `scripts/scrape.mjs`.
 
-**Category cascading:** A player tagged 60+ automatically appears in 50+ and Overall. A player tagged 50+ automatically appears in Overall. The `CategorySlug` type defines: `'overall' | 'mens-overall' | 'womens-overall' | 'mens-50' | 'womens-50' | 'mens-60' | 'womens-60' | 'unclassified'`. Only players with `points > 0` are shown.
+**Ranking rows:** Each tab has columns `Ranking | ● | Player | Points | # of Events`. The `●` column is a text movement indicator read as-is: `●` (no change), `▲N` (up N places), `▼N` (down N places). The scraper parses it into `move: { dir: 'up' | 'down' | 'none', places: number }`. Each player row is `{ rank, name, points, events, move }`.
 
 **Theme system:** `useTheme` hook manages light/dark/system modes via a `dark` class on `<html>` and persists to localStorage. Default is light. Toggle cycles: system → light → dark → system.
-
-**Admin mode:** Append `?admin` to the URL to enable admin features (e.g., viewing unclassified players). Controlled by `useAdmin` hook.
 
 ## Conventions
 

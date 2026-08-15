@@ -1,19 +1,17 @@
 import { useState } from 'react';
 import { useLeaderboard } from './hooks/useLeaderboard';
-import { useAdmin } from './hooks/useAdmin';
-import type { CategorySlug } from './hooks/useLeaderboard';
-import CategoryFilter from './components/CategoryFilter';
+import type { RankingView } from './hooks/useLeaderboard';
+import ViewTabs from './components/ViewTabs';
 import LeaderboardTable from './components/LeaderboardTable';
 import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
 import PaddleUpLogo from './components/PaddleUpLogo';
 
 export default function App() {
-  const [selected, setSelected] = useState<CategorySlug>('overall');
-  const { data, loading, error, getPlayersForCategory, unclassifiedCount } = useLeaderboard();
-  const { isAdmin } = useAdmin();
+  const [selected, setSelected] = useState<RankingView>('current-month');
+  const { data, loading, error, getPlayersForView } = useLeaderboard();
 
-  const players = getPlayersForCategory(selected);
+  const players = getPlayersForView(selected);
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
@@ -42,14 +40,14 @@ export default function App() {
         {data && (
           <>
             <h2 className="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white mb-6 text-center">
-              2025-2026 Club Point Leaders
+              King of the Court League
             </h2>
 
             <div className="mb-8">
-              <CategoryFilter selected={selected} onSelect={setSelected} unclassifiedCount={unclassifiedCount} isAdmin={isAdmin} />
+              <ViewTabs selected={selected} onSelect={setSelected} />
             </div>
 
-            <LeaderboardTable players={players} isAdmin={isAdmin} />
+            <LeaderboardTable players={players} />
 
             <Footer scrapedAt={data.scrapedAt} />
           </>

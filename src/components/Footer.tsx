@@ -19,12 +19,12 @@ export default function Footer({ scrapedAt }: FooterProps) {
       <p>
         Data from{' '}
         <a
-          href="https://www.quickscores.com/Orgs/ResultsDisplay.php?OrgDir=pupc&LeagueID=1620825"
+          href="https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml"
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent-600 dark:text-accent-400 hover:underline underline-offset-2"
         >
-          QuickScores
+          KOTC League Standings
         </a>
       </p>
       <p>

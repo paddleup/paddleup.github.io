@@ -3,7 +3,6 @@ import type { Player } from '../hooks/useLeaderboard';
 interface PlayerRowProps {
   player: Player;
   rank: number;
-  isAdmin: boolean;
 }
 
 function getRankBadge(rank: number) {
@@ -19,15 +18,32 @@ function getRankBadge(rank: number) {
   }
 }
 
-export default function PlayerRow({ player, rank, isAdmin }: PlayerRowProps) {
+function Movement({ move }: { move: Player['move'] }) {
+  if (move.dir === 'none') {
+    return <span className="text-slate-300 dark:text-slate-600">–</span>;
+  }
+  const isUp = move.dir === 'up';
+  return (
+    <span
+      className={`inline-flex items-center gap-0.5 font-medium ${
+        isUp ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'
+      }`}
+      title={`Moved ${isUp ? 'up' : 'down'} ${move.places} ${move.places === 1 ? 'place' : 'places'}`}
+    >
+      {isUp ? '▲' : '▼'}
+      {move.places}
+    </span>
+  );
+}
+
+export default function PlayerRow({ player, rank }: PlayerRowProps) {
   const badge = getRankBadge(rank);
   const isTop3 = rank <= 3;
-  const showUnclassified = isAdmin && player.gender === null;
 
   return (
     <div
       className={`
-        grid grid-cols-[3.5rem_1fr_5rem] items-center px-4 py-3
+        grid grid-cols-[3.5rem_1fr_3.5rem_3.5rem_4rem] items-center px-4 py-3
         border-b border-slate-100 dark:border-slate-800 last:border-b-0
         hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors
         ${rank % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/20' : ''}
@@ -47,11 +63,16 @@ export default function PlayerRow({ player, rank, isAdmin }: PlayerRowProps) {
 
       {/* Name */}
       <span className={`font-medium ${isTop3 ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-        {player.displayName}
-        {showUnclassified && (
-          <span className="ml-1.5 text-amber-500 dark:text-amber-400 text-xs" title="Unclassified — needs gender/age tag">⚠️</span>
-        )}
+        {player.name}
       </span>
+
+      {/* Movement */}
+      <span className="text-center text-sm">
+        <Movement move={player.move} />
+      </span>
+
+      {/* Events */}
+      <span className="text-center text-sm text-slate-500 dark:text-slate-400">{player.events}</span>
 
       {/* Points */}
       <span className={`text-right font-semibold ${isTop3 ? 'text-accent-600 dark:text-accent-400' : 'text-slate-500 dark:text-slate-400'}`}>
