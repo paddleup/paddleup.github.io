@@ -43,7 +43,7 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
   return (
     <div
       className={`
-        grid grid-cols-[3.5rem_1fr_3.5rem_3.5rem_4rem] items-center px-4 py-3
+        grid grid-cols-[3.5rem_2.5rem_1fr_3.5rem_4rem] items-center px-4 py-3
         border-b border-slate-100 dark:border-slate-800 last:border-b-0
         hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors
         ${rank % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/20' : ''}
@@ -61,14 +61,14 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
         </span>
       </div>
 
-      {/* Name */}
-      <span className={`font-medium ${isTop3 ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-        {player.name}
-      </span>
-
       {/* Movement */}
       <span className="text-center text-sm">
         <Movement move={player.move} />
+      </span>
+
+      {/* Name */}
+      <span className={`font-medium ${isTop3 ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+        {player.name}
       </span>
 
       {/* Events */}
