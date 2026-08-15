@@ -29,7 +29,10 @@ export function useLeaderboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/leaderboard.json`)
+    // Cache-bust so a freshly scraped leaderboard shows without a hard refresh.
+    fetch(`${import.meta.env.BASE_URL}data/leaderboard.json?t=${Date.now()}`, {
+      cache: 'no-store',
+    })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
