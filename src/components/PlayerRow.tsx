@@ -1,4 +1,5 @@
 import type { Player } from '../hooks/useLeaderboard';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface PlayerRowProps {
   player: Player;
@@ -23,14 +24,15 @@ function Movement({ move }: { move: Player['move'] }) {
     return <span className="text-slate-300 dark:text-slate-600">–</span>;
   }
   const isUp = move.dir === 'up';
+  const Icon = isUp ? ChevronUp : ChevronDown;
   return (
     <span
-      className={`inline-flex items-center gap-0.5 font-medium ${
+      className={`inline-flex items-center font-medium tabular-nums ${
         isUp ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'
       }`}
       title={`Moved ${isUp ? 'up' : 'down'} ${move.places} ${move.places === 1 ? 'place' : 'places'}`}
     >
-      {isUp ? '▲' : '▼'}
+      <Icon className="w-3.5 h-3.5" strokeWidth={2.5} aria-hidden="true" />
       {move.places}
     </span>
   );
