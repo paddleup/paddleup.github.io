@@ -2,7 +2,7 @@ name: Scrape Leaderboard
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+    - cron: '0 * * * *'  # Hourly, on the hour (UTC)
   workflow_dispatch:       # Manual trigger
 
 permissions:
@@ -43,3 +43,17 @@ jobs:
           git add public/data/leaderboard.json
           git commit -m "Update leaderboard data [automated]"
           git push
+
+      # A push made with the default GITHUB_TOKEN does not trigger the deploy
+      # workflow, so build and publish here directly when the data changed.
+      - name: Build site
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn build
+
+      - name: Deploy to GitHub Pages
+        if: steps.changes.outputs.changed == 'true'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist

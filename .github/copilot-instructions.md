@@ -17,7 +17,7 @@ Run `npm run scrape` before `npm run dev` if `public/data/leaderboard.json` does
 
 This is a **static React SPA** (React 19, Vite 7, TypeScript) deployed to GitHub Pages that displays King of the Court (KOTC) pickleball league rankings.
 
-**Data pipeline:** A Node.js scraper (`scripts/scrape.mjs`) reads the published KOTC Google Sheet. It parses the tab menu to map each ranking tab name to its `gid`, fetches each tab's published HTML table (`.../pubhtml/sheet?gid=<gid>`) with cheerio, and writes `public/data/leaderboard.json`. A GitHub Actions workflow (`scrape.yml`) runs this daily and commits the updated JSON. The React app fetches this static JSON at runtime — there is no backend or API. The rankings are already computed in the sheet; the app only displays them.
+**Data pipeline:** A Node.js scraper (`scripts/scrape.mjs`) reads the published KOTC Google Sheet. It parses the tab menu to map each ranking tab name to its `gid`, fetches each tab's published HTML table (`.../pubhtml/sheet?gid=<gid>`) with cheerio, and writes `public/data/leaderboard.json`. A GitHub Actions workflow (`scrape.yml`) runs this hourly and commits the updated JSON. The React app fetches this static JSON at runtime — there is no backend or API. The rankings are already computed in the sheet; the app only displays them.
 
 **Views:** The sheet has three ranking tabs that map to site views: `Current Month` → `current-month`, `Past 30 Days` → `past-30-days`, `All Time` → `all-time` (the `RankingView` type). Default view is Current Month. If a sheet tab is renamed, update the `VIEWS` map in `scripts/scrape.mjs`.
 

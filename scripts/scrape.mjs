@@ -25,15 +25,16 @@ async function fetchHtml(url) {
 }
 
 // Read the published tab menu and map each tab name to its gid.
+// Google builds the tab menu with JavaScript, so the mapping lives in a series
+// of `items.push({name: "...", ..., gid: "..."})` calls rather than in the DOM.
 function parseTabGids(html) {
-  const $ = load(html);
   const gids = {};
-  $('#sheet-menu li').each((_, li) => {
-    const name = $(li).text().trim();
-    const id = $(li).attr('id') || '';
-    const match = id.match(/^sheet-button-(\d+)$/);
-    if (name && match) gids[name] = match[1];
-  });
+  const re = /items\.push\(\{name:\s*"((?:[^"\\]|\\.)*)"[^}]*?gid:\s*"(\d+)"/g;
+  let match;
+  while ((match = re.exec(html)) !== null) {
+    const name = JSON.parse(`"${match[1]}"`);
+    gids[name] = match[2];
+  }
   return gids;
 }
 
