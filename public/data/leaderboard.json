@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-08-16T00:27:55.581Z",
+  "scrapedAt": "2026-08-16T01:35:34.359Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
       {
         "rank": 1,
-        "name": "Alshon",
+        "name": "Ben",
         "points": 1600,
         "events": 2,
         "move": {
@@ -16,26 +16,6 @@
       {
         "rank": 2,
         "name": "Tardio",
-        "points": 1500,
-        "events": 2,
-        "move": {
-          "dir": "down",
-          "places": 1
-        }
-      },
-      {
-        "rank": 3,
-        "name": "Ben",
-        "points": 1400,
-        "events": 2,
-        "move": {
-          "dir": "down",
-          "places": 1
-        }
-      },
-      {
-        "rank": 4,
-        "name": "Hayden",
         "points": 1300,
         "events": 2,
         "move": {
@@ -44,29 +24,19 @@
         }
       },
       {
-        "rank": 5,
-        "name": "Casey",
-        "points": 700,
+        "rank": 3,
+        "name": "Hayden",
+        "points": 1200,
         "events": 2,
         "move": {
           "dir": "up",
-          "places": 1
+          "places": 2
         }
       },
       {
-        "rank": 6,
-        "name": "Eric",
-        "points": 600,
-        "events": 2,
-        "move": {
-          "dir": "down",
-          "places": 1
-        }
-      },
-      {
-        "rank": 7,
-        "name": "Zane",
-        "points": 550,
+        "rank": 4,
+        "name": "Alshon",
+        "points": 1100,
         "events": 2,
         "move": {
           "dir": "none",
@@ -74,10 +44,50 @@
         }
       },
       {
-        "rank": 8,
-        "name": "Tama",
-        "points": 450,
+        "rank": 5,
+        "name": "Dylan",
+        "points": 1000,
+        "events": 1,
+        "move": {
+          "dir": "down",
+          "places": 4
+        }
+      },
+      {
+        "rank": 6,
+        "name": "Casey",
+        "points": 650,
         "events": 2,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 7,
+        "name": "Eric",
+        "points": 500,
+        "events": 2,
+        "move": {
+          "dir": "down",
+          "places": 1
+        }
+      },
+      {
+        "rank": 8,
+        "name": "Zane",
+        "points": 500,
+        "events": 2,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 9,
+        "name": "Tama",
+        "points": 250,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -87,8 +97,18 @@
     "past-30-days": [
       {
         "rank": 1,
+        "name": "Ben",
+        "points": 2100,
+        "events": 3,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 2,
         "name": "Alshon",
-        "points": 2200,
+        "points": 1700,
         "events": 3,
         "move": {
           "dir": "none",
@@ -96,9 +116,39 @@
         }
       },
       {
-        "rank": 2,
-        "name": "Ben",
-        "points": 1800,
+        "rank": 3,
+        "name": "Hayden",
+        "points": 1600,
+        "events": 3,
+        "move": {
+          "dir": "up",
+          "places": 3
+        }
+      },
+      {
+        "rank": 4,
+        "name": "Tardio",
+        "points": 1300,
+        "events": 2,
+        "move": {
+          "dir": "up",
+          "places": 2
+        }
+      },
+      {
+        "rank": 5,
+        "name": "Dylan",
+        "points": 1250,
+        "events": 2,
+        "move": {
+          "dir": "down",
+          "places": 4
+        }
+      },
+      {
+        "rank": 6,
+        "name": "Tama",
+        "points": 1200,
         "events": 3,
         "move": {
           "dir": "down",
@@ -106,60 +156,20 @@
         }
       },
       {
-        "rank": 3,
-        "name": "Hayden",
-        "points": 1800,
-        "events": 3,
-        "move": {
-          "dir": "up",
-          "places": 2
-        }
-      },
-      {
-        "rank": 4,
-        "name": "Tardio",
-        "points": 1500,
-        "events": 2,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 5,
-        "name": "Tama",
-        "points": 1400,
-        "events": 4,
-        "move": {
-          "dir": "down",
-          "places": 2
-        }
-      },
-      {
-        "rank": 6,
+        "rank": 7,
         "name": "Hunter",
         "points": 1000,
         "events": 1,
         "move": {
           "dir": "down",
-          "places": 2
-        }
-      },
-      {
-        "rank": 7,
-        "name": "Eric",
-        "points": 800,
-        "events": 3,
-        "move": {
-          "dir": "none",
-          "places": 0
+          "places": 3
         }
       },
       {
         "rank": 8,
-        "name": "Casey",
+        "name": "Eric",
         "points": 700,
-        "events": 2,
+        "events": 3,
         "move": {
           "dir": "none",
           "places": 0
@@ -167,8 +177,8 @@
       },
       {
         "rank": 9,
-        "name": "Zane",
-        "points": 550,
+        "name": "Casey",
+        "points": 650,
         "events": 2,
         "move": {
           "dir": "up",
@@ -177,40 +187,40 @@
       },
       {
         "rank": 10,
+        "name": "Zane",
+        "points": 500,
+        "events": 2,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 11,
         "name": "Tyson",
         "points": 300,
         "events": 1,
         "move": {
           "dir": "down",
           "places": 2
-        }
-      },
-      {
-        "rank": 11,
-        "name": "Dylan",
-        "points": 250,
-        "events": 1,
-        "move": {
-          "dir": "down",
-          "places": 1
         }
       }
     ],
     "all-time": [
       {
         "rank": 1,
-        "name": "Alshon",
-        "points": 2800,
+        "name": "Hayden",
+        "points": 2400,
         "events": 4,
         "move": {
           "dir": "up",
-          "places": 1
+          "places": 2
         }
       },
       {
         "rank": 2,
-        "name": "Ben",
-        "points": 2800,
+        "name": "Alshon",
+        "points": 2300,
         "events": 4,
         "move": {
           "dir": "none",
@@ -219,8 +229,38 @@
       },
       {
         "rank": 3,
-        "name": "Hayden",
-        "points": 2600,
+        "name": "Dylan",
+        "points": 2250,
+        "events": 3,
+        "move": {
+          "dir": "down",
+          "places": 2
+        }
+      },
+      {
+        "rank": 4,
+        "name": "Ben",
+        "points": 2100,
+        "events": 3,
+        "move": {
+          "dir": "up",
+          "places": 2
+        }
+      },
+      {
+        "rank": 5,
+        "name": "Tardio",
+        "points": 1800,
+        "events": 3,
+        "move": {
+          "dir": "down",
+          "places": 1
+        }
+      },
+      {
+        "rank": 6,
+        "name": "Tama",
+        "points": 1400,
         "events": 4,
         "move": {
           "dir": "down",
@@ -228,40 +268,10 @@
         }
       },
       {
-        "rank": 4,
-        "name": "Tardio",
-        "points": 2000,
-        "events": 3,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 5,
-        "name": "Tama",
-        "points": 1600,
-        "events": 5,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 6,
-        "name": "Eric",
-        "points": 1200,
-        "events": 4,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
         "rank": 7,
-        "name": "Casey",
-        "points": 1000,
-        "events": 3,
+        "name": "Eric",
+        "points": 1100,
+        "events": 4,
         "move": {
           "dir": "up",
           "places": 1
@@ -279,8 +289,8 @@
       },
       {
         "rank": 9,
-        "name": "Zane",
-        "points": 800,
+        "name": "Casey",
+        "points": 950,
         "events": 3,
         "move": {
           "dir": "none",
@@ -289,9 +299,9 @@
       },
       {
         "rank": 10,
-        "name": "Tyson",
-        "points": 300,
-        "events": 1,
+        "name": "Zane",
+        "points": 750,
+        "events": 3,
         "move": {
           "dir": "none",
           "places": 0
@@ -299,8 +309,8 @@
       },
       {
         "rank": 11,
-        "name": "Dylan",
-        "points": 250,
+        "name": "Tyson",
+        "points": 300,
         "events": 1,
         "move": {
           "dir": "none",
