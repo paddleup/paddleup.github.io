@@ -64,7 +64,7 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
       </div>
 
       {/* Movement */}
-      <span className="text-center text-sm">
+      <span className="flex justify-center text-sm">
         <Movement move={player.move} />
       </span>
 
