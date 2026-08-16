@@ -21,7 +21,7 @@ function getRankBadge(rank: number) {
 
 function Movement({ move }: { move: Player['move'] }) {
   if (move.dir === 'none') {
-    return <span className="text-slate-300 dark:text-slate-600">–</span>;
+    return null;
   }
   const isUp = move.dir === 'up';
   const Icon = isUp ? ChevronUp : ChevronDown;
@@ -45,7 +45,7 @@ export default function PlayerRow({ player, rank }: PlayerRowProps) {
   return (
     <div
       className={`
-        grid grid-cols-[3.5rem_2.5rem_1fr_3.5rem_4rem] items-center px-4 py-3
+        grid grid-cols-[3.5rem_2rem_1fr_3.5rem_4rem] items-center px-4 py-3
         border-b border-slate-100 dark:border-slate-800 last:border-b-0
         hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors
         ${rank % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/20' : ''}
