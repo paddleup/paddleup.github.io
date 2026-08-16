@@ -1,184 +1,40 @@
 {
-  "scrapedAt": "2026-08-15T23:36:27.186Z",
+  "scrapedAt": "2026-08-16T00:27:55.581Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
       {
         "rank": 1,
-        "name": "Tama",
-        "points": 1050,
+        "name": "Alshon",
+        "points": 1600,
         "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 2
         }
       },
       {
         "rank": 2,
-        "name": "Hunter",
-        "points": 1000,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 3,
-        "name": "Alshon",
-        "points": 600,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 4,
-        "name": "Hayden",
-        "points": 500,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 5,
-        "name": "Ben",
-        "points": 400,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 6,
-        "name": "Eric",
-        "points": 300,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 7,
-        "name": "Tyson",
-        "points": 200,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 8,
-        "name": "Dylan",
-        "points": 150,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      }
-    ],
-    "past-30-days": [
-      {
-        "rank": 1,
-        "name": "Tama",
-        "points": 1050,
+        "name": "Tardio",
+        "points": 1500,
         "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 2,
-        "name": "Hunter",
-        "points": 1000,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
         "rank": 3,
-        "name": "Alshon",
-        "points": 600,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 4,
-        "name": "Hayden",
-        "points": 500,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 5,
-        "name": "Ben",
-        "points": 400,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 6,
-        "name": "Eric",
-        "points": 300,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 7,
-        "name": "Tyson",
-        "points": 200,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      },
-      {
-        "rank": 8,
-        "name": "Dylan",
-        "points": 150,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
-        }
-      }
-    ],
-    "all-time": [
-      {
-        "rank": 1,
         "name": "Ben",
         "points": 1400,
         "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
-        "rank": 2,
+        "rank": 4,
         "name": "Hayden",
         "points": 1300,
         "events": 2,
@@ -188,39 +44,19 @@
         }
       },
       {
-        "rank": 3,
-        "name": "Tama",
-        "points": 1250,
-        "events": 3,
-        "move": {
-          "dir": "up",
-          "places": 5
-        }
-      },
-      {
-        "rank": 4,
-        "name": "Alshon",
-        "points": 1200,
+        "rank": 5,
+        "name": "Casey",
+        "points": 700,
         "events": 2,
         "move": {
-          "dir": "down",
+          "dir": "up",
           "places": 1
-        }
-      },
-      {
-        "rank": 5,
-        "name": "Hunter",
-        "points": 1000,
-        "events": 1,
-        "move": {
-          "dir": "none",
-          "places": 0
         }
       },
       {
         "rank": 6,
         "name": "Eric",
-        "points": 700,
+        "points": 600,
         "events": 2,
         "move": {
           "dir": "down",
@@ -229,17 +65,119 @@
       },
       {
         "rank": 7,
+        "name": "Zane",
+        "points": 550,
+        "events": 2,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 8,
+        "name": "Tama",
+        "points": 450,
+        "events": 2,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      }
+    ],
+    "past-30-days": [
+      {
+        "rank": 1,
+        "name": "Alshon",
+        "points": 2200,
+        "events": 3,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 2,
+        "name": "Ben",
+        "points": 1800,
+        "events": 3,
+        "move": {
+          "dir": "down",
+          "places": 1
+        }
+      },
+      {
+        "rank": 3,
+        "name": "Hayden",
+        "points": 1800,
+        "events": 3,
+        "move": {
+          "dir": "up",
+          "places": 2
+        }
+      },
+      {
+        "rank": 4,
         "name": "Tardio",
-        "points": 500,
+        "points": 1500,
+        "events": 2,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 5,
+        "name": "Tama",
+        "points": 1400,
+        "events": 4,
+        "move": {
+          "dir": "down",
+          "places": 2
+        }
+      },
+      {
+        "rank": 6,
+        "name": "Hunter",
+        "points": 1000,
         "events": 1,
         "move": {
           "dir": "down",
-          "places": 3
+          "places": 2
+        }
+      },
+      {
+        "rank": 7,
+        "name": "Eric",
+        "points": 800,
+        "events": 3,
+        "move": {
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 8,
         "name": "Casey",
+        "points": 700,
+        "events": 2,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 9,
+        "name": "Zane",
+        "points": 550,
+        "events": 2,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 10,
+        "name": "Tyson",
         "points": 300,
         "events": 1,
         "move": {
@@ -248,19 +186,111 @@
         }
       },
       {
-        "rank": 9,
-        "name": "Zane",
+        "rank": 11,
+        "name": "Dylan",
         "points": 250,
         "events": 1,
         "move": {
           "dir": "down",
-          "places": 2
+          "places": 1
+        }
+      }
+    ],
+    "all-time": [
+      {
+        "rank": 1,
+        "name": "Alshon",
+        "points": 2800,
+        "events": 4,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 2,
+        "name": "Ben",
+        "points": 2800,
+        "events": 4,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 3,
+        "name": "Hayden",
+        "points": 2600,
+        "events": 4,
+        "move": {
+          "dir": "down",
+          "places": 1
+        }
+      },
+      {
+        "rank": 4,
+        "name": "Tardio",
+        "points": 2000,
+        "events": 3,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 5,
+        "name": "Tama",
+        "points": 1600,
+        "events": 5,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 6,
+        "name": "Eric",
+        "points": 1200,
+        "events": 4,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 7,
+        "name": "Casey",
+        "points": 1000,
+        "events": 3,
+        "move": {
+          "dir": "up",
+          "places": 1
+        }
+      },
+      {
+        "rank": 8,
+        "name": "Hunter",
+        "points": 1000,
+        "events": 1,
+        "move": {
+          "dir": "down",
+          "places": 1
+        }
+      },
+      {
+        "rank": 9,
+        "name": "Zane",
+        "points": 800,
+        "events": 3,
+        "move": {
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 10,
         "name": "Tyson",
-        "points": 200,
+        "points": 300,
         "events": 1,
         "move": {
           "dir": "none",
@@ -270,7 +300,7 @@
       {
         "rank": 11,
         "name": "Dylan",
-        "points": 150,
+        "points": 250,
         "events": 1,
         "move": {
           "dir": "none",
