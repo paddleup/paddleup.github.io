@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -115,6 +115,21 @@ async function scrape() {
     source: BASE,
     views,
   };
+
+  // No-op if the rankings are unchanged, so the hourly workflow only commits
+  // and redeploys when the data actually differs. The scrapedAt timestamp is
+  // ignored in this comparison since it changes every run.
+  if (existsSync(OUTPUT_PATH)) {
+    try {
+      const previous = JSON.parse(readFileSync(OUTPUT_PATH, 'utf8'));
+      if (JSON.stringify(previous.views) === JSON.stringify(views)) {
+        console.log('No change in rankings — leaving leaderboard.json untouched');
+        return;
+      }
+    } catch {
+      // Unreadable/corrupt existing file — fall through and overwrite it.
+    }
+  }
 
   mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
   writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2));

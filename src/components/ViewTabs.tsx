@@ -5,8 +5,10 @@ interface ViewTabsProps {
   onSelect: (view: RankingView) => void;
 }
 
+const currentMonthName = new Date().toLocaleDateString('en-US', { month: 'long' });
+
 const VIEWS: { value: RankingView; label: string }[] = [
-  { value: 'current-month', label: 'Current Month' },
+  { value: 'current-month', label: currentMonthName },
   { value: 'past-30-days', label: 'Past 30 Days' },
   { value: 'all-time', label: 'All Time' },
 ];
