@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-08-25T04:15:17.788Z",
+  "scrapedAt": "2026-08-25T04:20:48.953Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
       {
         "rank": 1,
-        "name": "Ivan",
+        "name": "Ivan Gutierrez",
         "points": 1500,
         "events": 1,
         "move": {
@@ -35,7 +35,7 @@
       },
       {
         "rank": 4,
-        "name": "Devory",
+        "name": "Dev Newsome",
         "points": 750,
         "events": 1,
         "move": {
@@ -45,7 +45,7 @@
       },
       {
         "rank": 5,
-        "name": "Preston",
+        "name": "Preston Langlois",
         "points": 600,
         "events": 1,
         "move": {
@@ -55,7 +55,7 @@
       },
       {
         "rank": 6,
-        "name": "James",
+        "name": "James Brown",
         "points": 450,
         "events": 1,
         "move": {
@@ -65,7 +65,7 @@
       },
       {
         "rank": 7,
-        "name": "Orlando",
+        "name": "Orlando Paez",
         "points": 375,
         "events": 1,
         "move": {
@@ -75,7 +75,7 @@
       },
       {
         "rank": 8,
-        "name": "Sam",
+        "name": "Sam Ngo",
         "points": 300,
         "events": 1,
         "move": {
@@ -85,7 +85,7 @@
       },
       {
         "rank": 9,
-        "name": "Mat",
+        "name": "Mat Sevilla",
         "points": 225,
         "events": 1,
         "move": {
@@ -105,7 +105,7 @@
       },
       {
         "rank": 11,
-        "name": "Mike",
+        "name": "Michael Randle",
         "points": 150,
         "events": 1,
         "move": {
@@ -115,7 +115,7 @@
       },
       {
         "rank": 12,
-        "name": "Tobi",
+        "name": "Tobi Ola",
         "points": 112,
         "events": 1,
         "move": {
@@ -127,7 +127,7 @@
     "past-30-days": [
       {
         "rank": 1,
-        "name": "Ivan",
+        "name": "Ivan Gutierrez",
         "points": 1500,
         "events": 1,
         "move": {
@@ -157,7 +157,7 @@
       },
       {
         "rank": 4,
-        "name": "Devory",
+        "name": "Dev Newsome",
         "points": 750,
         "events": 1,
         "move": {
@@ -167,7 +167,7 @@
       },
       {
         "rank": 5,
-        "name": "Preston",
+        "name": "Preston Langlois",
         "points": 600,
         "events": 1,
         "move": {
@@ -177,7 +177,7 @@
       },
       {
         "rank": 6,
-        "name": "James",
+        "name": "James Brown",
         "points": 450,
         "events": 1,
         "move": {
@@ -187,7 +187,7 @@
       },
       {
         "rank": 7,
-        "name": "Orlando",
+        "name": "Orlando Paez",
         "points": 375,
         "events": 1,
         "move": {
@@ -197,7 +197,7 @@
       },
       {
         "rank": 8,
-        "name": "Sam",
+        "name": "Sam Ngo",
         "points": 300,
         "events": 1,
         "move": {
@@ -207,7 +207,7 @@
       },
       {
         "rank": 9,
-        "name": "Mat",
+        "name": "Mat Sevilla",
         "points": 225,
         "events": 1,
         "move": {
@@ -227,7 +227,7 @@
       },
       {
         "rank": 11,
-        "name": "Mike",
+        "name": "Michael Randle",
         "points": 150,
         "events": 1,
         "move": {
@@ -237,7 +237,7 @@
       },
       {
         "rank": 12,
-        "name": "Tobi",
+        "name": "Tobi Ola",
         "points": 112,
         "events": 1,
         "move": {
@@ -249,7 +249,7 @@
     "all-time": [
       {
         "rank": 1,
-        "name": "Ivan",
+        "name": "Ivan Gutierrez",
         "points": 1500,
         "events": 1,
         "move": {
@@ -279,7 +279,7 @@
       },
       {
         "rank": 4,
-        "name": "Devory",
+        "name": "Dev Newsome",
         "points": 750,
         "events": 1,
         "move": {
@@ -289,7 +289,7 @@
       },
       {
         "rank": 5,
-        "name": "Preston",
+        "name": "Preston Langlois",
         "points": 600,
         "events": 1,
         "move": {
@@ -299,7 +299,7 @@
       },
       {
         "rank": 6,
-        "name": "James",
+        "name": "James Brown",
         "points": 450,
         "events": 1,
         "move": {
@@ -309,7 +309,7 @@
       },
       {
         "rank": 7,
-        "name": "Orlando",
+        "name": "Orlando Paez",
         "points": 375,
         "events": 1,
         "move": {
@@ -319,7 +319,7 @@
       },
       {
         "rank": 8,
-        "name": "Sam",
+        "name": "Sam Ngo",
         "points": 300,
         "events": 1,
         "move": {
@@ -329,7 +329,7 @@
       },
       {
         "rank": 9,
-        "name": "Mat",
+        "name": "Mat Sevilla",
         "points": 225,
         "events": 1,
         "move": {
@@ -349,7 +349,7 @@
       },
       {
         "rank": 11,
-        "name": "Mike",
+        "name": "Michael Randle",
         "points": 150,
         "events": 1,
         "move": {
@@ -359,7 +359,7 @@
       },
       {
         "rank": 12,
-        "name": "Tobi",
+        "name": "Tobi Ola",
         "points": 112,
         "events": 1,
         "move": {
