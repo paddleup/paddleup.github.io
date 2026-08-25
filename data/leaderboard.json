@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-25T04:34:17.337Z",
+  "scrapedAt": "2026-08-25T18:43:11.978Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
@@ -86,7 +86,7 @@
       {
         "rank": 9,
         "name": "Orlando Paez",
-        "points": 225,
+        "points": 240,
         "events": 1,
         "move": {
           "dir": "none",
@@ -96,7 +96,7 @@
       {
         "rank": 10,
         "name": "Sam Ngo",
-        "points": 187,
+        "points": 180,
         "events": 1,
         "move": {
           "dir": "none",
@@ -116,7 +116,7 @@
       {
         "rank": 12,
         "name": "Tobi Ola",
-        "points": 112,
+        "points": 120,
         "events": 1,
         "move": {
           "dir": "none",
@@ -208,7 +208,7 @@
       {
         "rank": 9,
         "name": "Orlando Paez",
-        "points": 225,
+        "points": 240,
         "events": 1,
         "move": {
           "dir": "none",
@@ -218,7 +218,7 @@
       {
         "rank": 10,
         "name": "Sam Ngo",
-        "points": 187,
+        "points": 180,
         "events": 1,
         "move": {
           "dir": "none",
@@ -238,7 +238,7 @@
       {
         "rank": 12,
         "name": "Tobi Ola",
-        "points": 112,
+        "points": 120,
         "events": 1,
         "move": {
           "dir": "none",
@@ -330,7 +330,7 @@
       {
         "rank": 9,
         "name": "Orlando Paez",
-        "points": 225,
+        "points": 240,
         "events": 1,
         "move": {
           "dir": "none",
@@ -340,7 +340,7 @@
       {
         "rank": 10,
         "name": "Sam Ngo",
-        "points": 187,
+        "points": 180,
         "events": 1,
         "move": {
           "dir": "none",
@@ -360,7 +360,7 @@
       {
         "rank": 12,
         "name": "Tobi Ola",
-        "points": 112,
+        "points": 120,
         "events": 1,
         "move": {
           "dir": "none",
