@@ -1,23 +1,23 @@
 {
-  "scrapedAt": "2026-08-22T08:34:19.911Z",
+  "scrapedAt": "2026-08-25T04:15:17.788Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
       {
         "rank": 1,
-        "name": "Ben",
-        "points": 1600,
-        "events": 2,
+        "name": "Ivan",
+        "points": 1500,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 2,
-        "name": "Tardio",
-        "points": 1300,
-        "events": 2,
+        "name": "Jon Harris",
+        "points": 1200,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -25,19 +25,19 @@
       },
       {
         "rank": 3,
-        "name": "Hayden",
-        "points": 1200,
-        "events": 2,
+        "name": "Derek Dallas",
+        "points": 900,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 4,
-        "name": "Alshon",
-        "points": 1100,
-        "events": 2,
+        "name": "Devory",
+        "points": 750,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -45,48 +45,78 @@
       },
       {
         "rank": 5,
-        "name": "Dylan",
-        "points": 1000,
+        "name": "Preston",
+        "points": 600,
         "events": 1,
         "move": {
-          "dir": "down",
-          "places": 4
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 6,
-        "name": "Casey",
-        "points": 650,
-        "events": 2,
+        "name": "James",
+        "points": 450,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 7,
-        "name": "Eric",
-        "points": 500,
-        "events": 2,
+        "name": "Orlando",
+        "points": 375,
+        "events": 1,
         "move": {
-          "dir": "down",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 8,
-        "name": "Zane",
-        "points": 500,
-        "events": 2,
+        "name": "Sam",
+        "points": 300,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 9,
-        "name": "Tama",
-        "points": 250,
+        "name": "Mat",
+        "points": 225,
+        "events": 1,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 10,
+        "name": "Jon Richert",
+        "points": 187,
+        "events": 1,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 11,
+        "name": "Mike",
+        "points": 150,
+        "events": 1,
+        "move": {
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 12,
+        "name": "Tobi",
+        "points": 112,
         "events": 1,
         "move": {
           "dir": "none",
@@ -97,69 +127,69 @@
     "past-30-days": [
       {
         "rank": 1,
-        "name": "Ben",
-        "points": 2350,
-        "events": 3,
+        "name": "Ivan",
+        "points": 1500,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 4
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 2,
-        "name": "Alshon",
-        "points": 2000,
-        "events": 3,
+        "name": "Jon Harris",
+        "points": 1200,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 3,
-        "name": "Hayden",
-        "points": 1800,
-        "events": 3,
+        "name": "Derek Dallas",
+        "points": 900,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 3
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 4,
-        "name": "Tama",
-        "points": 1675,
-        "events": 3,
+        "name": "Devory",
+        "points": 750,
+        "events": 1,
         "move": {
-          "dir": "down",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 5,
-        "name": "Hunter",
-        "points": 1500,
+        "name": "Preston",
+        "points": 600,
         "events": 1,
         "move": {
-          "dir": "down",
-          "places": 4
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 6,
-        "name": "Dylan",
-        "points": 1375,
-        "events": 2,
+        "name": "James",
+        "points": 450,
+        "events": 1,
         "move": {
-          "dir": "down",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 7,
-        "name": "Tardio",
-        "points": 1300,
-        "events": 2,
+        "name": "Orlando",
+        "points": 375,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -167,9 +197,9 @@
       },
       {
         "rank": 8,
-        "name": "Eric",
-        "points": 800,
-        "events": 3,
+        "name": "Sam",
+        "points": 300,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -177,111 +207,121 @@
       },
       {
         "rank": 9,
-        "name": "Casey",
-        "points": 650,
-        "events": 2,
+        "name": "Mat",
+        "points": 225,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 10,
-        "name": "Zane",
-        "points": 500,
-        "events": 2,
+        "name": "Jon Richert",
+        "points": 187,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 11,
-        "name": "Tyson",
-        "points": 450,
+        "name": "Mike",
+        "points": 150,
         "events": 1,
         "move": {
-          "dir": "down",
-          "places": 2
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 12,
+        "name": "Tobi",
+        "points": 112,
+        "events": 1,
+        "move": {
+          "dir": "none",
+          "places": 0
         }
       }
     ],
     "all-time": [
       {
         "rank": 1,
-        "name": "Alshon",
-        "points": 2600,
-        "events": 4,
+        "name": "Ivan",
+        "points": 1500,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 2,
-        "name": "Hayden",
-        "points": 2600,
-        "events": 4,
+        "name": "Jon Harris",
+        "points": 1200,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 3,
-        "name": "Dylan",
-        "points": 2375,
-        "events": 3,
+        "name": "Derek Dallas",
+        "points": 900,
+        "events": 1,
         "move": {
-          "dir": "down",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 4,
-        "name": "Ben",
-        "points": 2350,
-        "events": 3,
+        "name": "Devory",
+        "points": 750,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 5,
-        "name": "Tama",
-        "points": 1875,
-        "events": 4,
+        "name": "Preston",
+        "points": 600,
+        "events": 1,
         "move": {
-          "dir": "down",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 6,
-        "name": "Tardio",
-        "points": 1800,
-        "events": 3,
+        "name": "James",
+        "points": 450,
+        "events": 1,
         "move": {
-          "dir": "up",
-          "places": 1
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 7,
-        "name": "Hunter",
-        "points": 1500,
+        "name": "Orlando",
+        "points": 375,
         "events": 1,
         "move": {
-          "dir": "down",
-          "places": 2
+          "dir": "none",
+          "places": 0
         }
       },
       {
         "rank": 8,
-        "name": "Eric",
-        "points": 1200,
-        "events": 4,
+        "name": "Sam",
+        "points": 300,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -289,9 +329,9 @@
       },
       {
         "rank": 9,
-        "name": "Casey",
-        "points": 950,
-        "events": 3,
+        "name": "Mat",
+        "points": 225,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -299,9 +339,9 @@
       },
       {
         "rank": 10,
-        "name": "Zane",
-        "points": 750,
-        "events": 3,
+        "name": "Jon Richert",
+        "points": 187,
+        "events": 1,
         "move": {
           "dir": "none",
           "places": 0
@@ -309,12 +349,22 @@
       },
       {
         "rank": 11,
-        "name": "Tyson",
-        "points": 450,
+        "name": "Mike",
+        "points": 150,
         "events": 1,
         "move": {
-          "dir": "down",
-          "places": 1
+          "dir": "none",
+          "places": 0
+        }
+      },
+      {
+        "rank": 12,
+        "name": "Tobi",
+        "points": 112,
+        "events": 1,
+        "move": {
+          "dir": "none",
+          "places": 0
         }
       }
     ]
