@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-27T16:15:02.990Z",
+  "scrapedAt": "2026-08-28T14:08:25.672Z",
   "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3d2RVZh7OT4-wHFWvaTe0CnT3eSH-1rwGxLNyBURh8IZLThRAMXx5pd56XF6AURpWm1cDSsuhsQDj/pubhtml",
   "views": {
     "current-month": [
@@ -15,22 +15,22 @@
       },
       {
         "rank": 2,
-        "name": "Jon Harris",
-        "points": 1200,
-        "events": 1,
+        "name": "Dev Newsome",
+        "points": 1400,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 1
         }
       },
       {
         "rank": 3,
-        "name": "Dev Newsome",
-        "points": 900,
+        "name": "Jon Harris",
+        "points": 1200,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
@@ -55,72 +55,72 @@
       },
       {
         "rank": 6,
-        "name": "Orlando Paez",
-        "points": 450,
-        "events": 1,
+        "name": "Michael Randle",
+        "points": 580,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 7,
-        "name": "Mat Sevilla",
-        "points": 375,
+        "name": "Orlando Paez",
+        "points": 450,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
         "rank": 8,
-        "name": "Tobi Ola",
-        "points": 300,
-        "events": 1,
+        "name": "Sam Ngo",
+        "points": 450,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 9,
-        "name": "Derek Dallas",
-        "points": 240,
+        "name": "Mat Sevilla",
+        "points": 375,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 2
         }
       },
       {
         "rank": 10,
-        "name": "Michael Randle",
-        "points": 180,
-        "events": 1,
+        "name": "Jon Richert",
+        "points": 370,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 2
         }
       },
       {
         "rank": 11,
-        "name": "Sam Ngo",
-        "points": 150,
+        "name": "Tobi Ola",
+        "points": 300,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       },
       {
         "rank": 12,
-        "name": "Jon Richert",
-        "points": 120,
+        "name": "Derek Dallas",
+        "points": 240,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       }
     ],
@@ -137,22 +137,22 @@
       },
       {
         "rank": 2,
-        "name": "Jon Harris",
-        "points": 1200,
-        "events": 1,
+        "name": "Dev Newsome",
+        "points": 1400,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 1
         }
       },
       {
         "rank": 3,
-        "name": "Dev Newsome",
-        "points": 900,
+        "name": "Jon Harris",
+        "points": 1200,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
@@ -177,72 +177,72 @@
       },
       {
         "rank": 6,
-        "name": "Orlando Paez",
-        "points": 450,
-        "events": 1,
+        "name": "Michael Randle",
+        "points": 580,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 7,
-        "name": "Mat Sevilla",
-        "points": 375,
+        "name": "Orlando Paez",
+        "points": 450,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
         "rank": 8,
-        "name": "Tobi Ola",
-        "points": 300,
-        "events": 1,
+        "name": "Sam Ngo",
+        "points": 450,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 9,
-        "name": "Derek Dallas",
-        "points": 240,
+        "name": "Mat Sevilla",
+        "points": 375,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 2
         }
       },
       {
         "rank": 10,
-        "name": "Michael Randle",
-        "points": 180,
-        "events": 1,
+        "name": "Jon Richert",
+        "points": 370,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 2
         }
       },
       {
         "rank": 11,
-        "name": "Sam Ngo",
-        "points": 150,
+        "name": "Tobi Ola",
+        "points": 300,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       },
       {
         "rank": 12,
-        "name": "Jon Richert",
-        "points": 120,
+        "name": "Derek Dallas",
+        "points": 240,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       }
     ],
@@ -259,22 +259,22 @@
       },
       {
         "rank": 2,
-        "name": "Jon Harris",
-        "points": 1200,
-        "events": 1,
+        "name": "Dev Newsome",
+        "points": 1400,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 1
         }
       },
       {
         "rank": 3,
-        "name": "Dev Newsome",
-        "points": 900,
+        "name": "Jon Harris",
+        "points": 1200,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
@@ -299,72 +299,72 @@
       },
       {
         "rank": 6,
-        "name": "Orlando Paez",
-        "points": 450,
-        "events": 1,
+        "name": "Michael Randle",
+        "points": 580,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 7,
-        "name": "Mat Sevilla",
-        "points": 375,
+        "name": "Orlando Paez",
+        "points": 450,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 1
         }
       },
       {
         "rank": 8,
-        "name": "Tobi Ola",
-        "points": 300,
-        "events": 1,
+        "name": "Sam Ngo",
+        "points": 450,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 4
         }
       },
       {
         "rank": 9,
-        "name": "Derek Dallas",
-        "points": 240,
+        "name": "Mat Sevilla",
+        "points": 375,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 2
         }
       },
       {
         "rank": 10,
-        "name": "Michael Randle",
-        "points": 180,
-        "events": 1,
+        "name": "Jon Richert",
+        "points": 370,
+        "events": 2,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "up",
+          "places": 2
         }
       },
       {
         "rank": 11,
-        "name": "Sam Ngo",
-        "points": 150,
+        "name": "Tobi Ola",
+        "points": 300,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       },
       {
         "rank": 12,
-        "name": "Jon Richert",
-        "points": 120,
+        "name": "Derek Dallas",
+        "points": 240,
         "events": 1,
         "move": {
-          "dir": "none",
-          "places": 0
+          "dir": "down",
+          "places": 3
         }
       }
     ]
